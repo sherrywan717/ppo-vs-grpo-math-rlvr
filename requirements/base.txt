@@ -1,0 +1,10 @@
+# Recommended baseline for the current Python 3.12 / PyTorch 2.8 environment.
+# Ranges allow patch-level security fixes; freeze an installed environment before training.
+torch>=2.8,<2.9
+transformers>=4.55,<5
+accelerate>=1.10,<2
+datasets>=4.0,<5
+peft>=0.17,<1
+safetensors>=0.5,<1
+PyYAML>=6.0.2,<7
+

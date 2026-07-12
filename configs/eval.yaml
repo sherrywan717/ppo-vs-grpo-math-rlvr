@@ -1,0 +1,9 @@
+evaluation:
+  seed: 42
+  temperature: 0.2
+  top_p: 0.95
+  max_new_tokens: 512
+  max_samples: 200
+  pass_at_k: [1]
+  require_safe_isolation: true
+

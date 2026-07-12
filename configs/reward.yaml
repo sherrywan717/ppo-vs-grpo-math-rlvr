@@ -1,0 +1,8 @@
+reward:
+  syntax_weight: 0.1
+  tests_weight: 0.9
+  pass_score: 1.0
+  fail_score: 0.0
+  verifier_timeout_seconds: 5
+  require_safe_isolation: true
+
