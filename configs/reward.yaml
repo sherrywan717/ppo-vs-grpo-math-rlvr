@@ -1,8 +1,9 @@
 reward:
-  syntax_weight: 0.1
-  tests_weight: 0.9
-  pass_score: 1.0
-  fail_score: 0.0
+  verified_pass: 1.0
+  verified_fail: 0.0
+  format_error: -0.2
+  timeout: -0.5
+  resource_limit: -0.5
+  infrastructure_error_action: abort
   verifier_timeout_seconds: 5
   require_safe_isolation: true
-

@@ -1,18 +1,7 @@
-"""Deterministic reward derived from the common verifier result."""
+"""Compatibility export for the canonical scalar reward policy."""
 
-from dataclasses import dataclass
-
-from code_rlvr.verifier.verifier import VerificationResult
+from code_rlvr.rewards.result import DEFAULT_REWARD_POLICY, RewardResult
 
 
-@dataclass(frozen=True)
-class RewardWeights:
-    syntax: float = 0.1
-    tests: float = 0.9
-
-
-DEFAULT_WEIGHTS = RewardWeights()
-
-
-def score(result: VerificationResult, weights: RewardWeights = DEFAULT_WEIGHTS) -> float:
-    return float(result.syntax_valid) * weights.syntax + float(result.tests_passed) * weights.tests
+def score(result: RewardResult) -> float:
+    return DEFAULT_REWARD_POLICY.to_scalar(result)

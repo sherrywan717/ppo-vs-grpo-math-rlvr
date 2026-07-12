@@ -56,6 +56,14 @@ rewards and is not a Transformers reward model. A reviewed adapter must define h
 are aligned to response tokens/batches and how value learning is supplied without changing reward
 semantics. Until that design has fixtures and CPU tests, the PPO entry point remains preflight-only.
 
+The phase-3 adapter intentionally depends on TRL 0.24.0's internal `trainer.utils.get_reward`
+contract: it resolves `model.base_model_prefix`, calls that backbone with `output_hidden_states`,
+passes `hidden_states[-1]` through `model.score`, and selects the score at the final response token.
+Contract tests call the installed `get_reward` directly so a future TRL change fails visibly. The
+adapter is parameter-free, runs under `torch.no_grad()`, and never backpropagates through verifier
+results. Value-model alternatives are documented in `reports/value_model_design.md`; no value model
+is constructed in this phase.
+
 Installation is deliberately not performed in phase 1. A future isolated environment may use:
 
 ```bash

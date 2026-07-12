@@ -1,23 +1,19 @@
 """Shared syntax and execution verifier."""
 
 import ast
-from dataclasses import dataclass
 
-from code_rlvr.execution.interface import ExecutionRequest, SafeExecutor
-
-
-@dataclass(frozen=True)
-class VerificationResult:
-    syntax_valid: bool
-    tests_passed: bool
-    detail: str
+from code_rlvr.execution.interface import ExecutionRequest, SafeExecutor, UnsafeExecutionError
+from code_rlvr.rewards.result import RewardResult, RewardStatus
 
 
-def verify(source: str, tests: tuple[str, ...], executor: SafeExecutor) -> VerificationResult:
+def verify(source: str, tests: tuple[str, ...], executor: SafeExecutor) -> RewardResult:
     try:
         ast.parse(source)
     except SyntaxError as error:
-        return VerificationResult(False, False, str(error))
-    result = executor.execute_untrusted(ExecutionRequest(source=source, tests=tests))
-    return VerificationResult(True, result.passed, result.stderr)
-
+        return RewardResult(RewardStatus.FORMAT_ERROR, str(error))
+    try:
+        result = executor.execute_untrusted(ExecutionRequest(source=source, tests=tests))
+    except UnsafeExecutionError as error:
+        return RewardResult(RewardStatus.SANDBOX_UNAVAILABLE, str(error))
+    status = RewardStatus.VERIFIED_PASS if result.passed else RewardStatus.VERIFIED_FAIL
+    return RewardResult(status, result.stderr)
