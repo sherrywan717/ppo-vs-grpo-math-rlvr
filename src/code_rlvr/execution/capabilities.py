@@ -37,10 +37,10 @@ def detect_capabilities() -> CapabilityReport:
 
 def main() -> int:
     report = detect_capabilities()
-    print(json.dumps(asdict(report) | {"can_execute_untrusted": report.can_execute_untrusted}, indent=2))
+    payload = asdict(report) | {"can_execute_untrusted": report.can_execute_untrusted}
+    print(json.dumps(payload, indent=2))
     return 0 if report.can_execute_untrusted else 2
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -38,12 +38,23 @@ All runtime artifacts belong under `/root/autodl-tmp`: Hugging Face cache in
 ## Recommended Environment
 
 The container currently has Python 3.12, PyTorch 2.8.0+cu128, and CUDA 12.8 runtime packages.
-The recorded ranges are `transformers>=4.55,<5`, `trl>=0.22,<1`, `peft>=0.17,<1`,
+The recorded ranges are `transformers>=4.55,<5`, `trl==0.24.0`, `peft>=0.17,<1`,
 `accelerate>=1.10,<2`, and `datasets>=4,<5`. These lower bounds represent the contemporary
-PyTorch 2.8/Python 3.12 generation; upper bounds avoid known major-version migrations. TRL's PPO
-surface changes frequently, so freeze the exact resolved environment only after the 0.5B smoke
-adapter passes. No `bitsandbytes` dependency is included because this design uses BF16 LoRA, not
-QLoRA.
+PyTorch 2.8/Python 3.12 generation; upper bounds avoid known major-version migrations. TRL is
+locked exactly because 0.24.0 exports `PPOConfig`, `PPOTrainer`, `GRPOConfig`, and `GRPOTrainer`,
+while the previously resolved 0.29.1 no longer exposed the expected stable PPO API. Its published
+requirements (`accelerate>=1.4.0`, `datasets>=3.0.0`, and `transformers>=4.56.1`) are satisfied by
+this environment. No `bitsandbytes` dependency is included because this design uses BF16 LoRA,
+not QLoRA.
+
+### PPO reward compatibility decision
+
+TRL 0.24.0's `GRPOTrainer` accepts callable `reward_funcs`, which maps naturally to the shared
+verifier score once safe code execution exists. Its `PPOTrainer` instead requires both a neural
+`reward_model` and a separate `value_model`; the current verifier produces post-generation scalar
+rewards and is not a Transformers reward model. A reviewed adapter must define how verifier scores
+are aligned to response tokens/batches and how value learning is supplied without changing reward
+semantics. Until that design has fixtures and CPU tests, the PPO entry point remains preflight-only.
 
 Installation is deliberately not performed in phase 1. A future isolated environment may use:
 

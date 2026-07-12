@@ -1,5 +1,3 @@
 -r base.txt
-# TRL 0.22+ includes the modern GRPO trainer generation and PyTorch 2.8-era support.
-# PPO APIs evolve quickly; validate the adapter in the smoke test before the paid main run.
-trl>=0.22,<1
-
+# Exact pin: 0.24.0 exports PPO/GRPO trainers together and matches the reviewed APIs.
+trl==0.24.0

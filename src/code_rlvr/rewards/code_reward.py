@@ -11,6 +11,8 @@ class RewardWeights:
     tests: float = 0.9
 
 
-def score(result: VerificationResult, weights: RewardWeights = RewardWeights()) -> float:
-    return float(result.syntax_valid) * weights.syntax + float(result.tests_passed) * weights.tests
+DEFAULT_WEIGHTS = RewardWeights()
 
+
+def score(result: VerificationResult, weights: RewardWeights = DEFAULT_WEIGHTS) -> float:
+    return float(result.syntax_valid) * weights.syntax + float(result.tests_passed) * weights.tests
