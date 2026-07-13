@@ -1,0 +1,40 @@
+{
+  "all_format_error": true,
+  "zero_reward_variance": true,
+  "zero_advantage_fraction": 1.0,
+  "no_learning_signal": true,
+  "reward_mean": 0.0,
+  "reward_min": 0.0,
+  "reward_max": 0.0,
+  "reward_std": 0.0,
+  "reward_variance": 0.0,
+  "reward_status_counts": {
+    "format_error": 8
+  },
+  "pass_at_1": 0.0,
+  "pass_at_4": 0.0,
+  "format_accuracy": 0.0,
+  "loss": 0.0,
+  "grad_norm": 0.0,
+  "entropy": 0.6478358954191208,
+  "learning_rate": 1e-05,
+  "lora_trainable_parameters": 2162688,
+  "base_parameters": 494032768,
+  "total_parameters_with_adapter": 496195456,
+  "lora_trainable_ratio_pct": 0.43585405183557346,
+  "nvidia_smi_peak_memory_mib": 2597.0,
+  "nvidia_smi_peak_utilization_pct": 33.0,
+  "pytorch_peak_allocated_mib": 1494.98583984375,
+  "pytorch_peak_reserved_mib": 1920.0,
+  "command_wall_seconds": 21.727597258,
+  "resource_monitor_wall_seconds": 11.154487747699022,
+  "budget_guard_elapsed_seconds": 10.705293515697122,
+  "gpu_hours": 0.006035443682777778,
+  "gpu_hour_price_cny": 8.88,
+  "cost_cny": 0.05359473990306667,
+  "warnings": [
+    "model_init_kwargs ignored because the model was already instantiated",
+    "tokenizer PAD/BOS/EOS differed; model and generation configs were aligned to tokenizer values"
+  ],
+  "diagnostic_scope": "single-update smoke diagnostic"
+}

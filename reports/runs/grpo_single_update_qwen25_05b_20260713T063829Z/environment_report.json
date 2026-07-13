@@ -1,0 +1,12 @@
+{
+  "python": "3.12.3",
+  "torch": "2.8.0+cu128",
+  "transformers": "4.57.6",
+  "trl": "0.24.0",
+  "peft": "0.19.1",
+  "cuda_build": "12.8",
+  "gpu_and_driver": "NVIDIA H800 PCIe, 590.48.01",
+  "offline": true,
+  "full_environment_dumped": false,
+  "git_commit": "5c90ee43596eaf89287ccec8486431a6ab2be28b"
+}

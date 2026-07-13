@@ -1,0 +1,2 @@
+step,policy_loss,grad_norm,entropy,reward,reward_std,mean_completion_length,cumulative_generated_tokens
+1,0.0,0.0,0.6478358954191208,0.0,0.0,85.875,687

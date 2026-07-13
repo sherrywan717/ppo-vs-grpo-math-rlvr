@@ -1,0 +1,8 @@
+{
+  "command_wall_seconds": 21.727597258,
+  "resource_monitor_wall_seconds": 11.154487747699022,
+  "budget_guard_elapsed_seconds": 10.705293515697122,
+  "gpu_hours": 0.006035443682777778,
+  "gpu_hour_price_cny": 8.88,
+  "cost_cny": 0.05359473990306667
+}
