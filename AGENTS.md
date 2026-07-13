@@ -91,3 +91,7 @@ The independent module `math_rlvr.evaluation.prompt_ab` accepts only
 a clean branch, both offline variables, the exact validated local Qwen 0.5B snapshot,
 and the fixed 16-completion/2,048-token/120-second/3.5-GiB contract before delayed model
 imports. It uses the base model only; Trainer, LoRA, train, backward, optimizer,
+
+### Prompt A/B cleanup semantics
+
+The immutable run `prompt_ab_qwen25_05b_20260713T101918Z` remains failure. Its worker allocator bytes were not persisted because close raised before returning evidence, but parent and manual post-run checks showed PID exit, no compute process and 0 MiB baseline/post memory. Future isolated-worker diagnostics treat allocator current memory as pre-exit evidence and warning only; the non-CUDA parent's post-exit PID/process/baseline check is authoritative. This does not activate v1 or authorize another A/B, GRPO or PPO run.

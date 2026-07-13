@@ -58,6 +58,10 @@ def verify_post_worker_exit(
 ) -> dict[str, Any]:
     process_exited = not pid_exists(worker_pid)
     absent_from_compute = worker_pid not in current["compute_pids"]
+    baseline_pids = set(baseline.get("compute_pids", []))
+    current_pids = set(current.get("compute_pids", []))
+    new_compute_pids = sorted(current_pids - baseline_pids)
+    no_new_compute_processes = not new_compute_pids
     baseline_memory = int(baseline["memory_used_mib"].get("0", 0))
     current_memory = int(current["memory_used_mib"].get("0", 0))
     memory_restored = current_memory <= baseline_memory
@@ -65,12 +69,19 @@ def verify_post_worker_exit(
         "worker_pid": worker_pid,
         "worker_pid_exited": process_exited,
         "worker_absent_from_nvidia_smi_compute_processes": absent_from_compute,
+        "new_compute_pids": new_compute_pids,
+        "no_new_compute_processes": no_new_compute_processes,
         "baseline_gpu_memory_mib": baseline_memory,
         "post_worker_gpu_memory_mib": current_memory,
         "gpu_memory_restored_to_baseline": memory_restored,
         "parent_cuda_initialized": False,
     }
-    if not (process_exited and absent_from_compute and memory_restored):
+    if not (
+        process_exited
+        and absent_from_compute
+        and no_new_compute_processes
+        and memory_restored
+    ):
         raise PostWorkerVerificationError(f"post-worker GPU verification failed: {evidence}")
     return evidence
 

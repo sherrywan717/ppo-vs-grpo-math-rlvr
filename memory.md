@@ -149,3 +149,11 @@ This file records operational history and pitfalls that should survive context c
 - Real code is base BF16 eval/inference only with all parameters frozen. Zero Trainer/train/backward/optimizer/training-step/checkpoint/model-write counters are required.
 - v1 remains unactivated. Candidate review requires better envelope rate, at least one complete envelope, no increased truncation, and at least one nonzero within-problem reward-variance group. All-WRONG_ANSWER can still mean no advantage signal.
 - `apply_patch` remains unavailable because this host disables unprivileged namespaces; standard narrowly scoped patches plus complete diff/tests are the approved local recovery pattern.
+
+### Prompt A/B cleanup false positive
+
+- Historical run `prompt_ab_qwen25_05b_20260713T101918Z` generated 16 completions/813 tokens but remains immutable failure.
+- `pytorch_allocator.json` is `{}` because worker close raised before returning allocator evidence; exact nonzero bytes are unrecoverable and must not be invented.
+- Parent evidence: PID 109901 exited, no worker compute process, GPU memory 0 MiB before/after, parent CUDA uninitialized; manual nvidia-smi was also 0 MiB/no process.
+- In a spawned worker, current allocator memory before process exit is diagnostic. Persist it and warn; parent post-exit PID/process/memory-baseline verification is the authoritative release gate.
+- Offline A/B: v0 0% complete envelope and two zero-advantage groups; v1 25% complete envelope, two INVALID_EXPRESSION rewards, and two nonzero-variance groups. v1 is review-eligible but not activated.

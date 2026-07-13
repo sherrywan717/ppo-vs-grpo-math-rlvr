@@ -1,0 +1,15 @@
+{
+  "historical_run_id": "prompt_ab_qwen25_05b_20260713T101918Z",
+  "historical_status_unchanged": "failure",
+  "worker_cleanup_allocated_bytes": null,
+  "worker_cleanup_reserved_bytes": null,
+  "worker_cleanup_unavailable_reason": "close raised before allocator evidence was returned and the historical pytorch_allocator.json is empty",
+  "parent_release": {"worker_pid": 109901, "worker_exited": true, "worker_compute_process_absent": true, "baseline_memory_mib": 0, "post_worker_memory_mib": 0, "memory_restored": true, "parent_cuda_initialized": false},
+  "completion_count": 16,
+  "generated_tokens": 813,
+  "v0": {"reward_status_counts": {"format_error": 8}, "complete_envelope_rate": 0.0, "truncation_rate": 0.25, "zero_advantage_groups": 2, "nonzero_variance_groups": 0},
+  "v1": {"reward_status_counts": {"format_error": 6, "invalid_expression": 2}, "complete_envelope_rate": 0.25, "truncation_rate": 0.0, "zero_advantage_groups": 0, "nonzero_variance_groups": 2},
+  "paired_transitions": {"format_error_to_format_error": 6, "format_error_to_invalid_expression": 2},
+  "v1_review_predicates": {"format_improved": true, "has_complete_envelope": true, "no_truncation_regression": true, "has_nonzero_group_reward_variance": true},
+  "v1_auto_activated": false
+}

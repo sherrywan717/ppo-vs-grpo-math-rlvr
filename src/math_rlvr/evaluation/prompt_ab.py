@@ -632,6 +632,7 @@ def run_diagnostic(
         pairs = build_paired_comparison(rows)
         group_rewards = build_group_reward_evidence(rows)
         allocator = close_backend()
+        allocator_warning = allocator.get("worker_cleanup", {}).get("warning")
         summary = {
             "status": "pending_backup",
             "diagnostic_only": True,
@@ -646,6 +647,8 @@ def run_diagnostic(
             "seed_map": seeds,
             "completion_count": len(rows),
             "backed_up": False,
+            "warnings": [allocator_warning] if allocator_warning else [],
+            "gpu_release_verified": False,
         }
         lifecycle.persist_jsonl("completions.jsonl", rows)
         lifecycle.persist("per_condition_metrics.json", metrics)

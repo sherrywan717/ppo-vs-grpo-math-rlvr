@@ -96,3 +96,9 @@ Runtime failures after run creation are also finalized and backed up with a `-fa
 archive name and SHA256. A primitive-only minimal failure record prevents recursive
 finalization errors. Static preflight rejection occurs before run creation and therefore
 does not create an empty archive.
+
+## Isolated-worker GPU cleanup evidence
+
+`pytorch_allocator.json` records worker-side, pre-process-exit current and peak allocator values. Nonzero cleanup current values are retained verbatim with `worker_allocator_nonzero_before_process_exit`; CUDA context/cache can be released only as the worker exits. This warning is not an independent final failure gate.
+
+`post_worker_gpu_verification.json` is authoritative: the parent must remain CUDA-uninitialized, prove worker PID exit and compute-process absence, reject newly introduced compute PIDs, and verify GPU memory returned to the pre-run baseline. A parent-gate failure is fatal even when worker allocator current values are zero.

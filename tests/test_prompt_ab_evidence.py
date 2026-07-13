@@ -17,7 +17,10 @@ from math_rlvr.evaluation.prompt_ab_evidence import (
     validate_cross_file_consistency,
     write_paired_csv,
 )
-from math_rlvr.evaluation.prompt_ab_supervisor import verify_post_worker_exit
+from math_rlvr.evaluation.prompt_ab_supervisor import (
+    PostWorkerVerificationError,
+    verify_post_worker_exit,
+)
 from math_rlvr.training.resource_evidence import CudaAllocatorEvidence
 
 CONFIG = Path("configs/diagnostics/prompt_ab.yaml")
@@ -168,6 +171,30 @@ def test_post_worker_proves_pid_exit_compute_absence_and_memory_restore():
     assert evidence["worker_pid_exited"]
     assert evidence["gpu_memory_restored_to_baseline"]
     assert evidence["parent_cuda_initialized"] is False
+
+
+@pytest.mark.parametrize(
+    ("pid_exists", "compute_pids", "memory_mib"),
+    [
+        (True, [], 7),
+        (False, [123], 7),
+        (False, [999], 7),
+        (False, [], 8),
+    ],
+)
+def test_parent_release_gate_rejects_pid_compute_or_memory_residual(
+    pid_exists, compute_pids, memory_mib
+):
+    with pytest.raises(PostWorkerVerificationError):
+        verify_post_worker_exit(
+            worker_pid=123,
+            baseline={"memory_used_mib": {"0": 7}, "compute_pids": []},
+            current={
+                "memory_used_mib": {"0": memory_mib},
+                "compute_pids": compute_pids,
+            },
+            pid_exists=lambda _pid: pid_exists,
+        )
 
 
 @pytest.mark.parametrize("field", CAPABILITY_FIELDS)

@@ -118,6 +118,19 @@ class FakeBackend:
         }
 
 
+class NonzeroCleanupFakeBackend(FakeBackend):
+    def close(self):
+        evidence = super().close()
+        evidence["memory_allocated"] = {"bytes": 1024, "mib": 0.0009765625}
+        evidence["memory_reserved"] = {"bytes": 2048, "mib": 0.001953125}
+        evidence["worker_cleanup"] = {
+            "current_allocated_bytes": 1024,
+            "current_reserved_bytes": 2048,
+            "warning": "worker_allocator_nonzero_before_process_exit",
+        }
+        return evidence
+
+
 class FakeLifecycle:
     def __init__(self, tmp_path, *, fail_write=False, fail_backup=False):
         self.root = tmp_path
@@ -352,6 +365,18 @@ def test_eos_and_128_truncation_evidence(tmp_path, config):
         json.loads(line) for line in (lifecycle.root / "completions.jsonl").read_text().splitlines()
     ]
     assert all(row["truncated_at_128"] and not row["eos_reached"] for row in rows)
+
+
+def test_worker_allocator_nonzero_is_warning_not_runtime_failure(tmp_path, config):
+    result, backend, lifecycle = execute_fake(
+        tmp_path, config, backend=NonzeroCleanupFakeBackend()
+    )
+    assert result["status"] == "success"
+    assert result["warnings"] == ["worker_allocator_nonzero_before_process_exit"]
+    assert backend.closed
+    allocator = json.loads((lifecycle.root / "pytorch_allocator.json").read_text())
+    assert allocator["worker_cleanup"]["current_allocated_bytes"] == 1024
+    assert allocator["worker_cleanup"]["current_reserved_bytes"] == 2048
 
 
 @pytest.mark.parametrize(
