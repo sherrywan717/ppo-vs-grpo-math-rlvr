@@ -1,0 +1,136 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "snapshot_path": "/root/autodl-tmp/cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775",
+  "execution": {
+    "cpu_only": true,
+    "tokenizer_loaded": true,
+    "model_loaded": false,
+    "cuda_initialized": false,
+    "completions_generated": false
+  },
+  "tokenizer": {
+    "class": "Qwen2TokenizerFast",
+    "eos_token": "<|im_end|>",
+    "eos_token_id": 151645,
+    "pad_token": "<|endoftext|>",
+    "pad_token_id": 151643,
+    "padding_side": "left",
+    "truncation_side": "right",
+    "model_max_length": 131072,
+    "audit_max_length": 512,
+    "long_before": 773,
+    "long_after": 512
+  },
+  "checks": {
+    "qwen_chat_template": true,
+    "system_user_assistant_boundaries": true,
+    "reasoning_answer_contract": true,
+    "eos_token": true,
+    "pad_token": true,
+    "left_padding": true,
+    "variable_length_batch_padding": true,
+    "prompt_token_counts": true,
+    "completion_extraction_boundary": true,
+    "prompt_not_counted_as_completion": true,
+    "max_length_truncation": true,
+    "two_samples_per_dataset": true,
+    "completion_parser": true,
+    "shared_ppo_grpo_renderer": true,
+    "required_snapshot_files": true
+  },
+  "samples": [
+    {
+      "sample_id": "countdown-1",
+      "source": "countdown",
+      "prompt_tokens": 73,
+      "completion_tokens": 17,
+      "completion_text_exact": true,
+      "parser_answer": "42"
+    },
+    {
+      "sample_id": "countdown-2",
+      "source": "countdown",
+      "prompt_tokens": 73,
+      "completion_tokens": 17,
+      "completion_text_exact": true,
+      "parser_answer": "42"
+    },
+    {
+      "sample_id": "gsm8k-1",
+      "source": "gsm8k",
+      "prompt_tokens": 70,
+      "completion_tokens": 17,
+      "completion_text_exact": true,
+      "parser_answer": "42"
+    },
+    {
+      "sample_id": "gsm8k-2",
+      "source": "gsm8k",
+      "prompt_tokens": 65,
+      "completion_tokens": 17,
+      "completion_text_exact": true,
+      "parser_answer": "42"
+    },
+    {
+      "sample_id": "math-1",
+      "source": "math",
+      "prompt_tokens": 68,
+      "completion_tokens": 17,
+      "completion_text_exact": true,
+      "parser_answer": "42"
+    },
+    {
+      "sample_id": "math-2",
+      "source": "math",
+      "prompt_tokens": 65,
+      "completion_tokens": 17,
+      "completion_text_exact": true,
+      "parser_answer": "42"
+    }
+  ],
+  "snapshot_files": [
+    {
+      "name": ".gitattributes",
+      "size_bytes": 1519
+    },
+    {
+      "name": "LICENSE",
+      "size_bytes": 11343
+    },
+    {
+      "name": "README.md",
+      "size_bytes": 4917
+    },
+    {
+      "name": "config.json",
+      "size_bytes": 659
+    },
+    {
+      "name": "generation_config.json",
+      "size_bytes": 242
+    },
+    {
+      "name": "merges.txt",
+      "size_bytes": 1671839
+    },
+    {
+      "name": "model.safetensors",
+      "size_bytes": 988097824
+    },
+    {
+      "name": "tokenizer.json",
+      "size_bytes": 7031645
+    },
+    {
+      "name": "tokenizer_config.json",
+      "size_bytes": 7305
+    },
+    {
+      "name": "vocab.json",
+      "size_bytes": 2776833
+    }
+  ],
+  "cache_size_bytes": 2030848067,
+  "all_passed": true
+}

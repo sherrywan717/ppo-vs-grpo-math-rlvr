@@ -37,9 +37,10 @@ def validate_training_config(config: dict[str, Any], algorithm: str) -> None:
     if config.get("lora") != POLICY_LORA:
         raise ValueError("policy LoRA contract mismatch")
     generation = config.get("generation", {})
+    completion_length = 128 if "smoke" in config["experiment"]["name"] else 384
     expected = {
         "max_prompt_length": 512,
-        "max_completion_length": 384,
+        "max_completion_length": completion_length,
         "temperature": 0.8,
         "top_p": 0.95,
         "num_generations": 4,

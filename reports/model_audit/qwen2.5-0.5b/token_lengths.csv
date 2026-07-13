@@ -1,0 +1,7 @@
+sample_id,source,prompt_tokens,completion_tokens,completion_text_exact,parser_answer
+countdown-1,countdown,73,17,True,42
+countdown-2,countdown,73,17,True,42
+gsm8k-1,gsm8k,70,17,True,42
+gsm8k-2,gsm8k,65,17,True,42
+math-1,math,68,17,True,42
+math-2,math,65,17,True,42

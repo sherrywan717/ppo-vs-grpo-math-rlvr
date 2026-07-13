@@ -1,0 +1,30 @@
+{
+  "download": {
+    "complete": true,
+    "attempts": 1,
+    "start": "2026-07-13T03:47:15Z",
+    "end": "2026-07-13T03:51:59Z",
+    "wall_seconds": 284,
+    "cache_bytes_before": 177467134,
+    "cache_bytes_after": 1023263749,
+    "error_type": null,
+    "max_workers": 1,
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "gates": {
+    "compileall": "pass",
+    "ruff": "pass",
+    "pytest": "40 passed",
+    "check_env": "pass; cuda_initialized=false; model_or_tokenizer_loaded=false",
+    "manifest_validation": "pass",
+    "ppo_dry_run": "pass; preflight only",
+    "grpo_dry_run": "pass; preflight only"
+  },
+  "prohibited_actions": {
+    "model_loaded_during_audit": false,
+    "cuda_initialized": false,
+    "train_called": false,
+    "completions_generated": false,
+    "other_model_downloaded": false
+  }
+}

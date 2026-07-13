@@ -1,6 +1,13 @@
 """GRPO-specific training entry point."""
 
-from math_rlvr.training.common import parse_args, preflight, refuse_unimplemented
+from math_rlvr.training.common import (
+    parse_args,
+    preflight,
+    refuse_unimplemented,
+    render_training_prompt,
+)
+
+__all__ = ["main", "render_training_prompt"]
 
 
 def main() -> int:

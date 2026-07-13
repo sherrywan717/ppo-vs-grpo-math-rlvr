@@ -1,0 +1,172 @@
+{
+  "policy": {
+    "trusted_gold_only": true,
+    "solution_fallback": false,
+    "prediction_relaxation": false,
+    "allowed_change": "insert one leading and one trailing $ only"
+  },
+  "records": [
+    {
+      "problem_id": "math:HuggingFaceH4/MATH-500:test:14",
+      "source_index": 14,
+      "level": 1,
+      "category": "Precalculus",
+      "raw_gold": "\\sqrt{51}",
+      "normalized_gold": "$\\sqrt{51}$",
+      "character_diff": [
+        {
+          "operation": "insert",
+          "offset": 0,
+          "text": "$"
+        },
+        {
+          "operation": "insert",
+          "offset": 9,
+          "text": "$"
+        }
+      ],
+      "normalization_reason": "missing LaTeX math-mode delimiters; expression characters unchanged",
+      "parser_versions": {
+        "math-verify": "0.9.0",
+        "latex2sympy2-extended": "1.11.0",
+        "antlr4-python3-runtime": "4.13.2"
+      },
+      "content_hash": "537e549f5c38fbbd17529ce42feab0dba64da7e830938427b7715f0233fd9eec"
+    },
+    {
+      "problem_id": "math:HuggingFaceH4/MATH-500:test:97",
+      "source_index": 97,
+      "level": 1,
+      "category": "Prealgebra",
+      "raw_gold": "\\text{east}",
+      "normalized_gold": "$\\text{east}$",
+      "character_diff": [
+        {
+          "operation": "insert",
+          "offset": 0,
+          "text": "$"
+        },
+        {
+          "operation": "insert",
+          "offset": 11,
+          "text": "$"
+        }
+      ],
+      "normalization_reason": "missing LaTeX math-mode delimiters; expression characters unchanged",
+      "parser_versions": {
+        "math-verify": "0.9.0",
+        "latex2sympy2-extended": "1.11.0",
+        "antlr4-python3-runtime": "4.13.2"
+      },
+      "content_hash": "ecdad8d7b2a1a13309f7bb82a6f1657912ba05844f278b6af22e19c5f442761e"
+    },
+    {
+      "problem_id": "math:HuggingFaceH4/MATH-500:test:102",
+      "source_index": 102,
+      "level": 1,
+      "category": "Intermediate Algebra",
+      "raw_gold": "(a+5)(b+2)",
+      "normalized_gold": "$(a+5)(b+2)$",
+      "character_diff": [
+        {
+          "operation": "insert",
+          "offset": 0,
+          "text": "$"
+        },
+        {
+          "operation": "insert",
+          "offset": 10,
+          "text": "$"
+        }
+      ],
+      "normalization_reason": "missing LaTeX math-mode delimiters; expression characters unchanged",
+      "parser_versions": {
+        "math-verify": "0.9.0",
+        "latex2sympy2-extended": "1.11.0",
+        "antlr4-python3-runtime": "4.13.2"
+      },
+      "content_hash": "8870acf1d4b163f5258e946e4d2c7ba10bdf9f05639fb6a3b48fb3ae0117df22"
+    },
+    {
+      "problem_id": "math:HuggingFaceH4/MATH-500:test:144",
+      "source_index": 144,
+      "level": 1,
+      "category": "Precalculus",
+      "raw_gold": "(15,-29)",
+      "normalized_gold": "$(15,-29)$",
+      "character_diff": [
+        {
+          "operation": "insert",
+          "offset": 0,
+          "text": "$"
+        },
+        {
+          "operation": "insert",
+          "offset": 8,
+          "text": "$"
+        }
+      ],
+      "normalization_reason": "missing LaTeX math-mode delimiters; expression characters unchanged",
+      "parser_versions": {
+        "math-verify": "0.9.0",
+        "latex2sympy2-extended": "1.11.0",
+        "antlr4-python3-runtime": "4.13.2"
+      },
+      "content_hash": "85bf82715fb1ee124b4b0ae621851ae113c7dede5eb0e27ff7a7ed6899efb7a2"
+    },
+    {
+      "problem_id": "math:HuggingFaceH4/MATH-500:test:312",
+      "source_index": 312,
+      "level": 1,
+      "category": "Intermediate Algebra",
+      "raw_gold": "(5,\\infty)",
+      "normalized_gold": "$(5,\\infty)$",
+      "character_diff": [
+        {
+          "operation": "insert",
+          "offset": 0,
+          "text": "$"
+        },
+        {
+          "operation": "insert",
+          "offset": 10,
+          "text": "$"
+        }
+      ],
+      "normalization_reason": "missing LaTeX math-mode delimiters; expression characters unchanged",
+      "parser_versions": {
+        "math-verify": "0.9.0",
+        "latex2sympy2-extended": "1.11.0",
+        "antlr4-python3-runtime": "4.13.2"
+      },
+      "content_hash": "92568e30e12f074afd662a74479d84c5abeeb8931ae7576821b303857c64ecbf"
+    },
+    {
+      "problem_id": "math:HuggingFaceH4/MATH-500:test:362",
+      "source_index": 362,
+      "level": 1,
+      "category": "Counting & Probability",
+      "raw_gold": "\\frac14",
+      "normalized_gold": "$\\frac14$",
+      "character_diff": [
+        {
+          "operation": "insert",
+          "offset": 0,
+          "text": "$"
+        },
+        {
+          "operation": "insert",
+          "offset": 7,
+          "text": "$"
+        }
+      ],
+      "normalization_reason": "missing LaTeX math-mode delimiters; expression characters unchanged",
+      "parser_versions": {
+        "math-verify": "0.9.0",
+        "latex2sympy2-extended": "1.11.0",
+        "antlr4-python3-runtime": "4.13.2"
+      },
+      "content_hash": "ee02cd5b28fb246421a02d67e994fe9a2ab8ac30a70dd349ce65f60e2e4d87e0"
+    }
+  ]
+}

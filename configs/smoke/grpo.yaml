@@ -1,7 +1,7 @@
-experiment: {name: smoke-grpo-qwen-0.5b, algorithm: grpo, seed: 20260712}
+experiment: {name: smoke-grpo-qwen-0.5b, algorithm: grpo, seed: 42}
 model: {name_or_path: Qwen/Qwen2.5-0.5B-Instruct, dtype: bfloat16, use_qlora: false, gradient_checkpointing: true}
 lora: {rank: 16, alpha: 32, dropout: 0, target_modules: [q_proj, k_proj, v_proj, o_proj]}
 data: {manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/countdown_train.json, max_train_samples: 32}
-generation: {max_prompt_length: 512, max_completion_length: 384, max_new_tokens: 384, temperature: 0.8, top_p: 0.95, num_generations: 4}
-training: {max_steps: 5, save_total_limit: 1}
-budget: {max_completions: 128, max_generated_tokens: 16384, max_wall_time_seconds: 900, max_gpu_hours: 0.25, max_estimated_cost_cny: 5}
+generation: {max_prompt_length: 512, max_completion_length: 128, max_new_tokens: 128, temperature: 0.8, top_p: 0.95, num_generations: 4}
+training: {max_steps: 2, save_total_limit: 1}
+budget: {max_completions: 64, max_generated_tokens: 8192, max_wall_time_seconds: 900, max_gpu_hours: 0.25, max_estimated_cost_cny: 2.22, gpu_hour_price_cny: 8.88}
