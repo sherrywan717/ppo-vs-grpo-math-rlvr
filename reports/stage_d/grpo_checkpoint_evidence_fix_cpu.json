@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "scope": "CPU-only GRPO checkpoint and run-evidence repair",
+  "baseline_commit": "9db5bf945e123e1f31670939bccda7b6e31aae8a",
+  "checkpoint": {
+    "authoritative_strategy": "Trainer-created top-level checkpoint-1 only",
+    "manual_save_model_removed": true,
+    "training_args_bin": {
+      "exact_name_only": true,
+      "max_bytes": 1048576,
+      "regular_file": true,
+      "symlink_forbidden": true,
+      "canonical_parent_required": true,
+      "classification": "trainer_metadata",
+      "deserialization": false
+    },
+    "duplicate_adapter_sha_forbidden": true
+  },
+  "completion_evidence": {
+    "owner": "math_rlvr.training.trl_compat",
+    "expected_records": 8,
+    "exact_token_source": "completion_ids plus completion_mask",
+    "decoded_text_must_equal_verifier_input": true,
+    "order_checked": true
+  },
+  "kl": {
+    "beta": 0,
+    "kl_available": false,
+    "kl": null,
+    "reason": "TRL 0.24.0 does not compute reference-model KL when beta=0.0"
+  },
+  "allocator": {
+    "separate_from_nvidia_smi": true,
+    "fake_cuda_test": "passed",
+    "cpu_dry_run_initializes_cuda": false
+  },
+  "gates": {
+    "compileall": "passed",
+    "ruff": "passed",
+    "pytest": {
+      "status": "passed",
+      "count": 107
+    },
+    "check_env": "passed",
+    "manifest_validation": "passed",
+    "grpo_dry_run": "passed",
+    "ppo_dry_run": "passed",
+    "fake_guarded_execute": "passed",
+    "fake_checkpoint_inventory_finalization": "passed"
+  },
+  "side_effects": {
+    "cuda_initialized": false,
+    "real_model_loads": 0,
+    "real_completions": 0,
+    "real_train_calls": 0,
+    "real_optimizer_steps": 0,
+    "network_access": false
+  },
+  "frozen_yaml_sha256": {
+    "grpo": "3e6ea0f568c7d946a3023eb14b67988751e37b1cb692b52018faa9dbb622a398",
+    "ppo": "1db287f772f11da9fb6e69a304857b0055dde2bb0b74baec3bfb07d0d7f0b820",
+    "unchanged": true
+  },
+  "protected_historical_evidence": "unchanged"
+}

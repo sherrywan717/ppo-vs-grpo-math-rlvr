@@ -14,3 +14,7 @@
 - Adapter: 2,162,688 trainable parameters (0.435854% of parameters including adapter).
 - Checkpoint: no full base model detected; inventory failed closed on \`training_args.bin\`.
 - Artifact gap: generated completion text, exact per-completion token lengths, KL, and PyTorch allocator peaks were not persisted.
+
+## Follow-up
+
+The CPU-only evidence repair is recorded by the commit containing this note with subject `fix: complete GRPO smoke evidence capture`. It narrows `training_args.bin` handling, removes duplicate manual checkpoint saving, and adds ordered completion/KL/allocator evidence. This historical run remains failure; its original summary, metrics, and checkpoint inventory are unchanged.

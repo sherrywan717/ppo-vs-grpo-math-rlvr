@@ -91,3 +91,21 @@ This file records operational history and pitfalls that should survive context c
 - Full CPU gates after the first-failure repair: compileall passed, Ruff passed, 81 tests passed, environment check passed, manifest validation passed, GRPO/PPO dry-runs passed, and fake guarded execute passed.
 - The real local snapshot offline path preflight passed with Qwen2ForCausalLM identity; CUDA was false before and after.
 - Real model loads, completions, train calls, and optimizer steps were all 0. The frozen GRPO and PPO smoke YAML hashes matched the baseline exactly.
+
+## GRPO Second Real Smoke Failure and Evidence Repair
+
+- Second real attempt: `grpo_single_update_qwen25_05b_20260713T053852Z`; failure-report commit `9db5bf945e123e1f31670939bccda7b6e31aae8a`.
+- The snapshot builder and BudgetGuard finalization passed. The run produced 2 prompts, 8 completions, 687 generated tokens, 4 microsteps, and exactly 1 optimizer/global step.
+- All eight rewards were format errors with reward zero; reward variance was zero and zero-advantage fraction was 1.0. This is integration evidence, not evidence of learning.
+- Failure occurred after training when the old inventory rejected the 7,441-byte `training_args.bin`. Trainer auto-save and the runner's manual `save_model` also produced duplicate adapter trees.
+- Repair: use only Trainer's top-level `checkpoint-1`; remove the post-train manual save. Permit only exact, canonical, regular, non-symlink `training_args.bin` at checkpoint root, capped at 1 MiB, hashed without deserialization.
+- Repair: the sole TRL 0.24.0 shim now joins exact IDs/masks, mask-derived token counts, decoded Unicode text, exact verifier input, and ordered reward results. Missing or reordered evidence blocks success.
+- Frozen GRPO beta resolves to 0.0. KL must be `null` with `kl_available=false` and an explicit reason, never fabricated as zero.
+- PyTorch allocator peaks are reset/recorded only inside the authorized real path through an injectable backend; CPU dry-runs keep CUDA uninitialized.
+- The two historical failure summaries, metrics, inventories, full runs, commits, and backups remain failures and are not rewritten.
+
+### CPU checkpoint/evidence repair verification
+
+- Full CPU/offline gates passed with 107 tests. Compileall, Ruff, environment check, manifest validation, GRPO/PPO dry-runs, fake guarded execute, and fake checkpoint inventory/finalization all passed.
+- CUDA remained uninitialized; real model loads, completions, train calls, and optimizer steps were all 0.
+- Frozen GRPO/PPO YAML hashes remained unchanged, and protected summary/metrics/checkpoint-inventory hashes for both historical failure runs remained unchanged.

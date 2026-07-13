@@ -49,3 +49,9 @@ All four algorithm targets are static preflights and refuse to train. Model/toke
 ## Metrics
 
 Both runs record pass@1/pass@4; GSM8K, MATH500, and per-Level accuracy; format, parse, expression, and number-usage validity; reward, completions, generated tokens, completion length, wall time, KL, entropy, peak VRAM, GPU-hours, and CNY cost. PPO additionally reports value loss/explained variance; GRPO reports zero-variance group rate.
+
+## GRPO evidence and checkpoint safety
+
+The single-update runner uses the Trainer-created top-level `checkpoint-1` as its sole authoritative checkpoint. It never performs a second manual `save_model`. The exact `training_args.bin` basename is accepted only as non-symlink regular trainer metadata directly under that checkpoint, capped at 1 MiB and hashed without deserialization; arbitrary `.bin` files remain forbidden.
+
+The sole TRL 0.24.0 shim binds completion IDs/masks, exact mask-derived token counts, Unicode decoded text, exact verifier input, and ordered reward results into eight JSONL records. Missing or reordered evidence fails closed. The frozen config resolves to `beta=0.0`, so KL is represented as unavailable with `null` and an explicit reason. PyTorch allocator peaks are recorded separately from nvidia-smi. See `docs/artifact-schema.md` and `docs/checkpoint-safety.md`.

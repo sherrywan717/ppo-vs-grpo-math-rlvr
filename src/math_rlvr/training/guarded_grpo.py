@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import hashlib
 import math
+import stat
 import subprocess
 import time
 from collections.abc import Callable
@@ -259,20 +261,166 @@ def reward_recorder(guard: BudgetGuard, verifier: Callable[[str], RewardResult])
     return reward
 
 
-def checkpoint_inventory(root: Path, full_weight_threshold=500_000_000) -> list[dict]:
-    allowed_weights = {"adapter_model.safetensors", "adapter_model.bin"}
+TRAINING_ARGS_MAX_BYTES = 1024 * 1024
+
+
+def _regular_file_within(path: Path, root: Path) -> Path:
+    if path.is_symlink():
+        raise CheckpointSafetyError(f"checkpoint symlink forbidden: {path.name}")
+    try:
+        mode = path.lstat().st_mode
+        resolved = path.resolve(strict=True)
+    except (FileNotFoundError, RuntimeError) as exc:
+        raise CheckpointSafetyError(f"invalid checkpoint file: {path.name}") from exc
+    if not stat.S_ISREG(mode) or not resolved.is_relative_to(root):
+        raise CheckpointSafetyError(f"checkpoint path escape: {path.name}")
+    return resolved
+
+
+def authoritative_checkpoint(run_dir: Path, global_step: int) -> Path:
+    """Return the sole Trainer-created checkpoint and reject duplicates/escapes."""
+    if global_step != 1:
+        raise CheckpointSafetyError("authoritative checkpoint requires global_step 1")
+    if run_dir.is_symlink():
+        raise CheckpointSafetyError("run directory symlink is forbidden")
+    run_root = run_dir.resolve(strict=True)
+    expected = run_dir / f"checkpoint-{global_step}"
+
+    adapter_paths = sorted(run_dir.rglob("adapter_model.safetensors"))
+    adapter_digests = []
+    for path in adapter_paths:
+        resolved = _regular_file_within(path, run_root)
+        adapter_digests.append(hashlib.sha256(resolved.read_bytes()).hexdigest())
+    if len(adapter_paths) != 1:
+        if len(adapter_digests) != len(set(adapter_digests)):
+            raise CheckpointSafetyError("duplicate adapter SHA256 detected")
+        raise CheckpointSafetyError("exactly one adapter_model.safetensors is required")
+    if len(list(run_dir.rglob("adapter_config.json"))) != 1:
+        raise CheckpointSafetyError("exactly one adapter_config.json is required")
+
+    candidates = [
+        path
+        for path in list(run_dir.glob("checkpoint-*"))
+        + list((run_dir / "checkpoints").glob("checkpoint-*"))
+        if path.is_dir() or path.is_symlink()
+    ]
+    if len(candidates) != 1 or candidates[0] != expected:
+        raise CheckpointSafetyError("exactly one authoritative Trainer checkpoint is required")
+    if expected.is_symlink():
+        raise CheckpointSafetyError("authoritative checkpoint symlink is forbidden")
+    resolved = expected.resolve(strict=True)
+    if resolved.parent != run_root:
+        raise CheckpointSafetyError("authoritative checkpoint escaped run directory")
+    return resolved
+
+
+def checkpoint_inventory(
+    root: Path,
+    *,
+    run_dir: Path | None = None,
+    full_weight_threshold: int = 500_000_000,
+    training_args_max_bytes: int = TRAINING_ARGS_MAX_BYTES,
+) -> dict[str, Any]:
+    """Hash a canonical checkpoint without deserializing any checkpoint content."""
+    if root.is_symlink():
+        raise CheckpointSafetyError("checkpoint root symlink is forbidden")
+    root_resolved = root.resolve(strict=True)
+    if run_dir is not None:
+        run_resolved = run_dir.resolve(strict=True)
+        if root_resolved.parent != run_resolved or root_resolved.name != "checkpoint-1":
+            raise CheckpointSafetyError("checkpoint root is outside the expected run directory")
+
+    allowed_adapter_weights = {"adapter_model.safetensors", "adapter_model.bin"}
     inventory = []
     for path in sorted(root.rglob("*")):
-        if not path.is_file():
+        if path.is_dir() and not path.is_symlink():
             continue
-        size = path.stat().st_size
+        resolved = _regular_file_within(path, root_resolved)
+        size = resolved.stat().st_size
         name = path.name
         if size >= full_weight_threshold:
             raise CheckpointSafetyError(f"full-size weight-like file: {name}")
-        if path.suffix in {".safetensors", ".bin"} and name not in allowed_weights:
+        if name == "training_args.bin":
+            if resolved.parent != root_resolved:
+                raise CheckpointSafetyError("training_args.bin must be at checkpoint root")
+            if size > training_args_max_bytes:
+                raise CheckpointSafetyError("training_args.bin exceeds 1 MiB safety limit")
+            classification = "trainer_metadata"
+        elif path.suffix == ".bin" and name not in allowed_adapter_weights:
             raise CheckpointSafetyError(f"non-adapter weight file: {name}")
-        inventory.append({"path": str(path.relative_to(root)), "size": size})
-    return inventory
+        elif path.suffix == ".safetensors" and name not in allowed_adapter_weights:
+            raise CheckpointSafetyError(f"non-adapter weight file: {name}")
+        elif name in allowed_adapter_weights:
+            classification = "lora_adapter"
+        elif name == "adapter_config.json":
+            classification = "adapter_config"
+        elif name == "trainer_state.json":
+            classification = "trainer_state"
+        else:
+            classification = "tokenizer_or_metadata"
+        inventory.append(
+            {
+                "name": str(path.relative_to(root)),
+                "size_bytes": size,
+                "sha256": hashlib.sha256(resolved.read_bytes()).hexdigest(),
+                "classification": classification,
+            }
+        )
+    return {
+        "checkpoint_root": root_resolved.name,
+        "files": inventory,
+        "total_size_bytes": sum(item["size_bytes"] for item in inventory),
+        "duplicate_checkpoint_count": 0,
+    }
+
+
+def validate_completion_evidence(
+    records: Any, guard: BudgetGuard
+) -> list[dict[str, Any]]:
+    if not isinstance(records, list) or len(records) != guard.max_completions:
+        raise RuntimeError("exactly 8 persisted completion evidence records are required")
+    per_problem: dict[str, list[int]] = {}
+    total_tokens = 0
+    for index, (record, reward) in enumerate(zip(records, guard.rewards, strict=True)):
+        if record.get("completion_index") != index:
+            raise RuntimeError("completion evidence order mismatch")
+        ids = record.get("completion_ids")
+        mask = record.get("completion_mask")
+        if not isinstance(ids, list) or not isinstance(mask, list) or len(ids) != len(mask):
+            raise RuntimeError("completion IDs/mask evidence missing")
+        if any(not isinstance(value, int) for value in ids) or any(
+            value not in (0, 1) for value in mask
+        ):
+            raise RuntimeError("invalid completion IDs/mask evidence")
+        exact_count = sum(mask)
+        if record.get("exact_token_count") != exact_count:
+            raise RuntimeError("completion token count is not derived from mask")
+        text = record.get("decoded_completion")
+        if (
+            not isinstance(text, str)
+            or record.get("raw_completion") != text
+            or record.get("verifier_input") != text
+        ):
+            raise RuntimeError("saved completion differs from verifier input")
+        if (
+            record.get("reward_status") != reward["status"]
+            or record.get("scalar_reward") != reward["reward"]
+            or record.get("verifier_detail") != reward["detail"]
+        ):
+            raise RuntimeError("completion/reward evidence order mismatch")
+        problem_id = record.get("problem_id")
+        prompt_hash = record.get("prompt_hash")
+        generation_index = record.get("generation_index")
+        if not isinstance(problem_id, str) or not isinstance(prompt_hash, str):
+            raise RuntimeError("completion problem association missing")
+        per_problem.setdefault(problem_id, []).append(generation_index)
+        total_tokens += exact_count
+        assert_json_safe(record)
+    if total_tokens != guard.generated_tokens:
+        raise RuntimeError("persisted completion token total mismatch")
+    if sorted(sorted(values) for values in per_problem.values()) != [[0, 1, 2, 3]] * 2:
+        raise RuntimeError("completion generation indexes mismatch")
+    return records
 
 
 def run_guarded(
@@ -288,12 +436,22 @@ def run_guarded(
     status = "failure"
     reason = None
     result = {}
+    inventory = None
     lifecycle.start(config, problems)
     monitor.start()
     try:
         result = backend.run(problems, guard, reward_recorder(guard, verifier))
         guard.assert_success()
-        inventory = checkpoint_inventory(Path(result["checkpoint_dir"]))
+        lifecycle.persist("trainer_metrics.json", result.get("metrics", {}))
+        lifecycle.persist(
+            "trainer_log_history.json", result.get("trainer_log_history", [])
+        )
+        completions = validate_completion_evidence(result.get("completions"), guard)
+        lifecycle.persist_jsonl("completions.jsonl", completions)
+        inventory = checkpoint_inventory(
+            Path(result["checkpoint_dir"]),
+            run_dir=Path(result["run_dir"]) if result.get("run_dir") else None,
+        )
         lifecycle.persist("checkpoint_inventory.json", inventory)
         status = "success"
     except Exception as exc:
@@ -307,11 +465,23 @@ def run_guarded(
     finally:
         monitor.stop()
         counters = guard.snapshot()
+        runtime_evidence = (
+            lifecycle.runtime_summary() if hasattr(lifecycle, "runtime_summary") else {}
+        )
         summary = {
             "status": status,
             "reason": reason,
             "counters": counters,
+            "completion_evidence_count": len(result.get("completions", [])),
             "metrics": result.get("metrics", {}),
+            "trainer_log_history": result.get("trainer_log_history", []),
+            "checkpoint_inventory": inventory if status == "success" else None,
+            "duplicate_checkpoint_count": (
+                inventory["duplicate_checkpoint_count"]
+                if status == "success" and inventory is not None
+                else None
+            ),
+            **runtime_evidence,
         }
         try:
             assert_json_safe(summary)

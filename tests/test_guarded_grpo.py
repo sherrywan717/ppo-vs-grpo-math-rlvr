@@ -44,6 +44,14 @@ class Lifecycle:
             raise OSError("artifact write failed")
         (self.root / name).write_text(json.dumps(payload))
 
+    def persist_jsonl(self, name, rows):
+        (self.root / name).write_text(
+            "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows)
+        )
+
+    def runtime_summary(self):
+        return {}
+
     def finalize(self, summary):
         (self.root / "checksums.sha256").write_text("verified")
 
@@ -85,7 +93,41 @@ class Backend:
         for _ in range(steps):
             guard.record_optimizer_step()
         guard.record_global_step(global_step)
-        return {"checkpoint_dir": str(self.checkpoint), "metrics": {"loss": 0.1}}
+        evidence = []
+        if completions == 8:
+            per_completion = tokens // completions
+            remainder = tokens % completions
+            for index, (problem, recorded_reward) in enumerate(
+                zip(
+                    [problems[0]] * 4 + [problems[1]] * 4,
+                    guard.rewards,
+                    strict=True,
+                )
+            ):
+                exact_count = per_completion + (index < remainder)
+                text = "<reasoning>x</reasoning><answer>1</answer>"
+                evidence.append(
+                    {
+                        "problem_id": problem.problem_id,
+                        "prompt_hash": problem.content_hash,
+                        "generation_index": index % 4,
+                        "completion_index": index,
+                        "completion_ids": [index + 1] * exact_count,
+                        "completion_mask": [1] * exact_count,
+                        "exact_token_count": exact_count,
+                        "decoded_completion": text,
+                        "raw_completion": text,
+                        "verifier_input": text,
+                        "reward_status": recorded_reward["status"],
+                        "scalar_reward": recorded_reward["reward"],
+                        "verifier_detail": recorded_reward["detail"],
+                    }
+                )
+        return {
+            "checkpoint_dir": str(self.checkpoint),
+            "metrics": {"loss": 0.1},
+            "completions": evidence,
+        }
 
 
 def verifier(_):

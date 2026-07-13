@@ -5,6 +5,8 @@ from __future__ import annotations
 import copy
 import gc
 import hashlib
+import json
+import shutil
 import tarfile
 from datetime import UTC, datetime
 from pathlib import Path
@@ -16,7 +18,7 @@ from math_rlvr.prompt import format_problem
 from math_rlvr.training.guarded_grpo import (
     REVISION,
     assert_json_safe,
-    checkpoint_inventory,
+    authoritative_checkpoint,
     require_clean_git,
     require_local_snapshot,
     run_guarded,
@@ -24,6 +26,28 @@ from math_rlvr.training.guarded_grpo import (
 from math_rlvr.verifier import MathVerifier
 
 BACKUP_ROOT = Path("/root/autodl-fs/math-rlvr-backups")
+
+
+def validate_backup_inventory(names):
+    forbidden_credentials = {
+        "auth.json",
+        "token.json",
+        "tokens.json",
+        "hf_token.txt",
+        "auth_token.txt",
+        "proxy.json",
+        "proxy.txt",
+    }
+    for name in names:
+        path = Path(name)
+        basename = path.name.lower()
+        parts = {part.lower() for part in path.parts}
+        if (
+            "huggingface" in parts
+            or basename in forbidden_credentials
+            or basename in {"model.safetensors", "pytorch_model.bin"}
+        ):
+            raise RuntimeError(f"backup inventory contains prohibited path: {name}")
 
 
 class RealLifecycle:
@@ -42,6 +66,7 @@ class RealLifecycle:
         self.manager.write_text("stderr.log", "")
         self.manager.write_json("resolved_config.json", config)
         self.archive = None
+        self._runtime_evidence = {}
 
     def start(self, config, problems):
         git = require_clean_git()
@@ -67,7 +92,38 @@ class RealLifecycle:
         assert_json_safe(payload)
         self.manager.write_json(name, payload)
 
+    def persist_jsonl(self, name, rows):
+        for row in rows:
+            assert_json_safe(row)
+        self.manager.write_text(
+            name,
+            "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
+        )
+
+    def record_runtime(self, name, payload):
+        assert_json_safe(payload)
+        self._runtime_evidence[name] = payload
+        self.manager.write_json(f"{name}.json", payload)
+
+    def runtime_summary(self):
+        return dict(self._runtime_evidence)
+
     def finalize(self, summary):
+        manifest_path = self.manager.run_dir / "run_manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        manifest.update(
+            {
+                "status": summary["status"],
+                "counters": summary["counters"],
+                "completion_evidence_count": summary.get(
+                    "completion_evidence_count", 0
+                ),
+                "duplicate_checkpoint_count": summary.get(
+                    "duplicate_checkpoint_count"
+                ),
+            }
+        )
+        self.manager.write_json("run_manifest.json", manifest)
         self.manager.finalize(
             summary["status"],
             stop_reason=summary.get("reason"),
@@ -85,6 +141,44 @@ class RealLifecycle:
                 "- Smoke diagnostic only; not an experiment result.\n"
             )
             self.manager.publish_summary(report, summary, [])
+            self._publish_evidence_files()
+
+    def _publish_evidence_files(self):
+        safe_names = (
+            "resolved_config.json",
+            "run_manifest.json",
+            "completions.jsonl",
+            "trainer_metrics.json",
+            "trainer_log_history.json",
+            "pytorch_allocator.json",
+            "checkpoint_inventory.json",
+            "failure_report.json",
+            "final_summary.json",
+        )
+        for name in safe_names:
+            source = self.manager.run_dir / name
+            if source.is_file():
+                shutil.copy2(source, self.manager.report_dir / name)
+        files = []
+        for path in sorted(self.manager.report_dir.rglob("*")):
+            if path.is_file() and path.name not in {
+                "artifact_manifest.json",
+                "checksums.sha256",
+            }:
+                files.append(
+                    {
+                        "path": str(path.relative_to(self.manager.report_dir)),
+                        "size": path.stat().st_size,
+                        "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                    }
+                )
+        (self.manager.report_dir / "artifact_manifest.json").write_text(
+            json.dumps({"run_id": self.manager.run_id, "files": files}, indent=2)
+            + "\n"
+        )
+        (self.manager.report_dir / "checksums.sha256").write_text(
+            "\n".join(f"{item['sha256']}  {item['path']}" for item in files) + "\n"
+        )
 
     def backup_and_verify(self):
         BACKUP_ROOT.mkdir(parents=True, exist_ok=True)
@@ -93,9 +187,7 @@ class RealLifecycle:
             tar.add(self.manager.run_dir, arcname=self.manager.run_id)
         with tarfile.open(archive, "r:gz") as tar:
             names = tar.getnames()
-        forbidden = ("huggingface", "auth.json", "model.safetensors")
-        if any(any(item in name.lower() for item in forbidden) for name in names):
-            raise RuntimeError("backup inventory contains prohibited path")
+        validate_backup_inventory(names)
         digest = hashlib.sha256(archive.read_bytes()).hexdigest()
         checksum = archive.with_suffix(archive.suffix + ".sha256")
         checksum.write_text(f"{digest}  {archive}\n")
@@ -127,10 +219,20 @@ class RealBackend:
 
         from math_rlvr.rewards.result import DEFAULT_REWARD_POLICY
         from math_rlvr.training.builders import build_grpo_trainer, load_policy_and_tokenizer
-        from math_rlvr.training.trl_compat import guarded_trainer_class, optimizer_guard_callback
+        from math_rlvr.training.resource_evidence import CudaAllocatorEvidence
+        from math_rlvr.training.trl_compat import (
+            CompletionEvidenceRecorder,
+            extract_kl_metric,
+            guarded_trainer_class,
+            optimizer_guard_callback,
+        )
 
+        allocator = CudaAllocatorEvidence(torch.cuda)
+        evidence = CompletionEvidenceRecorder(expected_completions=8)
         model = tokenizer = trainer = None
+        run_result = {}
         try:
+            allocator.start()
             model, tokenizer = load_policy_and_tokenizer(self.config, self.model_source)
             trainable = [name for name, p in model.named_parameters() if p.requires_grad]
             targets = tuple(self.config["lora"]["target_modules"])
@@ -142,7 +244,14 @@ class RealBackend:
             if tokenizer.pad_token_id is None:
                 tokenizer.pad_token = tokenizer.eos_token
             problem_map = {p.problem_id: p for p in problems}
-            rows = [{"prompt": format_problem(p), "problem_id": p.problem_id} for p in problems]
+            rows = [
+                {
+                    "prompt": format_problem(p),
+                    "problem_id": p.problem_id,
+                    "prompt_hash": p.content_hash,
+                }
+                for p in problems
+            ]
             dataset = Dataset.from_list(rows)
             verifier = MathVerifier()
 
@@ -152,6 +261,7 @@ class RealBackend:
                     text = completion if isinstance(completion, str) else completion[-1]["content"]
                     result = verifier(problem_map[pid], text)
                     scalar = DEFAULT_REWARD_POLICY.to_scalar(result)
+                    evidence.record_reward(pid, text, result, scalar)
                     guard.record_reward(result, scalar)
                     values.append(scalar)
                 return values
@@ -163,25 +273,40 @@ class RealBackend:
                 self.lifecycle.manager.run_dir,
                 model=model,
                 tokenizer=tokenizer,
-                trainer_factory=guarded_trainer_class(guard),
+                trainer_factory=guarded_trainer_class(guard, evidence),
                 cpu_only=False,
                 model_source=self.model_source,
             )
             trainer.add_callback(optimizer_guard_callback(guard))
             output = trainer.train()
-            checkpoint = self.lifecycle.manager.run_dir / "checkpoints" / "checkpoint-1"
-            trainer.save_model(checkpoint)
-            inventory = checkpoint_inventory(checkpoint)
-            return {
-                "checkpoint_dir": str(checkpoint),
-                "metrics": dict(output.metrics),
-                "checkpoint_inventory": inventory,
+            global_step = int(trainer.state.global_step)
+            checkpoint = authoritative_checkpoint(
+                self.lifecycle.manager.run_dir, global_step
+            )
+            log_history = [dict(row) for row in trainer.state.log_history]
+            kl = extract_kl_metric(log_history, float(trainer.args.beta))
+            metrics = {
+                "trainer_output": dict(output.metrics),
+                "kl": kl,
             }
+            run_result.update(
+                {
+                    "run_dir": str(self.lifecycle.manager.run_dir),
+                    "checkpoint_dir": str(checkpoint),
+                    "metrics": metrics,
+                    "trainer_log_history": log_history,
+                    "completions": evidence.records(),
+                }
+            )
+            return run_result
         finally:
             del trainer, model, tokenizer
             gc.collect()
             if torch.cuda.is_initialized():
                 torch.cuda.empty_cache()
+            allocator_payload = allocator.snapshot()
+            self.lifecycle.record_runtime("pytorch_allocator", allocator_payload)
+            run_result["pytorch_allocator"] = allocator_payload
 
 
 def execute_real_smoke(config):

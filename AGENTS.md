@@ -13,7 +13,7 @@ The active branch is `pivot/math-rlvr`. Important milestones are:
 - `5a10cbae2abcb066b423b10ff9d327ad1483b75c` — artifact-first Stage D infrastructure, frozen configs, reports, CPU gates, tokenizer audit, trainer builders, and shared PPO/GRPO prompt renderer.
 - `6daca223bd17ddc9201e0b8dc7cdc3c677db9b39` — successful Qwen 0.5B CUDA/model-load sanity report.
 - The local 0.5B snapshot is revision `7ae557604adf67be50417f59c2c2f167def9a775` under `/root/autodl-tmp/cache/huggingface`; never copy model weights into Git, run artifacts, backups, or `/root/autodl-fs`.
-- CPU tokenizer audit, static gates, and CUDA load sanity have passed. No PPO or GRPO optimizer update has been executed.
+- CPU tokenizer audit, static gates, and CUDA load sanity have passed. No PPO update has been executed; the second bounded GRPO smoke executed exactly one optimizer update but remained a failed run.
 - The guarded GRPO runner requires `--execute --confirm-single-update`; either missing flag fails before delayed model/CUDA imports. Exact completion tokens are guarded through the isolated TRL 0.24.0 shim.
 
 Read `memory.md` before changing execution code or launching another run; it records measured results and known pitfalls.
@@ -61,3 +61,9 @@ Use Python 3.12, spaces, Ruff, descriptive `snake_case` functions/modules and `P
 The first real GRPO attempt, `grpo_single_update_qwen25_05b_20260713T050407Z`, remains a failed immutable historical run at commit `ebc926c432d6778c3b057a0b7b518f7f2eaea5ed`. Its trainer-construction failure was traced to comparing a validated local snapshot path against the original repository ID; artifact finalization separately attempted to serialize the BudgetGuard clock callable.
 
 Execution code now uses the frozen `ValidatedModelSource` boundary: exact 0.5B repo/revision, canonical cache structure, local-only resolver equality, required files, and Qwen2 causal-LM config identity. `BudgetGuard.snapshot()` is the only counter serialization contract and contains primitive JSON values, never callbacks or runtime objects. These repairs do not authorize a real GRPO rerun or PPO.
+
+### GRPO second-failure evidence repair
+
+The second real GRPO attempt, `grpo_single_update_qwen25_05b_20260713T053852Z`, completed the frozen 8-completion/687-token/4-microstep/1-update budget but remained failure because the old checkpoint allowlist rejected the 7,441-byte Trainer metadata file `training_args.bin`. Preserve both failed runs and their backups as immutable evidence.
+
+The repaired runner trusts only the Trainer-created top-level `checkpoint-1`, allows only a canonical non-symlink `training_args.bin` of at most 1 MiB, rejects duplicate adapters, and never deserializes metadata. The sole TRL shim owns ordered completion IDs/masks/text/reward evidence. Frozen beta is 0.0, so KL must be null with a reason. Allocator peaks and nvidia-smi remain distinct. This CPU repair is not authorization to rerun GRPO or start PPO.
