@@ -1,0 +1,219 @@
+{
+  "run_id": "grpo_single_update_qwen25_05b_20260713T122258Z",
+  "stage": "single_update",
+  "algorithm": "grpo",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "seed": 42,
+  "created_at": "2026-07-13T12:22:58.657326+00:00",
+  "status": "success",
+  "counters": {
+    "limits": {
+      "completions": 8,
+      "generated_tokens": 1024,
+      "microsteps": 4,
+      "optimizer_steps": 1,
+      "global_step": 1
+    },
+    "completions": 8,
+    "generated_tokens": 276,
+    "microsteps": 4,
+    "optimizer_steps": 1,
+    "global_step": 1,
+    "start_timestamp": 11564108.761320189,
+    "elapsed_seconds": 10.604900496080518,
+    "exceeded": false,
+    "exceeded_reason": null,
+    "rewards": [
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.1,
+        "canonical_status": "format_error",
+        "scalar_reward": 0.1,
+        "reward_policy_version": "shaped_v2_staged",
+        "reward_policy_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+        "reward_component_weights": {
+          "answer_block": 0.05,
+          "strict_protocol": 0.05,
+          "valid_expression": 0.05,
+          "exact_number_usage": 0.05,
+          "correctness": 0.8
+        },
+        "answer_block_component": 0.05,
+        "strict_protocol_component": 0.0,
+        "valid_expression_component": 0.05,
+        "exact_number_usage_component": 0.0,
+        "correctness_component": 0.0,
+        "verifier_detail": "each tag must appear exactly once"
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.1,
+        "canonical_status": "format_error",
+        "scalar_reward": 0.1,
+        "reward_policy_version": "shaped_v2_staged",
+        "reward_policy_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+        "reward_component_weights": {
+          "answer_block": 0.05,
+          "strict_protocol": 0.05,
+          "valid_expression": 0.05,
+          "exact_number_usage": 0.05,
+          "correctness": 0.8
+        },
+        "answer_block_component": 0.05,
+        "strict_protocol_component": 0.0,
+        "valid_expression_component": 0.05,
+        "exact_number_usage_component": 0.0,
+        "correctness_component": 0.0,
+        "verifier_detail": "each tag must appear exactly once"
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.15,
+        "canonical_status": "format_error",
+        "scalar_reward": 0.15,
+        "reward_policy_version": "shaped_v2_staged",
+        "reward_policy_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+        "reward_component_weights": {
+          "answer_block": 0.05,
+          "strict_protocol": 0.05,
+          "valid_expression": 0.05,
+          "exact_number_usage": 0.05,
+          "correctness": 0.8
+        },
+        "answer_block_component": 0.05,
+        "strict_protocol_component": 0.0,
+        "valid_expression_component": 0.05,
+        "exact_number_usage_component": 0.05,
+        "correctness_component": 0.0,
+        "verifier_detail": "each tag must appear exactly once"
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0,
+        "canonical_status": "format_error",
+        "scalar_reward": 0.0,
+        "reward_policy_version": "shaped_v2_staged",
+        "reward_policy_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+        "reward_component_weights": {
+          "answer_block": 0.05,
+          "strict_protocol": 0.05,
+          "valid_expression": 0.05,
+          "exact_number_usage": 0.05,
+          "correctness": 0.8
+        },
+        "answer_block_component": 0.0,
+        "strict_protocol_component": 0.0,
+        "valid_expression_component": 0.0,
+        "exact_number_usage_component": 0.0,
+        "correctness_component": 0.0,
+        "verifier_detail": "each tag must appear exactly once"
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.1,
+        "canonical_status": "format_error",
+        "scalar_reward": 0.1,
+        "reward_policy_version": "shaped_v2_staged",
+        "reward_policy_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+        "reward_component_weights": {
+          "answer_block": 0.05,
+          "strict_protocol": 0.05,
+          "valid_expression": 0.05,
+          "exact_number_usage": 0.05,
+          "correctness": 0.8
+        },
+        "answer_block_component": 0.05,
+        "strict_protocol_component": 0.0,
+        "valid_expression_component": 0.05,
+        "exact_number_usage_component": 0.0,
+        "correctness_component": 0.0,
+        "verifier_detail": "each tag must appear exactly once"
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.05,
+        "canonical_status": "format_error",
+        "scalar_reward": 0.05,
+        "reward_policy_version": "shaped_v2_staged",
+        "reward_policy_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+        "reward_component_weights": {
+          "answer_block": 0.05,
+          "strict_protocol": 0.05,
+          "valid_expression": 0.05,
+          "exact_number_usage": 0.05,
+          "correctness": 0.8
+        },
+        "answer_block_component": 0.05,
+        "strict_protocol_component": 0.0,
+        "valid_expression_component": 0.0,
+        "exact_number_usage_component": 0.0,
+        "correctness_component": 0.0,
+        "verifier_detail": "each tag must appear exactly once"
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.1,
+        "canonical_status": "format_error",
+        "scalar_reward": 0.1,
+        "reward_policy_version": "shaped_v2_staged",
+        "reward_policy_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+        "reward_component_weights": {
+          "answer_block": 0.05,
+          "strict_protocol": 0.05,
+          "valid_expression": 0.05,
+          "exact_number_usage": 0.05,
+          "correctness": 0.8
+        },
+        "answer_block_component": 0.05,
+        "strict_protocol_component": 0.0,
+        "valid_expression_component": 0.05,
+        "exact_number_usage_component": 0.0,
+        "correctness_component": 0.0,
+        "verifier_detail": "each tag must appear exactly once"
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.05,
+        "canonical_status": "format_error",
+        "scalar_reward": 0.05,
+        "reward_policy_version": "shaped_v2_staged",
+        "reward_policy_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+        "reward_component_weights": {
+          "answer_block": 0.05,
+          "strict_protocol": 0.05,
+          "valid_expression": 0.05,
+          "exact_number_usage": 0.05,
+          "correctness": 0.8
+        },
+        "answer_block_component": 0.05,
+        "strict_protocol_component": 0.0,
+        "valid_expression_component": 0.0,
+        "exact_number_usage_component": 0.0,
+        "correctness_component": 0.0,
+        "verifier_detail": "each tag must appear exactly once"
+      }
+    ]
+  },
+  "completion_evidence_count": 8,
+  "prompt_version": "prompt_v1_strict_concise",
+  "prompt_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+  "renderer_version": "math_rlvr.prompt.chat_template.v1",
+  "reward_policy_version": "shaped_v2_staged",
+  "reward_component_weights": {
+    "answer_block": 0.05,
+    "strict_protocol": 0.05,
+    "valid_expression": 0.05,
+    "exact_number_usage": 0.05,
+    "correctness": 0.8
+  },
+  "reward_policy_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+  "duplicate_checkpoint_count": 0
+}

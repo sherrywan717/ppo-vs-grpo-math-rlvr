@@ -220,3 +220,14 @@ This file records operational history and pitfalls that should survive context c
 - This is a publicly recorded post-smoke intervention. Future fair PPO/GRPO smoke
   comparisons must both use the frozen new version/hash. It does not authorize GPU
   GRPO, and PPO remains unauthorized.
+
+
+## Staged-Reward GRPO Single-Update Smoke
+
+- Run: `grpo_single_update_qwen25_05b_20260713T122258Z`; invoked once with the fixed offline Qwen 0.5B snapshot, `prompt_v1_strict_concise`, and `shaped_v2_staged`. No retry or PPO occurred.
+- Infrastructure passed: 8 completions, 276 exact generated tokens, 4 microsteps, and 1 optimizer/global step. The unique adapter-only `checkpoint-1`, counters, artifacts, and post-exit GPU release all passed.
+- Reward integration passed. Every completion records the unchanged canonical status, scalar reward, policy version/hash, five shaped components, and verifier detail from the online text.
+- Learning signal passed. Group rewards were `[0.10, 0.10, 0.15, 0.00]` (population variance `0.00296875`) and `[0.10, 0.05, 0.10, 0.05]` (variance `0.000625`); both groups were nonzero-variance. Loss `0.6453`, grad norm `4.648100852966309`, entropy `0.5070152431726456`, and learning rate `1e-5` were finite. Frozen beta 0 means KL is correctly unavailable/null.
+- All eight canonical statuses remained `FORMAT_ERROR`; strict parser/verifier and formal metrics did not change. This confirms integration and a one-update gradient path, not task learning or algorithm superiority.
+- PyTorch worker/pre-exit current memory was 64 MiB allocated / 108 MiB reserved; post-process `nvidia-smi` was 0 MiB with no compute process, so record only `worker_allocator_nonzero_before_process_exit`.
+- PPO is still unauthorized. Stop after evidence, backup, and Git-safe reporting.

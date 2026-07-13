@@ -1,0 +1,2 @@
+step,loss,grad_norm,entropy,learning_rate,kl_available,kl
+1,0.6453,4.648100852966309,0.5070152431726456,1e-05,False,

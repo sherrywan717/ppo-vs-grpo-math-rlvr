@@ -143,3 +143,12 @@ The immutable eight completions from
 variance in both groups while retaining eight canonical `FORMAT_ERROR` statuses.
 This is a disclosed post-smoke intervention, not a retroactive result. A new GPU GRPO
 single update requires separate authorization; PPO remains unauthorized.
+
+
+### Staged-reward GRPO single-update result
+
+The separately authorized run `grpo_single_update_qwen25_05b_20260713T122258Z` executed exactly once from commit `4f33a76449945e34e5ff4798a884208050fc562a` with frozen `prompt_v1_strict_concise` and `shaped_v2_staged`. Infrastructure, reward integration, and learning-signal smoke gates all passed: two prompts, eight online completions, 276 generated tokens, four microsteps, and exactly one optimizer/global step.
+
+Online group rewards were `[0.10, 0.10, 0.15, 0.00]` and `[0.10, 0.05, 0.10, 0.05]`, with population variances `0.00296875` and `0.000625`; zero-advantage groups were 0. Loss was `0.6453`, finite nonzero grad norm was `4.648100852966309`, and entropy was `0.5070152431726456`. All eight canonical statuses remained `FORMAT_ERROR`, proving that the staged scalar supplied gradient signal without changing strict evaluation semantics. This is a single-update diagnostic, not evidence that the model learned Countdown and not a fair algorithm comparison with the pre-intervention run.
+
+The sole `checkpoint-1` passed adapter-only inventory. PyTorch pre-exit allocator residue (64 MiB allocated / 108 MiB reserved) is a warning; after process exit, `nvidia-smi` reported 0 MiB and no compute process. PPO remains unauthorized and must not start automatically.

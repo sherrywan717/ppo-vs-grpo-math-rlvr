@@ -1,0 +1,9 @@
+completion_index,problem_id,generation_index,exact_token_count,canonical_status,scalar_reward,answer_block_component,strict_protocol_component,valid_expression_component,exact_number_usage_component,correctness_component,verifier_detail
+0,countdown:train:0,0,17,format_error,0.1,0.05,0.0,0.05,0.0,0.0,each tag must appear exactly once
+1,countdown:train:0,1,16,format_error,0.1,0.05,0.0,0.05,0.0,0.0,each tag must appear exactly once
+2,countdown:train:0,2,20,format_error,0.15,0.05,0.0,0.05,0.05,0.0,each tag must appear exactly once
+3,countdown:train:0,3,128,format_error,0.0,0.0,0.0,0.0,0.0,0.0,each tag must appear exactly once
+4,countdown:train:1,0,16,format_error,0.1,0.05,0.0,0.05,0.0,0.0,each tag must appear exactly once
+5,countdown:train:1,1,22,format_error,0.05,0.05,0.0,0.0,0.0,0.0,each tag must appear exactly once
+6,countdown:train:1,2,16,format_error,0.1,0.05,0.0,0.05,0.0,0.0,each tag must appear exactly once
+7,countdown:train:1,3,41,format_error,0.05,0.05,0.0,0.0,0.0,0.0,each tag must appear exactly once
