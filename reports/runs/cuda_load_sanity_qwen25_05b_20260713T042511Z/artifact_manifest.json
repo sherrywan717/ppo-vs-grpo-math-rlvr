@@ -1,0 +1,75 @@
+{
+  "run_id": "cuda_load_sanity_qwen25_05b_20260713T042511Z",
+  "files": [
+    {
+      "path": "environment.json",
+      "size": 350,
+      "sha256": "e98738309c8f167cb788011a261268898683ac695e07bb6e589ca509980ad0eb"
+    },
+    {
+      "path": "environment.txt",
+      "size": 154,
+      "sha256": "3c631223d01a2c2806d99d83ffc6c66ebfe0d853a5b0d2334793596c068727e1"
+    },
+    {
+      "path": "figures/gpu_memory.png",
+      "size": 50080,
+      "sha256": "a1987ded2c422c646dfade15f06e09c9321c58a06bf0dcdb04231d9b54955669"
+    },
+    {
+      "path": "figures/gpu_memory.svg",
+      "size": 36360,
+      "sha256": "c3f6dca45522e7fdb9c1ea2e6dcd684e64c96683a5e6eac095582cd222c0e9f3"
+    },
+    {
+      "path": "figures/gpu_utilization.png",
+      "size": 55093,
+      "sha256": "38ba860d6ef6c5d0d0dc14336ef9a861056f4541f60dad7b6d755e48a00389dd"
+    },
+    {
+      "path": "figures/gpu_utilization.svg",
+      "size": 38232,
+      "sha256": "37662e08ffaab9c8c859480385fce6e9105470ebd77caf44b7fbe40fce877b3c"
+    },
+    {
+      "path": "gpu_metrics.csv",
+      "size": 192,
+      "sha256": "19005cebddf67b8474c7273cfa6b5305985c971b25a6c7597a67c41161a95313"
+    },
+    {
+      "path": "metrics.csv",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "report.md",
+      "size": 943,
+      "sha256": "65cd70e4574e5d5a0cc3dab4060def2d19eb484645663402e198435ee0f718f8"
+    },
+    {
+      "path": "resolved_config.yaml",
+      "size": 604,
+      "sha256": "a50f9595f1d03d248c14e7215f7f9deb1b7a5ed196d7adc53cbdb50ae4a9cdd7"
+    },
+    {
+      "path": "resource_metrics.csv",
+      "size": 192,
+      "sha256": "19005cebddf67b8474c7273cfa6b5305985c971b25a6c7597a67c41161a95313"
+    },
+    {
+      "path": "resource_metrics.jsonl",
+      "size": 235,
+      "sha256": "6f0dbe79e1513271d324d83f2e110cf9c67d54d007e52cf1732b13972aedec38"
+    },
+    {
+      "path": "samples.jsonl.gz",
+      "size": 20,
+      "sha256": "d6d58b65142e6003f7c0c0de1cb346c5d7eafb155bfa6abba4b95d8a34c532c3"
+    },
+    {
+      "path": "summary.json",
+      "size": 1417,
+      "sha256": "2ee433000fb36cbf22c0f0a4ebacfef23c8727637e66b84b42a7abade028bbe3"
+    }
+  ]
+}

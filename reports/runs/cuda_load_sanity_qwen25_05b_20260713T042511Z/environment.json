@@ -1,0 +1,13 @@
+{
+  "python": "3.12.3",
+  "pytorch": "2.8.0+cu128",
+  "pytorch_cuda": "12.8",
+  "cuda_available": true,
+  "gpu_index": "0",
+  "gpu_name": "NVIDIA H800 PCIe",
+  "driver_version": "590.48.01",
+  "gpu_memory_total_mib": 81559.0,
+  "gpu_memory_before_mib": 0.0,
+  "git_commit": "5a10cbae2abcb066b423b10ff9d327ad1483b75c",
+  "branch": "pivot/math-rlvr"
+}

@@ -1,0 +1,21 @@
+batch_size: 1
+checkpoint: none
+completions_per_prompt: 0
+data_samples: 2
+device: cuda:0
+dtype: bfloat16
+gpu_hour_price_cny: 8.88
+gradient_accumulation: 1
+local_files_only: true
+lora: none; base BF16 read-only load
+max_completion_tokens: 0
+max_prompt_tokens: 128
+model: Qwen/Qwen2.5-0.5B-Instruct
+plan: A
+prompts: 2
+revision: 7ae557604adf67be50417f59c2c2f167def9a775
+snapshot_path: /root/autodl-tmp/cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775
+total_completions: 0
+total_generation_token_cap: 0
+vram_cap_mib: 2560
+wall_time_cap_seconds: 300

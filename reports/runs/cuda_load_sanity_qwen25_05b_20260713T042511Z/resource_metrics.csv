@@ -1,0 +1,2 @@
+timestamp,gpu_memory_used_mb,gpu_utilization_pct,power_draw_w,temperature_c,process_rss_mb,elapsed_seconds
+2026-07-13T04:25:16.718543+00:00,459.0,3.0,55.86,32.0,843.171875,0.29137076437473297
