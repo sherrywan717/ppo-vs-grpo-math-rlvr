@@ -1,0 +1,12 @@
+{
+  "schema_version": "prompt-ab-evidence-contract-v1",
+  "capabilities": {
+    "paired_artifacts_supported": true,
+    "group_rewards_supported": true,
+    "zero_advantage_groups_supported": true,
+    "allocator_evidence_supported": true,
+    "failure_backup_supported": true,
+    "post_worker_gpu_verification_supported": true,
+    "cross_file_consistency_supported": true
+  }
+}

@@ -107,6 +107,15 @@ class FakeBackend:
 
     def close(self):
         self.closed = True
+        return {
+            "available": True,
+            "device_index": 0,
+            "memory_allocated": {"bytes": 0, "mib": 0.0},
+            "memory_reserved": {"bytes": 0, "mib": 0.0},
+            "max_memory_allocated": {"bytes": 1024, "mib": 0.0009765625},
+            "max_memory_reserved": {"bytes": 2048, "mib": 0.001953125},
+            "lifecycle": ["not_started", "active", "finalized"],
+        }
 
 
 class FakeLifecycle:
@@ -127,6 +136,16 @@ class FakeLifecycle:
             "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows)
         )
 
+    def persist_csv(self, name, rows):
+        if not rows:
+            raise RuntimeError("empty CSV")
+        import csv
+
+        with (self.root / name).open("w", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+            writer.writeheader()
+            writer.writerows(rows)
+
     def persist(self, name, payload):
         if self.fail_write and name == "summary.json":
             raise OSError("artifact write failed")
@@ -136,7 +155,8 @@ class FakeLifecycle:
         self.finalized = True
         (self.root / "checksums.sha256").write_text(summary["status"])
 
-    def backup_and_verify(self):
+    def backup_and_verify(self, *, failure=False):
+        self.failure_backup = failure
         if self.fail_backup:
             raise OSError("backup failed")
         self.backed_up = True
@@ -395,7 +415,7 @@ def test_artifact_and_backup_failure_never_succeed(tmp_path):
         )
         result, backend, _ = execute_fake(tmp_path, lifecycle=lifecycle)
         assert result["status"] == "failure"
-        assert result["backed_up"] is False
+        assert result["backed_up"] == (not fail_backup)
         assert backend.closed
 
 

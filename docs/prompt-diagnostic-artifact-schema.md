@@ -53,3 +53,46 @@ primitive JSON, figures labelled `generation-only prompt diagnostic; no training
 checksums, a secret/model/checkpoint scan, and a verified tar.gz plus SHA256. Artifact or
 backup failure leaves status as failure. Full artifacts live only below
 `/root/autodl-tmp/runs/math_rlvr`; Git receives only the bounded report directory.
+
+
+## Paired and group evidence
+
+`paired_comparison.json` and `.csv` contain exactly eight pairs joined only on
+`problem_id`, `generation_index`, and `matched_seed`. Each pair records both rendered
+prompt hashes, completion indices, exact token counts, raw text, RewardStatus/reward,
+format/truncation/expression/number/final flags, plus status transition and reward,
+token, and format deltas. Missing, duplicate, or mismatched pairs fail closed.
+
+`per_problem_rewards.json` preserves four rewards and statuses in generation order for
+each condition/problem. It reports population mean/min/max/std/variance, unique reward
+count, `zero_variance`, and `zero_advantage_group`. A group is zero-advantage exactly
+when all four scalar rewards are identical; global variance is never substituted.
+
+## Capability and consistency gates
+
+`configs/diagnostics/prompt_ab_capabilities.json` uses schema
+`prompt-ab-evidence-contract-v1`. All seven reviewed capability booleans must be true;
+tests independently turn each one off and require a preflight rejection before run ID,
+CUDA, model load, or generation. An independent validator re-reads summary, manifest,
+JSONL, JSON/CSV metrics and pairs, seed map, prompt hashes, resource evidence, backup
+manifest, and checksums. Counts, token totals, RewardStatus totals, ordered group reward
+lists, zero-advantage counts, seeds/pairs, prompt hashes, planned/actual budget, and all
+zero-side-effect counters must agree before success.
+
+## Parent/worker lifecycle
+
+The parent process does not initialize CUDA and starts only a fixed Python worker using
+`multiprocessing` spawn—never `shell=True` or a user command. Inside the worker,
+`CudaAllocatorEvidence` records normalized integer device index, current/peak
+allocated/reserved bytes and MiB, separately from nvidia-smi. The worker finally drops
+generated/model/tokenizer references, runs garbage collection, synchronizes, empties the
+cache, and requires current allocated/reserved to be zero.
+
+After worker exit, the parent proves the PID is gone, absent from nvidia-smi compute
+processes, and device-0 memory is restored to its pre-run baseline. Only then does it
+perform consistency validation, finalization, backup and Git-safe publication.
+
+Runtime failures after run creation are also finalized and backed up with a `-failure`
+archive name and SHA256. A primitive-only minimal failure record prevents recursive
+finalization errors. Static preflight rejection occurs before run creation and therefore
+does not create an empty archive.

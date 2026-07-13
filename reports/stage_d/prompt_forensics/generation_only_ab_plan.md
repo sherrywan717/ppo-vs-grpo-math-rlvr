@@ -27,3 +27,11 @@ no-advantage result, not evidence of learning.
 Expected/worst wall time remains 40/120 seconds. Expected peak/stop-gate VRAM is
 2.5/3.5 GiB. At CNY 8.88/GPU-hour, expected/worst cost is CNY 0.099/CNY 0.296. This plan
 has not been executed and is not a statistically significant experiment.
+
+
+Before any separately authorized execution, the versioned evidence capability manifest
+must pass all seven fields. A non-CUDA parent spawns one fixed worker; the worker records
+paired and per-problem evidence plus PyTorch allocator cleanup, and the parent verifies
+process exit/nvidia-smi absence/baseline memory restoration before cross-file validation,
+success-or-failure backup, and publication. This adds evidence gates only: prompts,
+problems, seeds 42–49, sampling, 16/2,048 budget, 120 seconds, and 3.5 GiB remain frozen.

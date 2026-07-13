@@ -20,6 +20,12 @@ from typing import Any, Protocol
 
 from math_rlvr.config import load_config
 from math_rlvr.dataset import MathProblem, load_manifest
+from math_rlvr.evaluation.prompt_ab_evidence import (
+    EvidenceContractError,
+    build_group_reward_evidence,
+    build_paired_comparison,
+    load_capability_manifest,
+)
 from math_rlvr.parser import ParsedCompletion, parse_completion
 from math_rlvr.prompt import (
     PROMPT_V0_GRPO_SMOKE,
@@ -36,6 +42,7 @@ from math_rlvr.training.model_source import (
 from math_rlvr.verifier import MathVerifier
 
 DIAGNOSTIC_CONFIG = Path("configs/diagnostics/prompt_ab.yaml")
+CAPABILITY_MANIFEST = Path("configs/diagnostics/prompt_ab_capabilities.json")
 CONDITION_ORDER = ("v0", "v1")
 PROMPT_VERSIONS = (PROMPT_V0_GRPO_SMOKE, PROMPT_V1_STRICT_CONCISE)
 
@@ -217,7 +224,7 @@ class GenerationBackend(Protocol):
 
     def peak_vram_gib(self) -> float | None: ...
 
-    def close(self) -> None: ...
+    def close(self) -> dict[str, Any] | None: ...
 
 
 class ArtifactLifecycle(Protocol):
@@ -227,11 +234,13 @@ class ArtifactLifecycle(Protocol):
 
     def persist_jsonl(self, name: str, rows: list[dict]) -> None: ...
 
+    def persist_csv(self, name: str, rows: list[dict]) -> None: ...
+
     def persist(self, name: str, payload: Any) -> None: ...
 
     def finalize(self, summary: dict) -> None: ...
 
-    def backup_and_verify(self) -> None: ...
+    def backup_and_verify(self, *, failure: bool = False) -> None: ...
 
     def publish_git_safe(self) -> None: ...
 
@@ -374,6 +383,7 @@ def matched_seed_map(config: dict, problems: list[MathProblem]) -> list[dict[str
                         "problem_id": problem.problem_id,
                         "generation_index": generation_index,
                         "seed": seed,
+                        "matched_seed": seed,
                         "python_seed": seed,
                         "torch_cpu_seed": seed,
                         "torch_cuda_seed": seed,
@@ -480,6 +490,8 @@ def condition_metrics(rows: list[dict]) -> dict[str, dict[str, Any]]:
             "reward_variance": statistics.pvariance(rewards),
             "group_reward_variance": group_variances,
             "nonzero_advantage_potential_groups": sum(v > 0 for v in group_variances.values()),
+            "zero_advantage_group_count": sum(len(set(v)) == 1 for v in grouped.values()),
+            "nonzero_variance_group_count": sum(len(set(v)) > 1 for v in grouped.values()),
             "completion_token_mean": statistics.mean(lengths),
             "completion_token_median": statistics.median(lengths),
             "completion_token_max": max(lengths),
@@ -498,6 +510,13 @@ def candidate_qualification(metrics: dict[str, dict[str, Any]]) -> dict[str, Any
     }
     wrong_only = set(v1["reward_status_counts"]) == {RewardStatus.WRONG_ANSWER.value}
     return {
+        "v1_format_improved": checks["complete_envelope_rate_higher_than_v0"],
+        "v1_has_complete_envelope": checks["at_least_one_complete_envelope"],
+        "v1_no_truncation_regression": checks["truncation_rate_not_increased"],
+        "v1_has_nonzero_group_reward_variance": checks[
+            "at_least_one_nonzero_variance_group"
+        ],
+        "v1_eligible_for_grpo_review": all(checks.values()),
         "eligible_for_later_grpo_review": all(checks.values()),
         "checks": checks,
         "all_wrong_answer_warning": wrong_only,
@@ -527,6 +546,7 @@ def run_diagnostic(
     *,
     clock: Callable[[], float] = time.monotonic,
     completion_analyzer=completion_fields,
+    defer_parent_finalization: bool = False,
 ) -> dict[str, Any]:
     problems = select_problems(config)
     seeds = matched_seed_map(config, problems)
@@ -547,6 +567,18 @@ def run_diagnostic(
     )
     rows: list[dict[str, Any]] = []
     result: dict[str, Any]
+    backend_closed = False
+
+    def close_backend() -> dict[str, Any]:
+        nonlocal backend_closed
+        if backend_closed:
+            return {}
+        backend_closed = True
+        return backend.close() or {
+            "available": False,
+            "unavailable_reason": "backend did not expose allocator evidence",
+        }
+
     try:
         lifecycle.start(config, problems, seeds)
         backend.prepare()
@@ -576,6 +608,7 @@ def run_diagnostic(
             forensic, _, _ = completion_analyzer(problem, generated.decoded_text)
             record = {
                 **seed_row,
+                "completion_index": len(rows),
                 "condition_order": list(CONDITION_ORDER),
                 "prompt_version": prompt_version,
                 "prompt_hash": problem.content_hash,
@@ -596,6 +629,9 @@ def run_diagnostic(
         guard.assert_success()
         counters = _assert_no_training_effects(backend)
         metrics = condition_metrics(rows)
+        pairs = build_paired_comparison(rows)
+        group_rewards = build_group_reward_evidence(rows)
+        allocator = close_backend()
         summary = {
             "status": "pending_backup",
             "diagnostic_only": True,
@@ -603,6 +639,8 @@ def run_diagnostic(
             "budget": guard.snapshot(),
             "safety_counters": counters,
             "condition_metrics": metrics,
+            "per_problem_rewards": group_rewards,
+            "paired_row_count": len(pairs),
             "candidate_qualification": candidate_qualification(metrics),
             "condition_order": list(CONDITION_ORDER),
             "seed_map": seeds,
@@ -611,9 +649,18 @@ def run_diagnostic(
         }
         lifecycle.persist_jsonl("completions.jsonl", rows)
         lifecycle.persist("per_condition_metrics.json", metrics)
+        lifecycle.persist("paired_comparison.json", pairs)
+        lifecycle.persist_csv("paired_comparison.csv", pairs)
+        lifecycle.persist("per_problem_rewards.json", group_rewards)
+        lifecycle.persist("pytorch_allocator.json", allocator)
         lifecycle.persist("summary.json", summary)
         lifecycle.finalize(summary)
-        lifecycle.backup_and_verify()
+        if defer_parent_finalization:
+            summary["status"] = "worker_complete"
+            lifecycle.persist("summary.json", summary)
+            lifecycle.finalize(summary)
+            return summary
+        lifecycle.backup_and_verify(failure=False)
         summary["backed_up"] = lifecycle.backed_up
         if not lifecycle.backed_up:
             raise RuntimeError("verified backup was not recorded")
@@ -623,6 +670,16 @@ def run_diagnostic(
         lifecycle.publish_git_safe()
         result = summary
     except Exception as exc:
+        close_error = None
+        try:
+            allocator = close_backend()
+        except Exception as cleanup_exc:
+            close_error = f"{type(cleanup_exc).__name__}: {cleanup_exc}"
+            allocator = {
+                "available": False,
+                "failure_phase": "backend_cleanup",
+                "failure_reason": close_error,
+            }
         result = {
             "status": "failure",
             "reason": f"{type(exc).__name__}: {exc}",
@@ -631,15 +688,41 @@ def run_diagnostic(
             "budget": guard.snapshot(),
             "completion_count": len(rows),
             "backed_up": False,
+            "cleanup_error": close_error,
         }
         try:
             lifecycle.persist_jsonl("completions.jsonl", rows)
+            lifecycle.persist("pytorch_allocator.json", allocator)
             lifecycle.persist("failure_report.json", result)
+            lifecycle.persist("summary.json", result)
             lifecycle.finalize(result)
-        except Exception:
-            pass
+        except Exception as final_exc:
+            result["finalization_error"] = f"{type(final_exc).__name__}: {final_exc}"
+            try:
+                lifecycle.persist(
+                    "minimal_failure_record.json",
+                    {
+                        "status": "failure",
+                        "failure_phase": "artifact_finalization",
+                        "exception_type": type(final_exc).__name__,
+                        "reason": str(final_exc),
+                    },
+                )
+            except Exception:
+                pass
+        if defer_parent_finalization:
+            return result
+        try:
+            lifecycle.backup_and_verify(failure=True)
+            result["backed_up"] = lifecycle.backed_up
+            lifecycle.persist("summary.json", result)
+            lifecycle.finalize(result)
+        except Exception as backup_exc:
+            result["backup_error"] = f"{type(backup_exc).__name__}: {backup_exc}"
+            result["backed_up"] = lifecycle.backed_up
     finally:
-        backend.close()
+        if not backend_closed:
+            close_backend()
     return result
 
 
@@ -650,6 +733,7 @@ def main(
     git_probe=require_clean_git,
     snapshot_probe=require_local_snapshot,
     offline_probe=require_offline_env,
+    capability_probe=lambda: load_capability_manifest(CAPABILITY_MANIFEST),
 ) -> int:
     args = parse_args(argv)
     config = load_config(args.config)
@@ -661,15 +745,19 @@ def main(
         return 0
     if not (args.generate_only and args.confirm_prompt_diagnostic):
         raise DiagnosticAuthorizationError("both generation-only confirmations are required")
+    try:
+        capability_probe()
+    except EvidenceContractError as exc:
+        raise DiagnosticAuthorizationError(str(exc)) from exc
     git_info = git_probe()
     offline_probe()
     source = snapshot_probe()
     if source is None:
         raise DiagnosticAuthorizationError("validated local snapshot is required")
     if execute_fn is None:
-        from math_rlvr.evaluation.prompt_ab_runtime import execute_real_diagnostic
+        from math_rlvr.evaluation.prompt_ab_supervisor import execute_supervised_diagnostic
 
-        execute_fn = execute_real_diagnostic
+        execute_fn = execute_supervised_diagnostic
     result = execute_fn(config=config, source=source, git_info=git_info)
     if result.get("status") != "success":
         raise RuntimeError(result.get("reason", "prompt A/B diagnostic failed"))

@@ -73,4 +73,9 @@ and automatic v1 activation are fail-closed.
 
 The candidate decision is diagnostic only: v1 must improve complete-envelope rate, yield
 at least one envelope, avoid higher truncation, and create nonzero within-problem reward
-variance before a separately authorized GRPO review. See
+
+`docs/prompt-diagnostic-artifact-schema.md`. A versioned capability manifest must prove
+paired artifacts, per-problem rewards, allocator evidence, failure backup, post-worker
+GPU verification, and cross-file consistency before the fixed worker may start. The
+non-CUDA parent launches one fixed spawned worker, then verifies PID exit, absence from
+the nvidia-smi compute list, and restoration to baseline before final backup/publication.

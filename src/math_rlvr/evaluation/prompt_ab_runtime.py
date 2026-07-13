@@ -7,6 +7,7 @@ backward, adapter, or checkpoint path.
 from __future__ import annotations
 
 import csv
+import gc
 import hashlib
 import json
 import os
@@ -26,8 +27,10 @@ from math_rlvr.evaluation.prompt_ab import (
     run_diagnostic,
     split_completion_ids,
 )
+from math_rlvr.evaluation.prompt_ab_evidence import validate_cross_file_consistency
 from math_rlvr.prompt import render_prompt_version
 from math_rlvr.training.model_source import ValidatedModelSource
+from math_rlvr.training.resource_evidence import CudaAllocatorEvidence
 
 RUN_ROOT = Path("/root/autodl-tmp/runs/math_rlvr")
 REPORT_ROOT = Path("reports/runs")
@@ -50,6 +53,10 @@ class RealGenerationBackend:
         self.device = None
         self._peak_vram_gib = 0.0
         self.rng_records = []
+        self.allocator = None
+        self.eval_called = False
+        self.inference_mode_used = False
+        self.parameters_frozen = False
 
     def prepare(self):
         import random
@@ -61,6 +68,8 @@ class RealGenerationBackend:
             raise RuntimeError("CUDA device 0 unavailable")
         self.torch = torch
         self.device = torch.device("cuda:0")
+        self.allocator = CudaAllocatorEvidence(torch.cuda, device=0)
+        self.allocator.start()
         self.tokenizer = AutoTokenizer.from_pretrained(
             str(self.source.snapshot_path), local_files_only=True
         )
@@ -145,8 +154,31 @@ class RealGenerationBackend:
         if self.tokenizer is not None:
             del self.tokenizer
             self.tokenizer = None
-        if self.torch is not None and self.torch.cuda.is_initialized():
-            self.torch.cuda.empty_cache()
+        gc.collect()
+        if self.torch is None or not self.torch.cuda.is_initialized():
+            return {
+                "available": False,
+                "lifecycle": ["not_started"],
+                "unavailable_reason": "CUDA allocator was not initialized",
+            }
+        index = self.allocator.device_index
+        self.torch.cuda.synchronize(index)
+        self.torch.cuda.empty_cache()
+        self.torch.cuda.synchronize(index)
+        evidence = self.allocator.finalize()
+        current_allocated = evidence["memory_allocated"]["bytes"]
+        current_reserved = evidence["memory_reserved"]["bytes"]
+        evidence["lifecycle"] = ["not_started", "active", "finalized"]
+        evidence["worker_cleanup"] = {
+            "gc_collect_called": True,
+            "empty_cache_called": True,
+            "synchronized": True,
+            "current_allocated_bytes": current_allocated,
+            "current_reserved_bytes": current_reserved,
+        }
+        if current_allocated != 0 or current_reserved != 0:
+            raise RuntimeError("worker CUDA allocator memory was not fully released")
+        return evidence
 
 
 class PromptABArtifacts:
@@ -184,13 +216,13 @@ class PromptABArtifacts:
                 "git": self.git_info,
                 "problem_ids": [problem.problem_id for problem in problems],
             },
-            self._json(
-                self.run_dir / "prompt_hashes.json",
-                [
-                    {"problem_id": problem.problem_id, "prompt_hash": problem.content_hash}
-                    for problem in problems
-                ],
-            ),
+        )
+        self._json(
+            self.run_dir / "prompt_hashes.json",
+            [
+                {"problem_id": problem.problem_id, "prompt_hash": problem.content_hash}
+                for problem in problems
+            ],
         )
         self._json(self.run_dir / "seed_map.json", seed_map)
         self._json(
@@ -208,6 +240,14 @@ class PromptABArtifacts:
         (self.run_dir / name).write_text(
             "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows)
         )
+
+    def persist_csv(self, name, rows):
+        if not rows:
+            raise RuntimeError("cannot persist empty CSV evidence")
+        with (self.run_dir / name).open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+            writer.writeheader()
+            writer.writerows(rows)
 
     def persist(self, name, payload):
         self._json(self.run_dir / name, payload)
@@ -227,6 +267,8 @@ class PromptABArtifacts:
             "reward_mean",
             "reward_variance",
             "nonzero_advantage_potential_groups",
+            "zero_advantage_group_count",
+            "nonzero_variance_group_count",
             "completion_token_mean",
         ]
         with (self.run_dir / "per_condition_metrics.csv").open("w", newline="") as handle:
@@ -315,6 +357,18 @@ class PromptABArtifacts:
         trunc.set_ylabel("truncation rate")
         self._save_plot(plt, fig, "completion_length_truncation")
 
+        pairs_path = self.run_dir / "paired_comparison.json"
+        if pairs_path.is_file():
+            pairs = json.loads(pairs_path.read_text(encoding="utf-8"))
+            transitions = {}
+            for pair in pairs:
+                key = pair["status_transition"]
+                transitions[key] = transitions.get(key, 0) + 1
+            fig, ax = plt.subplots(figsize=(8, 4))
+            ax.bar(list(transitions), list(transitions.values()))
+            ax.tick_params(axis="x", rotation=20)
+            self._save_plot(plt, fig, "paired_status_transition")
+
         fig, memory_ax = plt.subplots(figsize=(7, 4))
         elapsed = [row["elapsed_seconds"] for row in self.monitor.rows]
         memory = [row["gpu_memory_used_mb"] or 0 for row in self.monitor.rows]
@@ -341,6 +395,14 @@ class PromptABArtifacts:
         ax.tick_params(axis="x", rotation=15)
         self._save_plot(plt, fig, "planned_vs_actual_budget")
 
+    def refresh_checksums(self):
+        lines = []
+        for path in sorted(self.run_dir.rglob("*")):
+            if path.is_file() and path.name != "checksums.sha256":
+                digest = hashlib.sha256(path.read_bytes()).hexdigest()
+                lines.append(f"{digest}  {path.relative_to(self.run_dir)}")
+        (self.run_dir / "checksums.sha256").write_text("\n".join(lines) + "\n")
+
     def finalize(self, summary):
         self.monitor.stop()
         self.summary = summary
@@ -357,7 +419,16 @@ class PromptABArtifacts:
         )
         self._json(
             self.run_dir / "run_manifest.json",
-            {"run_id": self.run_id, "status": summary["status"], "training": False},
+            {
+                "run_id": self.run_id,
+                "status": summary["status"],
+                "training": False,
+                "completion_count": summary.get("completion_count", 0),
+                "total_generated_tokens": summary.get("budget", {}).get(
+                    "total_generated_tokens", 0
+                ),
+                "safety_counters": summary.get("safety_counters", {}),
+            },
         )
         lines = []
         for path in sorted(self.run_dir.rglob("*")):
@@ -366,7 +437,7 @@ class PromptABArtifacts:
                 lines.append(f"{digest}  {path.relative_to(self.run_dir)}")
         (self.run_dir / "checksums.sha256").write_text("\n".join(lines) + "\n")
 
-    def backup_and_verify(self):
+    def backup_and_verify(self, *, failure=False):
         if list(self.run_dir.rglob("*.safetensors")) or list(self.run_dir.rglob("checkpoint-*")):
             raise RuntimeError("model/checkpoint artifact forbidden")
         for path in self.run_dir.rglob("*"):
@@ -379,7 +450,8 @@ class PromptABArtifacts:
                 if SECRET_PATTERN.search(text):
                     raise RuntimeError(f"secret-like artifact rejected: {path.name}")
         BACKUP_ROOT.mkdir(parents=True, exist_ok=True)
-        archive = BACKUP_ROOT / f"{self.run_id}.tar.gz"
+        suffix = "-failure" if failure else ""
+        archive = BACKUP_ROOT / f"{self.run_id}{suffix}.tar.gz"
         with tarfile.open(archive, "w:gz") as handle:
             handle.add(self.run_dir, arcname=self.run_id)
         digest = hashlib.sha256(archive.read_bytes()).hexdigest()
@@ -393,6 +465,16 @@ class PromptABArtifacts:
             raise RuntimeError("backup content validation failed")
         if hashlib.sha256(archive.read_bytes()).hexdigest() != digest:
             raise RuntimeError("backup checksum verification failed")
+        self._json(
+            self.run_dir / "backup_manifest.json",
+            {
+                "archive": str(archive),
+                "sha256": digest,
+                "verified": True,
+                "failure_archive": failure,
+                "member_count": len(names),
+            },
+        )
         self.backed_up = True
 
     def publish_git_safe(self):
@@ -421,3 +503,101 @@ def execute_real_diagnostic(*, config, source, git_info):
     finally:
         signal.setitimer(signal.ITIMER_REAL, 0)
         signal.signal(signal.SIGALRM, previous)
+
+
+def execute_worker_diagnostic(*, config, source, git_info):
+    """Execute once in the spawned CUDA worker and defer backup to its parent."""
+    if not isinstance(source, ValidatedModelSource):
+        raise RuntimeError("real diagnostic requires ValidatedModelSource")
+    artifacts = PromptABArtifacts(config, git_info)
+
+    def timeout_handler(_signum, _frame):
+        raise TimeoutError("generation diagnostic exceeded hard wall-time limit")
+
+    previous = signal.signal(signal.SIGALRM, timeout_handler)
+    signal.setitimer(signal.ITIMER_REAL, config["budget"]["max_wall_time_seconds"])
+    try:
+        result = run_diagnostic(
+            config,
+            RealGenerationBackend(source, config),
+            artifacts,
+            defer_parent_finalization=True,
+        )
+        return {"run_id": artifacts.run_id, "result": result}
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous)
+
+
+def finalize_parent_diagnostic(*, payload, post_worker, config, git_info):
+    """Finalize, verify, back up and publish only after the worker process exits."""
+    result = payload.get("result", {})
+    run_id = payload.get("run_id")
+    if not run_id:
+        return result
+    artifacts = PromptABArtifacts(config, git_info)
+    artifacts.run_id = run_id
+    artifacts.run_dir = RUN_ROOT / run_id
+    artifacts.report_dir = REPORT_ROOT / run_id
+    artifacts.summary = result
+    artifacts._json(artifacts.run_dir / "post_worker_gpu_verification.json", post_worker)
+    failure = result.get("status") != "worker_complete"
+    try:
+        result["status"] = "failure" if failure else "pending_backup"
+        result["post_worker_gpu_verification"] = post_worker
+        artifacts._json(artifacts.run_dir / "summary.json", result)
+        artifacts._json(
+            artifacts.run_dir / "run_manifest.json",
+            {
+                "run_id": run_id,
+                "status": result["status"],
+                "training": False,
+                "completion_count": result.get("completion_count", 0),
+                "total_generated_tokens": result.get("budget", {}).get("total_generated_tokens", 0),
+                "safety_counters": result.get("safety_counters", {}),
+            },
+        )
+        artifacts.refresh_checksums()
+        artifacts.backup_and_verify(failure=failure)
+        artifacts.refresh_checksums()
+        if failure:
+            result["backed_up"] = artifacts.backed_up
+            artifacts._json(artifacts.run_dir / "summary.json", result)
+            artifacts.refresh_checksums()
+            artifacts.publish_git_safe()
+            return result
+        consistency = validate_cross_file_consistency(artifacts.run_dir, require_backup=True)
+        result.update(
+            {
+                "status": "success",
+                "backed_up": True,
+                "cross_file_consistency": consistency,
+            }
+        )
+        artifacts._json(artifacts.run_dir / "summary.json", result)
+        artifacts._json(
+            artifacts.run_dir / "run_manifest.json",
+            {
+                "run_id": run_id,
+                "status": "success",
+                "training": False,
+                "completion_count": 16,
+                "total_generated_tokens": result["budget"]["total_generated_tokens"],
+                "safety_counters": result["safety_counters"],
+            },
+        )
+        artifacts.refresh_checksums()
+        artifacts.publish_git_safe()
+        return result
+    except Exception as exc:
+        result.update(
+            {
+                "status": "failure",
+                "reason": f"{type(exc).__name__}: {exc}",
+                "backed_up": artifacts.backed_up,
+            }
+        )
+        artifacts._json(artifacts.run_dir / "failure_report.json", result)
+        artifacts._json(artifacts.run_dir / "summary.json", result)
+        artifacts.refresh_checksums()
+        return result
