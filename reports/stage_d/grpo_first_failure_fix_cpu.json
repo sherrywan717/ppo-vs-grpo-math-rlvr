@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "scope": "CPU-only first GRPO failure repair",
+  "baseline_commit": "ebc926c432d6778c3b057a0b7b518f7f2eaea5ed",
+  "snapshot": {
+    "repo_id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "path": "/root/autodl-tmp/cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots/7ae557604adf67be50417f59c2c2f167def9a775",
+    "local_files_only": true,
+    "offline_preflight": "passed",
+    "model_type": "qwen2",
+    "architecture": "Qwen2ForCausalLM"
+  },
+  "gates": {
+    "compileall": "passed",
+    "ruff": "passed",
+    "pytest": {
+      "status": "passed",
+      "count": 81
+    },
+    "check_env": "passed",
+    "manifest_validation": "passed",
+    "grpo_dry_run": "passed",
+    "ppo_dry_run": "passed",
+    "fake_guarded_execute": "passed"
+  },
+  "side_effects": {
+    "cuda_initialized": false,
+    "real_model_loads": 0,
+    "real_completions": 0,
+    "real_train_calls": 0,
+    "real_optimizer_steps": 0,
+    "network_access": false
+  },
+  "frozen_config_sha256": {
+    "grpo": "3e6ea0f568c7d946a3023eb14b67988751e37b1cb692b52018faa9dbb622a398",
+    "ppo": "1db287f772f11da9fb6e69a304857b0055dde2bb0b74baec3bfb07d0d7f0b820",
+    "unchanged_from_baseline": true
+  }
+}

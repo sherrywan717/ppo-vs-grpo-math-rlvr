@@ -42,7 +42,7 @@ class Lifecycle:
     def persist(self, name, payload):
         if self.fail_write and name == "summary.json":
             raise OSError("artifact write failed")
-        (self.root / name).write_text(json.dumps(payload, default=str))
+        (self.root / name).write_text(json.dumps(payload))
 
     def finalize(self, summary):
         (self.root / "checksums.sha256").write_text("verified")
@@ -256,3 +256,73 @@ def test_trl_shim_exact_fields_shapes_and_version():
     with pytest.raises(TRLContractError):
         exact_completion_counts({"completion_ids": ids, "completion_mask": mask[:, 0]})
     assert torch.cuda.is_initialized() is False
+
+
+def test_budget_snapshot_is_primitive_only_with_fake_clock():
+    guard = BudgetGuard(8, 1024, 1, 1, 4, 910.0, clock=lambda: 12.5, started_at=10.0)
+    guard.record_generation(2, 20)
+    payload = guard.snapshot()
+    assert json.loads(json.dumps(payload)) == payload
+    assert payload["elapsed_seconds"] == 2.5
+    assert "clock" not in payload
+    assert not contains_callable(payload)
+
+
+def contains_callable(value):
+    if callable(value):
+        return True
+    if isinstance(value, dict):
+        return any(contains_callable(item) for item in value.values())
+    if isinstance(value, list):
+        return any(contains_callable(item) for item in value)
+    return False
+
+
+def test_success_and_failure_finalization_are_json_safe_and_checksum_complete(tmp_path):
+    for name, kwargs, expected in (
+        ("success", {}, "success"),
+        ("failure", {"reward": float("nan")}, "failure"),
+    ):
+        root = tmp_path / name
+        result = run_guarded(
+            load_config("configs/smoke/grpo.yaml"),
+            Backend(checkpoint(tmp_path / f"{name}-checkpoint"), **kwargs),
+            verifier,
+            Lifecycle(root),
+            Monitor(),
+        )
+        assert result["status"] == expected
+        summary = json.loads((root / "summary.json").read_text())
+        assert "clock" not in json.dumps(summary)
+        assert not contains_callable(summary)
+        assert (root / "checksums.sha256").read_text() == "verified"
+
+
+def test_json_safety_rejects_non_finite_and_callable_values():
+    from math_rlvr.training.guarded_grpo import assert_json_safe
+
+    with pytest.raises(TypeError, match="non-finite"):
+        assert_json_safe({"loss": float("nan")})
+    with pytest.raises(TypeError, match="function"):
+        assert_json_safe({"clock": lambda: 0})
+
+
+def test_non_json_metric_fails_closed_with_primitive_fallback(tmp_path):
+    class UnsafeBackend(Backend):
+        def run(self, problems, guard, reward_fn):
+            result = super().run(problems, guard, reward_fn)
+            result["metrics"]["callback"] = lambda: None
+            return result
+
+    root = tmp_path / "run"
+    result = run_guarded(
+        load_config("configs/smoke/grpo.yaml"),
+        UnsafeBackend(checkpoint(tmp_path / "checkpoint")),
+        verifier,
+        Lifecycle(root),
+        Monitor(),
+    )
+    assert result["status"] == "failure"
+    fallback = json.loads((root / "failure_report.json").read_text())
+    assert fallback["phase"] == "artifact_finalization"
+    assert "callable" not in json.dumps(fallback)

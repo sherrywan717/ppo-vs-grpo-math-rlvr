@@ -9,3 +9,7 @@
 - Wall time: 4.940 s; GPU-hours: 0.00137213; cost: ¥0.012184.
 - Checkpoint: none.
 - This is a failed single-update smoke diagnostic, not an experiment result.
+
+## Follow-up
+
+The CPU-only fix is recorded by the commit containing this note with subject `fix: validate pinned snapshot and serialize budget state`. It introduces a canonical pinned-snapshot validator and primitive-only `BudgetGuard.snapshot()`; it does not alter this run's failure status, metrics, or immutable full-run backup.

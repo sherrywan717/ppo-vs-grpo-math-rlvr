@@ -53,3 +53,7 @@ Price: ¥8.88/GPU-hour. Estimates are planning bounds, not measured results.
 ## Required artifacts
 
 Each run saves config.json, summary.json, metrics.csv, gpu_metrics.csv, stdout.log, stderr.log, checksums.sha256, reward/loss/KL/VRAM charts as applicable, and only the stated adapter checkpoint.
+
+### First GRPO attempt follow-up
+
+The first authorized GRPO attempt (`grpo_single_update_qwen25_05b_20260713T050407Z`) failed before generation or training because builder validation compared the resolved local snapshot path with the repository-ID allowlist. Artifact finalization then encountered the BudgetGuard clock callable. The follow-up CPU-only repair keeps every frozen budget unchanged, passes an immutable validated local model source to the builder, and serializes only `BudgetGuard.snapshot()`. A new explicit authorization is still required before rerunning this plan; PPO remains blocked until GRPO succeeds.

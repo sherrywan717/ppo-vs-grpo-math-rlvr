@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from math_rlvr.config import validate_training_config
+from math_rlvr.training.model_source import ValidatedModelSource
 
 
 @dataclass(frozen=True)
@@ -115,6 +116,7 @@ def build_grpo_trainer(
     tokenizer=None,
     trainer_factory=None,
     cpu_only=None,
+    model_source: ValidatedModelSource | None = None,
 ):
     from trl import GRPOTrainer
 
@@ -123,7 +125,8 @@ def build_grpo_trainer(
         cpu_only = trainer_factory is not None
     args = grpo_config(config, output_dir, cpu_only=cpu_only)
     return factory(
-        model=model or config["model"]["name_or_path"],
+        model=model
+        or str(model_source.snapshot_path if model_source else config["model"]["name_or_path"]),
         reward_funcs=reward_func,
         args=args,
         train_dataset=dataset,
@@ -178,14 +181,25 @@ def build_ppo_trainer(
     )
 
 
-def load_policy_and_tokenizer(config):
+def load_policy_and_tokenizer(
+    config, model_source: ValidatedModelSource | None = None
+):
     import torch
     from peft import get_peft_model
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
-    name = config["model"]["name_or_path"]
+    if model_source is not None:
+        if (
+            config["model"]["name_or_path"] != model_source.repo_id
+            or config["model"].get("revision") != model_source.revision
+            or not model_source.local_files_only
+        ):
+            raise ValueError("validated model source does not match resolved config")
+        name = str(model_source.snapshot_path)
+    else:
+        name = config["model"]["name_or_path"]
     load_kwargs = {"local_files_only": config["model"].get("local_files_only", True)}
-    if config["model"].get("revision"):
+    if model_source is None and config["model"].get("revision"):
         load_kwargs["revision"] = config["model"]["revision"]
     tokenizer = AutoTokenizer.from_pretrained(name, **load_kwargs)
     tokenizer.padding_side = "left"

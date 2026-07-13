@@ -15,7 +15,7 @@ from math_rlvr.dataset import MathProblem
 from math_rlvr.prompt import format_problem
 from math_rlvr.training.guarded_grpo import (
     REVISION,
-    SNAPSHOT,
+    assert_json_safe,
     checkpoint_inventory,
     require_clean_git,
     require_local_snapshot,
@@ -64,6 +64,7 @@ class RealLifecycle:
         )
 
     def persist(self, name, payload):
+        assert_json_safe(payload)
         self.manager.write_json(name, payload)
 
     def finalize(self, summary):
@@ -115,9 +116,10 @@ class RealMonitor:
 
 
 class RealBackend:
-    def __init__(self, config, lifecycle):
+    def __init__(self, config, lifecycle, model_source):
         self.config = copy.deepcopy(config)
         self.lifecycle = lifecycle
+        self.model_source = model_source
 
     def run(self, problems: list[MathProblem], guard, _unused_reward):
         import torch
@@ -127,12 +129,9 @@ class RealBackend:
         from math_rlvr.training.builders import build_grpo_trainer, load_policy_and_tokenizer
         from math_rlvr.training.trl_compat import guarded_trainer_class, optimizer_guard_callback
 
-        require_local_snapshot()
-        self.config["model"]["name_or_path"] = str(SNAPSHOT)
-        self.config["model"].pop("revision", None)
         model = tokenizer = trainer = None
         try:
-            model, tokenizer = load_policy_and_tokenizer(self.config)
+            model, tokenizer = load_policy_and_tokenizer(self.config, self.model_source)
             trainable = [name for name, p in model.named_parameters() if p.requires_grad]
             targets = tuple(self.config["lora"]["target_modules"])
             if not trainable or any(
@@ -166,6 +165,7 @@ class RealBackend:
                 tokenizer=tokenizer,
                 trainer_factory=guarded_trainer_class(guard),
                 cpu_only=False,
+                model_source=self.model_source,
             )
             trainer.add_callback(optimizer_guard_callback(guard))
             output = trainer.train()
@@ -186,8 +186,12 @@ class RealBackend:
 
 def execute_real_smoke(config):
     """The only real GRPO entry; caller has already passed dual CLI authorization."""
-    require_local_snapshot()
+    model_source = require_local_snapshot()
     lifecycle = RealLifecycle(config)
     return run_guarded(
-        config, RealBackend(config, lifecycle), lambda _: None, lifecycle, RealMonitor(lifecycle)
+        config,
+        RealBackend(config, lifecycle, model_source),
+        lambda _: None,
+        lifecycle,
+        RealMonitor(lifecycle),
     )

@@ -6,21 +6,23 @@ import math
 import subprocess
 import time
 from collections.abc import Callable
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Protocol
 
 from math_rlvr.config import resolve_grpo_smoke_budget, validate_training_config
 from math_rlvr.dataset import MathProblem, load_manifest
 from math_rlvr.rewards.result import DEFAULT_REWARD_POLICY, RewardResult, RewardStatus
-
-MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
-REVISION = "7ae557604adf67be50417f59c2c2f167def9a775"
-SMOKE_CONFIG = Path("configs/smoke/grpo.yaml")
-SNAPSHOT = (
-    Path("/root/autodl-tmp/cache/huggingface/hub/models--Qwen--Qwen2.5-0.5B-Instruct/snapshots")
-    / REVISION
+from math_rlvr.training.model_source import (
+    DEFAULT_CACHE_ROOT,
+    PINNED_REPO_ID,
+    PINNED_REVISION,
+    ValidatedModelSource,
 )
+
+MODEL = PINNED_REPO_ID
+REVISION = PINNED_REVISION
+SMOKE_CONFIG = Path("configs/smoke/grpo.yaml")
 TIMEOUT_SECONDS = 900
 
 
@@ -51,54 +53,97 @@ class BudgetGuard:
     global_step: int = 0
     microsteps: int = 0
     rewards: list[dict[str, Any]] = field(default_factory=list)
+    started_at: float | None = None
+    exceeded: bool = False
+    exceeded_reason: str | None = None
+    _last_time: float | None = field(default=None, init=False, repr=False)
+
+    def __post_init__(self):
+        if self.started_at is None:
+            self.started_at = self.deadline - TIMEOUT_SECONDS
+        self._last_time = self.started_at
+
+    def _raise(self, error_type, reason):
+        self.exceeded = True
+        self.exceeded_reason = reason
+        raise error_type(reason)
 
     def _time(self):
-        if self.clock() > self.deadline:
-            raise TimeoutError("GRPO smoke exceeded 15-minute deadline")
+        self._last_time = self.clock()
+        if self._last_time > self.deadline:
+            self._raise(TimeoutError, "GRPO smoke exceeded 15-minute deadline")
+
+    def snapshot(self) -> dict[str, Any]:
+        payload = {
+            "limits": {
+                "completions": self.max_completions,
+                "generated_tokens": self.max_tokens,
+                "microsteps": self.max_microsteps,
+                "optimizer_steps": self.max_optimizer_steps,
+                "global_step": self.max_global_step,
+            },
+            "completions": self.completions,
+            "generated_tokens": self.generated_tokens,
+            "microsteps": self.microsteps,
+            "optimizer_steps": self.optimizer_steps,
+            "global_step": self.global_step,
+            "start_timestamp": self.started_at,
+            "elapsed_seconds": max(
+                0.0, (self._last_time or self.started_at) - self.started_at
+            ),
+            "exceeded": self.exceeded,
+            "exceeded_reason": self.exceeded_reason,
+            "rewards": [dict(row) for row in self.rewards],
+        }
+        assert_json_safe(payload)
+        return payload
+
+    to_json_dict = snapshot
 
     def record_generation(self, completions: int, tokens: int):
         self._time()
         if self.completions + completions > self.max_completions:
-            raise BudgetExceededError("completion cap exceeded before update")
+            self._raise(BudgetExceededError, "completion cap exceeded before update")
         if self.generated_tokens + tokens > self.max_tokens:
-            raise BudgetExceededError("generated-token cap exceeded before update")
+            self._raise(BudgetExceededError, "generated-token cap exceeded before update")
         self.completions += completions
         self.generated_tokens += tokens
 
     def record_reward(self, result: RewardResult, scalar: float):
         self._time()
         if result.status == RewardStatus.INFRA_ERROR:
-            raise RuntimeError(f"infra_error: {result.detail}")
+            self._raise(RuntimeError, f"infra_error: {result.detail}")
         if not math.isfinite(scalar):
-            raise FloatingPointError("non-finite reward")
+            self._raise(FloatingPointError, "non-finite reward")
         if len(self.rewards) >= self.max_completions:
-            raise BudgetExceededError("ninth reward/completion refused before update")
+            self._raise(BudgetExceededError, "ninth reward/completion refused before update")
         self.rewards.append(
-            {"status": result.status.value, "detail": result.detail, "reward": scalar}
+            {"status": result.status.value, "detail": str(result.detail), "reward": scalar}
         )
 
     def record_microstep(self):
         self._time()
         self.microsteps += 1
         if self.microsteps > self.max_microsteps:
-            raise BudgetExceededError("gradient microstep cap exceeded")
+            self._raise(BudgetExceededError, "gradient microstep cap exceeded")
 
     def record_optimizer_step(self):
         self._time()
         if self.completions != self.max_completions or len(self.rewards) != self.max_completions:
-            raise BudgetExceededError(
-                "optimizer update attempted before exactly 8 completions/rewards"
+            self._raise(
+                BudgetExceededError,
+                "optimizer update attempted before exactly 8 completions/rewards",
             )
         if self.generated_tokens > self.max_tokens or self.microsteps != self.max_microsteps:
-            raise BudgetExceededError("optimizer preconditions failed")
+            self._raise(BudgetExceededError, "optimizer preconditions failed")
         self.optimizer_steps += 1
         if self.optimizer_steps > self.max_optimizer_steps:
-            raise BudgetExceededError("second optimizer step refused")
+            self._raise(BudgetExceededError, "second optimizer step refused")
 
     def record_global_step(self, step: int):
         self._time()
         if step > self.max_global_step:
-            raise BudgetExceededError("global_step cap exceeded")
+            self._raise(BudgetExceededError, "global_step cap exceeded")
         self.global_step = step
 
     def assert_success(self):
@@ -111,7 +156,31 @@ class BudgetGuard:
             self.microsteps,
         )
         if actual != expected or self.generated_tokens > self.max_tokens:
-            raise BudgetExceededError(f"incomplete smoke counters: {actual}")
+            self._raise(BudgetExceededError, f"incomplete smoke counters: {actual}")
+
+
+def assert_json_safe(value: Any, path: str = "$") -> None:
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise TypeError(f"non-finite float at {path}")
+        return
+    if value is None or isinstance(value, (bool, int, str)):
+        return
+    if isinstance(value, list):
+        for index, item in enumerate(value):
+            assert_json_safe(item, f"{path}[{index}]")
+        return
+    if isinstance(value, dict) and all(isinstance(key, str) for key in value):
+        for key, item in value.items():
+            assert_json_safe(item, f"{path}.{key}")
+        return
+    raise TypeError(f"non-JSON-safe value at {path}: {type(value).__name__}")
+
+
+def primitive_failure_record(reason: str, phase: str) -> dict[str, str]:
+    payload = {"status": "failure", "phase": str(phase), "reason": str(reason)}
+    assert_json_safe(payload)
+    return payload
 
 
 class Backend(Protocol):
@@ -172,13 +241,12 @@ def require_clean_git() -> dict[str, str]:
     return {"branch": branch, "commit": commit}
 
 
-def require_local_snapshot() -> Path:
-    if SNAPSHOT.name != REVISION or not all(
-        (SNAPSHOT / name).is_file()
-        for name in ("model.safetensors", "config.json", "tokenizer.json")
-    ):
-        raise AuthorizationError("fixed local snapshot is incomplete")
-    return SNAPSHOT
+def require_local_snapshot(
+    *, cache_root: Path = DEFAULT_CACHE_ROOT, snapshot_resolver=None
+) -> ValidatedModelSource:
+    return ValidatedModelSource.resolve(
+        MODEL, REVISION, cache_root=cache_root, snapshot_resolver=snapshot_resolver
+    )
 
 
 def reward_recorder(guard: BudgetGuard, verifier: Callable[[str], RewardResult]):
@@ -213,7 +281,10 @@ def run_guarded(
     """Dependency-injected lifecycle used by fake tests and the real entry point."""
     validate_smoke_authorization(config, SMOKE_CONFIG)
     problems = select_smoke_problems(config)
-    guard = BudgetGuard(8, 1024, 1, 1, 4, clock() + TIMEOUT_SECONDS, clock=clock)
+    started_at = clock()
+    guard = BudgetGuard(
+        8, 1024, 1, 1, 4, started_at + TIMEOUT_SECONDS, clock, started_at=started_at
+    )
     status = "failure"
     reason = None
     result = {}
@@ -227,16 +298,23 @@ def run_guarded(
         status = "success"
     except Exception as exc:
         reason = f"{type(exc).__name__}: {exc}"
-        lifecycle.persist("failure_report.json", {"reason": reason})
+        failure = {
+            **primitive_failure_record(reason, "guarded_execution"),
+            "counters": guard.snapshot(),
+        }
+        assert_json_safe(failure)
+        lifecycle.persist("failure_report.json", failure)
     finally:
         monitor.stop()
+        counters = guard.snapshot()
         summary = {
             "status": status,
             "reason": reason,
-            "counters": asdict(guard),
+            "counters": counters,
             "metrics": result.get("metrics", {}),
         }
         try:
+            assert_json_safe(summary)
             lifecycle.persist("summary.json", summary)
             lifecycle.finalize(summary)
             if status == "success":
@@ -246,13 +324,15 @@ def run_guarded(
                 lifecycle.finalize(summary)
         except Exception as exc:
             status = "failure"
-            summary.update(
-                status="failure",
-                backed_up=False,
-                reason=f"artifact_or_backup: {exc}",
+            fallback = primitive_failure_record(
+                f"artifact_or_backup: {type(exc).__name__}: {exc}",
+                "artifact_finalization",
             )
+            summary = {**fallback, "backed_up": False, "counters": counters}
             try:
+                assert_json_safe(summary)
                 lifecycle.persist("summary.json", summary)
+                lifecycle.persist("failure_report.json", fallback)
             except Exception:
                 pass
     return {**summary, "status": status}
@@ -260,12 +340,12 @@ def run_guarded(
 
 def real_backend(config: dict):
     """Delayed real construction path. Never call this from CPU gates."""
-    snapshot = require_local_snapshot()
+    source = require_local_snapshot()
     from math_rlvr.training.builders import build_grpo_trainer, load_policy_and_tokenizer
     from math_rlvr.training.trl_compat import guarded_trainer_class, optimizer_guard_callback
 
     return (
-        snapshot,
+        source,
         build_grpo_trainer,
         load_policy_and_tokenizer,
         guarded_trainer_class,

@@ -83,5 +83,20 @@
       "failure": "OOM: stop and report component/peak, then propose batch 2 with grad-accum 2; NaN: retain metrics and stop; timeout: terminate gracefully, no automatic rerun"
     }
   ],
-  "artifact_contract": "Each run saves config.json, summary.json, metrics.csv, gpu_metrics.csv, stdout.log, stderr.log, checksums.sha256, reward/loss/KL/VRAM charts as applicable, and only the stated adapter checkpoint."
+  "artifact_contract": "Each run saves config.json, summary.json, metrics.csv, gpu_metrics.csv, stdout.log, stderr.log, checksums.sha256, reward/loss/KL/VRAM charts as applicable, and only the stated adapter checkpoint.",
+  "grpo_first_failure_follow_up": {
+    "run_id": "grpo_single_update_qwen25_05b_20260713T050407Z",
+    "status": "failure_before_generation_or_training",
+    "root_causes": [
+      "validated local snapshot path was compared with repository-ID allowlist",
+      "BudgetGuard clock callable was passed to JSON artifact serialization"
+    ],
+    "repair_contract": [
+      "immutable exact pinned local model source",
+      "primitive-only BudgetGuard.snapshot()",
+      "frozen GRPO budgets unchanged"
+    ],
+    "rerun_authorized": false,
+    "ppo_authorized": false
+  }
 }

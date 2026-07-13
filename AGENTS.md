@@ -55,3 +55,9 @@ Do not batch-delete files or directories: `rm -rf`, recursive `rm`, and recursiv
 ## Coding and Review Style
 
 Use Python 3.12, spaces, Ruff, descriptive `snake_case` functions/modules and `PascalCase` types. Keep modules focused and add deterministic tests for every behavior change. Preserve user changes and avoid unrelated cleanup. Use short imperative commit subjects, preferably Conventional Commits. Pull requests should state motivation, implementation, verification commands, configuration changes, artifact impact, and follow-up work.
+
+### GRPO first-failure repair gate
+
+The first real GRPO attempt, `grpo_single_update_qwen25_05b_20260713T050407Z`, remains a failed immutable historical run at commit `ebc926c432d6778c3b057a0b7b518f7f2eaea5ed`. Its trainer-construction failure was traced to comparing a validated local snapshot path against the original repository ID; artifact finalization separately attempted to serialize the BudgetGuard clock callable.
+
+Execution code now uses the frozen `ValidatedModelSource` boundary: exact 0.5B repo/revision, canonical cache structure, local-only resolver equality, required files, and Qwen2 causal-LM config identity. `BudgetGuard.snapshot()` is the only counter serialization contract and contains primitive JSON values, never callbacks or runtime objects. These repairs do not authorize a real GRPO rerun or PPO.

@@ -73,3 +73,21 @@ This file records operational history and pitfalls that should survive context c
 - BudgetGuard refuses a ninth completion, token 1,025, microstep 5, optimizer step 2, global step 2, non-finite rewards, INFRA_ERROR, and the 15-minute deadline before success.
 - Checkpoint inventory permits adapter weights/config and trainer state but rejects full-size or non-adapter weight files. Success requires artifacts plus verified backup; failures stop the monitor and remain failure.
 - CPU fake tests do not authorize or execute the real runner, generation, CUDA, or PPO.
+
+## GRPO First Real Smoke Failure and CPU Repair
+
+- First real attempt: `grpo_single_update_qwen25_05b_20260713T050407Z`.
+- Failure-report commit: `ebc926c432d6778c3b057a0b7b518f7f2eaea5ed`; the run, report, and backup remain preserved.
+- The run stopped before trainer construction completed: 2 selected prompts, 0 completions/tokens/microsteps/optimizer steps/global steps, 0 MiB sampled VRAM, no checkpoint.
+- Primary pitfall: after correct local snapshot resolution, runtime mutated `model.name_or_path` to the snapshot path and the generic validator compared that path with the repo-ID allowlist, raising `unexpected model checkpoint`.
+- Secondary pitfall: `dataclasses.asdict(BudgetGuard)` included the injected `clock` callable, causing JSON artifact finalization to fail.
+- Repair: keep the frozen config identity unchanged and pass a frozen `ValidatedModelSource` separately to the loader/builder. The validator accepts only the exact canonical 0.5B snapshot returned by local-only Hugging Face resolution, with required files and Qwen2 causal-LM config identity.
+- Repair: all guarded counters use `BudgetGuard.snapshot()`, with recursive primitive-only validation and a minimal primitive fallback failure record.
+- HF cache detail: the project cache root is `/root/autodl-tmp/cache/huggingface`, but explicit `snapshot_download(cache_dir=...)` must receive its `hub/` child. Passing the parent makes local-only lookup miss the existing snapshot.
+- CPU/offline path preflight read metadata only and left CUDA uninitialized. This repair does not authorize or perform a real rerun.
+
+### CPU repair verification
+
+- Full CPU gates after the first-failure repair: compileall passed, Ruff passed, 81 tests passed, environment check passed, manifest validation passed, GRPO/PPO dry-runs passed, and fake guarded execute passed.
+- The real local snapshot offline path preflight passed with Qwen2ForCausalLM identity; CUDA was false before and after.
+- Real model loads, completions, train calls, and optimizer steps were all 0. The frozen GRPO and PPO smoke YAML hashes matched the baseline exactly.
