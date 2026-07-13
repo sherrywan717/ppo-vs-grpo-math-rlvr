@@ -1,7 +1,7 @@
 experiment: {name: main-grpo-qwen-1.5b, algorithm: grpo, seed: 20260712}
-model: {name_or_path: Qwen/Qwen2.5-1.5B-Instruct, dtype: bfloat16, use_qlora: false, gradient_checkpointing: true}
+model: {name_or_path: Qwen/Qwen2.5-1.5B-Instruct, local_files_only: true, dtype: bfloat16, use_qlora: false, gradient_checkpointing: true}
 lora: {rank: 16, alpha: 32, dropout: 0, target_modules: [q_proj, k_proj, v_proj, o_proj]}
 data: {manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/train_core_128.json, max_train_samples: 128}
-generation: {max_prompt_length: 512, max_completion_length: 384, max_new_tokens: 384, temperature: 0.8, top_p: 0.95, num_generations: 4}
-training: {max_steps: 500, save_total_limit: 2}
+generation: {max_prompt_length: 512, max_completion_length: 384, temperature: 0.8, top_p: 0.95, num_generations: 4, generation_batch_size: 4}
+training: {max_steps: 500, per_device_train_batch_size: 1, gradient_accumulation_steps: 1, num_iterations: 1, save_total_limit: 2, save_strategy: steps, save_steps: 100, save_only_model: true, push_to_hub: false, report_to: []}
 budget: {max_completions: 4096, max_generated_tokens: 1048576, max_wall_time_seconds: 28800, max_gpu_hours: 8, max_estimated_cost_cny: 160}

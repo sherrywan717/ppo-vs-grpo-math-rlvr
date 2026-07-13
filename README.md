@@ -16,6 +16,10 @@ Frozen manifests live under `/root/autodl-tmp/datasets/math_rlvr/manifests`; Hug
 
 The output contract is exactly one `<reasoning>...</reasoning>` block followed by exactly one terminal `<answer>...</answer>` block. Only answer content is verified. Verifiers never call `eval`, `exec`, dynamic imports, subprocesses, or generated code.
 
+## GRPO single-update smoke contract
+
+The checked-in GRPO smoke YAML is the configuration source of truth: two unique prompts, four generations per prompt, generation batch 8, micro-batch 2, gradient accumulation 4, one iteration, one global/optimizer step, eight completions, and a 1,024 generated-token hard cap. TRL 0.24.0 must infer `steps_per_generation=4`; never configure both that field and `generation_batch_size`. This is an integration smoke contract, not a formal experiment result.
+
 ## CPU-only checks
 
 ```bash

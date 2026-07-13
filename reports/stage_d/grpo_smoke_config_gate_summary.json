@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "cpu_only": true,
+  "cuda_initialized": false,
+  "model_loaded": false,
+  "completions_generated": 0,
+  "train_calls": 0,
+  "optimizer_steps": 0,
+  "compileall": "pass",
+  "ruff": "pass",
+  "pytest": "50 passed",
+  "check_env": "pass",
+  "manifest_validation": "pass",
+  "grpo_dry_run": "preflight only",
+  "ppo_dry_run": "preflight only"
+}

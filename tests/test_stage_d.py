@@ -7,7 +7,12 @@ from math_rlvr.artifacts.manager import ArtifactManager, make_run_id
 from math_rlvr.artifacts.plotting import generate
 from math_rlvr.config import load_config
 from math_rlvr.gold import assert_delimiter_only, normalize_gold_answer
-from math_rlvr.training.builders import build_grpo_trainer, build_ppo_trainer, trainer_plan
+from math_rlvr.training.builders import (
+    build_grpo_trainer,
+    build_ppo_trainer,
+    grpo_config,
+    trainer_plan,
+)
 from math_rlvr.training.grpo import render_training_prompt as grpo_renderer
 from math_rlvr.training.ppo import render_training_prompt as ppo_renderer
 
@@ -82,7 +87,7 @@ def test_plotting_uses_csv_and_omits_unavailable(tmp_path):
 def test_dry_plan_and_fake_trainer_builders_do_not_train(tmp_path):
     grpo = load_config("configs/smoke/grpo.yaml")
     ppo = load_config("configs/smoke/ppo.yaml")
-    assert trainer_plan(grpo, tmp_path).max_steps == 2
+    assert trainer_plan(grpo, tmp_path).max_steps == 1
     calls = []
 
     def factory(**kwargs):
@@ -106,3 +111,28 @@ def test_dry_plan_and_fake_trainer_builders_do_not_train(tmp_path):
 
 def test_ppo_and_grpo_share_prompt_renderer():
     assert ppo_renderer is grpo_renderer
+
+
+def test_real_trl_grpo_smoke_batching_contract_cpu_only(tmp_path):
+    import torch
+
+    config = load_config("configs/smoke/grpo.yaml")
+    args = grpo_config(config, tmp_path, cpu_only=True)
+    assert args.per_device_train_batch_size == 2
+    assert args.gradient_accumulation_steps == 4
+    assert args.generation_batch_size == 8
+    assert args.steps_per_generation == 4
+    assert args.num_generations == 4
+    assert args.max_steps == 1
+    assert args.num_iterations == 1
+    assert args.max_completion_length == 128
+    assert args.generation_batch_size % args.per_device_train_batch_size == 0
+    assert args.generation_batch_size % args.num_generations == 0
+    assert args.generation_batch_size // args.num_generations == 2
+    assert args.generation_batch_size == 8
+    assert args.generation_batch_size * args.max_completion_length == 1024
+    assert config["budget"]["max_optimizer_steps"] == 1
+    assert args.model_init_kwargs["local_files_only"] is True
+    assert args.use_vllm is False and args.report_to == [] and args.push_to_hub is False
+    assert args.save_only_model is True and args.save_steps == 1
+    assert torch.cuda.is_initialized() is False

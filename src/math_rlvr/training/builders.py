@@ -63,35 +63,56 @@ def value_peft_config(config):
     )
 
 
+def grpo_config(config, output_dir, cpu_only=False):
+    """Construct the real TRL config without loading a model."""
+    from trl import GRPOConfig
+
+    validate_training_config(config, "grpo")
+    generation = config["generation"]
+    training = config["training"]
+    model = config["model"]
+    model_init_kwargs = {
+        "local_files_only": model["local_files_only"],
+        "dtype": model["dtype"],
+    }
+    if model.get("revision"):
+        model_init_kwargs["revision"] = model["revision"]
+    return GRPOConfig(
+        output_dir=str(output_dir),
+        seed=config["experiment"]["seed"],
+        bf16=not cpu_only,
+        use_cpu=cpu_only,
+        max_steps=training["max_steps"],
+        per_device_train_batch_size=training["per_device_train_batch_size"],
+        gradient_accumulation_steps=training["gradient_accumulation_steps"],
+        learning_rate=1e-5,
+        logging_steps=1,
+        save_strategy=training["save_strategy"],
+        save_steps=training["save_steps"],
+        save_total_limit=training["save_total_limit"],
+        save_only_model=training["save_only_model"],
+        report_to=training["report_to"],
+        push_to_hub=training["push_to_hub"],
+        max_prompt_length=generation["max_prompt_length"],
+        max_completion_length=generation["max_completion_length"],
+        num_generations=generation["num_generations"],
+        generation_batch_size=generation["generation_batch_size"],
+        num_iterations=training["num_iterations"],
+        temperature=generation["temperature"],
+        top_p=generation["top_p"],
+        use_vllm=False,
+        gradient_checkpointing=config["model"]["gradient_checkpointing"],
+        model_init_kwargs=model_init_kwargs,
+    )
+
+
 def build_grpo_trainer(
     config, dataset, reward_func, output_dir, model=None, tokenizer=None, trainer_factory=None
 ):
-    from trl import GRPOConfig, GRPOTrainer
+    from trl import GRPOTrainer
 
     factory = trainer_factory or GRPOTrainer
-    g = config["generation"]
-    cpu_test = trainer_factory is not None
-    args = GRPOConfig(
-        output_dir=str(output_dir),
-        seed=config["experiment"]["seed"],
-        bf16=not cpu_test,
-        use_cpu=cpu_test,
-        max_steps=config["training"]["max_steps"],
-        per_device_train_batch_size=1,
-        gradient_accumulation_steps=1,
-        learning_rate=1e-5,
-        logging_steps=1,
-        save_strategy="no",
-        report_to="none",
-        max_prompt_length=g["max_prompt_length"],
-        max_completion_length=g["max_new_tokens"],
-        num_generations=g["num_generations"],
-        generation_batch_size=g["num_generations"],
-        temperature=g["temperature"],
-        top_p=g["top_p"],
-        use_vllm=False,
-        gradient_checkpointing=True,
-    )
+    args = grpo_config(config, output_dir, cpu_only=trainer_factory is not None)
     return factory(
         model=model or config["model"]["name_or_path"],
         reward_funcs=reward_func,
@@ -154,12 +175,15 @@ def load_policy_and_tokenizer(config):
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     name = config["model"]["name_or_path"]
-    tokenizer = AutoTokenizer.from_pretrained(name)
+    load_kwargs = {"local_files_only": config["model"].get("local_files_only", True)}
+    if config["model"].get("revision"):
+        load_kwargs["revision"] = config["model"]["revision"]
+    tokenizer = AutoTokenizer.from_pretrained(name, **load_kwargs)
     tokenizer.padding_side = "left"
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
     model = AutoModelForCausalLM.from_pretrained(
-        name, torch_dtype=torch.bfloat16, attn_implementation="eager"
+        name, dtype=torch.bfloat16, attn_implementation="eager", **load_kwargs
     )
     model.config.use_cache = False
     return get_peft_model(model, policy_peft_config(config)), tokenizer

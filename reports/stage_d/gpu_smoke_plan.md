@@ -20,12 +20,14 @@ Price: ¥8.88/GPU-hour. Estimates are planning bounds, not measured results.
 
 - Data/prompts/completions: 2 samples, 2 prompts, 4 per prompt, 8 total
 - Token caps: prompt 512, completion 128, total generation 1024
-- Batch/accumulation: 2 / 1
+- Micro-batch/gradient accumulation: 2 / 4
 - LoRA: policy BF16 LoRA r=16 alpha=32 dropout=0; q/k/v/o
 - Checkpoint: save final adapter only after successful update; save_total_limit=1
-- Peak VRAM estimate: 6.0 GiB
-- Time: 8 min estimated; 15 min worst
-- Cost: ¥1.18 estimated; ¥2.22 worst
+- Generation batch / inferred steps per generation / iterations: 8 / 4 / 1
+- Batching revision: the old 2/1 setting could not make one optimizer update consume all 8 completions. The revised 2/4 configuration lets TRL infer four micro-batches from `generation_batch_size=8`; this is a smoke integration repair, not an experiment result.
+- Peak VRAM estimate: 6.5 GiB
+- Time: 10 min estimated; 15 min worst
+- Cost: ¥1.48 estimated; ¥2.22 worst
 - Success: exactly one optimizer update; 8 bounded completions; finite loss/reward; artifacts/checksum complete
 - Automatic stop: 900 s, 1024 generated tokens, 8 completions, VRAM >10 GiB, OOM, NaN/Inf
 - OOM/NaN/timeout: OOM: stop and report measured peak, then propose shorter completion/smaller batch; NaN: retain metrics and stop; timeout: terminate gracefully, no automatic rerun

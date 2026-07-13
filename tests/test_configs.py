@@ -1,8 +1,14 @@
+import copy
 from pathlib import Path
 
 import pytest
 
-from math_rlvr.config import load_config, validate_runtime_path, validate_training_config
+from math_rlvr.config import (
+    load_config,
+    resolve_grpo_smoke_budget,
+    validate_runtime_path,
+    validate_training_config,
+)
 
 
 @pytest.mark.parametrize(
@@ -22,3 +28,46 @@ def test_runtime_paths_stay_on_temp_disk() -> None:
     assert validate_runtime_path("/root/autodl-tmp/math-rlvr-outputs").is_absolute()
     with pytest.raises(ValueError):
         validate_runtime_path(Path.home() / ".cache" / "models")
+
+
+def test_grpo_smoke_budget_is_single_consistent_contract():
+    config = load_config("configs/smoke/grpo.yaml")
+    assert resolve_grpo_smoke_budget(config) == {
+        "unique_prompts": 2,
+        "total_completions": 8,
+        "total_generated_tokens": 1024,
+        "expected_optimizer_updates": 1,
+        "generation_batch_size": 8,
+        "steps_per_generation": 4,
+    }
+
+
+@pytest.mark.parametrize(
+    ("section", "key", "bad_value"),
+    [
+        ("training", "max_steps", 2),
+        ("budget", "max_completions", 64),
+        ("budget", "max_generated_tokens", 8192),
+        ("training", "gradient_accumulation_steps", 1),
+        ("generation", "generation_batch_size", 4),
+    ],
+)
+def test_grpo_smoke_budget_conflicts_fail_closed(section, key, bad_value):
+    config = copy.deepcopy(load_config("configs/smoke/grpo.yaml"))
+    config[section][key] = bad_value
+    with pytest.raises(ValueError, match="GRPO smoke|generation batch"):
+        validate_training_config(config, "grpo")
+
+
+def test_grpo_rejects_explicit_steps_per_generation():
+    config = copy.deepcopy(load_config("configs/smoke/grpo.yaml"))
+    config["training"]["steps_per_generation"] = 4
+    with pytest.raises(ValueError, match="must be inferred"):
+        validate_training_config(config, "grpo")
+
+
+def test_ppo_smoke_contract_is_unchanged():
+    config = load_config("configs/smoke/ppo.yaml")
+    assert config["training"] == {"max_steps": 2, "save_total_limit": 1}
+    assert config["budget"]["max_completions"] == 64
+    assert config["budget"]["max_generated_tokens"] == 8192

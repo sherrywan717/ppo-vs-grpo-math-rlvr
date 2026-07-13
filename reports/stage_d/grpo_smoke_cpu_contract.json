@@ -1,0 +1,38 @@
+{
+  "source": "configs/smoke/grpo.yaml",
+  "trl_version": "0.24.0",
+  "seed": 42,
+  "per_device_train_batch_size": 2,
+  "gradient_accumulation_steps": 4,
+  "generation_batch_size": 8,
+  "steps_per_generation": 4,
+  "num_generations": 4,
+  "max_steps": 1,
+  "num_iterations": 1,
+  "max_completion_length": 128,
+  "save_strategy": "SaveStrategy.STEPS",
+  "save_steps": 1,
+  "save_only_model": true,
+  "report_to": [],
+  "push_to_hub": false,
+  "use_vllm": false,
+  "model_init_kwargs": {
+    "local_files_only": true,
+    "dtype": "bfloat16",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "budget": {
+    "unique_prompts": 2,
+    "total_completions": 8,
+    "total_generated_tokens": 1024,
+    "expected_optimizer_updates": 1,
+    "generation_batch_size": 8,
+    "steps_per_generation": 4
+  },
+  "cpu_only_contract_check": true,
+  "cuda_initialized": false,
+  "model_loaded": false,
+  "completions_generated": 0,
+  "train_calls": 0,
+  "optimizer_steps": 0
+}

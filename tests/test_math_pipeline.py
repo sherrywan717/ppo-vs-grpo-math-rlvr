@@ -3,6 +3,8 @@ from collections import Counter
 from fractions import Fraction
 from pathlib import Path
 
+import pytest
+
 import math_rlvr.verifier.verifier as verifier_module
 from math_rlvr.budget import RolloutBudget, RolloutState
 from math_rlvr.countdown import generate_countdown
@@ -105,3 +107,20 @@ def test_budget_stops_and_resume(tmp_path):
 def test_verifier_source_never_calls_eval_exec():
     source = inspect.getsource(verifier_module)
     assert "eval(" not in source and "exec(" not in source
+
+
+def test_smoke_runtime_counters_fail_before_exceeding_hard_budget():
+    budget = RolloutBudget(8, 1024, 900, max_prompts=2, max_optimizer_steps=1, max_global_steps=1)
+    state = RolloutState()
+    state.record(2, 8, 1024, 1, optimizer_steps=1, global_steps=1, budget=budget)
+    snapshot = state.__dict__.copy()
+    for kwargs in (
+        {"prompts": 1, "completions": 0, "tokens": 0, "elapsed": 0},
+        {"prompts": 0, "completions": 1, "tokens": 0, "elapsed": 0},
+        {"prompts": 0, "completions": 0, "tokens": 1, "elapsed": 0},
+        {"prompts": 0, "completions": 0, "tokens": 0, "elapsed": 0, "optimizer_steps": 1},
+        {"prompts": 0, "completions": 0, "tokens": 0, "elapsed": 0, "global_steps": 1},
+    ):
+        with pytest.raises(RuntimeError, match="hard budget exceeded"):
+            state.record(**kwargs, budget=budget)
+        assert state.__dict__ == snapshot

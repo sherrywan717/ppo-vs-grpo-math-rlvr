@@ -60,6 +60,8 @@ def validate_training_config(config: dict[str, Any], algorithm: str) -> None:
         value = config.get(section, {}).get(key)
         if not isinstance(value, (int, float)) or value <= 0:
             raise ValueError(f"Missing positive limit: {section}.{key}")
+    if algorithm == "grpo" and "smoke" in config["experiment"]["name"]:
+        validate_grpo_smoke_budget(config)
     if algorithm == "ppo":
         value = config.get("value_model", {})
         required = {
@@ -73,6 +75,65 @@ def validate_training_config(config: dict[str, Any], algorithm: str) -> None:
         }
         if value != required:
             raise ValueError("PPO value model contract mismatch")
+
+
+def validate_grpo_smoke_budget(config: dict[str, Any]) -> None:
+    """Fail closed when the smoke YAML's batching and hard budgets disagree."""
+    generation = config.get("generation", {})
+    training = config.get("training", {})
+    data = config.get("data", {})
+    budget = config.get("budget", {})
+    batch = training.get("per_device_train_batch_size")
+    accumulation = training.get("gradient_accumulation_steps")
+    generations = generation.get("num_generations")
+    generation_batch = generation.get("generation_batch_size")
+    completion_length = generation.get("max_completion_length")
+    required = (batch, accumulation, generations, generation_batch, completion_length)
+    if not all(isinstance(value, int) and value > 0 for value in required):
+        raise ValueError("incomplete GRPO smoke batching contract")
+    expected = {
+        "unique_prompts": generation_batch // generations,
+        "total_completions": generation_batch,
+        "total_generated_tokens": generation_batch * completion_length,
+        "steps_per_generation": generation_batch // batch,
+    }
+    if generation_batch % batch or generation_batch % generations:
+        raise ValueError("GRPO generation batch divisibility contract mismatch")
+    if (
+        data.get("max_train_samples") != expected["unique_prompts"]
+        or accumulation != expected["steps_per_generation"]
+        or training.get("max_steps") != 1
+        or training.get("num_iterations") != 1
+        or budget.get("max_completions") != expected["total_completions"]
+        or budget.get("max_generated_tokens") != expected["total_generated_tokens"]
+        or budget.get("max_optimizer_steps") != 1
+        or budget.get("max_global_steps") != 1
+        or training.get("save_strategy") != "steps"
+        or training.get("save_steps") != 1
+        or training.get("save_only_model") is not True
+        or training.get("push_to_hub") is not False
+        or training.get("report_to") != []
+    ):
+        raise ValueError("GRPO smoke hard budget mismatch")
+    if "steps_per_generation" in generation or "steps_per_generation" in training:
+        raise ValueError("steps_per_generation must be inferred by TRL")
+    if config.get("model", {}).get("local_files_only") is not True:
+        raise ValueError("GRPO smoke must be local-files-only")
+
+
+def resolve_grpo_smoke_budget(config: dict[str, Any]) -> dict[str, int]:
+    validate_grpo_smoke_budget(config)
+    generation = config["generation"]
+    training = config["training"]
+    return {
+        "unique_prompts": config["data"]["max_train_samples"],
+        "total_completions": config["budget"]["max_completions"],
+        "total_generated_tokens": config["budget"]["max_generated_tokens"],
+        "expected_optimizer_updates": training["max_steps"],
+        "generation_batch_size": generation["generation_batch_size"],
+        "steps_per_generation": generation["generation_batch_size"]
+        // training["per_device_train_batch_size"],
+    }
 
 
 def validate_runtime_path(path: str | Path) -> Path:
