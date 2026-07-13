@@ -1,0 +1,128 @@
+{
+  "conditions": {
+    "v0": {
+      "problems": {
+        "countdown:train:0": {
+          "generation_indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "scalar_rewards": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reward_statuses": [
+            "format_error",
+            "format_error",
+            "format_error",
+            "format_error"
+          ],
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "std": 0.0,
+          "variance": 0.0,
+          "unique_reward_count": 1,
+          "zero_variance": true,
+          "zero_advantage_group": true
+        },
+        "countdown:train:1": {
+          "generation_indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "scalar_rewards": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reward_statuses": [
+            "format_error",
+            "format_error",
+            "format_error",
+            "format_error"
+          ],
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "std": 0.0,
+          "variance": 0.0,
+          "unique_reward_count": 1,
+          "zero_variance": true,
+          "zero_advantage_group": true
+        }
+      },
+      "zero_advantage_group_count": 2,
+      "nonzero_variance_group_count": 0
+    },
+    "v1": {
+      "problems": {
+        "countdown:train:0": {
+          "generation_indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "scalar_rewards": [
+            0.0,
+            0.1,
+            0.0,
+            0.0
+          ],
+          "reward_statuses": [
+            "format_error",
+            "invalid_expression",
+            "format_error",
+            "format_error"
+          ],
+          "mean": 0.025,
+          "min": 0.0,
+          "max": 0.1,
+          "std": 0.04330127018922193,
+          "variance": 0.0018750000000000001,
+          "unique_reward_count": 2,
+          "zero_variance": false,
+          "zero_advantage_group": false
+        },
+        "countdown:train:1": {
+          "generation_indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "scalar_rewards": [
+            0.1,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "reward_statuses": [
+            "invalid_expression",
+            "format_error",
+            "format_error",
+            "format_error"
+          ],
+          "mean": 0.025,
+          "min": 0.0,
+          "max": 0.1,
+          "std": 0.04330127018922193,
+          "variance": 0.0018750000000000001,
+          "unique_reward_count": 2,
+          "zero_variance": false,
+          "zero_advantage_group": false
+        }
+      },
+      "zero_advantage_group_count": 0,
+      "nonzero_variance_group_count": 2
+    }
+  }
+}

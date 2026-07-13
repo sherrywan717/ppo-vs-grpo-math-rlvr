@@ -1,0 +1,11 @@
+{
+  "worker_pid": 118126,
+  "worker_pid_exited": true,
+  "worker_absent_from_nvidia_smi_compute_processes": true,
+  "new_compute_pids": [],
+  "no_new_compute_processes": true,
+  "baseline_gpu_memory_mib": 0,
+  "post_worker_gpu_memory_mib": 0,
+  "gpu_memory_restored_to_baseline": true,
+  "parent_cuda_initialized": false
+}

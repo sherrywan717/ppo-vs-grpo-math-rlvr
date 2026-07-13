@@ -1,0 +1,453 @@
+{
+  "status": "success",
+  "diagnostic_only": true,
+  "training": false,
+  "budget": {
+    "limits": {
+      "conditions": 2,
+      "unique_prompts_per_condition": 2,
+      "completions_per_prompt": 4,
+      "completions_per_condition": 8,
+      "total_completions": 16,
+      "tokens_per_completion": 128,
+      "total_generated_tokens": 2048,
+      "peak_vram_gib": 3.5
+    },
+    "condition_counts": {
+      "v0": 8,
+      "v1": 8
+    },
+    "condition_prompt_ids": {
+      "v0": [
+        "countdown:train:0",
+        "countdown:train:1"
+      ],
+      "v1": [
+        "countdown:train:0",
+        "countdown:train:1"
+      ]
+    },
+    "problem_counts": {
+      "v0:countdown:train:0": 4,
+      "v0:countdown:train:1": 4,
+      "v1:countdown:train:0": 4,
+      "v1:countdown:train:1": 4
+    },
+    "total_completions": 16,
+    "total_generated_tokens": 813,
+    "elapsed_seconds": 15.567545792087913,
+    "exceeded_reason": null
+  },
+  "safety_counters": {
+    "backward_count": 0,
+    "optimizer_steps": 0,
+    "global_training_steps": 0,
+    "checkpoint_writes": 0,
+    "model_or_adapter_writes": 0
+  },
+  "condition_metrics": {
+    "v0": {
+      "completions": 8,
+      "complete_envelope_rate": 0.0,
+      "reasoning_open_rate": 0.0,
+      "reasoning_close_rate": 0.0,
+      "answer_open_rate": 0.125,
+      "answer_close_rate": 0.125,
+      "answer_only_rate": 0.125,
+      "prose_outside_envelope_rate": 1.0,
+      "truncation_rate": 0.25,
+      "format_accuracy": 0.0,
+      "valid_expression_rate": 0.0,
+      "number_usage_accuracy": 0.0,
+      "pass_at_1": 0.0,
+      "pass_at_4": 0.0,
+      "reward_status_counts": {
+        "format_error": 8
+      },
+      "reward_mean": 0.0,
+      "reward_std": 0.0,
+      "reward_variance": 0.0,
+      "group_reward_variance": {
+        "countdown:train:0": 0.0,
+        "countdown:train:1": 0.0
+      },
+      "nonzero_advantage_potential_groups": 0,
+      "zero_advantage_group_count": 2,
+      "nonzero_variance_group_count": 0,
+      "completion_token_mean": 69.5,
+      "completion_token_median": 67.0,
+      "completion_token_max": 128
+    },
+    "v1": {
+      "completions": 8,
+      "complete_envelope_rate": 0.25,
+      "reasoning_open_rate": 0.25,
+      "reasoning_close_rate": 0.25,
+      "answer_open_rate": 1.0,
+      "answer_close_rate": 1.0,
+      "answer_only_rate": 0.75,
+      "prose_outside_envelope_rate": 0.0,
+      "truncation_rate": 0.0,
+      "format_accuracy": 0.25,
+      "valid_expression_rate": 0.0,
+      "number_usage_accuracy": 0.0,
+      "pass_at_1": 0.0,
+      "pass_at_4": 0.0,
+      "reward_status_counts": {
+        "format_error": 6,
+        "invalid_expression": 2
+      },
+      "reward_mean": 0.025,
+      "reward_std": 0.04330127018922193,
+      "reward_variance": 0.0018750000000000001,
+      "group_reward_variance": {
+        "countdown:train:0": 0.0018750000000000001,
+        "countdown:train:1": 0.0018750000000000001
+      },
+      "nonzero_advantage_potential_groups": 2,
+      "zero_advantage_group_count": 0,
+      "nonzero_variance_group_count": 2,
+      "completion_token_mean": 32.125,
+      "completion_token_median": 21.0,
+      "completion_token_max": 95
+    }
+  },
+  "per_problem_rewards": {
+    "conditions": {
+      "v0": {
+        "problems": {
+          "countdown:train:0": {
+            "generation_indices": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "scalar_rewards": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "reward_statuses": [
+              "format_error",
+              "format_error",
+              "format_error",
+              "format_error"
+            ],
+            "mean": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "std": 0.0,
+            "variance": 0.0,
+            "unique_reward_count": 1,
+            "zero_variance": true,
+            "zero_advantage_group": true
+          },
+          "countdown:train:1": {
+            "generation_indices": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "scalar_rewards": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "reward_statuses": [
+              "format_error",
+              "format_error",
+              "format_error",
+              "format_error"
+            ],
+            "mean": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "std": 0.0,
+            "variance": 0.0,
+            "unique_reward_count": 1,
+            "zero_variance": true,
+            "zero_advantage_group": true
+          }
+        },
+        "zero_advantage_group_count": 2,
+        "nonzero_variance_group_count": 0
+      },
+      "v1": {
+        "problems": {
+          "countdown:train:0": {
+            "generation_indices": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "scalar_rewards": [
+              0.0,
+              0.1,
+              0.0,
+              0.0
+            ],
+            "reward_statuses": [
+              "format_error",
+              "invalid_expression",
+              "format_error",
+              "format_error"
+            ],
+            "mean": 0.025,
+            "min": 0.0,
+            "max": 0.1,
+            "std": 0.04330127018922193,
+            "variance": 0.0018750000000000001,
+            "unique_reward_count": 2,
+            "zero_variance": false,
+            "zero_advantage_group": false
+          },
+          "countdown:train:1": {
+            "generation_indices": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "scalar_rewards": [
+              0.1,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "reward_statuses": [
+              "invalid_expression",
+              "format_error",
+              "format_error",
+              "format_error"
+            ],
+            "mean": 0.025,
+            "min": 0.0,
+            "max": 0.1,
+            "std": 0.04330127018922193,
+            "variance": 0.0018750000000000001,
+            "unique_reward_count": 2,
+            "zero_variance": false,
+            "zero_advantage_group": false
+          }
+        },
+        "zero_advantage_group_count": 0,
+        "nonzero_variance_group_count": 2
+      }
+    }
+  },
+  "paired_row_count": 8,
+  "candidate_qualification": {
+    "v1_format_improved": true,
+    "v1_has_complete_envelope": true,
+    "v1_no_truncation_regression": true,
+    "v1_has_nonzero_group_reward_variance": true,
+    "v1_eligible_for_grpo_review": true,
+    "eligible_for_later_grpo_review": true,
+    "checks": {
+      "complete_envelope_rate_higher_than_v0": true,
+      "at_least_one_complete_envelope": true,
+      "truncation_rate_not_increased": true,
+      "at_least_one_nonzero_variance_group": true
+    },
+    "all_wrong_answer_warning": false,
+    "auto_activate": false
+  },
+  "condition_order": [
+    "v0",
+    "v1"
+  ],
+  "seed_map": [
+    {
+      "condition": "v0",
+      "problem_id": "countdown:train:0",
+      "generation_index": 0,
+      "seed": 42,
+      "matched_seed": 42,
+      "python_seed": 42,
+      "torch_cpu_seed": 42,
+      "torch_cuda_seed": 42
+    },
+    {
+      "condition": "v0",
+      "problem_id": "countdown:train:0",
+      "generation_index": 1,
+      "seed": 43,
+      "matched_seed": 43,
+      "python_seed": 43,
+      "torch_cpu_seed": 43,
+      "torch_cuda_seed": 43
+    },
+    {
+      "condition": "v0",
+      "problem_id": "countdown:train:0",
+      "generation_index": 2,
+      "seed": 44,
+      "matched_seed": 44,
+      "python_seed": 44,
+      "torch_cpu_seed": 44,
+      "torch_cuda_seed": 44
+    },
+    {
+      "condition": "v0",
+      "problem_id": "countdown:train:0",
+      "generation_index": 3,
+      "seed": 45,
+      "matched_seed": 45,
+      "python_seed": 45,
+      "torch_cpu_seed": 45,
+      "torch_cuda_seed": 45
+    },
+    {
+      "condition": "v0",
+      "problem_id": "countdown:train:1",
+      "generation_index": 0,
+      "seed": 46,
+      "matched_seed": 46,
+      "python_seed": 46,
+      "torch_cpu_seed": 46,
+      "torch_cuda_seed": 46
+    },
+    {
+      "condition": "v0",
+      "problem_id": "countdown:train:1",
+      "generation_index": 1,
+      "seed": 47,
+      "matched_seed": 47,
+      "python_seed": 47,
+      "torch_cpu_seed": 47,
+      "torch_cuda_seed": 47
+    },
+    {
+      "condition": "v0",
+      "problem_id": "countdown:train:1",
+      "generation_index": 2,
+      "seed": 48,
+      "matched_seed": 48,
+      "python_seed": 48,
+      "torch_cpu_seed": 48,
+      "torch_cuda_seed": 48
+    },
+    {
+      "condition": "v0",
+      "problem_id": "countdown:train:1",
+      "generation_index": 3,
+      "seed": 49,
+      "matched_seed": 49,
+      "python_seed": 49,
+      "torch_cpu_seed": 49,
+      "torch_cuda_seed": 49
+    },
+    {
+      "condition": "v1",
+      "problem_id": "countdown:train:0",
+      "generation_index": 0,
+      "seed": 42,
+      "matched_seed": 42,
+      "python_seed": 42,
+      "torch_cpu_seed": 42,
+      "torch_cuda_seed": 42
+    },
+    {
+      "condition": "v1",
+      "problem_id": "countdown:train:0",
+      "generation_index": 1,
+      "seed": 43,
+      "matched_seed": 43,
+      "python_seed": 43,
+      "torch_cpu_seed": 43,
+      "torch_cuda_seed": 43
+    },
+    {
+      "condition": "v1",
+      "problem_id": "countdown:train:0",
+      "generation_index": 2,
+      "seed": 44,
+      "matched_seed": 44,
+      "python_seed": 44,
+      "torch_cpu_seed": 44,
+      "torch_cuda_seed": 44
+    },
+    {
+      "condition": "v1",
+      "problem_id": "countdown:train:0",
+      "generation_index": 3,
+      "seed": 45,
+      "matched_seed": 45,
+      "python_seed": 45,
+      "torch_cpu_seed": 45,
+      "torch_cuda_seed": 45
+    },
+    {
+      "condition": "v1",
+      "problem_id": "countdown:train:1",
+      "generation_index": 0,
+      "seed": 46,
+      "matched_seed": 46,
+      "python_seed": 46,
+      "torch_cpu_seed": 46,
+      "torch_cuda_seed": 46
+    },
+    {
+      "condition": "v1",
+      "problem_id": "countdown:train:1",
+      "generation_index": 1,
+      "seed": 47,
+      "matched_seed": 47,
+      "python_seed": 47,
+      "torch_cpu_seed": 47,
+      "torch_cuda_seed": 47
+    },
+    {
+      "condition": "v1",
+      "problem_id": "countdown:train:1",
+      "generation_index": 2,
+      "seed": 48,
+      "matched_seed": 48,
+      "python_seed": 48,
+      "torch_cpu_seed": 48,
+      "torch_cuda_seed": 48
+    },
+    {
+      "condition": "v1",
+      "problem_id": "countdown:train:1",
+      "generation_index": 3,
+      "seed": 49,
+      "matched_seed": 49,
+      "python_seed": 49,
+      "torch_cpu_seed": 49,
+      "torch_cuda_seed": 49
+    }
+  ],
+  "completion_count": 16,
+  "backed_up": true,
+  "warnings": [
+    "worker_allocator_nonzero_before_process_exit"
+  ],
+  "gpu_release_verified": true,
+  "post_worker_gpu_verification": {
+    "worker_pid": 118126,
+    "worker_pid_exited": true,
+    "worker_absent_from_nvidia_smi_compute_processes": true,
+    "new_compute_pids": [],
+    "no_new_compute_processes": true,
+    "baseline_gpu_memory_mib": 0,
+    "post_worker_gpu_memory_mib": 0,
+    "gpu_memory_restored_to_baseline": true,
+    "parent_cuda_initialized": false
+  },
+  "cross_file_consistency": {
+    "valid": true,
+    "completion_count": 16,
+    "paired_row_count": 8,
+    "total_generated_tokens": 813,
+    "reward_status_counts": {
+      "format_error": 14,
+      "invalid_expression": 2
+    }
+  }
+}

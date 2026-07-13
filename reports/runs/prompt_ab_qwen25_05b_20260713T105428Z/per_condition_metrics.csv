@@ -1,0 +1,3 @@
+condition,completions,complete_envelope_rate,format_accuracy,truncation_rate,reward_mean,reward_variance,nonzero_advantage_potential_groups,zero_advantage_group_count,nonzero_variance_group_count,completion_token_mean
+v0,8,0.0,0.0,0.25,0.0,0.0,0,2,0,69.5
+v1,8,0.25,0.25,0.0,0.025,0.0018750000000000001,2,0,2,32.125
