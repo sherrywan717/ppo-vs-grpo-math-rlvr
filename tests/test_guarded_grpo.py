@@ -1,11 +1,17 @@
+import inspect
 import json
 from pathlib import Path
 
 import pytest
 import torch
 
-from math_rlvr.config import load_config
+from math_rlvr.config import load_config, resolve_training_config
 from math_rlvr.rewards.result import RewardResult, RewardStatus
+from math_rlvr.rewards.staged import (
+    STAGED_COMPONENT_WEIGHTS,
+    STAGED_REWARD_SHA256,
+    STAGED_REWARD_VERSION,
+)
 from math_rlvr.training.grpo import main
 from math_rlvr.training.guarded_grpo import (
     BudgetGuard,
@@ -121,6 +127,11 @@ class Backend:
                         "reward_status": recorded_reward["status"],
                         "scalar_reward": recorded_reward["reward"],
                         "verifier_detail": recorded_reward["detail"],
+                        **{
+                            key: value
+                            for key, value in recorded_reward.items()
+                            if key not in {"status", "reward", "detail"}
+                        },
                     }
                 )
         return {
@@ -368,3 +379,42 @@ def test_non_json_metric_fails_closed_with_primitive_fallback(tmp_path):
     fallback = json.loads((root / "failure_report.json").read_text())
     assert fallback["phase"] == "artifact_finalization"
     assert "callable" not in json.dumps(fallback)
+
+
+def test_staged_reward_identity_and_components_persist_in_fake_artifacts(tmp_path):
+    config = resolve_training_config(load_config("configs/smoke/grpo.yaml"))
+    life = Lifecycle(tmp_path / "staged-run")
+    result = run_guarded(
+        config,
+        Backend(checkpoint(tmp_path / "staged-checkpoint")),
+        verifier,
+        life,
+        Monitor(),
+    )
+    assert result["status"] == "success"
+    assert result["reward_policy_version"] == STAGED_REWARD_VERSION
+    assert result["reward_component_weights"] == STAGED_COMPONENT_WEIGHTS
+    assert result["reward_policy_sha256"] == STAGED_REWARD_SHA256
+    rows = [
+        json.loads(line)
+        for line in (life.root / "completions.jsonl").read_text().splitlines()
+    ]
+    for row in rows:
+        assert row["canonical_status"] == row["reward_status"]
+        assert row["reward_policy_version"] == STAGED_REWARD_VERSION
+        assert row["reward_policy_sha256"] == STAGED_REWARD_SHA256
+        assert row["reward_component_weights"] == STAGED_COMPONENT_WEIGHTS
+        assert row["scalar_reward"] == 1.0
+        assert row["correctness_component"] == 0.8
+
+
+def test_real_manifest_finalizer_records_reward_identity():
+    from math_rlvr.training.grpo_runtime import RealLifecycle
+
+    source = inspect.getsource(RealLifecycle.finalize)
+    for field in (
+        "reward_policy_version",
+        "reward_component_weights",
+        "reward_policy_sha256",
+    ):
+        assert field in source

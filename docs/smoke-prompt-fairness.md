@@ -13,8 +13,9 @@ Fair comparison requires all of the following:
 - persistence of those three fields in resolved config, run manifest, and report;
 - no algorithm-specific prompt edits, gold constructions, answers, or dataset-derived
   leakage;
-- unchanged parser, verifier, RewardPolicy, data records, seeds, and sampling unless a
-  later change is separately reviewed for both algorithms;
+- unchanged parser, verifier, data records, seeds, and sampling;
+- the same separately reviewed `shaped_v2_staged` reward version, weights, and
+  SHA256 for both smoke algorithms;
 - comparison by actual completions and generated tokens, not nominal trainer steps.
 
 The activation changes only the 0.5B smoke prompt selector. Main/formal 1.5B configs
@@ -25,3 +26,12 @@ The source A/B diagnostic found v1 improved complete-envelope rate from 0% to 25
 created two nonzero within-problem reward-variance groups. Valid expression, number
 usage, pass@1, and pass@4 remained zero. Accordingly v1 is
 `approved_for_smoke` but `not_approved` for production.
+
+
+## Post-smoke reward intervention
+
+The first v1 GRPO smoke remains an immutable old-policy result. The staged-v2 change was
+introduced afterward to expose partial protocol progress and is selected identically
+for future 0.5B PPO/GRPO smoke runs. Fair comparisons must not mix the historical
+old-policy scalar with staged-v2 results. Main/formal configs and sparse reward remain
+unchanged.

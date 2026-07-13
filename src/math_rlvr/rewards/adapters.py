@@ -38,7 +38,10 @@ class GRPOVerifierRewardAdapter:
         completions: Sequence[str | Sequence[dict[str, str]]],
         **_: Any,
     ) -> list[float]:
-        return [self.policy.to_scalar(self.verifier(completion_text(item))) for item in completions]
+        return [
+            self.policy.evaluate(completion_text(item), self.verifier).scalar_reward
+            for item in completions
+        ]
 
 
 class _VerifierBackbone(nn.Module):
@@ -71,8 +74,8 @@ class _VerifierBackbone(nn.Module):
         for row in range(batch_size):
             valid_ids = input_ids[row][attention_mask[row].bool()].detach().cpu().tolist()
             decoded = self.tokenizer.decode(valid_ids, skip_special_tokens=False)
-            result = self.verifier(self.extract_completion(decoded))
-            scalar = self.policy.to_scalar(result)
+            completion = self.extract_completion(decoded)
+            scalar = self.policy.evaluate(completion, self.verifier).scalar_reward
             last_valid = torch.nonzero(attention_mask[row], as_tuple=False)[-1, 0]
             reward_hidden[row, last_valid, 0] = scalar
         return SimpleNamespace(hidden_states=(reward_hidden.detach(),))

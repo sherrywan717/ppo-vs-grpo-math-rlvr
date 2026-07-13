@@ -127,3 +127,19 @@ four-completion problem group had rewards `[0, 0, 0, 0]`, zero variance, and zer
 advantage. Finite loss/grad/entropy evidence does not change that conclusion. Keep
 `prompt_v1_strict_concise` smoke-only and production-unapproved. PPO remains
 unauthorized and blocked pending user review; never enter PPO automatically.
+
+### Staged shaped reward v2 gate
+
+The CPU-only post-smoke intervention `shaped_v2_staged` is selected identically by
+the Qwen 0.5B PPO/GRPO smoke configs only. It awards 0.05 each for one usable answer
+block, strict protocol, safe valid expression, and exact Countdown number use, plus
+0.80 only when the unchanged original canonical verifier returns `VERIFIED_PASS`.
+Sparse reward, canonical status, formal metrics, strict parser/verifier semantics,
+prompt v1, data, sampling, budgets, and main/formal 1.5B configs remain unchanged.
+
+The immutable eight completions from
+`grpo_single_update_qwen25_05b_20260713T112100Z` replay to staged group rewards
+`[0.10, 0.10, 0.15, 0.00]` and `[0.10, 0.05, 0.10, 0.05]`, giving nonzero
+variance in both groups while retaining eight canonical `FORMAT_ERROR` statuses.
+This is a disclosed post-smoke intervention, not a retroactive result. A new GPU GRPO
+single update requires separate authorization; PPO remains unauthorized.

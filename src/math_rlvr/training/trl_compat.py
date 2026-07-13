@@ -48,6 +48,7 @@ class CompletionEvidenceRecorder:
         completion_text: str,
         reward_result,
         scalar_reward: float,
+        reward_evidence: dict[str, Any] | None = None,
     ) -> None:
         if self._completion_records is not None:
             raise TRLContractError("reward arrived after completion evidence finalization")
@@ -57,16 +58,22 @@ class CompletionEvidenceRecorder:
             raise TRLContractError("verifier input must be text")
         if not math.isfinite(float(scalar_reward)):
             raise TRLContractError("non-finite scalar reward")
-        self._reward_records.append(
-            {
-                "problem_id": str(problem_id),
-                "raw_completion": completion_text,
-                "verifier_input": completion_text,
-                "reward_status": reward_result.status.value,
-                "scalar_reward": float(scalar_reward),
-                "verifier_detail": str(reward_result.detail),
-            }
-        )
+        row = {
+            "problem_id": str(problem_id),
+            "raw_completion": completion_text,
+            "verifier_input": completion_text,
+            "reward_status": reward_result.status.value,
+            "scalar_reward": float(scalar_reward),
+            "verifier_detail": str(reward_result.detail),
+        }
+        if reward_evidence is not None:
+            if (
+                reward_evidence.get("canonical_status") != reward_result.status.value
+                or reward_evidence.get("scalar_reward") != float(scalar_reward)
+            ):
+                raise TRLContractError("reward component evidence mismatch")
+            row.update(reward_evidence)
+        self._reward_records.append(row)
 
     def capture_generation(self, inputs, payload, tokenizer) -> None:
         if self._completion_records is not None:

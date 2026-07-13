@@ -94,3 +94,21 @@ paired artifacts, per-problem rewards, allocator evidence, failure backup, post-
 GPU verification, and cross-file consistency before the fixed worker may start. The
 non-CUDA parent launches one fixed spawned worker, then verifies PID exit, absence from
 the nvidia-smi compute list, and restoration to baseline before final backup/publication.
+
+## Staged smoke reward v2
+
+After the first v1 GRPO smoke demonstrated a successful execution pipeline but zero
+within-group reward variance, the two 0.5B smoke configs now select the shared
+`shaped_v2_staged` policy. This is a public post-smoke intervention, not a rewrite of
+the historical run and not an activation for main/formal 1.5B experiments.
+
+The staged scalar components are answer block 0.05, strict protocol 0.05, safe valid
+expression 0.05, exact Countdown number use 0.05, and canonical correctness 0.80.
+Canonical `RewardStatus`, strict format metrics, pass@1/pass@4, expression validity,
+number-usage accuracy, and the sparse policy remain unchanged. `RESOURCE_LIMIT` gets
+no partial score; `INFRA_ERROR` aborts. Only an original strict canonical
+`VERIFIED_PASS` reaches 1.0.
+
+PPO and GRPO smoke configs must resolve the same reward version, component weights, and
+policy SHA256. PPO remains unauthorized, and this CPU intervention does not authorize a
+new GRPO execution.

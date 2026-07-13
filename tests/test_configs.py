@@ -6,6 +6,7 @@ import pytest
 from math_rlvr.config import (
     load_config,
     resolve_grpo_smoke_budget,
+    resolve_training_config,
     validate_runtime_path,
     validate_training_config,
 )
@@ -71,3 +72,19 @@ def test_ppo_smoke_contract_is_unchanged():
     assert config["training"] == {"max_steps": 2, "save_total_limit": 1}
     assert config["budget"]["max_completions"] == 64
     assert config["budget"]["max_generated_tokens"] == 8192
+
+
+def test_smoke_reward_selector_is_identical_and_resolved():
+    grpo = resolve_training_config(load_config("configs/smoke/grpo.yaml"))
+    ppo = resolve_training_config(load_config("configs/smoke/ppo.yaml"))
+    assert grpo["reward"] == ppo["reward"] == {"policy": "shaped_v2_staged"}
+    assert grpo["reward_policy_version"] == ppo["reward_policy_version"]
+    assert grpo["reward_component_weights"] == ppo["reward_component_weights"]
+    assert grpo["reward_policy_sha256"] == ppo["reward_policy_sha256"]
+
+
+def test_smoke_reward_selector_mismatch_fails_closed():
+    config = copy.deepcopy(load_config("configs/smoke/grpo.yaml"))
+    config["reward"]["policy"] = "shaped_v1_legacy"
+    with pytest.raises(ValueError, match="reward policy"):
+        validate_training_config(config, "grpo")

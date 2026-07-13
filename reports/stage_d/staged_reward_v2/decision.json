@@ -1,0 +1,87 @@
+{
+  "schema_version": "math_rlvr.staged_reward_v2_decision.v1",
+  "status": "approved_for_next_smoke_review",
+  "training_executed": false,
+  "historical_run_modified": false,
+  "historical_run_id": "grpo_single_update_qwen25_05b_20260713T112100Z",
+  "historical_reward_policy": "shaped_v1_legacy",
+  "reward_policy_version": "shaped_v2_staged",
+  "reward_component_weights": {
+    "answer_block": 0.05,
+    "strict_protocol": 0.05,
+    "valid_expression": 0.05,
+    "exact_number_usage": 0.05,
+    "correctness": 0.8
+  },
+  "reward_policy_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+  "prompt_version": "prompt_v1_strict_concise",
+  "prompt_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+  "old_yaml_sha256": {
+    "grpo": "5df5d72f71ada14a6ce903990b1b21bbd9d682ba8a05b1f77a91bc974c3872e0",
+    "ppo": "b888b12fb56fe356633b2d04f2c9713bb8d02c13be66fe349f60b5d40cbc1ee3"
+  },
+  "new_yaml_sha256": {
+    "grpo": "068ff8d742849ffa0d43ccf6f4e74898e08c5f031c0f837c18ac8e5b183d8979",
+    "ppo": "1496c65309befbcf4c5143b5d19e963013a9c869ff4af4e82b838abc317a0379"
+  },
+  "groups": [
+    {
+      "problem_id": "countdown:train:0",
+      "old_rewards": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "new_rewards": [
+        0.1,
+        0.1,
+        0.15,
+        0.0
+      ],
+      "old_mean": 0.0,
+      "new_mean": 0.0875,
+      "old_variance": 0.0,
+      "new_variance": 0.00296875,
+      "old_zero_advantage": true,
+      "new_zero_advantage": false
+    },
+    {
+      "problem_id": "countdown:train:1",
+      "old_rewards": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "new_rewards": [
+        0.1,
+        0.05,
+        0.1,
+        0.05
+      ],
+      "old_mean": 0.0,
+      "new_mean": 0.075,
+      "old_variance": 0.0,
+      "new_variance": 0.000625,
+      "old_zero_advantage": true,
+      "new_zero_advantage": false
+    }
+  ],
+  "new_nonzero_variance_group_count": 2,
+  "new_zero_advantage_group_count": 0,
+  "canonical_status_counts": {
+    "format_error": 8
+  },
+  "protected_hashes": {
+    "main_grpo_yaml": "fc1b0c73de431d81e9e827107d8491aba4d54b92f7e04fd4678b6fd828b6f675",
+    "main_ppo_yaml": "1ced44a672fa3a5dcf9871bd8c1893a3bdad641d756dcf9de226b20440d1ad74",
+    "prompt_module": "e7cb7cef5cdba403cd05763b48bf53817bafab70a424580b200254a88f6a4562",
+    "historical_completions": "1b4e213df6d69aa7cc1663deeb92ca27850346a8bde552360a78448ce9ff8d02",
+    "historical_summary": "23aa81fcfe900146e62585a6389d3503bb0edaba901eb3f391e5b42f964004ec"
+  },
+  "intervention_disclosure": "This reward change occurred after the first v1 GRPO smoke and is a publicly recorded post-smoke intervention. The old run retains its original reward semantics; subsequent PPO/GRPO fair comparisons must both use the frozen new reward version.",
+  "intervention_disclosure_zh": "该 reward 修改发生在首次 v1 GRPO smoke 之后，是公开记录的 post-smoke intervention。旧 run 保留原 reward 语义，后续 PPO/GRPO 公平比较必须共同使用冻结后的新 reward 版本。",
+  "ppo_authorized": false,
+  "gpu_grpo_authorized": false
+}

@@ -1,5 +1,6 @@
 experiment: {name: smoke-ppo-qwen-0.5b, algorithm: ppo, seed: 42}
 prompt: {version: prompt_v1_strict_concise}
+reward: {policy: shaped_v2_staged}
 model: {name_or_path: Qwen/Qwen2.5-0.5B-Instruct, dtype: bfloat16, use_qlora: false, gradient_checkpointing: true}
 value_model: {base_checkpoint: Qwen/Qwen2.5-0.5B-Instruct, architecture: AutoModelForSequenceClassification, num_labels: 1, lora_rank: 8, lora_alpha: 16, lora_target_modules: [q_proj, v_proj], trainable_score_head: true}
 lora: {rank: 16, alpha: 32, dropout: 0, target_modules: [q_proj, k_proj, v_proj, o_proj]}

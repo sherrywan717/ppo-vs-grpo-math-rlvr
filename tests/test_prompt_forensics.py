@@ -145,10 +145,10 @@ def test_strict_parser_behavior_is_unchanged():
 def test_frozen_yaml_hashes_and_cpu_cuda_state():
     expected = {
         "configs/smoke/grpo.yaml": (  # noqa: E501
-            "5df5d72f71ada14a6ce903990b1b21bbd9d682ba8a05b1f77a91bc974c3872e0"
+            "068ff8d742849ffa0d43ccf6f4e74898e08c5f031c0f837c18ac8e5b183d8979"
         ),
         "configs/smoke/ppo.yaml": (  # noqa: E501
-            "b888b12fb56fe356633b2d04f2c9713bb8d02c13be66fe349f60b5d40cbc1ee3"
+            "1496c65309befbcf4c5143b5d19e963013a9c869ff4af4e82b838abc317a0379"
         ),
     }
     for name, digest in expected.items():
@@ -186,24 +186,38 @@ def test_v1_smoke_activation_identity_and_shared_renderer(tokenizer, smoke_probl
         )
 
 
-def test_smoke_yaml_diff_is_selector_only_and_main_is_unactivated():
-    old = {
+def test_smoke_yaml_authorized_selectors_only_and_main_is_unactivated():
+    before_prompt_activation = {
         "configs/smoke/grpo.yaml": "3e6ea0f568c7d946a3023eb14b67988751e37b1cb692b52018faa9dbb622a398",  # noqa: E501
         "configs/smoke/ppo.yaml": "1db287f772f11da9fb6e69a304857b0055dde2bb0b74baec3bfb07d0d7f0b820",  # noqa: E501
     }
-    new = {
+    after_prompt_activation = {
         "configs/smoke/grpo.yaml": "5df5d72f71ada14a6ce903990b1b21bbd9d682ba8a05b1f77a91bc974c3872e0",  # noqa: E501
         "configs/smoke/ppo.yaml": "b888b12fb56fe356633b2d04f2c9713bb8d02c13be66fe349f60b5d40cbc1ee3",  # noqa: E501
     }
-    for name, digest in new.items():
+    after_staged_reward = {
+        "configs/smoke/grpo.yaml": "068ff8d742849ffa0d43ccf6f4e74898e08c5f031c0f837c18ac8e5b183d8979",  # noqa: E501
+        "configs/smoke/ppo.yaml": "1496c65309befbcf4c5143b5d19e963013a9c869ff4af4e82b838abc317a0379",  # noqa: E501
+    }
+    for name, digest in after_staged_reward.items():
         raw = Path(name).read_bytes()
         assert hashlib.sha256(raw).hexdigest() == digest
-        without_selector = b"\n".join(
-            line for line in raw.split(b"\n") if not line.startswith(b"prompt:")
+        without_reward = b"\n".join(
+            line for line in raw.split(b"\n") if not line.startswith(b"reward:")
         )
-        assert hashlib.sha256(without_selector).hexdigest() == old[name]
+        assert hashlib.sha256(without_reward).hexdigest() == after_prompt_activation[name]
+        without_both_selectors = b"\n".join(
+            line
+            for line in raw.split(b"\n")
+            if not line.startswith((b"prompt:", b"reward:"))
+        )
+        assert (
+            hashlib.sha256(without_both_selectors).hexdigest()
+            == before_prompt_activation[name]
+        )
     for name in ("configs/main/grpo.yaml", "configs/main/ppo.yaml"):
-        assert "prompt:" not in Path(name).read_text(encoding="utf-8")
+        text = Path(name).read_text(encoding="utf-8")
+        assert "prompt:" not in text and "reward:" not in text
 
 
 def test_successful_ab_history_is_immutable():

@@ -1,0 +1,44 @@
+[
+  {
+    "problem_id": "countdown:train:0",
+    "old_rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "new_rewards": [
+      0.1,
+      0.1,
+      0.15,
+      0.0
+    ],
+    "old_mean": 0.0,
+    "new_mean": 0.0875,
+    "old_variance": 0.0,
+    "new_variance": 0.00296875,
+    "old_zero_advantage": true,
+    "new_zero_advantage": false
+  },
+  {
+    "problem_id": "countdown:train:1",
+    "old_rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "new_rewards": [
+      0.1,
+      0.05,
+      0.1,
+      0.05
+    ],
+    "old_mean": 0.0,
+    "new_mean": 0.075,
+    "old_variance": 0.0,
+    "new_variance": 0.000625,
+    "old_zero_advantage": true,
+    "new_zero_advantage": false
+  }
+]

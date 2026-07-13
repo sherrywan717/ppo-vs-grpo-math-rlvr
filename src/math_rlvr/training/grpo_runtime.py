@@ -120,6 +120,9 @@ class RealLifecycle:
                 "prompt_version": self.config["prompt_version"],
                 "prompt_sha256": self.config["prompt_sha256"],
                 "renderer_version": self.config["renderer_version"],
+                "reward_policy_version": self.config["reward_policy_version"],
+                "reward_component_weights": self.config["reward_component_weights"],
+                "reward_policy_sha256": self.config["reward_policy_sha256"],
                 "duplicate_checkpoint_count": summary.get("duplicate_checkpoint_count"),
             }
         )
@@ -216,7 +219,7 @@ class RealBackend:
         import torch
         from datasets import Dataset
 
-        from math_rlvr.rewards.result import DEFAULT_REWARD_POLICY
+        from math_rlvr.rewards.staged import reward_policy_from_config
         from math_rlvr.training.builders import build_grpo_trainer, load_policy_and_tokenizer
         from math_rlvr.training.resource_evidence import CudaAllocatorEvidence
         from math_rlvr.training.trl_compat import (
@@ -253,15 +256,23 @@ class RealBackend:
             ]
             dataset = Dataset.from_list(rows)
             verifier = MathVerifier()
+            policy = reward_policy_from_config(self.config)
 
             def reward_func(completions, problem_id, **kwargs):
                 values = []
                 for completion, pid in zip(completions, problem_id, strict=True):
                     text = completion if isinstance(completion, str) else completion[-1]["content"]
-                    result = verifier(problem_map[pid], text)
-                    scalar = DEFAULT_REWARD_POLICY.to_scalar(result)
-                    evidence.record_reward(pid, text, result, scalar)
-                    guard.record_reward(result, scalar)
+                    problem = problem_map[pid]
+
+                    def bound_verifier(candidate, problem=problem):
+                        return verifier(problem, candidate)
+
+                    evaluation = policy.evaluate(text, bound_verifier)
+                    result = evaluation.canonical_result
+                    scalar = evaluation.scalar_reward
+                    reward_evidence = evaluation.to_dict()
+                    evidence.record_reward(pid, text, result, scalar, reward_evidence)
+                    guard.record_reward(result, scalar, reward_evidence)
                     values.append(scalar)
                 return values
 

@@ -197,3 +197,26 @@ This file records operational history and pitfalls that should survive context c
   SHA256 `583ae58d892fe7f743531cddbd1eaf6685d809c9607f6532f2471f875a44180c`.
 - Do not interpret infrastructure success as learning. v1 remains smoke-only; PPO is
   still unauthorized and blocked until the user reviews both conclusions.
+
+## Staged Shaped Reward v2 CPU Intervention
+
+- Root cause of the v1 smoke's zero update was the old scalar mapping collapsing every
+  partial-protocol `FORMAT_ERROR` to 0. The strict parser, verifier, Trainer, LoRA,
+  and GPU path were not changed.
+- `shaped_v2_staged` adds deterministic components: answer block 0.05, strict
+  protocol 0.05, safe expression 0.05, exact number use 0.05, and correctness 0.80.
+  Only the unchanged original canonical `VERIFIED_PASS` reaches 1.0.
+- Partial analysis synthesizes a strict envelope around the uniquely extracted answer
+  and calls the same canonical Countdown verifier. The probe can establish expression
+  and number-use validity but can never grant the correctness component.
+- Sparse reward remains 1 only for `VERIFIED_PASS`; canonical status and formal
+  metrics remain unchanged. Resource limits get zero partial reward and infrastructure
+  errors abort.
+- Immutable run `grpo_single_update_qwen25_05b_20260713T112100Z` remains under the
+  old policy. CPU replay produced group rewards `[0.10, 0.10, 0.15, 0.00]` with
+  variance 0.00296875 and `[0.10, 0.05, 0.10, 0.05]` with variance 0.000625.
+  Both groups now have potential advantage while all canonical statuses remain
+  `FORMAT_ERROR`.
+- This is a publicly recorded post-smoke intervention. Future fair PPO/GRPO smoke
+  comparisons must both use the frozen new version/hash. It does not authorize GPU
+  GRPO, and PPO remains unauthorized.

@@ -1,0 +1,28 @@
+problem_id,generation_index,completion_index,old_canonical_status,new_canonical_status,old_scalar_reward,scalar_reward,reward_policy_version,reward_policy_sha256,answer_block_component,strict_protocol_component,valid_expression_component,exact_number_usage_component,correctness_component,verifier_detail,raw_completion
+countdown:train:0,0,0,format_error,format_error,0.0,0.1,shaped_v2_staged,90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14,0.05,0.0,0.05,0.0,0.0,each tag must appear exactly once,"<answer>
+13 + 13 / 6
+</answer>"
+countdown:train:0,1,1,format_error,format_error,0.0,0.1,shaped_v2_staged,90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14,0.05,0.0,0.05,0.0,0.0,each tag must appear exactly once,<answer>13 * 19 / 5</answer>
+countdown:train:0,2,2,format_error,format_error,0.0,0.15,shaped_v2_staged,90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14,0.05,0.0,0.05,0.05,0.0,each tag must appear exactly once,"<answer>
+13 * (6 - 9) + 5
+</answer>"
+countdown:train:0,3,3,format_error,format_error,0.0,0.0,shaped_v2_staged,90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14,0.0,0.0,0.0,0.0,0.0,each tag must appear exactly once,"<reasoning>
+- Use 5, 9, 13, 6 in any order
+- Apply operations: +, -, *, /
+- Make 15/26
+- Possible combinations: 5 + 13 - 6, 5 * 6 + 13, (5 * 6) - 13
+- Evaluate combinations:
+  5 + 13 - 6 = 12
+  5 * 6 + 13 = 37
+  (5 * 6) - 13 = 23
+- Determine the"
+countdown:train:1,0,4,format_error,format_error,0.0,0.1,shaped_v2_staged,90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14,0.05,0.0,0.05,0.0,0.0,each tag must appear exactly once,<answer>4 - 11 * 13</answer>
+countdown:train:1,1,5,format_error,format_error,0.0,0.05,shaped_v2_staged,90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14,0.05,0.0,0.0,0.0,0.0,each tag must appear exactly once,"<answer>
+-4 = -(16 + 4) - 11
+</answer>"
+countdown:train:1,2,6,format_error,format_error,0.0,0.1,shaped_v2_staged,90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14,0.05,0.0,0.05,0.0,0.0,each tag must appear exactly once,<answer>11 - 13 + 4</answer>
+countdown:train:1,3,7,format_error,format_error,0.0,0.05,shaped_v2_staged,90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14,0.05,0.0,0.0,0.0,0.0,each tag must appear exactly once,"<reasoning>
+-4 = -(4 - 11) * 13
+<answer>
+-4 = -(4 - 11) * 13
+</answer>"

@@ -9,6 +9,10 @@ from math_rlvr.prompt import (
     prompt_metadata,
     prompt_version_from_config,
 )
+from math_rlvr.rewards.staged import (
+    STAGED_REWARD_VERSION,
+    reward_metadata_from_config,
+)
 
 TEMP_ROOT = Path("/root/autodl-tmp")
 POLICY_MODEL = "Qwen/Qwen2.5-1.5B-Instruct"
@@ -69,7 +73,13 @@ def validate_training_config(config: dict[str, Any], algorithm: str) -> None:
         value = config.get(section, {}).get(key)
         if not isinstance(value, (int, float)) or value <= 0:
             raise ValueError(f"Missing positive limit: {section}.{key}")
-    if algorithm == "grpo" and "smoke" in config["experiment"]["name"]:
+    is_smoke = "smoke" in config["experiment"]["name"]
+    reward_selector = config.get("reward", {}).get("policy")
+    if is_smoke and reward_selector != STAGED_REWARD_VERSION:
+        raise ValueError("smoke reward policy must be shaped_v2_staged")
+    if not is_smoke and reward_selector == STAGED_REWARD_VERSION:
+        raise ValueError("staged smoke reward must not activate main/formal config")
+    if algorithm == "grpo" and is_smoke:
         validate_grpo_smoke_budget(config)
     if algorithm == "ppo":
         value = config.get("value_model", {})
@@ -149,6 +159,7 @@ def resolve_training_config(config: dict[str, Any]) -> dict[str, Any]:
     """Return a copy enriched with derived prompt identity metadata."""
     resolved = dict(config)
     resolved.update(prompt_metadata(prompt_version_from_config(config)))
+    resolved.update(reward_metadata_from_config(config))
     return resolved
 
 

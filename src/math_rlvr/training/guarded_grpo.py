@@ -15,6 +15,7 @@ from typing import Any, Protocol
 from math_rlvr.config import resolve_grpo_smoke_budget, validate_training_config
 from math_rlvr.dataset import MathProblem, load_manifest
 from math_rlvr.rewards.result import DEFAULT_REWARD_POLICY, RewardResult, RewardStatus
+from math_rlvr.rewards.staged import STAGED_REWARD_VERSION, reward_policy_from_config
 from math_rlvr.training.model_source import (
     DEFAULT_CACHE_ROOT,
     PINNED_REPO_ID,
@@ -111,7 +112,12 @@ class BudgetGuard:
         self.completions += completions
         self.generated_tokens += tokens
 
-    def record_reward(self, result: RewardResult, scalar: float):
+    def record_reward(
+        self,
+        result: RewardResult,
+        scalar: float,
+        reward_evidence: dict[str, Any] | None = None,
+    ):
         self._time()
         if result.status == RewardStatus.INFRA_ERROR:
             self._raise(RuntimeError, f"infra_error: {result.detail}")
@@ -119,9 +125,16 @@ class BudgetGuard:
             self._raise(FloatingPointError, "non-finite reward")
         if len(self.rewards) >= self.max_completions:
             self._raise(BudgetExceededError, "ninth reward/completion refused before update")
-        self.rewards.append(
-            {"status": result.status.value, "detail": str(result.detail), "reward": scalar}
-        )
+        row = {"status": result.status.value, "detail": str(result.detail), "reward": scalar}
+        if reward_evidence is not None:
+            if (
+                reward_evidence.get("canonical_status") != result.status.value
+                or reward_evidence.get("scalar_reward") != scalar
+            ):
+                self._raise(RuntimeError, "reward component evidence mismatch")
+            assert_json_safe(reward_evidence)
+            row.update(reward_evidence)
+        self.rewards.append(row)
 
     def record_microstep(self):
         self._time()
@@ -226,6 +239,9 @@ def validate_smoke_authorization(config: dict, config_path: Path) -> None:
     expected = (MODEL, REVISION, True, 42, 2, 2, 4, 4, 8, 4, 1, 1, 128, 8, 1024)
     if contract != expected:
         raise AuthorizationError("resolved GRPO smoke contract mismatch")
+    if config.get("reward", {}).get("policy") != STAGED_REWARD_VERSION:
+        raise AuthorizationError("resolved staged reward contract mismatch")
+    reward_policy_from_config(config)
 
 
 def require_clean_git() -> dict[str, str]:
@@ -251,11 +267,16 @@ def require_local_snapshot(
     )
 
 
-def reward_recorder(guard: BudgetGuard, verifier: Callable[[str], RewardResult]):
+def reward_recorder(
+    guard: BudgetGuard,
+    verifier: Callable[[str], RewardResult],
+    policy=DEFAULT_REWARD_POLICY,
+):
     def reward(completion: str) -> float:
-        result = verifier(completion)
-        scalar = DEFAULT_REWARD_POLICY.to_scalar(result)
-        guard.record_reward(result, scalar)
+        evaluation = policy.evaluate(completion, verifier)
+        result = evaluation.canonical_result
+        scalar = evaluation.scalar_reward
+        guard.record_reward(result, scalar, evaluation.to_dict())
         return scalar
 
     return reward
@@ -408,6 +429,19 @@ def validate_completion_evidence(
             or record.get("verifier_detail") != reward["detail"]
         ):
             raise RuntimeError("completion/reward evidence order mismatch")
+        for key in (
+            "canonical_status",
+            "reward_policy_version",
+            "reward_policy_sha256",
+            "reward_component_weights",
+            "answer_block_component",
+            "strict_protocol_component",
+            "valid_expression_component",
+            "exact_number_usage_component",
+            "correctness_component",
+        ):
+            if key in reward and record.get(key) != reward[key]:
+                raise RuntimeError(f"completion/reward component mismatch: {key}")
         problem_id = record.get("problem_id")
         prompt_hash = record.get("prompt_hash")
         generation_index = record.get("generation_index")
@@ -440,7 +474,8 @@ def run_guarded(
     lifecycle.start(config, problems)
     monitor.start()
     try:
-        result = backend.run(problems, guard, reward_recorder(guard, verifier))
+        policy = reward_policy_from_config(config)
+        result = backend.run(problems, guard, reward_recorder(guard, verifier, policy))
         guard.assert_success()
         lifecycle.persist("trainer_metrics.json", result.get("metrics", {}))
         lifecycle.persist(
@@ -479,6 +514,9 @@ def run_guarded(
             "prompt_version": config.get("prompt_version"),
             "prompt_sha256": config.get("prompt_sha256"),
             "renderer_version": config.get("renderer_version"),
+            "reward_policy_version": config.get("reward_policy_version"),
+            "reward_component_weights": config.get("reward_component_weights"),
+            "reward_policy_sha256": config.get("reward_policy_sha256"),
             "duplicate_checkpoint_count": (
                 inventory["duplicate_checkpoint_count"]
                 if status == "success" and inventory is not None
