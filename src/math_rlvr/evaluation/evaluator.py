@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from code_rlvr.rewards.result import DEFAULT_REWARD_POLICY, RewardResult, RewardStatus
+from math_rlvr.rewards.result import DEFAULT_REWARD_POLICY, RewardResult, RewardStatus
 
 
 @dataclass(frozen=True)

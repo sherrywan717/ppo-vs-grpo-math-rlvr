@@ -1,8 +1,8 @@
-"""Execution API that refuses untrusted code unless verified isolation exists."""
+"""LEGACY/OUT-OF-SCOPE: code execution is retained for history and must not be used."""
 
 from dataclasses import dataclass
 
-from code_rlvr.execution.capabilities import CapabilityReport, detect_capabilities
+from math_rlvr.execution.capabilities import CapabilityReport, detect_capabilities
 
 
 class UnsafeExecutionError(RuntimeError):
@@ -34,4 +34,3 @@ class SafeExecutor:
                 "Refusing untrusted code: no verified isolation backend is available"
             )
         raise NotImplementedError("A verified isolation adapter must be implemented first")
-

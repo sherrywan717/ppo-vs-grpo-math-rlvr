@@ -1,24 +1,19 @@
-# PPO vs. GRPO Experiment Report
+# Math RLVR Experiment Report
 
-## Run Metadata
-
-| Field | PPO | GRPO |
+| Metadata | PPO | GRPO |
 |---|---:|---:|
-| Git commit | TBD | TBD |
-| Config | TBD | TBD |
-| GPU hours | TBD | TBD |
-| Estimated cost (CNY) | TBD | TBD |
-| Training samples/tokens | TBD | TBD |
+| Git commit / config / dataset revisions | TBD | TBD |
+| Completions / generated tokens / wall time | TBD | TBD |
+| Peak VRAM / GPU-hours / estimated CNY | TBD | TBD |
 
-## Results
-
-| Metric | Base | PPO | GRPO |
+| Quality and stability | Base | PPO | GRPO |
 |---|---:|---:|---:|
-| pass@1 | TBD | TBD | TBD |
-| Syntax-valid rate | TBD | TBD | TBD |
-| Mean reward | TBD | TBD | TBD |
+| pass@1 / pass@4 | TBD | TBD | TBD |
+| GSM8K / MATH500 accuracy | TBD | TBD | TBD |
+| MATH Level 1–5 accuracy | TBD | TBD | TBD |
+| Format / parse / valid expression / number usage | TBD | TBD | TBD |
+| Reward / KL / entropy / completion length | TBD | TBD | TBD |
+| PPO value loss / explained variance | N/A | TBD | N/A |
+| GRPO zero-variance group rate | N/A | N/A | TBD |
 
-## Reproducibility and Analysis
-
-Record the dependency lockfile, dataset revision and split, seeds, prompts, generation
-settings, reward configuration, verifier backend, failures, limitations, and retained checkpoints.
+Record manifests, revisions, prompt, generation settings, actual budget counters, checkpoints, failures, and cost assumptions. Countdown smoke results must not be presented as headline results.

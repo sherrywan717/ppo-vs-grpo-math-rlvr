@@ -1,30 +1,8 @@
-experiment:
-  name: main-ppo-qwen-coder-1.5b
-  algorithm: ppo
-  seed: 42
-model:
-  name_or_path: Qwen/Qwen2.5-Coder-1.5B-Instruct
-  dtype: bfloat16
-  use_qlora: false
-lora:
-  rank: 16
-  alpha: 32
-  dropout: 0.05
-  target_modules: [q_proj, k_proj, v_proj, o_proj]
-data:
-  max_train_samples: 2000
-  max_eval_samples: 200
-generation:
-  max_new_tokens: 512
-  temperature: 0.7
-training:
-  max_steps: 500
-  per_device_batch_size: 2
-  gradient_accumulation_steps: 8
-  learning_rate: 1.0e-5
-  save_steps: 100
-  save_total_limit: 2
-budget:
-  max_gpu_hours: 8
-  max_estimated_cost_cny: 160
-
+experiment: {name: main-ppo-qwen-1.5b, algorithm: ppo, seed: 20260712}
+model: {name_or_path: Qwen/Qwen2.5-1.5B-Instruct, dtype: bfloat16, use_qlora: false, gradient_checkpointing: true}
+lora: {rank: 16, alpha: 32, dropout: 0, target_modules: [q_proj, k_proj, v_proj, o_proj]}
+value_model: {base_checkpoint: Qwen/Qwen2.5-1.5B-Instruct, architecture: AutoModelForSequenceClassification, num_labels: 1, lora_rank: 8, lora_alpha: 16, lora_target_modules: [q_proj, v_proj], trainable_score_head: true}
+data: {manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/train_core_128.json, max_train_samples: 128}
+generation: {max_prompt_length: 512, max_completion_length: 384, max_new_tokens: 384, temperature: 0.8, top_p: 0.95, num_generations: 4}
+training: {max_steps: 500, save_total_limit: 2}
+budget: {max_completions: 4096, max_generated_tokens: 1048576, max_wall_time_seconds: 28800, max_gpu_hours: 8, max_estimated_cost_cny: 160}

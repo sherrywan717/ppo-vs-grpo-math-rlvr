@@ -1,6 +1,6 @@
 """Compatibility export for the canonical scalar reward policy."""
 
-from code_rlvr.rewards.result import DEFAULT_REWARD_POLICY, RewardResult
+from math_rlvr.rewards.result import DEFAULT_REWARD_POLICY, RewardResult
 
 
 def score(result: RewardResult) -> float:

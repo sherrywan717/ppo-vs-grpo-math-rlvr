@@ -3,14 +3,15 @@ requires = ["setuptools>=75", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "code-rlvr"
+name = "math-rlvr"
 version = "0.1.0"
-description = "A reproducible PPO versus GRPO study for code-model RLVR"
+description = "A reproducible PPO versus GRPO study for few-shot mathematical RLVR"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
   "accelerate>=1.10,<2",
   "datasets>=4.0,<5",
+  "math-verify==0.9.0",
   "peft>=0.17,<1",
   "PyYAML>=6.0.2,<7",
   "safetensors>=0.5,<1",
@@ -23,9 +24,8 @@ dependencies = [
 dev = ["pytest>=8.4,<9", "ruff>=0.12,<1"]
 
 [project.scripts]
-code-rlvr-ppo = "code_rlvr.training.ppo:main"
-code-rlvr-grpo = "code_rlvr.training.grpo:main"
-code-rlvr-check-env = "code_rlvr.execution.capabilities:main"
+math-rlvr-ppo = "math_rlvr.training.ppo:main"
+math-rlvr-grpo = "math_rlvr.training.grpo:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

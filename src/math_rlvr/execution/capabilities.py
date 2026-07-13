@@ -1,4 +1,4 @@
-"""Detect execution isolation without running untrusted code."""
+"""LEGACY/OUT-OF-SCOPE: code execution is retained for history and must not be used."""
 
 import json
 import shutil

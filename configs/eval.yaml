@@ -1,9 +1,11 @@
 evaluation:
-  seed: 42
-  temperature: 0.2
+  seed: 20260712
+  temperature: 0.8
   top_p: 0.95
-  max_new_tokens: 512
-  max_samples: 200
-  pass_at_k: [1]
-  require_safe_isolation: true
-
+  max_prompt_length: 512
+  max_completion_length: 384
+  pass_at_k: [1, 4]
+  gsm8k_manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/gsm8k_test_200.json
+  math500_manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/math500_test_200.json
+  gsm8k_pass4_manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/gsm8k_pass4_50.json
+  math500_pass4_manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/math500_pass4_50.json

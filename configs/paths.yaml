@@ -1,7 +1,7 @@
-cache_root: /root/autodl-tmp/huggingface
-model_cache: /root/autodl-tmp/huggingface/hub
-dataset_cache: /root/autodl-tmp/huggingface/datasets
-data_root: /root/autodl-tmp/code-rlvr-data
-output_root: /root/autodl-tmp/code-rlvr-outputs
-checkpoint_root: /root/autodl-tmp/code-rlvr-checkpoints
+cache_root: /root/autodl-tmp/cache/huggingface
+model_cache: /root/autodl-tmp/cache/huggingface/hub
+dataset_cache: /root/autodl-tmp/cache/huggingface/datasets
+data_root: /root/autodl-tmp/datasets/math_rlvr
+output_root: /root/autodl-tmp/math-rlvr-outputs
+checkpoint_root: /root/autodl-tmp/math-rlvr-checkpoints
 

@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 from typing import Any
 
-from code_rlvr.config import load_config, validate_training_config
+from math_rlvr.config import load_config, validate_training_config
 
 
 def parse_args(description: str) -> argparse.Namespace:

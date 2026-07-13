@@ -7,7 +7,7 @@ from typing import Any, Protocol
 import torch
 from torch import nn
 
-from code_rlvr.rewards.result import DEFAULT_REWARD_POLICY, RewardPolicy, RewardResult
+from math_rlvr.rewards.result import DEFAULT_REWARD_POLICY, RewardPolicy, RewardResult
 
 
 class Verifier(Protocol):
@@ -38,10 +38,7 @@ class GRPOVerifierRewardAdapter:
         completions: Sequence[str | Sequence[dict[str, str]]],
         **_: Any,
     ) -> list[float]:
-        return [
-            self.policy.to_scalar(self.verifier(completion_text(item)))
-            for item in completions
-        ]
+        return [self.policy.to_scalar(self.verifier(completion_text(item))) for item in completions]
 
 
 class _VerifierBackbone(nn.Module):
@@ -103,4 +100,3 @@ class PPOVerifierRewardModel(nn.Module):
         self.backbone = _VerifierBackbone(tokenizer, verifier, extract_completion, policy)
         self.score = nn.Identity()
         self.requires_grad_(False)
-

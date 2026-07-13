@@ -1,9 +1,3 @@
-reward:
-  verified_pass: 1.0
-  verified_fail: 0.0
-  format_error: -0.2
-  timeout: -0.5
-  resource_limit: -0.5
-  infrastructure_error_action: abort
-  verifier_timeout_seconds: 5
-  require_safe_isolation: true
+reward: {format_correct: 0.10, answer_parseable: 0.10, final_correct: 0.80, infrastructure_error_action: abort}
+formal_experiments: {policy: shaped, ablation: false}
+countdown_smoke: {policies: [sparse, shaped]}

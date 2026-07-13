@@ -5,8 +5,8 @@ import torch
 import trl
 from trl.trainer.utils import get_reward
 
-from code_rlvr.rewards.adapters import GRPOVerifierRewardAdapter, PPOVerifierRewardModel
-from code_rlvr.rewards.result import (
+from math_rlvr.rewards.adapters import GRPOVerifierRewardAdapter, PPOVerifierRewardModel
+from math_rlvr.rewards.result import (
     RewardInfrastructureError,
     RewardResult,
     RewardStatus,
@@ -32,8 +32,8 @@ class FakeTokenizer:
 class FakeVerifier:
     outcomes = {
         "pass": RewardStatus.VERIFIED_PASS,
-        "fail": RewardStatus.VERIFIED_FAIL,
-        "timeout": RewardStatus.TIMEOUT,
+        "fail": RewardStatus.WRONG_ANSWER,
+        "timeout": RewardStatus.RESOURCE_LIMIT,
         "infra": RewardStatus.INFRA_ERROR,
     }
 
@@ -60,11 +60,9 @@ def test_trl_024_get_reward_contract_padding_last_token_and_no_grad() -> None:
     assert model.base_model_prefix == "backbone"
     assert verifier.seen == ["pass", "timeout"]
     assert lengths.tolist() == [3, 2]
-    assert scores.tolist() == pytest.approx([1.0, -0.5])
-    assert logits[:, :, 0].tolist() == [
-        [0.0, 0.0, 0.0, 1.0, 0.0],
-        [0.0, 0.0, -0.5, 0.0, 0.0],
-    ]
+    assert scores.tolist() == pytest.approx([1.0, 0.1])
+    expected_logits = torch.tensor([[0.0, 0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.1, 0.0, 0.0]])
+    assert torch.allclose(logits[:, :, 0], expected_logits)
     assert not logits.requires_grad
     assert list(model.parameters()) == []
 
@@ -74,9 +72,7 @@ def test_ppo_and_grpo_share_identical_scalar_policy(completion: str) -> None:
     token_ids = {"pass": [3, 7], "fail": [4], "timeout": [5]}[completion]
     ppo_model = PPOVerifierRewardModel(FakeTokenizer(), FakeVerifier(), extract_completion)
     query_response = torch.tensor([[1, 2, *token_ids, 0]])
-    _, ppo_score, _ = get_reward(
-        ppo_model, query_response, pad_token_id=0, context_length=2
-    )
+    _, ppo_score, _ = get_reward(ppo_model, query_response, pad_token_id=0, context_length=2)
     grpo_score = GRPOVerifierRewardAdapter(FakeVerifier())([completion])
     assert ppo_score.tolist() == pytest.approx(grpo_score)
 
@@ -96,6 +92,6 @@ def test_infrastructure_error_aborts_batch_without_executing_text(adapter: str) 
 def test_generated_text_is_never_executed_by_fake_verifier() -> None:
     generated = "raise RuntimeError('must never execute')"
     verifier = FakeVerifier()
-    verifier.outcomes = verifier.outcomes | {generated: RewardStatus.VERIFIED_FAIL}
-    assert GRPOVerifierRewardAdapter(verifier)([generated]) == [0.0]
+    verifier.outcomes = verifier.outcomes | {generated: RewardStatus.WRONG_ANSWER}
+    assert GRPOVerifierRewardAdapter(verifier)([generated]) == [0.2]
     assert verifier.seen == [generated]

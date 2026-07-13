@@ -1,6 +1,6 @@
 """PPO-specific training entry point."""
 
-from code_rlvr.training.common import parse_args, preflight, refuse_unimplemented
+from math_rlvr.training.common import parse_args, preflight, refuse_unimplemented
 
 
 def main() -> int:
@@ -10,4 +10,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
