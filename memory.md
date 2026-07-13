@@ -119,3 +119,11 @@ This file records operational history and pitfalls that should survive context c
 - Repair: `normalize_cuda_device_index` accepts only reviewed CUDA forms and returns a range-checked, non-boolean integer. Implicit `cuda`/`None` resolution calls `current_device()` only inside the authorized available-CUDA path. All reset/current/peak allocator calls reuse one index; display label/name are never API inputs.
 - Lifecycle states are `not_started`, `active`, `finalized`, `unavailable`, or `failed`. Normalize/reset/collection failures retain primitive-only phase/type/message and are re-raised.
 - CPU verification passed 131 tests plus the explicit fake guarded execute and allocator lifecycle gates. CUDA remained uninitialized and frozen GRPO/PPO YAML hashes were unchanged. This CPU repair alone does not authorize a GRPO rerun.
+
+### Minimal CUDA allocator probe
+
+- Run ID: `cuda_allocator_probe_20260713T063028Z`; executed exactly once after the CPU fix commit with a clean worktree.
+- Normalized index was integer 0 on NVIDIA H800 PCIe. `reset_peak_memory_stats(0)` succeeded.
+- A 1,048,576-byte uint8 tensor yielded current/peak allocated 1 MiB and current/peak reserved 2 MiB. After deletion and `empty_cache`, current allocated and reserved were both 0 MiB.
+- Probe wall time was 0.425709065 seconds, GPU-hours 0.0001182525, and cost CNY 0.00105008 at CNY 8.88/GPU-hour.
+- No model, tokenizer, dataset, completion, trainer, optimizer, checkpoint, or network access was involved. No compute process remained after exit. This success validates allocator evidence only and does not authorize GRPO/PPO.

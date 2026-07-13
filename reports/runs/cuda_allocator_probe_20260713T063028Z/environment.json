@@ -1,0 +1,12 @@
+{
+  "python": "3.12.3",
+  "torch": "2.8.0+cu128",
+  "torch_cuda": "12.8",
+  "cuda_available": true,
+  "device_count": 1,
+  "device_index": 0,
+  "device_name": "NVIDIA H800 PCIe",
+  "offline": true,
+  "full_environment_dumped": false,
+  "git_commit": "249c5782bc3892b951074dda8e80312c08a6289d"
+}

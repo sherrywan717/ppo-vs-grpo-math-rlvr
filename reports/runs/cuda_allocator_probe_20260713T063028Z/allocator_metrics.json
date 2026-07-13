@@ -1,0 +1,79 @@
+{
+  "status": "success",
+  "reason": null,
+  "device_index": 0,
+  "allocated_phase": {
+    "available": true,
+    "state": "active",
+    "device_index": 0,
+    "device_label": "cuda:0",
+    "device_name": "NVIDIA H800 PCIe",
+    "requested_device": {
+      "type": "builtins.int",
+      "safe_repr": "0",
+      "callable": false,
+      "is_function": false,
+      "is_bool": false,
+      "is_int": true,
+      "is_string": false,
+      "is_torch_device": false
+    },
+    "max_memory_allocated": {
+      "bytes": 1048576,
+      "mib": 1.0
+    },
+    "max_memory_reserved": {
+      "bytes": 2097152,
+      "mib": 2.0
+    },
+    "memory_allocated": {
+      "bytes": 1048576,
+      "mib": 1.0
+    },
+    "memory_reserved": {
+      "bytes": 2097152,
+      "mib": 2.0
+    },
+    "failure_phase": null,
+    "exception_type": null,
+    "exception_message": null,
+    "unavailable_reason": null
+  },
+  "released_phase": {
+    "available": true,
+    "state": "finalized",
+    "device_index": 0,
+    "device_label": "cuda:0",
+    "device_name": "NVIDIA H800 PCIe",
+    "requested_device": {
+      "type": "builtins.int",
+      "safe_repr": "0",
+      "callable": false,
+      "is_function": false,
+      "is_bool": false,
+      "is_int": true,
+      "is_string": false,
+      "is_torch_device": false
+    },
+    "max_memory_allocated": {
+      "bytes": 1048576,
+      "mib": 1.0
+    },
+    "max_memory_reserved": {
+      "bytes": 2097152,
+      "mib": 2.0
+    },
+    "memory_allocated": {
+      "bytes": 0,
+      "mib": 0.0
+    },
+    "memory_reserved": {
+      "bytes": 0,
+      "mib": 0.0
+    },
+    "failure_phase": null,
+    "exception_type": null,
+    "exception_message": null,
+    "unavailable_reason": null
+  }
+}

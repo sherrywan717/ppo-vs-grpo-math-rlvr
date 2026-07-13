@@ -1,0 +1,99 @@
+{
+  "status": "success",
+  "reason": null,
+  "run_id": "cuda_allocator_probe_20260713T063028Z",
+  "device_index": 0,
+  "tensor_dtype": "torch.uint8",
+  "tensor_bytes": 1048576,
+  "wall_time_seconds": 0.4257090650498867,
+  "gpu_hours": 0.00011825251806941298,
+  "gpu_hour_price_cny": 8.88,
+  "cost_cny": 0.0010500823604563873,
+  "allocator_metrics": {
+    "status": "success",
+    "reason": null,
+    "device_index": 0,
+    "allocated_phase": {
+      "available": true,
+      "state": "active",
+      "device_index": 0,
+      "device_label": "cuda:0",
+      "device_name": "NVIDIA H800 PCIe",
+      "requested_device": {
+        "type": "builtins.int",
+        "safe_repr": "0",
+        "callable": false,
+        "is_function": false,
+        "is_bool": false,
+        "is_int": true,
+        "is_string": false,
+        "is_torch_device": false
+      },
+      "max_memory_allocated": {
+        "bytes": 1048576,
+        "mib": 1.0
+      },
+      "max_memory_reserved": {
+        "bytes": 2097152,
+        "mib": 2.0
+      },
+      "memory_allocated": {
+        "bytes": 1048576,
+        "mib": 1.0
+      },
+      "memory_reserved": {
+        "bytes": 2097152,
+        "mib": 2.0
+      },
+      "failure_phase": null,
+      "exception_type": null,
+      "exception_message": null,
+      "unavailable_reason": null
+    },
+    "released_phase": {
+      "available": true,
+      "state": "finalized",
+      "device_index": 0,
+      "device_label": "cuda:0",
+      "device_name": "NVIDIA H800 PCIe",
+      "requested_device": {
+        "type": "builtins.int",
+        "safe_repr": "0",
+        "callable": false,
+        "is_function": false,
+        "is_bool": false,
+        "is_int": true,
+        "is_string": false,
+        "is_torch_device": false
+      },
+      "max_memory_allocated": {
+        "bytes": 1048576,
+        "mib": 1.0
+      },
+      "max_memory_reserved": {
+        "bytes": 2097152,
+        "mib": 2.0
+      },
+      "memory_allocated": {
+        "bytes": 0,
+        "mib": 0.0
+      },
+      "memory_reserved": {
+        "bytes": 0,
+        "mib": 0.0
+      },
+      "failure_phase": null,
+      "exception_type": null,
+      "exception_message": null,
+      "unavailable_reason": null
+    }
+  },
+  "model_loads": 0,
+  "tokenizer_loads": 0,
+  "dataset_loads": 0,
+  "completion_count": 0,
+  "train_calls": 0,
+  "optimizer_steps": 0,
+  "network_access": false,
+  "single_attempt": true
+}
