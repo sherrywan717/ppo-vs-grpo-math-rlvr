@@ -608,7 +608,9 @@ def finalize_parent_diagnostic(*, payload, post_worker, config, git_info):
         except Exception as backup_exc:
             result["backup_error"] = f"{type(backup_exc).__name__}: {backup_exc}"
             try:
-                artifacts._json(artifacts.run_dir / "backup_failure.json", {"status":"failure", "backup_verified":False, "error":result["backup_error"]})
+                artifacts._json(artifacts.run_dir / "backup_failure.json",
+                    {"status": "failure", "backup_verified": False,
+                     "error": result["backup_error"]})
             except Exception:
                 pass
         return result
