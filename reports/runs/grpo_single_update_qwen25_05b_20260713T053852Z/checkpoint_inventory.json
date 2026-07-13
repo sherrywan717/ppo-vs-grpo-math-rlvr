@@ -1,0 +1,147 @@
+{
+  "status": "failed_policy_check",
+  "reason": "training_args.bin was rejected by the current non-adapter .bin allowlist",
+  "full_base_model_detected": false,
+  "unexpected_large_file_detected": false,
+  "files": [
+    {
+      "path": "checkpoint-1/README.md",
+      "size_bytes": 5417,
+      "sha256": "edd6a919864f6dcca89367b5c2b7a2d4059ad1e78a5bd834d9705af1c54e0ac3",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoint-1/adapter_config.json",
+      "size_bytes": 1152,
+      "sha256": "e0578b6cc6a14f9e8f8cd333cd6788e9308062e0bf8f9b0ce51a016c6a6d01c8",
+      "classification": "lora_adapter"
+    },
+    {
+      "path": "checkpoint-1/adapter_model.safetensors",
+      "size_bytes": 8676008,
+      "sha256": "daad2ebd6f2f3e74fabbf72d5cb57d47725863037e2e0cc3479687201395233b",
+      "classification": "lora_adapter"
+    },
+    {
+      "path": "checkpoint-1/added_tokens.json",
+      "size_bytes": 605,
+      "sha256": "58b54bbe36fc752f79a24a271ef66a0a0830054b4dfad94bde757d851968060b",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoint-1/chat_template.jinja",
+      "size_bytes": 2507,
+      "sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoint-1/merges.txt",
+      "size_bytes": 1671853,
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoint-1/special_tokens_map.json",
+      "size_bytes": 613,
+      "sha256": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoint-1/tokenizer.json",
+      "size_bytes": 11422161,
+      "sha256": "eb1ea0ffbb9ce6886361fefe110952fa83e3bcac0231c7f24b68cfa6e06cf0c9",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoint-1/tokenizer_config.json",
+      "size_bytes": 4686,
+      "sha256": "0a04a9d7d4a62b28482bdfe726c122756de85714fb64166ace92ae75b8f57614",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoint-1/trainer_state.json",
+      "size_bytes": 1573,
+      "sha256": "23a4e2c8995a9e68ad9bc0f781ac4cf397b6e4e87f47ed763e37c2aa35bc6d3e",
+      "classification": "trainer_state"
+    },
+    {
+      "path": "checkpoint-1/training_args.bin",
+      "size_bytes": 7441,
+      "sha256": "77214a852a7083e0f4fe580e9d402d7abf5c34656bfb21b05fddf122a5c6f0f6",
+      "classification": "trainer_state"
+    },
+    {
+      "path": "checkpoint-1/vocab.json",
+      "size_bytes": 2776833,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/README.md",
+      "size_bytes": 5417,
+      "sha256": "edd6a919864f6dcca89367b5c2b7a2d4059ad1e78a5bd834d9705af1c54e0ac3",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/adapter_config.json",
+      "size_bytes": 1152,
+      "sha256": "e0578b6cc6a14f9e8f8cd333cd6788e9308062e0bf8f9b0ce51a016c6a6d01c8",
+      "classification": "lora_adapter"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/adapter_model.safetensors",
+      "size_bytes": 8676008,
+      "sha256": "daad2ebd6f2f3e74fabbf72d5cb57d47725863037e2e0cc3479687201395233b",
+      "classification": "lora_adapter"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/added_tokens.json",
+      "size_bytes": 605,
+      "sha256": "58b54bbe36fc752f79a24a271ef66a0a0830054b4dfad94bde757d851968060b",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/chat_template.jinja",
+      "size_bytes": 2507,
+      "sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/merges.txt",
+      "size_bytes": 1671853,
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/special_tokens_map.json",
+      "size_bytes": 613,
+      "sha256": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/tokenizer.json",
+      "size_bytes": 11422161,
+      "sha256": "eb1ea0ffbb9ce6886361fefe110952fa83e3bcac0231c7f24b68cfa6e06cf0c9",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/tokenizer_config.json",
+      "size_bytes": 4686,
+      "sha256": "0a04a9d7d4a62b28482bdfe726c122756de85714fb64166ace92ae75b8f57614",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/training_args.bin",
+      "size_bytes": 7441,
+      "sha256": "77214a852a7083e0f4fe580e9d402d7abf5c34656bfb21b05fddf122a5c6f0f6",
+      "classification": "trainer_state"
+    },
+    {
+      "path": "checkpoints/checkpoint-1/vocab.json",
+      "size_bytes": 2776833,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "classification": "tokenizer_or_metadata"
+    }
+  ],
+  "total_size_bytes": 49140125
+}

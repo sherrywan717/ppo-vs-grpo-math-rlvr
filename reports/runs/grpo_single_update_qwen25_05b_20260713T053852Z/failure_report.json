@@ -1,0 +1,65 @@
+{
+  "status": "failure",
+  "phase": "guarded_execution",
+  "reason": "CheckpointSafetyError: non-adapter weight file: training_args.bin",
+  "counters": {
+    "limits": {
+      "completions": 8,
+      "generated_tokens": 1024,
+      "microsteps": 4,
+      "optimizer_steps": 1,
+      "global_step": 1
+    },
+    "completions": 8,
+    "generated_tokens": 687,
+    "microsteps": 4,
+    "optimizer_steps": 1,
+    "global_step": 1,
+    "start_timestamp": 11539862.724398836,
+    "elapsed_seconds": 10.829651260748506,
+    "exceeded": false,
+    "exceeded_reason": null,
+    "rewards": [
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "problem_id": "countdown:train:0",
+    "source": "countdown",
+    "split": "train",
+    "prompt_hash": "296b30c27fa7fc75d4dee32c40d0aefe2cfb05198621d27c776d6c31f1a401a3"
+  },
+  {
+    "problem_id": "countdown:train:1",
+    "source": "countdown",
+    "split": "train",
+    "prompt_hash": "5838e3d11c5a7d19f65dedb4a801367acc5a14b749bcf0debc1986da9f5f4992"
+  }
+]

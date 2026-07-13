@@ -1,0 +1,283 @@
+{
+  "status": "failure",
+  "reason": "CheckpointSafetyError: non-adapter weight file: training_args.bin",
+  "counters": {
+    "limits": {
+      "completions": 8,
+      "generated_tokens": 1024,
+      "microsteps": 4,
+      "optimizer_steps": 1,
+      "global_step": 1
+    },
+    "completions": 8,
+    "generated_tokens": 687,
+    "microsteps": 4,
+    "optimizer_steps": 1,
+    "global_step": 1,
+    "start_timestamp": 11539862.724398836,
+    "elapsed_seconds": 10.829651260748506,
+    "exceeded": false,
+    "exceeded_reason": null,
+    "rewards": [
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      },
+      {
+        "status": "format_error",
+        "detail": "each tag must appear exactly once",
+        "reward": 0.0
+      }
+    ]
+  },
+  "metrics": {
+    "diagnostic_label": "single-update smoke diagnostic",
+    "loss": 0.0,
+    "train_loss": 0.0,
+    "reward_mean": 0.0,
+    "reward_min": 0.0,
+    "reward_max": 0.0,
+    "reward_std": 0.0,
+    "group_reward_variance": 0.0,
+    "zero_advantage_fraction": 1.0,
+    "kl": null,
+    "grad_norm": 0.0,
+    "learning_rate": 1e-05,
+    "entropy": 0.6478358954191208,
+    "completion_mean_tokens": 85.875,
+    "completion_min_tokens": 9,
+    "completion_max_tokens": 128,
+    "completion_clipped_ratio": 0.5,
+    "total_generated_tokens": 687,
+    "pass_at_1": 0.0,
+    "pass_at_4": 0.0,
+    "format_accuracy": 0.0,
+    "valid_expression_rate": 0.0,
+    "number_usage_accuracy": 0.0,
+    "verifier_status_counts": {
+      "format_error": 8
+    },
+    "prompts": 2,
+    "completions": 8,
+    "microsteps": 4,
+    "optimizer_steps": 1,
+    "global_step": 1
+  },
+  "failure_phase": "checkpoint_inventory",
+  "snapshot_builder_passed": true,
+  "budgetguard_finalization_passed": true,
+  "all_json_reloadable": true,
+  "lora": {
+    "rank": 16,
+    "alpha": 32,
+    "dropout": 0,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
+    "trainable_parameters": 2162688,
+    "total_parameters_with_adapter": 496195456,
+    "trainable_ratio": 0.004358540518355734
+  },
+  "resources": {
+    "peak_nvidia_smi_vram_mib": 2597.0,
+    "peak_gpu_utilization_percent": 33.0,
+    "pytorch_peak_allocated_mib": null,
+    "pytorch_peak_reserved_mib": null,
+    "wall_time_seconds": 12.906681387999999,
+    "gpu_hours": 0.003585189274444444,
+    "actual_cost_cny": 0.03183648075706667
+  },
+  "checkpoint_inventory": {
+    "status": "failed_policy_check",
+    "reason": "training_args.bin was rejected by the current non-adapter .bin allowlist",
+    "full_base_model_detected": false,
+    "unexpected_large_file_detected": false,
+    "files": [
+      {
+        "path": "checkpoint-1/README.md",
+        "size_bytes": 5417,
+        "sha256": "edd6a919864f6dcca89367b5c2b7a2d4059ad1e78a5bd834d9705af1c54e0ac3",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoint-1/adapter_config.json",
+        "size_bytes": 1152,
+        "sha256": "e0578b6cc6a14f9e8f8cd333cd6788e9308062e0bf8f9b0ce51a016c6a6d01c8",
+        "classification": "lora_adapter"
+      },
+      {
+        "path": "checkpoint-1/adapter_model.safetensors",
+        "size_bytes": 8676008,
+        "sha256": "daad2ebd6f2f3e74fabbf72d5cb57d47725863037e2e0cc3479687201395233b",
+        "classification": "lora_adapter"
+      },
+      {
+        "path": "checkpoint-1/added_tokens.json",
+        "size_bytes": 605,
+        "sha256": "58b54bbe36fc752f79a24a271ef66a0a0830054b4dfad94bde757d851968060b",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoint-1/chat_template.jinja",
+        "size_bytes": 2507,
+        "sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoint-1/merges.txt",
+        "size_bytes": 1671853,
+        "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoint-1/special_tokens_map.json",
+        "size_bytes": 613,
+        "sha256": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoint-1/tokenizer.json",
+        "size_bytes": 11422161,
+        "sha256": "eb1ea0ffbb9ce6886361fefe110952fa83e3bcac0231c7f24b68cfa6e06cf0c9",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoint-1/tokenizer_config.json",
+        "size_bytes": 4686,
+        "sha256": "0a04a9d7d4a62b28482bdfe726c122756de85714fb64166ace92ae75b8f57614",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoint-1/trainer_state.json",
+        "size_bytes": 1573,
+        "sha256": "23a4e2c8995a9e68ad9bc0f781ac4cf397b6e4e87f47ed763e37c2aa35bc6d3e",
+        "classification": "trainer_state"
+      },
+      {
+        "path": "checkpoint-1/training_args.bin",
+        "size_bytes": 7441,
+        "sha256": "77214a852a7083e0f4fe580e9d402d7abf5c34656bfb21b05fddf122a5c6f0f6",
+        "classification": "trainer_state"
+      },
+      {
+        "path": "checkpoint-1/vocab.json",
+        "size_bytes": 2776833,
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/README.md",
+        "size_bytes": 5417,
+        "sha256": "edd6a919864f6dcca89367b5c2b7a2d4059ad1e78a5bd834d9705af1c54e0ac3",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/adapter_config.json",
+        "size_bytes": 1152,
+        "sha256": "e0578b6cc6a14f9e8f8cd333cd6788e9308062e0bf8f9b0ce51a016c6a6d01c8",
+        "classification": "lora_adapter"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/adapter_model.safetensors",
+        "size_bytes": 8676008,
+        "sha256": "daad2ebd6f2f3e74fabbf72d5cb57d47725863037e2e0cc3479687201395233b",
+        "classification": "lora_adapter"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/added_tokens.json",
+        "size_bytes": 605,
+        "sha256": "58b54bbe36fc752f79a24a271ef66a0a0830054b4dfad94bde757d851968060b",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/chat_template.jinja",
+        "size_bytes": 2507,
+        "sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/merges.txt",
+        "size_bytes": 1671853,
+        "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/special_tokens_map.json",
+        "size_bytes": 613,
+        "sha256": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/tokenizer.json",
+        "size_bytes": 11422161,
+        "sha256": "eb1ea0ffbb9ce6886361fefe110952fa83e3bcac0231c7f24b68cfa6e06cf0c9",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/tokenizer_config.json",
+        "size_bytes": 4686,
+        "sha256": "0a04a9d7d4a62b28482bdfe726c122756de85714fb64166ace92ae75b8f57614",
+        "classification": "tokenizer_or_metadata"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/training_args.bin",
+        "size_bytes": 7441,
+        "sha256": "77214a852a7083e0f4fe580e9d402d7abf5c34656bfb21b05fddf122a5c6f0f6",
+        "classification": "trainer_state"
+      },
+      {
+        "path": "checkpoints/checkpoint-1/vocab.json",
+        "size_bytes": 2776833,
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "classification": "tokenizer_or_metadata"
+      }
+    ],
+    "total_size_bytes": 49140125
+  },
+  "backed_up": true,
+  "backup_path": "/root/autodl-fs/math-rlvr-backups/grpo_single_update_qwen25_05b_20260713T053852Z-failure.tar.gz",
+  "backup_sha256": "2ef98e83374c5438ccfdbf6dcaba24c86d78875c4c4048dd1d4c2b87e5cad69e",
+  "warnings": [
+    "zero reward variance",
+    "zero advantage fraction is 1.0; this does not demonstrate learning",
+    "completion texts and per-completion token lengths were not persisted by the runner",
+    "KL and PyTorch allocator peaks were not persisted",
+    "model_init_kwargs were ignored because the model was already instantiated",
+    "tokenizer PAD/BOS/EOS values were aligned into model/generation config",
+    "checkpoint policy rejected the small training_args.bin training-state file"
+  ]
+}
