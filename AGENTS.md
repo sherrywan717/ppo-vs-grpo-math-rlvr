@@ -83,3 +83,11 @@ The one-shot minimal allocator probe `cuda_allocator_probe_20260713T063028Z` pas
 The evidence-complete GRPO run `grpo_single_update_qwen25_05b_20260713T063829Z` succeeded at commit `85776a8290f736b0469f377b0a3d3c4b86cdc7a1`: 2 prompts, 8 completions, 687 generated tokens, 4 microsteps, and one optimizer/global step. All eight outputs were strict format errors, producing zero reward variance and no learning signal. Preserve the run, checkpoint, reports, and backup unchanged.
 
 Production prompt behavior remains versioned as `prompt_v0_grpo_smoke`. The unactivated `prompt_v1_strict_concise` candidate places the full closed-envelope protocol at the end of the user message and is shared by PPO/GRPO through one renderer. Do not activate it in training or generation without a separately authorized generation-only A/B diagnostic using `--generate-only --confirm-prompt-diagnostic`; `--confirm-single-update` must not authorize that path. The strict parser and frozen YAML remain unchanged.
+
+### Guarded prompt A/B implementation gate
+
+The independent module `math_rlvr.evaluation.prompt_ab` accepts only
+`configs/diagnostics/prompt_ab.yaml`. Real generation requires both dedicated flags,
+a clean branch, both offline variables, the exact validated local Qwen 0.5B snapshot,
+and the fixed 16-completion/2,048-token/120-second/3.5-GiB contract before delayed model
+imports. It uses the base model only; Trainer, LoRA, train, backward, optimizer,

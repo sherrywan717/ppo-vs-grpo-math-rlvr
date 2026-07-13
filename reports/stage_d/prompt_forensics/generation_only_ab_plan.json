@@ -12,6 +12,9 @@
   "seed": 42,
   "temperature": 0.8,
   "top_p": 0.95,
+  "top_k": null,
+  "top_k_semantics": "inherit pinned local model generation config identically for v0/v1",
+  "repetition_penalty": 1.0,
   "completions_per_prompt_per_variant": 4,
   "max_completion_tokens": 128,
   "total_completion_cap": 16,
@@ -54,5 +57,15 @@
     "wall time would exceed 120 seconds",
     "VRAM would exceed 3.5 GiB",
     "OOM, NaN/Inf, artifact failure, or any trainer/train/backward/optimizer call"
-  ]
+  ],
+  "runner": {
+    "module": "math_rlvr.evaluation.prompt_ab",
+    "config": "configs/diagnostics/prompt_ab.yaml",
+    "status": "implemented_cpu_fake_only_not_executed",
+    "matched_seed": "reset Python, PyTorch CPU, and CUDA per problem/generation/condition",
+    "completion_split": "slice after padded input width; mask sum is input length",
+    "base_model_only": true,
+    "auto_activate_v1": false,
+    "auto_retry": false
+  }
 }

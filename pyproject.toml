@@ -26,6 +26,7 @@ dev = ["pytest>=8.4,<9", "ruff>=0.12,<1"]
 [project.scripts]
 math-rlvr-ppo = "math_rlvr.training.ppo:main"
 math-rlvr-grpo = "math_rlvr.training.grpo:main"
+math-rlvr-prompt-ab = "math_rlvr.evaluation.prompt_ab:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
