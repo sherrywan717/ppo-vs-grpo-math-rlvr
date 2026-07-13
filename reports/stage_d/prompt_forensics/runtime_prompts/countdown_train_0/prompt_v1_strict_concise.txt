@@ -1,0 +1,15 @@
+<|im_start|>system
+Solve the math problem concisely. Follow the output protocol at the end of the user message exactly.<|im_end|>
+<|im_start|>user
+Use each of [5, 9, 13, 6] exactly once with +, -, *, / to make 15/26.
+
+OUTPUT PROTOCOL — follow exactly:
+<reasoning>...</reasoning>
+<answer>...</answer>
+Return exactly those two closed blocks, in that order, with no text outside them.
+Keep reasoning to at most two short sentences.
+Inside <answer>, write one arithmetic expression only.
+Do not include prose, an equals sign, or the target value.
+Use every input number exactly once. Use only +, -, *, /, and parentheses.<|im_end|>
+<|im_start|>assistant
+

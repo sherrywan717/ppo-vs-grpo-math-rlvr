@@ -127,3 +127,13 @@ This file records operational history and pitfalls that should survive context c
 - A 1,048,576-byte uint8 tensor yielded current/peak allocated 1 MiB and current/peak reserved 2 MiB. After deletion and `empty_cache`, current allocated and reserved were both 0 MiB.
 - Probe wall time was 0.425709065 seconds, GPU-hours 0.0001182525, and cost CNY 0.00105008 at CNY 8.88/GPU-hour.
 - No model, tokenizer, dataset, completion, trainer, optimizer, checkpoint, or network access was involved. No compute process remained after exit. This success validates allocator evidence only and does not authorize GRPO/PPO.
+
+## Successful GRPO Smoke Prompt Forensics
+
+- Successful evidence run: `grpo_single_update_qwen25_05b_20260713T063829Z`, commit `85776a8290f736b0469f377b0a3d3c4b86cdc7a1`. Execution counters were 2 prompts, 8 completions, 687 tokens, 4 microsteps, and one optimizer/global step.
+- Offline replay with the unchanged parser/verifier reproduced all 8 runtime `format_error` statuses. Reasoning tags appeared in 0/8, complete answer pairs in 3/8, and complete envelopes in 0/8. Four outputs hit the 128-token cap. There is no parser misclassification evidence.
+- Real v0 prompts are 85/83 tokens; the saved prompt hashes are normalized dataset user-text hashes and match exactly. The Qwen template is applied once, roles are system/user followed by an open assistant turn, and no prompt truncation occurs.
+- v0 contains both literal tag pairs, but the system-message format instruction ends 43/41 tokens before the generation boundary and lacks explicit no-outside-text, closure, expression-only, no-equals/target, and concise-reasoning constraints.
+- The unactivated `prompt_v1_strict_concise` candidate is 157/155 tokens and places the final format instruction 5 tokens before the boundary. It retains the problem but includes no gold construction. PPO and GRPO export the same candidate renderer.
+- BOS is absent; EOS is `<|im_end|>` 151645; PAD is `<|endoftext|>` 151643; padding is left and truncation is right. Runtime alignment warnings did not alter rendered text or the assistant boundary.
+- Any v0/v1 generation diagnostic requires independent `--generate-only --confirm-prompt-diagnostic` authorization, must not train, and is capped at 16 completions/2,048 generated tokens. This forensic audit does not authorize it or PPO.

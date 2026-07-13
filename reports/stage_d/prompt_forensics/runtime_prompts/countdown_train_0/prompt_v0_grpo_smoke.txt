@@ -1,0 +1,6 @@
+<|im_start|>system
+Solve the math problem. Output exactly one <reasoning>...</reasoning> block followed by exactly one <answer>...</answer> block. Put only the final answer in <answer>.<|im_end|>
+<|im_start|>user
+Use each of [5, 9, 13, 6] exactly once with +, -, *, / to make 15/26.<|im_end|>
+<|im_start|>assistant
+

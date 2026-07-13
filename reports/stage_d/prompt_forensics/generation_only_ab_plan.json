@@ -1,0 +1,58 @@
+{
+  "status": "planned_not_executed",
+  "variants": {
+    "A": "prompt_v0_grpo_smoke",
+    "B": "prompt_v1_strict_concise"
+  },
+  "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "problem_ids": [
+    "countdown:train:0",
+    "countdown:train:1"
+  ],
+  "seed": 42,
+  "temperature": 0.8,
+  "top_p": 0.95,
+  "completions_per_prompt_per_variant": 4,
+  "max_completion_tokens": 128,
+  "total_completion_cap": 16,
+  "total_generated_token_cap": 2048,
+  "training": false,
+  "backward": false,
+  "optimizer_step": false,
+  "checkpoint": false,
+  "required_flags": [
+    "--generate-only",
+    "--confirm-prompt-diagnostic"
+  ],
+  "forbidden_confirmation": "--confirm-single-update",
+  "metrics": [
+    "complete-envelope rate",
+    "answer-tag rate",
+    "reasoning-tag rate",
+    "truncation rate",
+    "valid-expression rate",
+    "number-usage accuracy",
+    "verifier status",
+    "token length",
+    "wall time",
+    "VRAM",
+    "GPU-hours",
+    "CNY cost"
+  ],
+  "estimated_peak_vram_gib": 2.5,
+  "vram_stop_gate_gib": 3.5,
+  "estimated_wall_seconds": 40,
+  "worst_wall_seconds": 120,
+  "estimated_gpu_hours": 0.011111111111111112,
+  "worst_gpu_hours": 0.03333333333333333,
+  "estimated_cost_cny": 0.09866666666666668,
+  "worst_cost_cny": 0.29600000000000004,
+  "success_criteria": "16 bounded completions with complete evidence and zero training calls",
+  "automatic_stop": [
+    "completion count would exceed 16",
+    "token count would exceed 2048",
+    "wall time would exceed 120 seconds",
+    "VRAM would exceed 3.5 GiB",
+    "OOM, NaN/Inf, artifact failure, or any trainer/train/backward/optimizer call"
+  ]
+}

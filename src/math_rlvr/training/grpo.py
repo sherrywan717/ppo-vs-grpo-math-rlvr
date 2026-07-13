@@ -2,9 +2,14 @@
 
 from pathlib import Path
 
-from math_rlvr.training.common import parse_args, preflight, render_training_prompt
+from math_rlvr.training.common import (
+    parse_args,
+    preflight,
+    render_candidate_training_prompt,
+    render_training_prompt,
+)
 
-__all__ = ["main", "render_training_prompt"]
+__all__ = ["main", "render_candidate_training_prompt", "render_training_prompt"]
 
 
 def main(argv=None, execute_fn=None, git_probe=None, snapshot_probe=None) -> int:

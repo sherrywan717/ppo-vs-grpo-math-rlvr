@@ -1,0 +1,88 @@
+{
+  "status": "passed",
+  "run_id": "grpo_single_update_qwen25_05b_20260713T063829Z",
+  "cpu_only": true,
+  "offline": true,
+  "cuda_initialized_before": false,
+  "cuda_initialized_after": false,
+  "model_loaded": false,
+  "generation_performed": false,
+  "train_calls": 0,
+  "optimizer_steps": 0,
+  "runtime_format_error_count": 8,
+  "offline_format_error_count": 8,
+  "offline_runtime_consistent": true,
+  "at_128_token_cap_count": 4,
+  "primary_taxonomy_counts": {
+    "missing_reasoning_open": 1,
+    "answer_only": 3,
+    "truncated_at_max_tokens": 4
+  },
+  "category_counts": {
+    "missing_reasoning_open": 8,
+    "missing_reasoning_close": 8,
+    "missing_answer_open": 5,
+    "missing_answer_close": 5,
+    "prose_outside_envelope": 6,
+    "answer_only": 3,
+    "truncated_at_max_tokens": 4
+  },
+  "tag_coverage_counts": {
+    "reasoning_open": 0,
+    "reasoning_close": 0,
+    "answer_open": 3,
+    "answer_close": 3,
+    "complete_envelope": 0
+  },
+  "v0_prompt_tokens": [
+    85,
+    83
+  ],
+  "v1_prompt_tokens": [
+    157,
+    155
+  ],
+  "v0_format_distance_tokens": [
+    43,
+    41
+  ],
+  "v1_format_distance_tokens": [
+    5,
+    5
+  ],
+  "prompt_truncation_count": 0,
+  "chat_template_correct": true,
+  "tokenizer_audit_all_passed": true,
+  "pad_bos_eos_boundary_impact": false,
+  "parser_misclassification_evidence": false,
+  "recommended_candidate": "prompt_v1_strict_concise",
+  "root_cause_assessment": {
+    "primary": "weak format adherence to a distant and underspecified v0 protocol",
+    "model_instruction_following": "supported: zero reasoning tags and only three answer-tag pairs",
+    "instruction_distance": "supported contributor: v0 is in system message before user problem",
+    "prompt_truncation": "not supported: neither runtime prompt was truncated",
+    "chat_template_error": "not supported: one-pass Qwen template and assistant boundary match TRL",
+    "completion_cap": "secondary: four of eight completions reached 128 tokens",
+    "parser_too_strict": "not supported: every output objectively misses required tags"
+  },
+  "saved_prompt_hash_semantics": "SHA256 of normalized dataset user prompt content, not rendered chat text",
+  "saved_prompt_hashes_verified": true,
+  "rendered_sha256_by_version_problem": {
+    "prompt_v0_grpo_smoke:countdown:train:0": "10ef24136ee7eded595e47a0cff4990b4b63d605a5066ac668471e761f93ac2e",
+    "prompt_v1_strict_concise:countdown:train:0": "7f669cc719c3a0bc4d0007e04ad756dc8d688c4be314a80e10d5377fcf22ebc8",
+    "prompt_v0_grpo_smoke:countdown:train:1": "3391d931463b57a4a98d53cbbdaed55fed687c2f73e2d25fd4ce856434a811f1",
+    "prompt_v1_strict_concise:countdown:train:1": "bf6cfad2cde22f98afba534c8e9c1bbc7844a61087a76bb48d654533e6cf1335"
+  },
+  "special_tokens": {
+    "bos_token": null,
+    "bos_token_id": null,
+    "eos_token": "<|im_end|>",
+    "eos_token_id": 151645,
+    "pad_token": "<|endoftext|>",
+    "pad_token_id": 151643,
+    "padding_side": "left",
+    "truncation_side": "right"
+  },
+  "v2_one_shot_created": false,
+  "v2_reason": "v1 already demonstrates the literal envelope; avoid adding an untested mathematical example before A/B evidence"
+}

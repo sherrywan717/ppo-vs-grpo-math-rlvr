@@ -1,0 +1,233 @@
+[
+  {
+    "problem_id": "countdown:train:0",
+    "prompt_hash": "296b30c27fa7fc75d4dee32c40d0aefe2cfb05198621d27c776d6c31f1a401a3",
+    "generation_index": 0,
+    "completion_index": 0,
+    "raw_completion": "The reason is that the expression \\(13 - 6 \\div 9\\) evaluates to \\(13 - \\frac{6}{9} = 13 - \\frac{2}{3} = \\frac{39}{3} - \\frac{2}{3} = \\frac{37}{3}\\), which is approximately 12.333, not 15/26.",
+    "exact_token_count": 89,
+    "at_128_token_cap": false,
+    "detected_tags": {
+      "<reasoning>": 0,
+      "</reasoning>": 0,
+      "<answer>": 0,
+      "</answer>": 0
+    },
+    "categories": [
+      "missing_reasoning_open",
+      "missing_reasoning_close",
+      "missing_answer_open",
+      "missing_answer_close",
+      "prose_outside_envelope"
+    ],
+    "primary_class": "missing_reasoning_open",
+    "parser_status": "format_error",
+    "parser_detail": "each tag must appear exactly once",
+    "verifier_status": "format_error",
+    "verifier_detail": "each tag must appear exactly once",
+    "runtime_reward_status": "format_error",
+    "runtime_replay_consistent": true
+  },
+  {
+    "problem_id": "countdown:train:0",
+    "prompt_hash": "296b30c27fa7fc75d4dee32c40d0aefe2cfb05198621d27c776d6c31f1a401a3",
+    "generation_index": 1,
+    "completion_index": 1,
+    "raw_completion": "To make 15/26, we can multiply 5 and 6 to get 30 and then add 9 and 13. That would give us <answer>30+9+13=52</answer>",
+    "exact_token_count": 53,
+    "at_128_token_cap": false,
+    "detected_tags": {
+      "<reasoning>": 0,
+      "</reasoning>": 0,
+      "<answer>": 1,
+      "</answer>": 1
+    },
+    "categories": [
+      "missing_reasoning_open",
+      "missing_reasoning_close",
+      "answer_only",
+      "prose_outside_envelope"
+    ],
+    "primary_class": "answer_only",
+    "parser_status": "format_error",
+    "parser_detail": "each tag must appear exactly once",
+    "verifier_status": "format_error",
+    "verifier_detail": "each tag must appear exactly once",
+    "runtime_reward_status": "format_error",
+    "runtime_replay_consistent": true
+  },
+  {
+    "problem_id": "countdown:train:0",
+    "prompt_hash": "296b30c27fa7fc75d4dee32c40d0aefe2cfb05198621d27c776d6c31f1a401a3",
+    "generation_index": 2,
+    "completion_index": 2,
+    "raw_completion": "The math problem is to make 15/26 with each of [5, 9, 13, 6] exactly once. \n\nUsing each number exactly once, one possible solution is:\n\n5 + 6 - (13 * 9 / 5)\n\nFirst, we calculate the multiplication: 13 * 9 = 117\n\nThen, we divide by 5: 117 / 5 = 23.4\n\nFinally, we add 5 and 6: 5 + 6 = 11\n\nTherefore, the answer is 11.",
+    "exact_token_count": 128,
+    "at_128_token_cap": true,
+    "detected_tags": {
+      "<reasoning>": 0,
+      "</reasoning>": 0,
+      "<answer>": 0,
+      "</answer>": 0
+    },
+    "categories": [
+      "missing_reasoning_open",
+      "missing_reasoning_close",
+      "missing_answer_open",
+      "missing_answer_close",
+      "prose_outside_envelope",
+      "truncated_at_max_tokens"
+    ],
+    "primary_class": "truncated_at_max_tokens",
+    "parser_status": "format_error",
+    "parser_detail": "each tag must appear exactly once",
+    "verifier_status": "format_error",
+    "verifier_detail": "each tag must appear exactly once",
+    "runtime_reward_status": "format_error",
+    "runtime_replay_consistent": true
+  },
+  {
+    "problem_id": "countdown:train:0",
+    "prompt_hash": "296b30c27fa7fc75d4dee32c40d0aefe2cfb05198621d27c776d6c31f1a401a3",
+    "generation_index": 3,
+    "completion_index": 3,
+    "raw_completion": "<answer>13/5 + 6 - 9 = 15/26</answer>",
+    "exact_token_count": 24,
+    "at_128_token_cap": false,
+    "detected_tags": {
+      "<reasoning>": 0,
+      "</reasoning>": 0,
+      "<answer>": 1,
+      "</answer>": 1
+    },
+    "categories": [
+      "missing_reasoning_open",
+      "missing_reasoning_close",
+      "answer_only"
+    ],
+    "primary_class": "answer_only",
+    "parser_status": "format_error",
+    "parser_detail": "each tag must appear exactly once",
+    "verifier_status": "format_error",
+    "verifier_detail": "each tag must appear exactly once",
+    "runtime_reward_status": "format_error",
+    "runtime_replay_consistent": true
+  },
+  {
+    "problem_id": "countdown:train:1",
+    "prompt_hash": "5838e3d11c5a7d19f65dedb4a801367acc5a14b749bcf0debc1986da9f5f4992",
+    "generation_index": 0,
+    "completion_index": 4,
+    "raw_completion": "<answer>29</answer>",
+    "exact_token_count": 9,
+    "at_128_token_cap": false,
+    "detected_tags": {
+      "<reasoning>": 0,
+      "</reasoning>": 0,
+      "<answer>": 1,
+      "</answer>": 1
+    },
+    "categories": [
+      "missing_reasoning_open",
+      "missing_reasoning_close",
+      "answer_only"
+    ],
+    "primary_class": "answer_only",
+    "parser_status": "format_error",
+    "parser_detail": "each tag must appear exactly once",
+    "verifier_status": "format_error",
+    "verifier_detail": "each tag must appear exactly once",
+    "runtime_reward_status": "format_error",
+    "runtime_replay_consistent": true
+  },
+  {
+    "problem_id": "countdown:train:1",
+    "prompt_hash": "5838e3d11c5a7d19f65dedb4a801367acc5a14b749bcf0debc1986da9f5f4992",
+    "generation_index": 1,
+    "completion_index": 5,
+    "raw_completion": "To solve the expression \\(-4\\) using the numbers \\(16\\), \\(4\\), \\(11\\), and \\(13\\) exactly once with the operations \\(+\\), \\(-\\), \\(*\\), and \\(/\\) (which is a division operation), let's analyze the available operations.\n\nFirst, let's test if we can get a negative result by using addition or subtraction first. Both \\(16\\) and \\(4\\) can be added together to get a number that can be subtracted later.\n\n1. Try \\(4 - 16 = -12\\), but we have \\(16\\",
+    "exact_token_count": 128,
+    "at_128_token_cap": true,
+    "detected_tags": {
+      "<reasoning>": 0,
+      "</reasoning>": 0,
+      "<answer>": 0,
+      "</answer>": 0
+    },
+    "categories": [
+      "missing_reasoning_open",
+      "missing_reasoning_close",
+      "missing_answer_open",
+      "missing_answer_close",
+      "prose_outside_envelope",
+      "truncated_at_max_tokens"
+    ],
+    "primary_class": "truncated_at_max_tokens",
+    "parser_status": "format_error",
+    "parser_detail": "each tag must appear exactly once",
+    "verifier_status": "format_error",
+    "verifier_detail": "each tag must appear exactly once",
+    "runtime_reward_status": "format_error",
+    "runtime_replay_consistent": true
+  },
+  {
+    "problem_id": "countdown:train:1",
+    "prompt_hash": "5838e3d11c5a7d19f65dedb4a801367acc5a14b749bcf0debc1986da9f5f4992",
+    "generation_index": 2,
+    "completion_index": 6,
+    "raw_completion": "To solve the math problem with the expression -4, we need to make it equal to -4. The only way to achieve this is by using the operations +, -, *, and /, and the numbers 16, 4, 11, and 13 exactly once.\n\nLet's try using the operations in a specific order:\n\n1. First, we need to use a negative number. We can use -1 to make -4.\n\n2. Now, we have -1, 16, 13, and 11. We need to use +, -, *, and / to make -",
+    "exact_token_count": 128,
+    "at_128_token_cap": true,
+    "detected_tags": {
+      "<reasoning>": 0,
+      "</reasoning>": 0,
+      "<answer>": 0,
+      "</answer>": 0
+    },
+    "categories": [
+      "missing_reasoning_open",
+      "missing_reasoning_close",
+      "missing_answer_open",
+      "missing_answer_close",
+      "prose_outside_envelope",
+      "truncated_at_max_tokens"
+    ],
+    "primary_class": "truncated_at_max_tokens",
+    "parser_status": "format_error",
+    "parser_detail": "each tag must appear exactly once",
+    "verifier_status": "format_error",
+    "verifier_detail": "each tag must appear exactly once",
+    "runtime_reward_status": "format_error",
+    "runtime_replay_consistent": true
+  },
+  {
+    "problem_id": "countdown:train:1",
+    "prompt_hash": "5838e3d11c5a7d19f65dedb4a801367acc5a14b749bcf0debc1986da9f5f4992",
+    "generation_index": 3,
+    "completion_index": 7,
+    "raw_completion": "To solve the math problem, we need to use the numbers 16, 4, 11, and 13 exactly once with the operations +, -, *, / to make -4. Let's consider some possible combinations:\n\n1. Using + and -: We can try combinations like 11 - 4 + 16 = 33 (but this is not -4)\n2. Using + and *: We can try 11 * 16 - 4 = 172 (but this is not -4)\n3. Using + and /: We can try 1",
+    "exact_token_count": 128,
+    "at_128_token_cap": true,
+    "detected_tags": {
+      "<reasoning>": 0,
+      "</reasoning>": 0,
+      "<answer>": 0,
+      "</answer>": 0
+    },
+    "categories": [
+      "missing_reasoning_open",
+      "missing_reasoning_close",
+      "missing_answer_open",
+      "missing_answer_close",
+      "prose_outside_envelope",
+      "truncated_at_max_tokens"
+    ],
+    "primary_class": "truncated_at_max_tokens",
+    "parser_status": "format_error",
+    "parser_detail": "each tag must appear exactly once",
+    "verifier_status": "format_error",
+    "verifier_detail": "each tag must appear exactly once",
+    "runtime_reward_status": "format_error",
+    "runtime_replay_consistent": true
+  }
+]

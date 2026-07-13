@@ -4,10 +4,11 @@ from math_rlvr.training.common import (
     parse_args,
     preflight,
     refuse_unimplemented,
+    render_candidate_training_prompt,
     render_training_prompt,
 )
 
-__all__ = ["main", "render_training_prompt"]
+__all__ = ["main", "render_candidate_training_prompt", "render_training_prompt"]
 
 
 def main() -> int:

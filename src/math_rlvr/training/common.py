@@ -5,9 +5,10 @@ from pathlib import Path
 from typing import Any
 
 from math_rlvr.config import load_config, validate_training_config
-from math_rlvr.prompt import render_prompt
+from math_rlvr.prompt import render_candidate_prompt, render_prompt
 
 render_training_prompt = render_prompt
+render_candidate_training_prompt = render_candidate_prompt
 
 
 def parse_args(description: str, argv=None) -> argparse.Namespace:

@@ -77,3 +77,9 @@ Allocator device handling is now centralized through `normalize_cuda_device_inde
 ### CUDA allocator probe result
 
 The one-shot minimal allocator probe `cuda_allocator_probe_20260713T063028Z` passed on H800 device index 0 after the normalization repair. A 1 MiB uint8 tensor produced 1/2 MiB current allocated/reserved and 1/2 MiB peak allocated/reserved; after release and `empty_cache`, current allocated/reserved returned to zero. The probe loaded no model/tokenizer/data and performed no generation, training, optimizer update, checkpoint, or network access. It does not authorize a GRPO rerun or PPO.
+
+### Successful GRPO smoke and prompt forensic gate
+
+The evidence-complete GRPO run `grpo_single_update_qwen25_05b_20260713T063829Z` succeeded at commit `85776a8290f736b0469f377b0a3d3c4b86cdc7a1`: 2 prompts, 8 completions, 687 generated tokens, 4 microsteps, and one optimizer/global step. All eight outputs were strict format errors, producing zero reward variance and no learning signal. Preserve the run, checkpoint, reports, and backup unchanged.
+
+Production prompt behavior remains versioned as `prompt_v0_grpo_smoke`. The unactivated `prompt_v1_strict_concise` candidate places the full closed-envelope protocol at the end of the user message and is shared by PPO/GRPO through one renderer. Do not activate it in training or generation without a separately authorized generation-only A/B diagnostic using `--generate-only --confirm-prompt-diagnostic`; `--confirm-single-update` must not authorize that path. The strict parser and frozen YAML remain unchanged.

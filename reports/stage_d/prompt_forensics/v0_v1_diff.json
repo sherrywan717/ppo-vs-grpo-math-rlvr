@@ -1,0 +1,10 @@
+[
+  {
+    "problem_id": "countdown:train:0",
+    "unified_diff": "--- countdown:train:0/v0\n+++ countdown:train:0/v1\n@@ -1,5 +1,14 @@\n <|im_start|>system\n-Solve the math problem. Output exactly one <reasoning>...</reasoning> block followed by exactly one <answer>...</answer> block. Put only the final answer in <answer>.<|im_end|>\n+Solve the math problem concisely. Follow the output protocol at the end of the user message exactly.<|im_end|>\n <|im_start|>user\n-Use each of [5, 9, 13, 6] exactly once with +, -, *, / to make 15/26.<|im_end|>\n+Use each of [5, 9, 13, 6] exactly once with +, -, *, / to make 15/26.\n+\n+OUTPUT PROTOCOL — follow exactly:\n+<reasoning>...</reasoning>\n+<answer>...</answer>\n+Return exactly those two closed blocks, in that order, with no text outside them.\n+Keep reasoning to at most two short sentences.\n+Inside <answer>, write one arithmetic expression only.\n+Do not include prose, an equals sign, or the target value.\n+Use every input number exactly once. Use only +, -, *, /, and parentheses.<|im_end|>\n <|im_start|>assistant\n"
+  },
+  {
+    "problem_id": "countdown:train:1",
+    "unified_diff": "--- countdown:train:1/v0\n+++ countdown:train:1/v1\n@@ -1,5 +1,14 @@\n <|im_start|>system\n-Solve the math problem. Output exactly one <reasoning>...</reasoning> block followed by exactly one <answer>...</answer> block. Put only the final answer in <answer>.<|im_end|>\n+Solve the math problem concisely. Follow the output protocol at the end of the user message exactly.<|im_end|>\n <|im_start|>user\n-Use each of [16, 4, 11, 13] exactly once with +, -, *, / to make -4.<|im_end|>\n+Use each of [16, 4, 11, 13] exactly once with +, -, *, / to make -4.\n+\n+OUTPUT PROTOCOL — follow exactly:\n+<reasoning>...</reasoning>\n+<answer>...</answer>\n+Return exactly those two closed blocks, in that order, with no text outside them.\n+Keep reasoning to at most two short sentences.\n+Inside <answer>, write one arithmetic expression only.\n+Do not include prose, an equals sign, or the target value.\n+Use every input number exactly once. Use only +, -, *, /, and parentheses.<|im_end|>\n <|im_start|>assistant\n"
+  }
+]
