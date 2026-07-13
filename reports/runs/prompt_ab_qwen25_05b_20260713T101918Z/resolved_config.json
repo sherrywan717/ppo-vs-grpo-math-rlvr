@@ -1,0 +1,58 @@
+{
+  "experiment": {
+    "name": "qwen25-05b-prompt-ab-generation-diagnostic",
+    "mode": "generation_only",
+    "seed": 42
+  },
+  "model": {
+    "name_or_path": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "local_files_only": true,
+    "dtype": "bfloat16",
+    "base_model_only": true
+  },
+  "data": {
+    "manifest": "/root/autodl-tmp/datasets/math_rlvr/manifests/countdown_train.json",
+    "problem_ids": [
+      "countdown:train:0",
+      "countdown:train:1"
+    ]
+  },
+  "conditions": [
+    {
+      "name": "v0",
+      "prompt_version": "prompt_v0_grpo_smoke"
+    },
+    {
+      "name": "v1",
+      "prompt_version": "prompt_v1_strict_concise"
+    }
+  ],
+  "generation": {
+    "completions_per_prompt": 4,
+    "max_new_tokens": 128,
+    "do_sample": true,
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "top_k": null,
+    "repetition_penalty": 1.0
+  },
+  "budget": {
+    "max_conditions": 2,
+    "unique_prompts_per_condition": 2,
+    "completions_per_condition": 8,
+    "max_total_completions": 16,
+    "max_total_generated_tokens": 2048,
+    "max_wall_time_seconds": 120,
+    "max_peak_vram_gib": 3.5,
+    "gpu_hour_price_cny": 8.88
+  },
+  "safety": {
+    "training": false,
+    "backward": false,
+    "optimizer": false,
+    "checkpoint": false,
+    "adapter": false,
+    "retry": false
+  }
+}

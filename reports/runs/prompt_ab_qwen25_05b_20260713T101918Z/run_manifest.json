@@ -1,0 +1,8 @@
+{
+  "run_id": "prompt_ab_qwen25_05b_20260713T101918Z",
+  "status": "failure",
+  "training": false,
+  "completion_count": 16,
+  "total_generated_tokens": 813,
+  "safety_counters": {}
+}

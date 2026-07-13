@@ -1,0 +1,45 @@
+{
+  "status": "failure",
+  "reason": "RuntimeError: worker CUDA allocator memory was not fully released",
+  "diagnostic_only": true,
+  "training": false,
+  "budget": {
+    "limits": {
+      "conditions": 2,
+      "unique_prompts_per_condition": 2,
+      "completions_per_prompt": 4,
+      "completions_per_condition": 8,
+      "total_completions": 16,
+      "tokens_per_completion": 128,
+      "total_generated_tokens": 2048,
+      "peak_vram_gib": 3.5
+    },
+    "condition_counts": {
+      "v0": 8,
+      "v1": 8
+    },
+    "condition_prompt_ids": {
+      "v0": [
+        "countdown:train:0",
+        "countdown:train:1"
+      ],
+      "v1": [
+        "countdown:train:0",
+        "countdown:train:1"
+      ]
+    },
+    "problem_counts": {
+      "v0:countdown:train:0": 4,
+      "v0:countdown:train:1": 4,
+      "v1:countdown:train:0": 4,
+      "v1:countdown:train:1": 4
+    },
+    "total_completions": 16,
+    "total_generated_tokens": 813,
+    "elapsed_seconds": 15.32206099666655,
+    "exceeded_reason": null
+  },
+  "completion_count": 16,
+  "backed_up": false,
+  "cleanup_error": null
+}

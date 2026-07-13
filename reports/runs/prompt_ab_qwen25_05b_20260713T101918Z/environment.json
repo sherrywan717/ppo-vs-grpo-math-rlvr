@@ -1,0 +1,6 @@
+{
+  "python": "3.12.3",
+  "torch": "2.8.0+cu128",
+  "transformers": "4.57.6",
+  "offline_required": true
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "condition": "v0",
+    "problem_id": "countdown:train:0",
+    "generation_index": 0,
+    "seed": 42,
+    "matched_seed": 42,
+    "python_seed": 42,
+    "torch_cpu_seed": 42,
+    "torch_cuda_seed": 42
+  },
+  {
+    "condition": "v0",
+    "problem_id": "countdown:train:0",
+    "generation_index": 1,
+    "seed": 43,
+    "matched_seed": 43,
+    "python_seed": 43,
+    "torch_cpu_seed": 43,
+    "torch_cuda_seed": 43
+  },
+  {
+    "condition": "v0",
+    "problem_id": "countdown:train:0",
+    "generation_index": 2,
+    "seed": 44,
+    "matched_seed": 44,
+    "python_seed": 44,
+    "torch_cpu_seed": 44,
+    "torch_cuda_seed": 44
+  },
+  {
+    "condition": "v0",
+    "problem_id": "countdown:train:0",
+    "generation_index": 3,
+    "seed": 45,
+    "matched_seed": 45,
+    "python_seed": 45,
+    "torch_cpu_seed": 45,
+    "torch_cuda_seed": 45
+  },
+  {
+    "condition": "v0",
+    "problem_id": "countdown:train:1",
+    "generation_index": 0,
+    "seed": 46,
+    "matched_seed": 46,
+    "python_seed": 46,
+    "torch_cpu_seed": 46,
+    "torch_cuda_seed": 46
+  },
+  {
+    "condition": "v0",
+    "problem_id": "countdown:train:1",
+    "generation_index": 1,
+    "seed": 47,
+    "matched_seed": 47,
+    "python_seed": 47,
+    "torch_cpu_seed": 47,
+    "torch_cuda_seed": 47
+  },
+  {
+    "condition": "v0",
+    "problem_id": "countdown:train:1",
+    "generation_index": 2,
+    "seed": 48,
+    "matched_seed": 48,
+    "python_seed": 48,
+    "torch_cpu_seed": 48,
+    "torch_cuda_seed": 48
+  },
+  {
+    "condition": "v0",
+    "problem_id": "countdown:train:1",
+    "generation_index": 3,
+    "seed": 49,
+    "matched_seed": 49,
+    "python_seed": 49,
+    "torch_cpu_seed": 49,
+    "torch_cuda_seed": 49
+  },
+  {
+    "condition": "v1",
+    "problem_id": "countdown:train:0",
+    "generation_index": 0,
+    "seed": 42,
+    "matched_seed": 42,
+    "python_seed": 42,
+    "torch_cpu_seed": 42,
+    "torch_cuda_seed": 42
+  },
+  {
+    "condition": "v1",
+    "problem_id": "countdown:train:0",
+    "generation_index": 1,
+    "seed": 43,
+    "matched_seed": 43,
+    "python_seed": 43,
+    "torch_cpu_seed": 43,
+    "torch_cuda_seed": 43
+  },
+  {
+    "condition": "v1",
+    "problem_id": "countdown:train:0",
+    "generation_index": 2,
+    "seed": 44,
+    "matched_seed": 44,
+    "python_seed": 44,
+    "torch_cpu_seed": 44,
+    "torch_cuda_seed": 44
+  },
+  {
+    "condition": "v1",
+    "problem_id": "countdown:train:0",
+    "generation_index": 3,
+    "seed": 45,
+    "matched_seed": 45,
+    "python_seed": 45,
+    "torch_cpu_seed": 45,
+    "torch_cuda_seed": 45
+  },
+  {
+    "condition": "v1",
+    "problem_id": "countdown:train:1",
+    "generation_index": 0,
+    "seed": 46,
+    "matched_seed": 46,
+    "python_seed": 46,
+    "torch_cpu_seed": 46,
+    "torch_cuda_seed": 46
+  },
+  {
+    "condition": "v1",
+    "problem_id": "countdown:train:1",
+    "generation_index": 1,
+    "seed": 47,
+    "matched_seed": 47,
+    "python_seed": 47,
+    "torch_cpu_seed": 47,
+    "torch_cuda_seed": 47
+  },
+  {
+    "condition": "v1",
+    "problem_id": "countdown:train:1",
+    "generation_index": 2,
+    "seed": 48,
+    "matched_seed": 48,
+    "python_seed": 48,
+    "torch_cpu_seed": 48,
+    "torch_cuda_seed": 48
+  },
+  {
+    "condition": "v1",
+    "problem_id": "countdown:train:1",
+    "generation_index": 3,
+    "seed": 49,
+    "matched_seed": 49,
+    "python_seed": 49,
+    "torch_cpu_seed": 49,
+    "torch_cuda_seed": 49
+  }
+]
