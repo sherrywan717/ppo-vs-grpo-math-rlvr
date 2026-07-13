@@ -1,34 +1,56 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
+## Project Mission
 
-This repository is currently a blank project scaffold. As code is introduced, keep the root focused on configuration and documentation. Place application code in `src/`, tests in `tests/`, reusable scripts in `scripts/`, and non-code resources in `assets/`. Mirror source paths in the test tree—for example, test `src/solver/reward.py` with `tests/solver/test_reward.py`. Document any intentional departure from this layout in the pull request that introduces it.
+This repository is the artifact-first Math RLVR project. Its goal is a reproducible PPO-versus-GRPO comparison for few-shot mathematical reasoning, with matched prompts, reward contracts, completion/token budgets, and auditable run artifacts. Formal experiments target `Qwen/Qwen2.5-1.5B-Instruct`; `Qwen/Qwen2.5-0.5B-Instruct` is the bounded smoke-test model. Countdown is verifier/smoke data, while GSM8K and MATH are training/evaluation data and MATH500 is held out from training.
 
-## Build, Test, and Development Commands
+Never advance to a new paid/GPU stage implicitly. Model download, CUDA initialization, model loading, generation, and PPO/GRPO updates each require the user's explicit scope. A successful stage does not authorize the next stage.
 
-No build system or package manager has been configured yet. When adding one, expose a small, predictable command set and update this section. Recommended entry points are:
+## Current Baseline and Milestones
 
-- `make setup` — install development dependencies.
-- `make test` — run the complete automated test suite.
-- `make lint` — run formatters, linters, and static checks.
-- `make run` — start the project locally.
+The active branch is `pivot/math-rlvr`. Important milestones are:
 
-Keep these targets as thin wrappers around the native tooling so local development and CI use the same commands.
+- `5a10cbae2abcb066b423b10ff9d327ad1483b75c` — artifact-first Stage D infrastructure, frozen configs, reports, CPU gates, tokenizer audit, trainer builders, and shared PPO/GRPO prompt renderer.
+- `6daca223bd17ddc9201e0b8dc7cdc3c677db9b39` — successful Qwen 0.5B CUDA/model-load sanity report.
+- The local 0.5B snapshot is revision `7ae557604adf67be50417f59c2c2f167def9a775` under `/root/autodl-tmp/cache/huggingface`; never copy model weights into Git, run artifacts, backups, or `/root/autodl-fs`.
+- CPU tokenizer audit, static gates, and CUDA load sanity have passed. No PPO or GRPO optimizer update has been executed.
 
-## Coding Style & Naming Conventions
+Read `memory.md` before changing execution code or launching another run; it records measured results and known pitfalls.
 
-Follow the standard formatter and linter for the chosen language, committed as project configuration rather than relying on editor defaults. Use spaces for indentation unless the language ecosystem requires otherwise. Prefer descriptive names: `snake_case` for Python modules and functions, `PascalCase` for types, and kebab-case for documentation filenames. Keep modules focused and avoid unrelated cleanup in feature changes.
+## Project Structure
 
-## Testing Guidelines
+Keep application code in `src/math_rlvr/`, tests in `tests/`, reusable entry points in `scripts/`, configs in `configs/`, and Git-safe reports in `reports/`. Runtime datasets, caches, runs, outputs, and checkpoints belong only under `/root/autodl-tmp`. Full run artifacts use `/root/autodl-tmp/runs/math_rlvr/<run_id>/`; Git-safe summaries use `reports/runs/<run_id>/`; static backups use `/root/autodl-fs/math-rlvr-backups/` and must exclude model caches and weights.
 
-Add tests with every behavior change and bug fix. Tests should be deterministic, isolated from external services by default, and named after the behavior under test. Store fixtures under `tests/fixtures/`. New tooling should provide one command that runs all tests from the repository root and should fail on test errors or unmet coverage thresholds.
+The shared prompt contract is one system/user chat followed by an open assistant turn. The required completion envelope is exactly one `<reasoning>...</reasoning>` block followed by exactly one terminal `<answer>...</answer>` block. PPO and GRPO must use the same renderer from `math_rlvr.prompt`.
 
-## Commit & Pull Request Guidelines
+## Build, Test, and CPU Gates
 
-There is no Git history from which to infer an existing convention. Use short, imperative commit subjects, optionally following Conventional Commits, such as `feat: add reward parser` or `fix: handle empty response`. Keep commits scoped and independently understandable.
+No command in this section should load a model or initialize CUDA. Run from the repository root:
 
-Pull requests should explain the motivation, summarize the implementation, list verification commands, and link relevant issues. Include screenshots or logs for visible behavior changes. Note configuration changes, migrations, and follow-up work explicitly; request review only after automated checks pass.
+- `python -m compileall src scripts tests`
+- `ruff check .`
+- `pytest -q`
+- `PYTHONPATH=src python scripts/check_env.py`
+- `PYTHONPATH=src python scripts/validate_manifests.py`
+- `PYTHONPATH=src python -m math_rlvr.training.ppo --config configs/smoke/ppo.yaml`
+- `PYTHONPATH=src python -m math_rlvr.training.grpo --config configs/smoke/grpo.yaml`
 
-## Safety & Artifact Rules
+The PPO/GRPO commands above are dry-run preflights only. They must not call `train`, `generate`, or `optimizer.step`, and must not load a model. Tests that inject a fake trainer must use the CPU configuration path so TRL does not probe BF16 GPU support.
 
-Store model caches, datasets, outputs, and checkpoints only under `/root/autodl-tmp`. Never commit generated artifacts. Do not batch-delete files or directories: commands such as `rm -rf`, recursive `rm`, and recursive `rmdir` are prohibited. If deletion is necessary, identify and remove only one explicit file after confirming its path. Do not execute generated code unless a verified isolation backend is active; ordinary subprocess execution is not a security sandbox.
+## Experiment Contracts
+
+Use BF16 LoRA, never QLoRA, vLLM, bitsandbytes, or newly downloaded dependencies unless separately approved. Policy LoRA is `r=16`, alpha 32, dropout 0 on q/k/v/o projections. The PPO value adapter is `r=8`, alpha 16 on q/v plus a trainable scalar score head. Keep prompt/completion limits and budgets in the checked-in configs, and align comparisons using actual completions and generated tokens rather than trainer steps.
+
+The fixed formal reward is format 0.10, parse/semantic validity 0.10, and correctness 0.80. Infrastructure errors abort instead of becoming reward zero. Verifiers must not use `eval`, `exec`, dynamic imports, subprocess execution, or generated-code execution.
+
+## Artifact and Safety Rules
+
+Use `ArtifactManager` and `ResourceMonitor` for GPU runs. Every run must have bounded wall time, completion/token limits, explicit stop reasons, checksums, environment metadata without full environment dumps, resource CSV/JSONL, summaries, logs, and plots. On OOM, NaN/Inf, revision mismatch, target mismatch, timeout, or artifact failure, stop immediately and do not retry unless explicitly authorized.
+
+Never commit model/cache files, full run archives, checkpoints, auth files, tokens, proxy credentials, complete environment dumps, or large binaries. Git-safe reports and small plots may be committed after secret, size, and `git diff --check` audits. Verify archives with both `tar -tzf` and `sha256sum -c`; exclude even empty checkpoint directories when the stage promises no checkpoints.
+
+Do not batch-delete files or directories: `rm -rf`, recursive `rm`, and recursive `rmdir` are prohibited. If deletion is necessary, confirm and remove one explicit path. Do not execute generated code unless a verified isolation backend is active; ordinary subprocess execution is not a security sandbox.
+
+## Coding and Review Style
+
+Use Python 3.12, spaces, Ruff, descriptive `snake_case` functions/modules and `PascalCase` types. Keep modules focused and add deterministic tests for every behavior change. Preserve user changes and avoid unrelated cleanup. Use short imperative commit subjects, preferably Conventional Commits. Pull requests should state motivation, implementation, verification commands, configuration changes, artifact impact, and follow-up work.
