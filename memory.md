@@ -175,3 +175,25 @@ This file records operational history and pitfalls that should survive context c
   immutable for replay.
 - The next GPU stage is one newly and separately authorized GRPO single-update smoke.
   PPO remains unauthorized; never enter PPO automatically.
+
+## Prompt v1 GRPO Single-Update Smoke
+
+- Run `grpo_single_update_qwen25_05b_20260713T112100Z` executed exactly once with the
+  frozen local Qwen 0.5B revision and v1 prompt identity. It completed 2 prompts, 8
+  completions, 276 generated tokens, 4 microsteps, and 1 optimizer/global step.
+- Infrastructure result: pass. Completion IDs/text/counts are complete, exposed
+  metrics are finite, only the authoritative `checkpoint-1` exists, the adapter-only
+  inventory passed, artifacts and persistent backup were verified, and post-process
+  `nvidia-smi` returned to 0 MiB with no compute process.
+- Learning-signal result: fail. Both problem groups had rewards `[0, 0, 0, 0]`, zero
+  within-group variance, and zero advantage; all eight statuses were `FORMAT_ERROR`.
+  Loss and grad norm were 0, entropy was 0.5070152432, and frozen beta=0 means KL is
+  correctly unavailable/null rather than zero.
+- PyTorch pre-exit allocator residue was 64 MiB allocated/108 MiB reserved; this is a
+  warning because the process-exit GPU release gate passed. Runtime nvidia-smi peak is
+  unavailable because the runner CSV is empty and must not be invented.
+- The verified full-run backup is
+  `/root/autodl-fs/math-rlvr-backups/grpo_single_update_qwen25_05b_20260713T112100Z.tar.gz`,
+  SHA256 `583ae58d892fe7f743531cddbd1eaf6685d809c9607f6532f2471f875a44180c`.
+- Do not interpret infrastructure success as learning. v1 remains smoke-only; PPO is
+  still unauthorized and blocked until the user reviews both conclusions.

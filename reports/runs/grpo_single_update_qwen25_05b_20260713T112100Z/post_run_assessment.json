@@ -1,0 +1,55 @@
+{
+  "schema_version": "math_rlvr.grpo_post_run_assessment.v1",
+  "run_id": "grpo_single_update_qwen25_05b_20260713T112100Z",
+  "status": "success",
+  "infrastructure_smoke": {"passed": true, "reason": "Eight completion records, four microsteps, one optimizer/global step, finite exposed metrics, one safe checkpoint, consistent finalized artifacts, verified backup, and post-process GPU release passed."},
+  "learning_signal_smoke": {"passed": false, "reason": "Both prompt groups have zero reward variance and all advantages are zero.", "zero_advantage_group_count": 2, "nonzero_variance_group_count": 0, "all_advantages_zero": true},
+  "prompt_identity": {"prompt_version": "prompt_v1_strict_concise", "prompt_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7", "renderer_version": "math_rlvr.prompt.chat_template.v1"},
+  "counters": {"unique_prompts": 2, "completions": 8, "generated_tokens": 276, "microsteps": 4, "optimizer_steps": 1, "global_step": 1},
+  "problem_groups": [
+    {"problem_id": "countdown:train:0", "rewards": [0.0, 0.0, 0.0, 0.0], "reward_variance": 0.0, "zero_advantage": true},
+    {"problem_id": "countdown:train:1", "rewards": [0.0, 0.0, 0.0, 0.0], "reward_variance": 0.0, "zero_advantage": true}
+  ],
+  "reward_status_counts": {"format_error": 8},
+  "trainer_metrics": {
+    "loss": 0.0, "grad_norm": 0.0, "entropy": 0.5070152431726456, "learning_rate": 0.00001,
+    "reward_mean": 0.0, "reward_std": 0.0, "reward_variance": 0.0, "zero_advantage_fraction": 1.0,
+    "all_finite": true, "kl_available": false, "kl": null,
+    "kl_unavailable_reason": "GRPO beta=0.0; TRL 0.24.0 does not compute reference-model KL"
+  },
+  "lora": {
+    "rank": 16, "alpha": 32, "dropout": 0.0, "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+    "trainable_parameters": 2162688, "total_parameters_including_adapter": 496195456,
+    "trainable_ratio_percent": 0.43585405183557346,
+    "evidence_note": "Trainable count is derived from saved adapter tensor metadata; total/base count matches the previously verified pinned Qwen 0.5B construction."
+  },
+  "resources": {
+    "pytorch_peak_allocated_bytes": 1574488576, "pytorch_peak_allocated_mib": 1501.54931640625,
+    "pytorch_peak_reserved_bytes": 2030043136, "pytorch_peak_reserved_mib": 1936.0,
+    "worker_pre_exit_allocated_mib": 64.0, "worker_pre_exit_reserved_mib": 108.0,
+    "nvidia_smi_peak_mib": null,
+    "nvidia_smi_peak_unavailable_reason": "The finalized gpu_metrics.csv is empty; no peak is inferred or fabricated.",
+    "post_process_gpu_memory_mib": 0, "post_process_compute_process_count": 0, "gpu_release_verified": true,
+    "wall_time_seconds": 10.567161472514272, "gpu_hours": 0.0029353226312539645,
+    "cost_cny_at_8_88_per_gpu_hour": 0.0260656645659352
+  },
+  "checkpoint": {
+    "root": "checkpoint-1", "file_count": 12, "total_size_bytes": 24570864, "duplicate_checkpoint_count": 0,
+    "adapter_model_sha256": "2ea8925f28f6e723493e8b1ca8fd866375d34665c7ffc0914560733f3383cc3c",
+    "adapter_config_sha256": "6a341d35da0161ff19cb3f682e3a6986e267ee55910a784d096370e379e5a334",
+    "training_args_sha256": "409bb1e558e886a7ce69d5028fb1eba858660e69d559ab484b8f2e03127a38c0",
+    "contains_full_base_model": false
+  },
+  "backup": {
+    "path": "/root/autodl-fs/math-rlvr-backups/grpo_single_update_qwen25_05b_20260713T112100Z.tar.gz",
+    "sha256": "583ae58d892fe7f743531cddbd1eaf6685d809c9607f6532f2471f875a44180c", "verified": true
+  },
+  "warnings": [
+    "all eight completions are FORMAT_ERROR",
+    "zero reward variance and zero advantage provide no learning signal",
+    "worker allocator retained 64 MiB allocated and 108 MiB reserved before process exit; post-process nvidia-smi verified 0 MiB and no compute process",
+    "nvidia-smi runtime peak is unavailable because gpu_metrics.csv is empty"
+  ],
+  "ppo_started": false,
+  "ppo_authorized": false
+}

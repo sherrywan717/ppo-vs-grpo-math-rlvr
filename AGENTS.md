@@ -113,3 +113,17 @@ had zero valid-expression rate, number-usage accuracy, pass@1, and pass@4. There
 main/formal configs remain preserved. The next executable step requires a new explicit
 GRPO single-update authorization. PPO remains unauthorized and must never start
 automatically.
+
+### Prompt v1 GRPO single-update result
+
+The separately authorized run `grpo_single_update_qwen25_05b_20260713T112100Z`
+completed the frozen v1 smoke budget: two prompts, eight completions, 276 generated
+tokens, four microsteps, and exactly one optimizer/global step. The infrastructure
+smoke passed, including the sole safe `checkpoint-1`, finalized evidence, verified
+backup, and post-process GPU release.
+
+The learning-signal smoke failed. All eight completions were `FORMAT_ERROR`; each
+four-completion problem group had rewards `[0, 0, 0, 0]`, zero variance, and zero
+advantage. Finite loss/grad/entropy evidence does not change that conclusion. Keep
+`prompt_v1_strict_concise` smoke-only and production-unapproved. PPO remains
+unauthorized and blocked pending user review; never enter PPO automatically.

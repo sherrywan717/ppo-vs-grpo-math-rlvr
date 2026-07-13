@@ -1,0 +1,15 @@
+{
+  "schema_version": "math_rlvr.post_process_gpu_release.v1",
+  "run_id": "grpo_single_update_qwen25_05b_20260713T112100Z",
+  "check_scope": "orchestrator process after the authorized training command exited",
+  "baseline_gpu_memory_mib": 0,
+  "post_process_gpu_memory_mib": 0,
+  "baseline_compute_process_count": 0,
+  "post_process_compute_process_count": 0,
+  "command_exited": true,
+  "gpu_memory_returned_to_baseline": true,
+  "no_compute_process": true,
+  "gpu_release_verified": true,
+  "worker_pid_persisted_by_runner": false,
+  "warning": "The worker reported 64 MiB allocated and 108 MiB reserved before process exit; this is diagnostic only because post-process nvidia-smi returned to 0 MiB with no compute process."
+}

@@ -1,0 +1,68 @@
+{
+  "experiment": {
+    "name": "smoke-grpo-qwen-0.5b",
+    "algorithm": "grpo",
+    "seed": 42
+  },
+  "prompt": {
+    "version": "prompt_v1_strict_concise"
+  },
+  "model": {
+    "name_or_path": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "local_files_only": true,
+    "dtype": "bfloat16",
+    "use_qlora": false,
+    "gradient_checkpointing": true
+  },
+  "lora": {
+    "rank": 16,
+    "alpha": 32,
+    "dropout": 0,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ]
+  },
+  "data": {
+    "manifest": "/root/autodl-tmp/datasets/math_rlvr/manifests/countdown_train.json",
+    "max_train_samples": 2
+  },
+  "generation": {
+    "max_prompt_length": 512,
+    "max_completion_length": 128,
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "num_generations": 4,
+    "generation_batch_size": 8
+  },
+  "training": {
+    "max_steps": 1,
+    "per_device_train_batch_size": 2,
+    "gradient_accumulation_steps": 4,
+    "num_iterations": 1,
+    "save_total_limit": 1,
+    "save_strategy": "steps",
+    "save_steps": 1,
+    "save_only_model": true,
+    "push_to_hub": false,
+    "report_to": []
+  },
+  "budget": {
+    "max_completions": 8,
+    "max_generated_tokens": 1024,
+    "max_optimizer_steps": 1,
+    "max_global_steps": 1,
+    "max_wall_time_seconds": 900,
+    "max_gpu_hours": 0.25,
+    "max_estimated_cost_cny": 2.22,
+    "gpu_hour_price_cny": 8.88
+  },
+  "prompt_version": "prompt_v1_strict_concise",
+  "prompt_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+  "renderer_version": "math_rlvr.prompt.chat_template.v1",
+  "candidate_status": "approved_for_smoke",
+  "production_status": "not_approved"
+}
