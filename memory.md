@@ -65,3 +65,11 @@ This file records operational history and pitfalls that should survive context c
 - Increase `nvidia-smi` sampling frequency and retain PyTorch allocator peaks.
 - Reconfirm clean worktree, exact local revision, no other GPU process, hard wall/token/completion caps, and failure-without-retry behavior.
 - Do not start PPO, save a full base model, or proceed to another stage automatically.
+
+## Guarded GRPO Runner Implementation
+
+- Default CLI remains dry-run; `--execute` alone is rejected. The frozen smoke config additionally requires `--confirm-single-update`, clean Git, fixed local snapshot, and exact resolved budgets before real imports.
+- `training/trl_compat.py` is the only TRL 0.24.0 private hook. It validates `completion_ids`/binary `completion_mask` shapes for exact token counts and records microsteps; official callbacks guard optimizer/global steps.
+- BudgetGuard refuses a ninth completion, token 1,025, microstep 5, optimizer step 2, global step 2, non-finite rewards, INFRA_ERROR, and the 15-minute deadline before success.
+- Checkpoint inventory permits adapter weights/config and trainer state but rejects full-size or non-adapter weight files. Success requires artifacts plus verified backup; failures stop the monitor and remain failure.
+- CPU fake tests do not authorize or execute the real runner, generation, CUDA, or PPO.

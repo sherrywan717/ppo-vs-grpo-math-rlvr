@@ -14,6 +14,7 @@ The active branch is `pivot/math-rlvr`. Important milestones are:
 - `6daca223bd17ddc9201e0b8dc7cdc3c677db9b39` — successful Qwen 0.5B CUDA/model-load sanity report.
 - The local 0.5B snapshot is revision `7ae557604adf67be50417f59c2c2f167def9a775` under `/root/autodl-tmp/cache/huggingface`; never copy model weights into Git, run artifacts, backups, or `/root/autodl-fs`.
 - CPU tokenizer audit, static gates, and CUDA load sanity have passed. No PPO or GRPO optimizer update has been executed.
+- The guarded GRPO runner requires `--execute --confirm-single-update`; either missing flag fails before delayed model/CUDA imports. Exact completion tokens are guarded through the isolated TRL 0.24.0 shim.
 
 Read `memory.md` before changing execution code or launching another run; it records measured results and known pitfalls.
 

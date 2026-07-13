@@ -20,6 +20,16 @@ The output contract is exactly one `<reasoning>...</reasoning>` block followed b
 
 The checked-in GRPO smoke YAML is the configuration source of truth: two unique prompts, four generations per prompt, generation batch 8, micro-batch 2, gradient accumulation 4, one iteration, one global/optimizer step, eight completions, and a 1,024 generated-token hard cap. TRL 0.24.0 must infer `steps_per_generation=4`; never configure both that field and `generation_batch_size`. This is an integration smoke contract, not a formal experiment result.
 
+## Guarded GRPO execution
+
+The default GRPO CLI is dry-run only. `--execute` by itself still fails closed. The only real smoke path requires the frozen smoke config and both flags:
+
+```bash
+PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.grpo --config configs/smoke/grpo.yaml --execute --confirm-single-update
+```
+
+Before delayed model imports, the CLI requires a clean `pivot/math-rlvr` worktree, the fixed local revision, and the complete batching/budget contract. `trl_compat.py` is the sole TRL 0.24.0 private-hook shim and exact token accounting uses completion IDs/masks, not decode/re-tokenize. The artifact state is fail-closed: success requires complete artifacts, adapter-only checkpoint inventory, tar backup, and verified SHA256. It never advances to PPO automatically.
+
 ## CPU-only checks
 
 ```bash

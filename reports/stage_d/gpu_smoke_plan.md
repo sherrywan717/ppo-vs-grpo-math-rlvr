@@ -30,6 +30,10 @@ Price: ¥8.88/GPU-hour. Estimates are planning bounds, not measured results.
 - Cost: ¥1.48 estimated; ¥2.22 worst
 - Success: exactly one optimizer update; 8 bounded completions; finite loss/reward; artifacts/checksum complete
 - Automatic stop: 900 s, 1024 generated tokens, 8 completions, VRAM >10 GiB, OOM, NaN/Inf
+- Guarded command: `PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.grpo --config configs/smoke/grpo.yaml --execute --confirm-single-update`
+- Authorization: both flags, frozen config, clean Git, fixed local snapshot, and all budget gates; never retries or enters PPO.
+- Accounting: isolated `trl==0.24.0` shim validates exact completion IDs/masks; guards 8 completions, 1,024 tokens, 4 microsteps, one optimizer/global step, and 900 seconds.
+- State: success only after complete artifacts, adapter-only checkpoint inventory, tar backup, and SHA256 verification.
 - OOM/NaN/timeout: OOM: stop and report measured peak, then propose shorter completion/smaller batch; NaN: retain metrics and stop; timeout: terminate gracefully, no automatic rerun
 
 ## C. PPO 0.5B single-update smoke

@@ -10,13 +10,16 @@ from math_rlvr.prompt import render_prompt
 render_training_prompt = render_prompt
 
 
-def parse_args(description: str) -> argparse.Namespace:
+def parse_args(description: str, argv=None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("--config", type=Path, required=True)
+    parser.add_argument("--execute", action="store_true", help="Request guarded execution")
     parser.add_argument(
-        "--execute", action="store_true", help="Authorize training when implemented"
+        "--confirm-single-update",
+        action="store_true",
+        help="Second confirmation required only for the frozen GRPO smoke",
     )
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
 def preflight(config_path: Path, algorithm: str) -> dict[str, Any]:

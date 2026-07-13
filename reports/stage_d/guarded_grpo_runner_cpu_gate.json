@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "pytest": "67 passed",
+  "fake_runner": "17 passed",
+  "cuda_initialized": false,
+  "real_model_loaded": false,
+  "real_completions": 0,
+  "real_optimizer_steps": 0,
+  "real_train_calls": 0
+}

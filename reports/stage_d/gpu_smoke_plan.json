@@ -52,7 +52,12 @@
       "generation_batch_size": 8,
       "steps_per_generation": 4,
       "num_iterations": 1,
-      "batching_revision": "The old 2/1 setting could not make one optimizer update consume the complete 8-completion generation batch. Revised to micro-batch/gradient-accumulation 2/4 with generation_batch_size=8; TRL infers steps_per_generation=4. This is a smoke integration repair, not an experiment result."
+      "batching_revision": "The old 2/1 setting could not make one optimizer update consume the complete 8-completion generation batch. Revised to micro-batch/gradient-accumulation 2/4 with generation_batch_size=8; TRL infers steps_per_generation=4. This is a smoke integration repair, not an experiment result.",
+      "guarded_command": "PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.grpo --config configs/smoke/grpo.yaml --execute --confirm-single-update",
+      "authorization": "Both --execute and --confirm-single-update plus frozen config, clean Git, local revision, and budget gates. No automatic retry or PPO transition.",
+      "online_budget_guard": "Exact completion_ids/completion_mask token count; 8 completions, 1024 tokens, 4 microsteps, 1 optimizer step, global_step 1, 900 seconds.",
+      "trl_compatibility": "Single isolated trl==0.24.0 private generation hook with strict fields and shape checks.",
+      "artifact_state_machine": "Success only after complete artifacts, adapter-only checkpoint inventory, tar.gz backup, and SHA256 verification."
     },
     {
       "id": "C",

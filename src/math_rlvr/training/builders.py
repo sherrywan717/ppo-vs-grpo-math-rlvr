@@ -107,12 +107,21 @@ def grpo_config(config, output_dir, cpu_only=False):
 
 
 def build_grpo_trainer(
-    config, dataset, reward_func, output_dir, model=None, tokenizer=None, trainer_factory=None
+    config,
+    dataset,
+    reward_func,
+    output_dir,
+    model=None,
+    tokenizer=None,
+    trainer_factory=None,
+    cpu_only=None,
 ):
     from trl import GRPOTrainer
 
     factory = trainer_factory or GRPOTrainer
-    args = grpo_config(config, output_dir, cpu_only=trainer_factory is not None)
+    if cpu_only is None:
+        cpu_only = trainer_factory is not None
+    args = grpo_config(config, output_dir, cpu_only=cpu_only)
     return factory(
         model=model or config["model"]["name_or_path"],
         reward_funcs=reward_func,
