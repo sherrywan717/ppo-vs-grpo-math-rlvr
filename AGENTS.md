@@ -67,3 +67,9 @@ Execution code now uses the frozen `ValidatedModelSource` boundary: exact 0.5B r
 The second real GRPO attempt, `grpo_single_update_qwen25_05b_20260713T053852Z`, completed the frozen 8-completion/687-token/4-microstep/1-update budget but remained failure because the old checkpoint allowlist rejected the 7,441-byte Trainer metadata file `training_args.bin`. Preserve both failed runs and their backups as immutable evidence.
 
 The repaired runner trusts only the Trainer-created top-level `checkpoint-1`, allows only a canonical non-symlink `training_args.bin` of at most 1 MiB, rejects duplicate adapters, and never deserializes metadata. The sole TRL shim owns ordered completion IDs/masks/text/reward evidence. Frozen beta is 0.0, so KL must be null with a reason. Allocator peaks and nvidia-smi remain distinct. This CPU repair is not authorization to rerun GRPO or start PPO.
+
+### GRPO third-failure allocator repair
+
+The third real GRPO attempt, `grpo_single_update_qwen25_05b_20260713T061248Z`, remains an immutable failed run at commit `438569d97a8636ea6ad13394920663016e01282e`. It stopped before model loading or generation because `CudaAllocatorEvidence` passed the literal string `"cuda:0"` to PyTorch allocator APIs; the resolved training config had no device field.
+
+Allocator device handling is now centralized through `normalize_cuda_device_index`: accepted CUDA values are normalized to a validated non-boolean integer index, while callables, CPU devices, GPU display names, malformed strings, negative values, and out-of-range indices fail closed. Allocator API calls use only that integer; `device_label` and `device_name` are evidence fields only. CPU dry-runs never resolve an implicit current device. This repair does not authorize GRPO or PPO.

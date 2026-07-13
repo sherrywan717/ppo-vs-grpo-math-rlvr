@@ -109,3 +109,13 @@ This file records operational history and pitfalls that should survive context c
 - Full CPU/offline gates passed with 107 tests. Compileall, Ruff, environment check, manifest validation, GRPO/PPO dry-runs, fake guarded execute, and fake checkpoint inventory/finalization all passed.
 - CUDA remained uninitialized; real model loads, completions, train calls, and optimizer steps were all 0.
 - Frozen GRPO/PPO YAML hashes remained unchanged, and protected summary/metrics/checkpoint-inventory hashes for both historical failure runs remained unchanged.
+
+## GRPO Third Real Smoke Failure and Allocator Repair
+
+- Third real attempt: `grpo_single_update_qwen25_05b_20260713T061248Z`; failure-report commit `438569d97a8636ea6ad13394920663016e01282e`. Preserve its full run, Git-safe report, failure status, and backup unchanged.
+- The run stopped before model loading, completion generation, or updates with `RuntimeError: Invalid device argument`. Counters were 2 configured prompts and zero completions/tokens/microsteps/optimizer/global steps; no checkpoint was created.
+- Exact input at the failing allocator call was the built-in string `"cuda:0"`, originating from `CudaAllocatorEvidence`'s constructor default. It was not callable, a function, a `torch.device`, an integer, or a GPU display name. The resolved GRPO config contained no device value.
+- PyTorch 2.8 allocator APIs document `torch.device` or integer inputs. The string was passed directly to `reset_peak_memory_stats`, producing the failure.
+- Repair: `normalize_cuda_device_index` accepts only reviewed CUDA forms and returns a range-checked, non-boolean integer. Implicit `cuda`/`None` resolution calls `current_device()` only inside the authorized available-CUDA path. All reset/current/peak allocator calls reuse one index; display label/name are never API inputs.
+- Lifecycle states are `not_started`, `active`, `finalized`, `unavailable`, or `failed`. Normalize/reset/collection failures retain primitive-only phase/type/message and are re-raised.
+- CPU verification passed 131 tests plus the explicit fake guarded execute and allocator lifecycle gates. CUDA remained uninitialized and frozen GRPO/PPO YAML hashes were unchanged. This CPU repair alone does not authorize a GRPO rerun.

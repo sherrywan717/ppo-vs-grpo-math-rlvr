@@ -227,6 +227,16 @@ class FakeCuda:
     def is_available(self):
         return self.available
 
+    def device_count(self):
+        return 1
+
+    def current_device(self):
+        return 0
+
+    def get_device_name(self, device):
+        assert device == 0
+        return "Fake CUDA"
+
     def reset_peak_memory_stats(self, device):
         self.reset_calls.append(device)
 
@@ -248,7 +258,7 @@ def test_fake_cuda_allocator_peak_is_recorded():
     evidence = CudaAllocatorEvidence(cuda)
     evidence.start()
     payload = evidence.snapshot()
-    assert cuda.reset_calls == ["cuda:0"]
+    assert cuda.reset_calls == [0]
     assert payload["available"] is True
     assert payload["max_memory_allocated"] == {
         "bytes": 10 * 1024 * 1024,

@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "scope": "CPU-only CUDA allocator device normalization repair",
+  "third_failure": {
+    "run_id": "grpo_single_update_qwen25_05b_20260713T061248Z",
+    "preserved": true,
+    "actual_device_type": "builtins.str",
+    "actual_device_safe_repr": "'cuda:0'",
+    "resolved_config_device_present": false,
+    "failure": "RuntimeError: Invalid device argument "
+  },
+  "normalization_output": "validated non-boolean integer CUDA device index",
+  "gates": {
+    "compileall": "passed",
+    "ruff": "passed",
+    "pytest": "131 passed",
+    "check_env": "passed",
+    "manifest_validation": "passed",
+    "grpo_dry_run": "passed",
+    "ppo_dry_run": "passed",
+    "fake_guarded_execute": "passed",
+    "fake_allocator_lifecycle": "passed"
+  },
+  "cuda_initialized": false,
+  "real_model_loads": 0,
+  "real_completions": 0,
+  "train_calls": 0,
+  "optimizer_steps": 0,
+  "grpo_yaml_sha256": "3e6ea0f568c7d946a3023eb14b67988751e37b1cb692b52018faa9dbb622a398",
+  "ppo_yaml_sha256": "1db287f772f11da9fb6e69a304857b0055dde2bb0b74baec3bfb07d0d7f0b820"
+}

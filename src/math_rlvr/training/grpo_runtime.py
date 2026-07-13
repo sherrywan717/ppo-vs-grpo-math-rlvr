@@ -304,7 +304,7 @@ class RealBackend:
             gc.collect()
             if torch.cuda.is_initialized():
                 torch.cuda.empty_cache()
-            allocator_payload = allocator.snapshot()
+            allocator_payload = allocator.finalize()
             self.lifecycle.record_runtime("pytorch_allocator", allocator_payload)
             run_result["pytorch_allocator"] = allocator_payload
 
