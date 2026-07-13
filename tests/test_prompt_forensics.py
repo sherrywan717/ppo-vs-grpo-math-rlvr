@@ -28,9 +28,7 @@ SNAPSHOT = Path(
     "7ae557604adf67be50417f59c2c2f167def9a775"
 )
 MANIFEST_ROOT = Path("/root/autodl-tmp/datasets/math_rlvr/manifests")
-RUN_REPORT = Path(
-    "reports/runs/grpo_single_update_qwen25_05b_20260713T063829Z"
-)
+RUN_REPORT = Path("reports/runs/grpo_single_update_qwen25_05b_20260713T063829Z")
 
 
 @pytest.fixture(scope="module")
@@ -69,8 +67,7 @@ def test_v1_strict_protocol_is_last_and_complete(tokenizer, smoke_problems):
         user = messages[-1]["content"]
         assert user.startswith(problem.prompt + "\n\n")
         assert user.endswith(
-            "Use every input number exactly once. "
-            "Use only +, -, *, /, and parentheses."
+            "Use every input number exactly once. Use only +, -, *, /, and parentheses."
         )
         for text in (
             "<reasoning>...</reasoning>",
@@ -148,7 +145,7 @@ def test_frozen_yaml_hashes_and_cpu_cuda_state():
             "068ff8d742849ffa0d43ccf6f4e74898e08c5f031c0f837c18ac8e5b183d8979"
         ),
         "configs/smoke/ppo.yaml": (  # noqa: E501
-            "1496c65309befbcf4c5143b5d19e963013a9c869ff4af4e82b838abc317a0379"
+            "547e67360fd73385c688f6d1b3b10d95cf191b70456d1b893870540b6de9f668"
         ),
     }
     for name, digest in expected.items():
@@ -199,22 +196,26 @@ def test_smoke_yaml_authorized_selectors_only_and_main_is_unactivated():
         "configs/smoke/grpo.yaml": "068ff8d742849ffa0d43ccf6f4e74898e08c5f031c0f837c18ac8e5b183d8979",  # noqa: E501
         "configs/smoke/ppo.yaml": "1496c65309befbcf4c5143b5d19e963013a9c869ff4af4e82b838abc317a0379",  # noqa: E501
     }
-    for name, digest in after_staged_reward.items():
+    after_guarded_ppo = {
+        **after_staged_reward,
+        "configs/smoke/ppo.yaml": "547e67360fd73385c688f6d1b3b10d95cf191b70456d1b893870540b6de9f668",  # noqa: E501
+    }
+    for name, digest in after_guarded_ppo.items():
         raw = Path(name).read_bytes()
         assert hashlib.sha256(raw).hexdigest() == digest
+    for name in ("configs/smoke/grpo.yaml",):
+        raw = Path(name).read_bytes()
         without_reward = b"\n".join(
             line for line in raw.split(b"\n") if not line.startswith(b"reward:")
         )
         assert hashlib.sha256(without_reward).hexdigest() == after_prompt_activation[name]
         without_both_selectors = b"\n".join(
-            line
-            for line in raw.split(b"\n")
-            if not line.startswith((b"prompt:", b"reward:"))
+            line for line in raw.split(b"\n") if not line.startswith((b"prompt:", b"reward:"))
         )
-        assert (
-            hashlib.sha256(without_both_selectors).hexdigest()
-            == before_prompt_activation[name]
-        )
+        assert hashlib.sha256(without_both_selectors).hexdigest() == before_prompt_activation[name]
+    ppo_text = Path("configs/smoke/ppo.yaml").read_text()
+    assert "prompt: {version: prompt_v1_strict_concise}" in ppo_text
+    assert "reward: {policy: shaped_v2_staged}" in ppo_text
     for name in ("configs/main/grpo.yaml", "configs/main/ppo.yaml"):
         text = Path(name).read_text(encoding="utf-8")
         assert "prompt:" not in text and "reward:" not in text

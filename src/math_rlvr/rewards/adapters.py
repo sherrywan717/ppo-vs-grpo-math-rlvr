@@ -51,12 +51,17 @@ class _VerifierBackbone(nn.Module):
         verifier: Verifier,
         extract_completion: Callable[[str], str],
         policy: RewardPolicy,
+        evidence_callback: Callable[[str, Any], None] | None = None,
+        prompt_verifier: Callable[[tuple[int, ...], str], RewardResult] | None = None,
     ) -> None:
         super().__init__()
         self.tokenizer = tokenizer
         self.verifier = verifier
         self.extract_completion = extract_completion
         self.policy = policy
+        self.evidence_callback = evidence_callback
+        self.prompt_verifier = prompt_verifier
+        self.context_length: int | None = None
 
     @torch.no_grad()
     def forward(
@@ -74,8 +79,38 @@ class _VerifierBackbone(nn.Module):
         for row in range(batch_size):
             valid_ids = input_ids[row][attention_mask[row].bool()].detach().cpu().tolist()
             decoded = self.tokenizer.decode(valid_ids, skip_special_tokens=False)
-            completion = self.extract_completion(decoded)
-            scalar = self.policy.evaluate(completion, self.verifier).scalar_reward
+            if self.context_length is None:
+                completion = self.extract_completion(decoded)
+            else:
+                response_ids = (
+                    input_ids[row, self.context_length :][
+                        attention_mask[row, self.context_length :].bool()
+                    ]
+                    .detach()
+                    .cpu()
+                    .tolist()
+                )
+                completion = self.tokenizer.decode(response_ids, skip_special_tokens=True)
+            if self.prompt_verifier is None:
+                verifier = self.verifier
+            else:
+                prompt_ids = tuple(
+                    int(value)
+                    for value in input_ids[row, : self.context_length][
+                        attention_mask[row, : self.context_length].bool()
+                    ]
+                    .detach()
+                    .cpu()
+                    .tolist()
+                )
+
+                def verifier(candidate, prompt_ids=prompt_ids):
+                    return self.prompt_verifier(prompt_ids, candidate)
+
+            evaluation = self.policy.evaluate(completion, verifier)
+            if self.evidence_callback is not None:
+                self.evidence_callback(completion, evaluation)
+            scalar = evaluation.scalar_reward
             last_valid = torch.nonzero(attention_mask[row], as_tuple=False)[-1, 0]
             reward_hidden[row, last_valid, 0] = scalar
         return SimpleNamespace(hidden_states=(reward_hidden.detach(),))
@@ -98,8 +133,23 @@ class PPOVerifierRewardModel(nn.Module):
         verifier: Verifier,
         extract_completion: Callable[[str], str],
         policy: RewardPolicy = DEFAULT_REWARD_POLICY,
+        evidence_callback: Callable[[str, Any], None] | None = None,
+        prompt_verifier: Callable[[tuple[int, ...], str], RewardResult] | None = None,
     ) -> None:
         super().__init__()
-        self.backbone = _VerifierBackbone(tokenizer, verifier, extract_completion, policy)
+        self.backbone = _VerifierBackbone(
+            tokenizer,
+            verifier,
+            extract_completion,
+            policy,
+            evidence_callback,
+            prompt_verifier,
+        )
         self.score = nn.Identity()
+        self._math_rlvr_parameter_free_reward = True
         self.requires_grad_(False)
+
+    def set_context_length(self, context_length: int) -> None:
+        if not isinstance(context_length, int) or context_length <= 0:
+            raise ValueError("invalid PPO context length")
+        self.backbone.context_length = context_length

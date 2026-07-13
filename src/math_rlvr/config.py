@@ -81,6 +81,8 @@ def validate_training_config(config: dict[str, Any], algorithm: str) -> None:
         raise ValueError("staged smoke reward must not activate main/formal config")
     if algorithm == "grpo" and is_smoke:
         validate_grpo_smoke_budget(config)
+    if algorithm == "ppo" and is_smoke:
+        validate_ppo_smoke_budget(config)
     if algorithm == "ppo":
         value = config.get("value_model", {})
         required = {
@@ -153,6 +155,132 @@ def resolve_grpo_smoke_budget(config: dict[str, Any]) -> dict[str, int]:
         "steps_per_generation": generation["generation_batch_size"]
         // training["per_device_train_batch_size"],
     }
+
+
+def resolve_ppo_smoke_contract(config: dict[str, Any]) -> dict[str, Any]:
+    """Derive the single-device TRL 0.24.0 PPO loop contract."""
+    training = config.get("training", {})
+    generation = config.get("generation", {})
+    per_device = training.get("per_device_train_batch_size")
+    accumulation = training.get("gradient_accumulation_steps")
+    epochs = training.get("num_ppo_epochs")
+    minibatches = training.get("num_mini_batches")
+    episodes = training.get("total_episodes")
+    response_length = generation.get("max_new_tokens")
+    required = (per_device, accumulation, epochs, minibatches, episodes, response_length)
+    if not all(
+        isinstance(value, int) and not isinstance(value, bool) and value > 0 for value in required
+    ):
+        raise ValueError("incomplete PPO smoke loop contract")
+    local_batch = per_device * accumulation
+    if local_batch % minibatches:
+        raise ValueError("PPO rollout batch must be divisible by minibatches")
+    local_minibatch = local_batch // minibatches
+    if local_minibatch % per_device:
+        raise ValueError("PPO smoke minibatch must be divisible by micro-batch")
+    microbatches = local_minibatch // per_device
+    outer_updates = (episodes + local_batch - 1) // local_batch
+    optimizer_steps_per_update = epochs * minibatches * microbatches // accumulation
+    if epochs * minibatches * microbatches % accumulation:
+        raise ValueError("PPO optimizer-step accumulation contract mismatch")
+    return {
+        "selected_dataset_records": config["data"]["max_train_samples"],
+        "unique_prompts": episodes,
+        "responses_per_prompt": 1,
+        "rollout_batch_size": local_batch,
+        "micro_batch_size": per_device,
+        "gradient_accumulation_steps": accumulation,
+        "num_ppo_epochs": epochs,
+        "num_mini_batches": minibatches,
+        "microbatches_per_minibatch": microbatches,
+        "total_episodes": episodes,
+        "outer_updates": outer_updates,
+        "optimizer_steps_per_update": optimizer_steps_per_update,
+        "total_optimizer_steps": outer_updates * optimizer_steps_per_update,
+        "global_steps": outer_updates,
+        "total_completions": episodes,
+        "max_completion_length": response_length,
+        "total_generated_tokens": episodes * response_length,
+        "authoritative_checkpoints": outer_updates,
+        "configured_num_generations": generation.get("num_generations"),
+        "num_generations_effective_for_ppo": 1,
+        "ignored_generation_fields": {
+            "num_generations": (
+                "TRL 0.24.0 PPO samples one response for each rollout dataset row; "
+                "this shared-schema field is not passed to PPOConfig"
+            )
+        },
+        "configured_top_p": generation.get("top_p"),
+        "effective_top_p": generation.get("top_p"),
+    }
+
+
+def validate_ppo_smoke_budget(config: dict[str, Any]) -> None:
+    """Fail closed unless YAML and the TRL-derived one-update contract agree."""
+    model = config.get("model", {})
+    training = config.get("training", {})
+    budget = config.get("budget", {})
+    generation = config.get("generation", {})
+    contract = resolve_ppo_smoke_contract(config)
+    expected = {
+        "selected_dataset_records": 4,
+        "unique_prompts": 4,
+        "responses_per_prompt": 1,
+        "rollout_batch_size": 4,
+        "micro_batch_size": 4,
+        "gradient_accumulation_steps": 1,
+        "num_ppo_epochs": 1,
+        "num_mini_batches": 1,
+        "microbatches_per_minibatch": 1,
+        "total_episodes": 4,
+        "outer_updates": 1,
+        "optimizer_steps_per_update": 1,
+        "total_optimizer_steps": 1,
+        "global_steps": 1,
+        "total_completions": 4,
+        "max_completion_length": 128,
+        "total_generated_tokens": 512,
+        "authoritative_checkpoints": 1,
+        "configured_num_generations": 4,
+        "num_generations_effective_for_ppo": 1,
+        "ignored_generation_fields": {
+            "num_generations": (
+                "TRL 0.24.0 PPO samples one response for each rollout dataset row; "
+                "this shared-schema field is not passed to PPOConfig"
+            )
+        },
+        "configured_top_p": 0.95,
+        "effective_top_p": 0.95,
+    }
+    if contract != expected:
+        raise ValueError("derived PPO smoke single-update contract mismatch")
+    if (
+        model.get("revision") != "7ae557604adf67be50417f59c2c2f167def9a775"
+        or model.get("local_files_only") is not True
+        or training.get("max_steps") != 1
+        or training.get("local_rollout_forward_batch_size") != 4
+        or training.get("save_strategy") != "steps"
+        or training.get("save_steps") != 1
+        or training.get("save_total_limit") != 1
+        or training.get("save_only_model") is not True
+        or training.get("push_to_hub") is not False
+        or training.get("report_to") != []
+        or generation.get("max_completion_length") != 128
+        or generation.get("max_new_tokens") != 128
+        or budget.get("max_completions") != 4
+        or budget.get("max_generated_tokens") != 512
+        or budget.get("max_update_steps") != 1
+        or budget.get("max_optimizer_steps") != 1
+        or budget.get("max_global_steps") != 1
+        or budget.get("max_ppo_epochs") != 1
+        or budget.get("max_minibatches") != 1
+        or budget.get("max_wall_time_seconds") != 1200
+        or budget.get("max_vram_gib") != 14
+        or budget.get("max_gpu_hours") != 0.3333333333
+        or budget.get("max_estimated_cost_cny") != 2.96
+        or budget.get("gpu_hour_price_cny") != 8.88
+    ):
+        raise ValueError("PPO smoke YAML and hard budgets disagree")
 
 
 def resolve_training_config(config: dict[str, Any]) -> dict[str, Any]:

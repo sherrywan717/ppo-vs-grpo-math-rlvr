@@ -8,7 +8,10 @@ Both algorithms use seed `20260712`, the same frozen manifests, prompt envelope,
 
 Formal reward is fixed: format 0.10, parse/semantic validity 0.10, correctness 0.80. Thus correct is 1.00, parseable wrong is 0.20, format-correct parse failure is 0.10, and format error is 0.00. Infrastructure errors abort.
 
-PPO uses a separate sequence-classification value model from the policy checkpoint, value LoRA `r=8`, alpha 16 on q/v projections, and a trainable scalar head. This phase defines and tests contracts only; no model is loaded and training remains disabled.
+PPO uses a separate sequence-classification value model from the policy checkpoint,
+value LoRA `r=8`, alpha 16 on q/v projections, and a trainable scalar head. The
+guarded runner and CPU fake contracts are implemented; no real PPO update has run and
+GPU PPO remains separately authorized.
 
 ## Data and layout
 
@@ -45,6 +48,33 @@ PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.train
 
 Before delayed model imports, the CLI requires a clean `pivot/math-rlvr` worktree, the fixed local revision, and the complete batching/budget contract. `trl_compat.py` is the sole TRL 0.24.0 private-hook shim and exact token accounting uses completion IDs/masks, not decode/re-tokenize. The artifact state is fail-closed: success requires complete artifacts, adapter-only checkpoint inventory, tar backup, and verified SHA256. It never advances to PPO automatically.
 
+## Guarded PPO single-update contract
+
+The PPO smoke YAML resolves under TRL 0.24.0 to four fixed Countdown dataset rows,
+`total_episodes=4`, rollout batch 4, one response per row, one PPO epoch, one
+minibatch, one optimizer/update/global step, four total completions, and a 512-token
+hard cap. The shared-schema `generation.num_generations=4` is explicitly recorded as
+ignored for PPO: TRL PPO does not consume it and does not multiply the rollout into 16
+responses. The shim applies the configured `top_p=0.95`, because TRL PPO otherwise
+constructs its internal generation config with top-p 1.0.
+
+Policy and value backbones are distinct objects loaded local-only from the same
+validated Qwen 0.5B snapshot. The optimizer must exactly contain policy LoRA plus value
+LoRA/scalar-head parameters. The frozen reference is the policy base with its PEFT
+adapter disabled; the verifier reward model has zero parameters. The sole
+`checkpoint-1` contains separate policy adapter, value adapter, and scalar-head
+safetensors plus JSON metadata, never base-model or optimizer weights.
+
+The default PPO CLI remains a dry-run. A future real invocation requires the frozen
+config, clean branch, both offline variables, fixed snapshot, and both flags:
+
+```bash
+PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.ppo --config configs/smoke/ppo.yaml --execute --confirm-single-update
+```
+
+This command is documented for the next separately authorized stage. It was not run
+during the CPU implementation gate.
+
 ## CPU-only checks
 
 ```bash
@@ -59,11 +89,18 @@ make main-ppo
 make main-grpo
 ```
 
-All four algorithm targets are static preflights and refuse to train. Model/tokenizer download and CUDA initialization are outside this phase.
+All four commands shown above are static preflights and do not train. The guarded real
+entry points require separate dual-confirmation authorization; the CPU gates do not
+load a model or initialize CUDA.
 
 ## Metrics
 
-Both runs record pass@1/pass@4; GSM8K, MATH500, and per-Level accuracy; format, parse, expression, and number-usage validity; reward, completions, generated tokens, completion length, wall time, KL, entropy, peak VRAM, GPU-hours, and CNY cost. PPO additionally reports value loss/explained variance; GRPO reports zero-variance group rate.
+Both runs record pass@1/pass@4; GSM8K, MATH500, and per-Level accuracy; format, parse,
+expression, and number-usage validity; reward, completions, generated tokens,
+completion length, wall time, KL, entropy, peak VRAM, GPU-hours, and CNY cost. The
+guarded PPO smoke normalizes only metrics exposed by reviewed TRL 0.24.0 keys,
+including policy/value loss, KL, entropy, clip fraction, ratio, reward mean, and
+learning rate; unavailable fields remain null/unavailable rather than fabricated.
 
 ## GRPO evidence and checkpoint safety
 

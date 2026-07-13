@@ -6,6 +6,7 @@ import pytest
 from math_rlvr.config import (
     load_config,
     resolve_grpo_smoke_budget,
+    resolve_ppo_smoke_contract,
     resolve_training_config,
     validate_runtime_path,
     validate_training_config,
@@ -67,11 +68,45 @@ def test_grpo_rejects_explicit_steps_per_generation():
         validate_training_config(config, "grpo")
 
 
-def test_ppo_smoke_contract_is_unchanged():
+def test_ppo_smoke_contract_is_one_update_and_num_generations_is_explicitly_ignored():
     config = load_config("configs/smoke/ppo.yaml")
-    assert config["training"] == {"max_steps": 2, "save_total_limit": 1}
-    assert config["budget"]["max_completions"] == 64
-    assert config["budget"]["max_generated_tokens"] == 8192
+    contract = resolve_ppo_smoke_contract(config)
+    assert contract["total_episodes"] == contract["unique_prompts"] == 4
+    assert contract["rollout_batch_size"] == 4
+    assert contract["responses_per_prompt"] == 1
+    assert contract["total_completions"] == 4
+    assert contract["total_generated_tokens"] == 512
+    assert contract["outer_updates"] == contract["total_optimizer_steps"] == 1
+    assert contract["global_steps"] == contract["authoritative_checkpoints"] == 1
+    assert contract["configured_num_generations"] == 4
+    assert contract["num_generations_effective_for_ppo"] == 1
+    assert "num_generations" in contract["ignored_generation_fields"]
+
+
+@pytest.mark.parametrize(
+    ("section", "key", "bad_value"),
+    [
+        ("training", "total_episodes", 8),
+        ("training", "per_device_train_batch_size", 2),
+        ("training", "num_ppo_epochs", 2),
+        ("training", "num_mini_batches", 2),
+        ("training", "local_rollout_forward_batch_size", 2),
+        ("training", "save_total_limit", 2),
+        ("budget", "max_completions", 16),
+        ("budget", "max_generated_tokens", 2048),
+        ("budget", "max_optimizer_steps", 2),
+        ("budget", "max_global_steps", 2),
+        ("budget", "max_wall_time_seconds", 2400),
+        ("budget", "max_vram_gib", 28),
+        ("budget", "max_gpu_hours", 1),
+        ("budget", "max_estimated_cost_cny", 8.88),
+    ],
+)
+def test_ppo_smoke_budget_conflicts_fail_closed(section, key, bad_value):
+    config = copy.deepcopy(load_config("configs/smoke/ppo.yaml"))
+    config[section][key] = bad_value
+    with pytest.raises(ValueError, match="PPO smoke"):
+        validate_training_config(config, "ppo")
 
 
 def test_smoke_reward_selector_is_identical_and_resolved():

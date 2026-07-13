@@ -25,7 +25,6 @@ class FakeTokenizer:
     }
 
     def decode(self, token_ids: Sequence[int], skip_special_tokens: bool = False) -> str:
-        assert skip_special_tokens is False
         return "".join(self.vocabulary[token_id] for token_id in token_ids)
 
 
@@ -95,3 +94,21 @@ def test_generated_text_is_never_executed_by_fake_verifier() -> None:
     verifier.outcomes = verifier.outcomes | {generated: RewardStatus.WRONG_ANSWER}
     assert GRPOVerifierRewardAdapter(verifier)([generated]) == [0.2]
     assert verifier.seen == [generated]
+
+
+def test_ppo_reward_dispatches_by_exact_prompt_tokens() -> None:
+    seen = []
+
+    def prompt_verifier(prompt_ids, completion):
+        seen.append((prompt_ids, completion))
+        return RewardResult(RewardStatus.VERIFIED_PASS, "prompt-bound")
+
+    model = PPOVerifierRewardModel(
+        FakeTokenizer(),
+        FakeVerifier(),
+        extract_completion,
+        prompt_verifier=prompt_verifier,
+    )
+    model.set_context_length(2)
+    get_reward(model, torch.tensor([[1, 2, 3, 7, 0]]), pad_token_id=0, context_length=2)
+    assert seen == [((1, 2), "pass")]

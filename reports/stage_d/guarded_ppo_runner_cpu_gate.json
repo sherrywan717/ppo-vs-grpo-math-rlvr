@@ -1,0 +1,90 @@
+{
+  "status": "passed",
+  "scope": "CPU-only guarded PPO single-update runner implementation",
+  "recovery_audit": {
+    "guarded_ppo_truncated": false,
+    "guarded_ppo_duplicate_definitions": false,
+    "finding": "Core injected lifecycle existed, but CLI, delayed real runtime, and tests were not wired.",
+    "preserved_existing_changes": true
+  },
+  "trl_contract": {
+    "version": "0.24.0",
+    "total_episodes": 4,
+    "selected_dataset_records": 4,
+    "unique_prompts": 4,
+    "responses_per_prompt": 1,
+    "total_completions": 4,
+    "rollout_batch_size": 4,
+    "micro_batch_size": 4,
+    "gradient_accumulation_steps": 1,
+    "num_ppo_epochs": 1,
+    "num_mini_batches": 1,
+    "microbatches_per_minibatch": 1,
+    "outer_updates": 1,
+    "optimizer_steps": 1,
+    "global_steps": 1,
+    "max_completion_length": 128,
+    "generated_token_cap": 512,
+    "wall_time_cap_seconds": 1200,
+    "vram_cap_gib": 14,
+    "gpu_hours_cap": 0.3333333333,
+    "estimated_cost_cap_cny": 2.96,
+    "configured_num_generations": 4,
+    "num_generations_effective_for_ppo": 1,
+    "num_generations_disposition": "ignored by TRL PPO; shared-schema field is not passed to PPOConfig",
+    "configured_top_p": 0.95,
+    "effective_top_p": 0.95,
+    "top_p_enforcement": "sole TRL compatibility shim"
+  },
+  "model_roles": {
+    "policy": "fixed local Qwen 0.5B snapshot plus q/k/v/o policy LoRA r16 alpha32",
+    "reference": "frozen policy base through disabled PEFT adapter",
+    "reward": "parameter-free canonical verifier adapter using shaped_v2_staged",
+    "value": "distinct load of same fixed local snapshot plus q/v value LoRA r8 alpha16 and scalar score head",
+    "value_network_fallback": false,
+    "optimizer": "exact union of policy LoRA and value LoRA/scalar-head trainables",
+    "optimizer_includes_reference": false,
+    "optimizer_includes_reward": false
+  },
+  "checkpoint": {
+    "authoritative_count": 1,
+    "root": "checkpoint-1",
+    "policy_adapter": "policy_adapter/adapter_model.safetensors",
+    "value_adapter": "value_adapter/adapter_model.safetensors",
+    "value_head": "value_head/value_head.safetensors",
+    "base_model_weights": false,
+    "optimizer_state": false,
+    "unexpected_files_fail_closed": true
+  },
+  "fairness": {
+    "shared_prompt_version": "prompt_v1_strict_concise",
+    "shared_prompt_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+    "shared_renderer_version": "math_rlvr.prompt.chat_template.v1",
+    "shared_reward_version": "shaped_v2_staged",
+    "shared_reward_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14"
+  },
+  "config": {
+    "ppo_yaml_sha256": "547e67360fd73385c688f6d1b3b10d95cf191b70456d1b893870540b6de9f668",
+    "main_formal_configs_changed": false
+  },
+  "verification": {
+    "compileall": "passed",
+    "ruff": "passed",
+    "pytest": "270 passed",
+    "check_env": "passed; cuda_initialized=false; model_or_tokenizer_loaded=false",
+    "manifest_validation": "passed",
+    "grpo_dry_run": "passed; no training started",
+    "ppo_dry_run": "passed; no training started",
+    "fake_guarded_ppo_execute": "passed"
+  },
+  "execution": {
+    "cuda_initialized": false,
+    "real_model_loads": 0,
+    "generated_completions": 0,
+    "real_train_calls": 0,
+    "real_optimizer_steps": 0,
+    "ppo_authorized": false,
+    "automatic_transition": false
+  },
+  "next_real_command_not_executed": "PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.ppo --config configs/smoke/ppo.yaml --execute --confirm-single-update"
+}

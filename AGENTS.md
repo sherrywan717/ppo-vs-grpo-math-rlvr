@@ -152,3 +152,27 @@ The separately authorized run `grpo_single_update_qwen25_05b_20260713T122258Z` e
 Online group rewards were `[0.10, 0.10, 0.15, 0.00]` and `[0.10, 0.05, 0.10, 0.05]`, with population variances `0.00296875` and `0.000625`; zero-advantage groups were 0. Loss was `0.6453`, finite nonzero grad norm was `4.648100852966309`, and entropy was `0.5070152431726456`. All eight canonical statuses remained `FORMAT_ERROR`, proving that the staged scalar supplied gradient signal without changing strict evaluation semantics. This is a single-update diagnostic, not evidence that the model learned Countdown and not a fair algorithm comparison with the pre-intervention run.
 
 The sole `checkpoint-1` passed adapter-only inventory. PyTorch pre-exit allocator residue (64 MiB allocated / 108 MiB reserved) is a warning; after process exit, `nvidia-smi` reported 0 MiB and no compute process. PPO remains unauthorized and must not start automatically.
+
+### Guarded PPO CPU implementation gate
+
+The CPU-only guarded PPO runner is implemented for TRL 0.24.0. The frozen smoke
+contract resolves to four unique prompts, one response per prompt, four completions,
+at most 512 generated tokens, one PPO epoch, one minibatch, and exactly one
+optimizer/update/global step. `generation.num_generations=4` is a shared-schema field
+that TRL PPO ignores; the resolved contract must record that fact and must never infer
+16 completions. The sole compatibility shim applies YAML top-p 0.95 to TRL's internal
+generation config.
+
+Policy and value models must be distinct objects loaded local-only from the same
+validated 0.5B snapshot. Policy trainables are q/k/v/o LoRA only; value trainables are
+q/v LoRA plus the scalar score head. The frozen reference uses the policy with its
+adapter disabled, the verifier reward model is parameter-free, and the optimizer
+parameter set must equal exactly the union of policy/value trainables. The sole custom
+`checkpoint-1` is role-separated and adapter/head-only; full base or optimizer
+weights are forbidden.
+
+Real PPO requires `--execute --confirm-single-update`, a clean
+`pivot/math-rlvr` branch, both offline variables, the fixed local snapshot, and a new
+explicit user authorization. The CPU implementation/fake execute did not initialize
+CUDA, load a model, generate a completion, or execute an optimizer update. Never run
+the documented real PPO command automatically.

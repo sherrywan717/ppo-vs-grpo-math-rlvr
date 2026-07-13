@@ -231,3 +231,30 @@ This file records operational history and pitfalls that should survive context c
 - All eight canonical statuses remained `FORMAT_ERROR`; strict parser/verifier and formal metrics did not change. This confirms integration and a one-update gradient path, not task learning or algorithm superiority.
 - PyTorch worker/pre-exit current memory was 64 MiB allocated / 108 MiB reserved; post-process `nvidia-smi` was 0 MiB with no compute process, so record only `worker_allocator_nonzero_before_process_exit`.
 - PPO is still unauthorized. Stop after evidence, backup, and Git-safe reporting.
+
+## Guarded PPO Single-Update Runner CPU Gate
+
+- The recovered `guarded_ppo.py` was syntactically complete but stopped after its
+  injected core lifecycle; it had no CLI, delayed real runtime, or tests. The correct
+  existing edits were retained and only missing/incorrect wiring was repaired.
+- TRL 0.24.0 source inspection confirmed `total_episodes=4` and single-device batch 4
+  yield one rollout update with one response for each of four dataset rows.
+  `generation.num_generations=4` is not a PPOConfig field and is explicitly recorded
+  as ignored; total completions remain 4, never 16.
+- TRL PPO internally hard-codes top-p 1.0. The sole compatibility shim now validates
+  response length/temperature and applies the frozen YAML top-p 0.95 before generation.
+- Policy and value are distinct local-only loads of the same validated Qwen 0.5B
+  snapshot. Reference evaluation disables the policy adapter; reward is
+  parameter-free. The optimizer is accepted only when its parameter objects exactly
+  equal policy LoRA plus value LoRA/scalar-head trainables.
+- The authoritative `checkpoint-1` contains separate policy adapter, value adapter,
+  and scalar-head safetensors plus JSON trainer/resume metadata. Base-model and
+  optimizer weights, unexpected files/directories, symlinks, duplicate adapters, and
+  full-model-sized files fail closed.
+- CPU gates passed: compileall, Ruff, the full test suite, environment and manifest
+  checks, GRPO/PPO dry-runs, and an explicit fake guarded PPO execute. Environment
+  evidence reported CUDA uninitialized and no model/tokenizer loaded. No real
+  completion, CUDA operation, or PPO/GRPO optimizer update occurred.
+- A future real PPO smoke requires both flags, clean Git, both offline variables, the
+  exact local snapshot, and a new explicit authorization. This implementation gate is
+  not that authorization.

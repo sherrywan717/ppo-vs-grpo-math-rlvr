@@ -368,9 +368,7 @@ def test_eos_and_128_truncation_evidence(tmp_path, config):
 
 
 def test_worker_allocator_nonzero_is_warning_not_runtime_failure(tmp_path, config):
-    result, backend, lifecycle = execute_fake(
-        tmp_path, config, backend=NonzeroCleanupFakeBackend()
-    )
+    result, backend, lifecycle = execute_fake(tmp_path, config, backend=NonzeroCleanupFakeBackend())
     assert result["status"] == "success"
     assert result["warnings"] == ["worker_allocator_nonzero_before_process_exit"]
     assert backend.closed
@@ -453,7 +451,7 @@ def test_candidate_qualification_never_auto_activates(tmp_path):
 def test_frozen_yaml_and_history_hashes_unchanged():
     expected = {
         "configs/smoke/grpo.yaml": "068ff8d742849ffa0d43ccf6f4e74898e08c5f031c0f837c18ac8e5b183d8979",  # noqa: E501
-        "configs/smoke/ppo.yaml": "1496c65309befbcf4c5143b5d19e963013a9c869ff4af4e82b838abc317a0379",  # noqa: E501
+        "configs/smoke/ppo.yaml": "547e67360fd73385c688f6d1b3b10d95cf191b70456d1b893870540b6de9f668",  # noqa: E501
         "reports/runs/grpo_single_update_qwen25_05b_20260713T063829Z/summary.json": "39c40a0f87ebd069a7f0757e7bba3cac8ae58e93549f41bd681c7ba02e1b6e09",  # noqa: E501
         "reports/runs/grpo_single_update_qwen25_05b_20260713T063829Z/completions.jsonl": "bd0df2cfb0ed0ad85f75393213eef632c3b65508b35e32f4657102a56bff25bd",  # noqa: E501
     }

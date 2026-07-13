@@ -23,7 +23,7 @@ def parse_args(description: str, argv=None) -> argparse.Namespace:
     parser.add_argument(
         "--confirm-single-update",
         action="store_true",
-        help="Second confirmation required only for the frozen GRPO smoke",
+        help="Second confirmation required for a frozen single-update smoke",
     )
     return parser.parse_args(argv)
 
