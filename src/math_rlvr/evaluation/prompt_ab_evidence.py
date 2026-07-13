@@ -24,6 +24,10 @@ CAPABILITY_FIELDS = (
     "failure_backup_supported",
     "post_worker_gpu_verification_supported",
     "cross_file_consistency_supported",
+    "post_worker_exception_safe",
+    "parent_finalization_fallback",
+    "failure_backup_attempted",
+    "success_written_last",
 )
 
 

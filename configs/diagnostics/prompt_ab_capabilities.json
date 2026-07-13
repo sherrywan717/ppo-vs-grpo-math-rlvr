@@ -7,6 +7,10 @@
     "allocator_evidence_supported": true,
     "failure_backup_supported": true,
     "post_worker_gpu_verification_supported": true,
-    "cross_file_consistency_supported": true
+    "cross_file_consistency_supported": true,
+    "post_worker_exception_safe": true,
+    "parent_finalization_fallback": true,
+    "failure_backup_attempted": true,
+    "success_written_last": true
   }
 }

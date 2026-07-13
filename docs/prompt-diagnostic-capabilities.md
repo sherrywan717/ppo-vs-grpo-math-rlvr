@@ -21,3 +21,11 @@ lead to `pending_backup`; only verified backup plus cross-file consistency leads
 `success`. Any runtime, artifact, consistency, or backup error produces `failure`, a
 primitive fallback record when needed, and a verified `-failure` archive whenever the
 run directory exists.
+
+## Exception-safety boundary
+
+The parent lifecycle records worker, post-worker verification, finalization and
+backup phases. Failure finalization is primitive-only and attempts one
+`-failure.tar.gz` backup; backup errors are retained locally in
+`backup_failure.json`. SIGKILL, power loss, and a completely unwritable disk
+cannot be guaranteed or retroactively recorded.

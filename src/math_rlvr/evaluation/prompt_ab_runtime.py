@@ -599,5 +599,16 @@ def finalize_parent_diagnostic(*, payload, post_worker, config, git_info):
         )
         artifacts._json(artifacts.run_dir / "failure_report.json", result)
         artifacts._json(artifacts.run_dir / "summary.json", result)
-        artifacts.refresh_checksums()
+        try:
+            artifacts.refresh_checksums()
+        except Exception:
+            pass
+        try:
+            artifacts.backup_and_verify(failure=True)
+        except Exception as backup_exc:
+            result["backup_error"] = f"{type(backup_exc).__name__}: {backup_exc}"
+            try:
+                artifacts._json(artifacts.run_dir / "backup_failure.json", {"status":"failure", "backup_verified":False, "error":result["backup_error"]})
+            except Exception:
+                pass
         return result
