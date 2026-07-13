@@ -144,13 +144,73 @@ def test_strict_parser_behavior_is_unchanged():
 
 def test_frozen_yaml_hashes_and_cpu_cuda_state():
     expected = {
-        "configs/smoke/grpo.yaml": (
-            "3e6ea0f568c7d946a3023eb14b67988751e37b1cb692b52018faa9dbb622a398"
+        "configs/smoke/grpo.yaml": (  # noqa: E501
+            "5df5d72f71ada14a6ce903990b1b21bbd9d682ba8a05b1f77a91bc974c3872e0"
         ),
-        "configs/smoke/ppo.yaml": (
-            "1db287f772f11da9fb6e69a304857b0055dde2bb0b74baec3bfb07d0d7f0b820"
+        "configs/smoke/ppo.yaml": (  # noqa: E501
+            "b888b12fb56fe356633b2d04f2c9713bb8d02c13be66fe349f60b5d40cbc1ee3"
         ),
     }
     for name, digest in expected.items():
         assert hashlib.sha256(Path(name).read_bytes()).hexdigest() == digest
     assert torch.cuda.is_initialized() is False
+
+
+def test_v1_smoke_activation_identity_and_shared_renderer(tokenizer, smoke_problems):
+    from math_rlvr.prompt import (
+        PROMPT_RENDERER_VERSION,
+        PROMPT_V0_SHA256,
+        PROMPT_V1_SHA256,
+        prompt_metadata,
+    )
+    from math_rlvr.training.common import preflight
+    from math_rlvr.training.grpo import render_training_prompt as grpo_smoke_renderer
+    from math_rlvr.training.ppo import render_training_prompt as ppo_smoke_renderer
+
+    assert PROMPT_V0_SHA256 == "20b54a2ae00ebc762a1a90a3221f5c2409c7e64d2b35fcf2c6dfaaff48a9ef4f"
+    assert PROMPT_V1_SHA256 == "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7"
+    assert prompt_metadata(PROMPT_V1_STRICT_CONCISE) == {
+        "prompt_version": PROMPT_V1_STRICT_CONCISE,
+        "prompt_sha256": PROMPT_V1_SHA256,
+        "renderer_version": PROMPT_RENDERER_VERSION,
+        "candidate_status": "approved_for_smoke",
+        "production_status": "not_approved",
+    }
+    grpo = preflight(Path("configs/smoke/grpo.yaml"), "grpo")
+    ppo = preflight(Path("configs/smoke/ppo.yaml"), "ppo")
+    for key in ("prompt_version", "prompt_sha256", "renderer_version"):
+        assert grpo[key] == ppo[key]
+    for problem in smoke_problems:
+        assert grpo_smoke_renderer(tokenizer, problem, grpo) == ppo_smoke_renderer(
+            tokenizer, problem, ppo
+        )
+
+
+def test_smoke_yaml_diff_is_selector_only_and_main_is_unactivated():
+    old = {
+        "configs/smoke/grpo.yaml": "3e6ea0f568c7d946a3023eb14b67988751e37b1cb692b52018faa9dbb622a398",  # noqa: E501
+        "configs/smoke/ppo.yaml": "1db287f772f11da9fb6e69a304857b0055dde2bb0b74baec3bfb07d0d7f0b820",  # noqa: E501
+    }
+    new = {
+        "configs/smoke/grpo.yaml": "5df5d72f71ada14a6ce903990b1b21bbd9d682ba8a05b1f77a91bc974c3872e0",  # noqa: E501
+        "configs/smoke/ppo.yaml": "b888b12fb56fe356633b2d04f2c9713bb8d02c13be66fe349f60b5d40cbc1ee3",  # noqa: E501
+    }
+    for name, digest in new.items():
+        raw = Path(name).read_bytes()
+        assert hashlib.sha256(raw).hexdigest() == digest
+        without_selector = b"\n".join(
+            line for line in raw.split(b"\n") if not line.startswith(b"prompt:")
+        )
+        assert hashlib.sha256(without_selector).hexdigest() == old[name]
+    for name in ("configs/main/grpo.yaml", "configs/main/ppo.yaml"):
+        assert "prompt:" not in Path(name).read_text(encoding="utf-8")
+
+
+def test_successful_ab_history_is_immutable():
+    expected = {
+        "reports/runs/prompt_ab_qwen25_05b_20260713T105428Z/summary.json": "3d58de03a6b0724b290e4f22bc7efb76e888b5b77b97197e03ea4c15a75f1faa",  # noqa: E501
+        "reports/runs/prompt_ab_qwen25_05b_20260713T105428Z/completions.jsonl": "2aff8ada1b6ab022579e39c4d3c2914e30229d8eb3782155ecbce8a7d9b079b1",  # noqa: E501
+        "reports/runs/grpo_single_update_qwen25_05b_20260713T063829Z/summary.json": "39c40a0f87ebd069a7f0757e7bba3cac8ae58e93549f41bd681c7ba02e1b6e09",  # noqa: E501
+    }
+    for name, digest in expected.items():
+        assert hashlib.sha256(Path(name).read_bytes()).hexdigest() == digest

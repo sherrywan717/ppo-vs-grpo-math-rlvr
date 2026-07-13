@@ -476,6 +476,9 @@ def run_guarded(
             "metrics": result.get("metrics", {}),
             "trainer_log_history": result.get("trainer_log_history", []),
             "checkpoint_inventory": inventory if status == "success" else None,
+            "prompt_version": config.get("prompt_version"),
+            "prompt_sha256": config.get("prompt_sha256"),
+            "renderer_version": config.get("renderer_version"),
             "duplicate_checkpoint_count": (
                 inventory["duplicate_checkpoint_count"]
                 if status == "success" and inventory is not None

@@ -134,20 +134,20 @@ This file records operational history and pitfalls that should survive context c
 - Offline replay with the unchanged parser/verifier reproduced all 8 runtime `format_error` statuses. Reasoning tags appeared in 0/8, complete answer pairs in 3/8, and complete envelopes in 0/8. Four outputs hit the 128-token cap. There is no parser misclassification evidence.
 - Real v0 prompts are 85/83 tokens; the saved prompt hashes are normalized dataset user-text hashes and match exactly. The Qwen template is applied once, roles are system/user followed by an open assistant turn, and no prompt truncation occurs.
 - v0 contains both literal tag pairs, but the system-message format instruction ends 43/41 tokens before the generation boundary and lacks explicit no-outside-text, closure, expression-only, no-equals/target, and concise-reasoning constraints.
-- The unactivated `prompt_v1_strict_concise` candidate is 157/155 tokens and places the final format instruction 5 tokens before the boundary. It retains the problem but includes no gold construction. PPO and GRPO export the same candidate renderer.
+- At the forensic-audit stage, the then-unactivated `prompt_v1_strict_concise` candidate was 157/155 tokens and placed the final format instruction 5 tokens before the boundary. It retains the problem but includes no gold construction. PPO and GRPO export the same renderer; the later smoke-only activation is recorded below.
 - BOS is absent; EOS is `<|im_end|>` 151645; PAD is `<|endoftext|>` 151643; padding is left and truncation is right. Runtime alignment warnings did not alter rendered text or the assistant boundary.
 - Any v0/v1 generation diagnostic requires independent `--generate-only --confirm-prompt-diagnostic` authorization, must not train, and is capped at 16 completions/2,048 generated tokens. This forensic audit does not authorize it or PPO.
 
 ## Guarded Prompt A/B Runner Implementation
 
-- CPU-only implementation entry: `python -m math_rlvr.evaluation.prompt_ab --config configs/diagnostics/prompt_ab.yaml`. No real A/B generation has been executed.
+- CPU-only implementation entry: `python -m math_rlvr.evaluation.prompt_ab --config configs/diagnostics/prompt_ab.yaml`. At implementation time no real A/B generation had been executed; the later successful diagnostic is recorded below.
 - Dry-run needs no execution flag. Real generation requires both `--generate-only` and `--confirm-prompt-diagnostic`; `--confirm-single-update` is rejected.
 - Static gates precede delayed runtime imports: clean `pivot/math-rlvr`, both offline variables equal to 1, exact canonical local 0.5B snapshot, and exact diagnostic config/budget.
 - Matched seeds 42–49 map by problem and generation index and are reset separately for Python, PyTorch CPU, and PyTorch CUDA in each condition. v0 RNG consumption cannot alter v1.
 - Completion IDs are sliced after padded input width; attention-mask sum records unpadded prompt length. EOS is retained and post-EOS padding is excluded. Decode/re-tokenize is not used for the token budget.
 - Hard limits: v0/v1, two fixed train prompts each, four completions per prompt, 128 tokens each, 16 total completions, 2,048 total tokens, 120 seconds, and 3.5 GiB nvidia-smi stop gate.
 - Real code is base BF16 eval/inference only with all parameters frozen. Zero Trainer/train/backward/optimizer/training-step/checkpoint/model-write counters are required.
-- v1 remains unactivated. Candidate review requires better envelope rate, at least one complete envelope, no increased truncation, and at least one nonzero within-problem reward-variance group. All-WRONG_ANSWER can still mean no advantage signal.
+- At runner implementation v1 remained unactivated. Candidate review required better envelope rate, at least one complete envelope, no increased truncation, and at least one nonzero within-problem reward-variance group. All-WRONG_ANSWER can still mean no advantage signal.
 - `apply_patch` remains unavailable because this host disables unprivileged namespaces; standard narrowly scoped patches plus complete diff/tests are the approved local recovery pattern.
 
 ### Prompt A/B cleanup false positive
@@ -156,4 +156,22 @@ This file records operational history and pitfalls that should survive context c
 - `pytorch_allocator.json` is `{}` because worker close raised before returning allocator evidence; exact nonzero bytes are unrecoverable and must not be invented.
 - Parent evidence: PID 109901 exited, no worker compute process, GPU memory 0 MiB before/after, parent CUDA uninitialized; manual nvidia-smi was also 0 MiB/no process.
 - In a spawned worker, current allocator memory before process exit is diagnostic. Persist it and warn; parent post-exit PID/process/memory-baseline verification is the authoritative release gate.
-- Offline A/B: v0 0% complete envelope and two zero-advantage groups; v1 25% complete envelope, two INVALID_EXPRESSION rewards, and two nonzero-variance groups. v1 is review-eligible but not activated.
+- Offline analysis of the immutable failed A/B run found v0 0% complete envelope and two zero-advantage groups; v1 25% complete envelope, two INVALID_EXPRESSION rewards, and two nonzero-variance groups. That failed run alone did not activate v1.
+
+## Prompt v1 Smoke-Only Activation
+
+- Successful matched diagnostic: `prompt_ab_qwen25_05b_20260713T105428Z`, report commit
+  `fae8394c52771e16c774e4cf409d27394c166afe`.
+- v0 produced 8/8 FORMAT_ERROR and zero nonzero-variance problem groups. v1 produced
+  six FORMAT_ERROR and two INVALID_EXPRESSION outputs, a 25% complete-envelope rate,
+  and nonzero reward variance in both problem groups.
+- v1 valid-expression rate, number-usage accuracy, pass@1, and pass@4 were all zero.
+  The evidence supports integration-smoke use only, not a final/production prompt or a
+  claim of learning quality.
+- `prompt_v1_strict_concise` is frozen byte-for-byte as `approved_for_smoke` and
+  `not_approved` for production. Qwen 0.5B PPO and GRPO smoke configs share its
+  version/hash/renderer identity; main/formal 1.5B configs remain unchanged.
+- `prompt_v0_grpo_smoke`, its hash, and all historical A/B/GRPO artifacts remain
+  immutable for replay.
+- The next GPU stage is one newly and separately authorized GRPO single-update smoke.
+  PPO remains unauthorized; never enter PPO automatically.

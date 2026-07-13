@@ -1,0 +1,20 @@
+diff --git a/configs/smoke/grpo.yaml b/configs/smoke/grpo.yaml
+index e9f49c4..d9a8afc 100644
+--- a/configs/smoke/grpo.yaml
++++ b/configs/smoke/grpo.yaml
+@@ -1,4 +1,5 @@
+ experiment: {name: smoke-grpo-qwen-0.5b, algorithm: grpo, seed: 42}
++prompt: {version: prompt_v1_strict_concise}
+ model: {name_or_path: Qwen/Qwen2.5-0.5B-Instruct, revision: 7ae557604adf67be50417f59c2c2f167def9a775, local_files_only: true, dtype: bfloat16, use_qlora: false, gradient_checkpointing: true}
+ lora: {rank: 16, alpha: 32, dropout: 0, target_modules: [q_proj, k_proj, v_proj, o_proj]}
+ data: {manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/countdown_train.json, max_train_samples: 2}
+diff --git a/configs/smoke/ppo.yaml b/configs/smoke/ppo.yaml
+index 6196e82..22e469b 100644
+--- a/configs/smoke/ppo.yaml
++++ b/configs/smoke/ppo.yaml
+@@ -1,4 +1,5 @@
+ experiment: {name: smoke-ppo-qwen-0.5b, algorithm: ppo, seed: 42}
++prompt: {version: prompt_v1_strict_concise}
+ model: {name_or_path: Qwen/Qwen2.5-0.5B-Instruct, dtype: bfloat16, use_qlora: false, gradient_checkpointing: true}
+ value_model: {base_checkpoint: Qwen/Qwen2.5-0.5B-Instruct, architecture: AutoModelForSequenceClassification, num_labels: 1, lora_rank: 8, lora_alpha: 16, lora_target_modules: [q_proj, v_proj], trainable_score_head: true}
+ lora: {rank: 16, alpha: 32, dropout: 0, target_modules: [q_proj, k_proj, v_proj, o_proj]}

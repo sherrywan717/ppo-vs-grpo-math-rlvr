@@ -1,0 +1,90 @@
+{
+  "schema_version": "prompt_smoke_activation.v1",
+  "decision": "approve_for_smoke_only",
+  "prompt": {
+    "version": "prompt_v1_strict_concise",
+    "sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+    "candidate_status": "approved_for_smoke",
+    "production_status": "not_approved",
+    "renderer_version": "math_rlvr.prompt.chat_template.v1",
+    "content_modified": false
+  },
+  "historical_prompt": {
+    "version": "prompt_v0_grpo_smoke",
+    "sha256": "20b54a2ae00ebc762a1a90a3221f5c2409c7e64d2b35fcf2c6dfaaff48a9ef4f",
+    "preserved": true
+  },
+  "scope": {
+    "grpo_0_5b_smoke": true,
+    "ppo_0_5b_smoke": true,
+    "main_or_formal": false,
+    "gpu_authorized": false,
+    "ppo_authorized": false
+  },
+  "source_run": {
+    "run_id": "prompt_ab_qwen25_05b_20260713T105428Z",
+    "status": "success",
+    "v0": {
+      "reward_status_counts": {"format_error": 8},
+      "complete_envelope_rate": 0.0,
+      "nonzero_variance_group_count": 0,
+      "valid_expression_rate": 0.0,
+      "number_usage_accuracy": 0.0,
+      "pass_at_1": 0.0,
+      "pass_at_4": 0.0
+    },
+    "v1": {
+      "reward_status_counts": {"format_error": 6, "invalid_expression": 2},
+      "complete_envelope_rate": 0.25,
+      "nonzero_variance_group_count": 2,
+      "valid_expression_rate": 0.0,
+      "number_usage_accuracy": 0.0,
+      "pass_at_1": 0.0,
+      "pass_at_4": 0.0
+    }
+  },
+  "config_hashes": {
+    "grpo_smoke_before": "3e6ea0f568c7d946a3023eb14b67988751e37b1cb692b52018faa9dbb622a398",
+    "grpo_smoke_after": "5df5d72f71ada14a6ce903990b1b21bbd9d682ba8a05b1f77a91bc974c3872e0",
+    "ppo_smoke_before": "1db287f772f11da9fb6e69a304857b0055dde2bb0b74baec3bfb07d0d7f0b820",
+    "ppo_smoke_after": "b888b12fb56fe356633b2d04f2c9713bb8d02c13be66fe349f60b5d40cbc1ee3",
+    "main_grpo_before_after": "fc1b0c73de431d81e9e827107d8491aba4d54b92f7e04fd4678b6fd828b6f675",
+    "main_ppo_before_after": "1ced44a672fa3a5dcf9871bd8c1893a3bdad641d756dcf9de226b20440d1ad74"
+  },
+  "config_diff": {
+    "configs/smoke/grpo.yaml": {
+      "operation": "add",
+      "line": "prompt: {version: prompt_v1_strict_concise}"
+    },
+    "configs/smoke/ppo.yaml": {
+      "operation": "add",
+      "line": "prompt: {version: prompt_v1_strict_concise}"
+    }
+  },
+  "expected_config_diff": {
+    "allowed": ["prompt selector", "prompt version"],
+    "unchanged": [
+      "data manifests",
+      "reward policy",
+      "parser",
+      "verifier",
+      "model revision",
+      "LoRA",
+      "seed",
+      "sampling",
+      "batching",
+      "generation token budget",
+      "training steps",
+      "checkpoint strategy"
+    ]
+  },
+  "fairness_contract": {
+    "shared_prompt_version": true,
+    "shared_prompt_sha256": true,
+    "shared_renderer_version": true,
+    "byte_identical_for_same_problem": true,
+    "identity_persisted_in_resolved_config_manifest_report": true
+  },
+  "next_stage": "separately_authorized_grpo_single_update_smoke",
+  "automatic_ppo_transition": false
+}

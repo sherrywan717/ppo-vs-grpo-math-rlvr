@@ -5,6 +5,11 @@ from typing import Any
 
 import yaml
 
+from math_rlvr.prompt import (
+    prompt_metadata,
+    prompt_version_from_config,
+)
+
 TEMP_ROOT = Path("/root/autodl-tmp")
 POLICY_MODEL = "Qwen/Qwen2.5-1.5B-Instruct"
 SMOKE_MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
@@ -36,6 +41,10 @@ def validate_training_config(config: dict[str, Any], algorithm: str) -> None:
         raise ValueError("gradient checkpointing required")
     if config.get("lora") != POLICY_LORA:
         raise ValueError("policy LoRA contract mismatch")
+    expected_prompt_metadata = prompt_metadata(prompt_version_from_config(config))
+    for key in ("prompt_version", "prompt_sha256", "renderer_version"):
+        if key in config and config[key] != expected_prompt_metadata[key]:
+            raise ValueError(f"resolved prompt metadata mismatch: {key}")
     generation = config.get("generation", {})
     completion_length = 128 if "smoke" in config["experiment"]["name"] else 384
     expected = {
@@ -134,6 +143,13 @@ def resolve_grpo_smoke_budget(config: dict[str, Any]) -> dict[str, int]:
         "steps_per_generation": generation["generation_batch_size"]
         // training["per_device_train_batch_size"],
     }
+
+
+def resolve_training_config(config: dict[str, Any]) -> dict[str, Any]:
+    """Return a copy enriched with derived prompt identity metadata."""
+    resolved = dict(config)
+    resolved.update(prompt_metadata(prompt_version_from_config(config)))
+    return resolved
 
 
 def validate_runtime_path(path: str | Path) -> Path:

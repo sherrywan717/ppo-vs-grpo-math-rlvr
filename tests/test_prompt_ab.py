@@ -452,8 +452,8 @@ def test_candidate_qualification_never_auto_activates(tmp_path):
 
 def test_frozen_yaml_and_history_hashes_unchanged():
     expected = {
-        "configs/smoke/grpo.yaml": "3e6ea0f568c7d946a3023eb14b67988751e37b1cb692b52018faa9dbb622a398",  # noqa: E501
-        "configs/smoke/ppo.yaml": "1db287f772f11da9fb6e69a304857b0055dde2bb0b74baec3bfb07d0d7f0b820",  # noqa: E501
+        "configs/smoke/grpo.yaml": "5df5d72f71ada14a6ce903990b1b21bbd9d682ba8a05b1f77a91bc974c3872e0",  # noqa: E501
+        "configs/smoke/ppo.yaml": "b888b12fb56fe356633b2d04f2c9713bb8d02c13be66fe349f60b5d40cbc1ee3",  # noqa: E501
         "reports/runs/grpo_single_update_qwen25_05b_20260713T063829Z/summary.json": "39c40a0f87ebd069a7f0757e7bba3cac8ae58e93549f41bd681c7ba02e1b6e09",  # noqa: E501
         "reports/runs/grpo_single_update_qwen25_05b_20260713T063829Z/completions.jsonl": "bd0df2cfb0ed0ad85f75393213eef632c3b65508b35e32f4657102a56bff25bd",  # noqa: E501
     }

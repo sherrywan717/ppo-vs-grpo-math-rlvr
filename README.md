@@ -20,6 +20,21 @@ The output contract is exactly one `<reasoning>...</reasoning>` block followed b
 
 The checked-in GRPO smoke YAML is the configuration source of truth: two unique prompts, four generations per prompt, generation batch 8, micro-batch 2, gradient accumulation 4, one iteration, one global/optimizer step, eight completions, and a 1,024 generated-token hard cap. TRL 0.24.0 must infer `steps_per_generation=4`; never configure both that field and `generation_batch_size`. This is an integration smoke contract, not a formal experiment result.
 
+## Shared smoke prompt
+
+The Qwen 0.5B PPO and GRPO smoke configs select the same frozen
+`prompt_v1_strict_concise` renderer. Its candidate status is `approved_for_smoke`, but
+its production status is `not_approved`: the matched generation-only diagnostic raised
+complete-envelope compliance from 0% to 25% and created nonzero reward variance in both
+Countdown groups, while valid-expression, number-usage, pass@1, and pass@4 remained 0.
+`prompt_v0_grpo_smoke` remains unchanged for historical replay, and main/formal 1.5B
+configs do not activate v1.
+
+PPO and GRPO must resolve and report the same `prompt_version`, `prompt_sha256`, and
+`renderer_version`; rendering the same `MathProblem` must be byte-identical. See
+`docs/smoke-prompt-fairness.md`. This selector change authorizes no GPU execution and
+does not authorize PPO.
+
 ## Guarded GRPO execution
 
 The default GRPO CLI is dry-run only. `--execute` by itself still fails closed. The only real smoke path requires the frozen smoke config and both flags:

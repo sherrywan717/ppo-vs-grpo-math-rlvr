@@ -30,6 +30,10 @@
     {
       "id": "B",
       "name": "GRPO 0.5B single-update smoke",
+      "prompt_version": "prompt_v1_strict_concise",
+      "prompt_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+      "renderer_version": "math_rlvr.prompt.chat_template.v1",
+      "prompt_scope": "approved_for_smoke; not_approved for production",
       "data_samples": 2,
       "prompts": 2,
       "completions_per_prompt": 4,
@@ -62,6 +66,10 @@
     {
       "id": "C",
       "name": "PPO 0.5B single-update smoke",
+      "prompt_version": "prompt_v1_strict_concise",
+      "prompt_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+      "renderer_version": "math_rlvr.prompt.chat_template.v1",
+      "prompt_scope": "approved_for_smoke; not_approved for production",
       "data_samples": 4,
       "prompts": 4,
       "completions_per_prompt": 1,
@@ -83,7 +91,15 @@
       "failure": "OOM: stop and report component/peak, then propose batch 2 with grad-accum 2; NaN: retain metrics and stop; timeout: terminate gracefully, no automatic rerun"
     }
   ],
-  "artifact_contract": "Each run saves config.json, summary.json, metrics.csv, gpu_metrics.csv, stdout.log, stderr.log, checksums.sha256, reward/loss/KL/VRAM charts as applicable, and only the stated adapter checkpoint.",
+  "artifact_contract": "Each run saves config.json, summary.json, metrics.csv, gpu_metrics.csv, stdout.log, stderr.log, checksums.sha256, reward/loss/KL/VRAM charts as applicable, prompt_version/prompt_sha256/renderer_version, and only the stated adapter checkpoint.",
+  "smoke_prompt_fairness": {
+    "prompt_version": "prompt_v1_strict_concise",
+    "prompt_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+    "renderer_version": "math_rlvr.prompt.chat_template.v1",
+    "ppo_grpo_byte_identical_for_same_problem": true,
+    "production_approved": false,
+    "main_formal_activated": false
+  },
   "grpo_first_failure_follow_up": {
     "run_id": "grpo_single_update_qwen25_05b_20260713T050407Z",
     "status": "failure_before_generation_or_training",

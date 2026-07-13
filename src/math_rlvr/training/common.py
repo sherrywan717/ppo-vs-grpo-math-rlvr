@@ -4,10 +4,15 @@ import argparse
 from pathlib import Path
 from typing import Any
 
-from math_rlvr.config import load_config, validate_training_config
-from math_rlvr.prompt import render_candidate_prompt, render_prompt
+from math_rlvr.config import load_config, resolve_training_config, validate_training_config
+from math_rlvr.prompt import (
+    render_candidate_prompt,
+)
+from math_rlvr.prompt import (
+    render_training_prompt as _render_training_prompt,
+)
 
-render_training_prompt = render_prompt
+render_training_prompt = _render_training_prompt
 render_candidate_training_prompt = render_candidate_prompt
 
 
@@ -26,7 +31,7 @@ def parse_args(description: str, argv=None) -> argparse.Namespace:
 def preflight(config_path: Path, algorithm: str) -> dict[str, Any]:
     config = load_config(config_path)
     validate_training_config(config, algorithm)
-    return config
+    return resolve_training_config(config)
 
 
 def refuse_unimplemented(config: dict[str, Any], execute: bool) -> int:

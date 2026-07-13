@@ -18,6 +18,7 @@ Price: ¥8.88/GPU-hour. Estimates are planning bounds, not measured results.
 
 ## B. GRPO 0.5B single-update smoke
 
+- Prompt: shared smoke-only `prompt_v1_strict_concise`; production not approved
 - Data/prompts/completions: 2 samples, 2 prompts, 4 per prompt, 8 total
 - Token caps: prompt 512, completion 128, total generation 1024
 - Micro-batch/gradient accumulation: 2 / 4
@@ -38,6 +39,7 @@ Price: ¥8.88/GPU-hour. Estimates are planning bounds, not measured results.
 
 ## C. PPO 0.5B single-update smoke
 
+- Prompt: same shared smoke-only `prompt_v1_strict_concise` renderer as GRPO; PPO remains unauthorized
 - Data/prompts/completions: 4 samples, 4 prompts, 1 per prompt, 4 total
 - Token caps: prompt 512, completion 128, total generation 512
 - Batch/accumulation: 4 / 1
@@ -53,6 +55,12 @@ Price: ¥8.88/GPU-hour. Estimates are planning bounds, not measured results.
 ## Required artifacts
 
 Each run saves config.json, summary.json, metrics.csv, gpu_metrics.csv, stdout.log, stderr.log, checksums.sha256, reward/loss/KL/VRAM charts as applicable, and only the stated adapter checkpoint.
+
+For both 0.5B smoke paths, resolved config, run manifest, and report additionally
+record `prompt_version`, `prompt_sha256`, and `renderer_version`. PPO/GRPO rendering
+for the same `MathProblem` must be byte-identical. Any identity mismatch blocks the
+comparison. This smoke selector does not change formal/main configs, algorithm budgets,
+or reward semantics.
 
 ### First GRPO attempt follow-up
 

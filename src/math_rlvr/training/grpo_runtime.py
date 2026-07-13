@@ -14,7 +14,7 @@ from pathlib import Path
 from math_rlvr.artifacts.manager import ArtifactManager
 from math_rlvr.artifacts.monitor import ResourceMonitor
 from math_rlvr.dataset import MathProblem
-from math_rlvr.prompt import format_problem
+from math_rlvr.prompt import format_training_problem
 from math_rlvr.training.guarded_grpo import (
     REVISION,
     assert_json_safe,
@@ -52,6 +52,7 @@ def validate_backup_inventory(names):
 
 class RealLifecycle:
     def __init__(self, config):
+        self.config = config
         stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
         self.manager = ArtifactManager(
             "single_update",
@@ -115,12 +116,11 @@ class RealLifecycle:
             {
                 "status": summary["status"],
                 "counters": summary["counters"],
-                "completion_evidence_count": summary.get(
-                    "completion_evidence_count", 0
-                ),
-                "duplicate_checkpoint_count": summary.get(
-                    "duplicate_checkpoint_count"
-                ),
+                "completion_evidence_count": summary.get("completion_evidence_count", 0),
+                "prompt_version": self.config["prompt_version"],
+                "prompt_sha256": self.config["prompt_sha256"],
+                "renderer_version": self.config["renderer_version"],
+                "duplicate_checkpoint_count": summary.get("duplicate_checkpoint_count"),
             }
         )
         self.manager.write_json("run_manifest.json", manifest)
@@ -173,8 +173,7 @@ class RealLifecycle:
                     }
                 )
         (self.manager.report_dir / "artifact_manifest.json").write_text(
-            json.dumps({"run_id": self.manager.run_id, "files": files}, indent=2)
-            + "\n"
+            json.dumps({"run_id": self.manager.run_id, "files": files}, indent=2) + "\n"
         )
         (self.manager.report_dir / "checksums.sha256").write_text(
             "\n".join(f"{item['sha256']}  {item['path']}" for item in files) + "\n"
@@ -246,7 +245,7 @@ class RealBackend:
             problem_map = {p.problem_id: p for p in problems}
             rows = [
                 {
-                    "prompt": format_problem(p),
+                    "prompt": format_training_problem(p, self.config),
                     "problem_id": p.problem_id,
                     "prompt_hash": p.content_hash,
                 }
@@ -280,9 +279,7 @@ class RealBackend:
             trainer.add_callback(optimizer_guard_callback(guard))
             output = trainer.train()
             global_step = int(trainer.state.global_step)
-            checkpoint = authoritative_checkpoint(
-                self.lifecycle.manager.run_dir, global_step
-            )
+            checkpoint = authoritative_checkpoint(self.lifecycle.manager.run_dir, global_step)
             log_history = [dict(row) for row in trainer.state.log_history]
             kl = extract_kl_metric(log_history, float(trainer.args.beta))
             metrics = {

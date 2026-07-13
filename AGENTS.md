@@ -82,7 +82,13 @@ The one-shot minimal allocator probe `cuda_allocator_probe_20260713T063028Z` pas
 
 The evidence-complete GRPO run `grpo_single_update_qwen25_05b_20260713T063829Z` succeeded at commit `85776a8290f736b0469f377b0a3d3c4b86cdc7a1`: 2 prompts, 8 completions, 687 generated tokens, 4 microsteps, and one optimizer/global step. All eight outputs were strict format errors, producing zero reward variance and no learning signal. Preserve the run, checkpoint, reports, and backup unchanged.
 
-Production prompt behavior remains versioned as `prompt_v0_grpo_smoke`. The unactivated `prompt_v1_strict_concise` candidate places the full closed-envelope protocol at the end of the user message and is shared by PPO/GRPO through one renderer. Do not activate it in training or generation without a separately authorized generation-only A/B diagnostic using `--generate-only --confirm-prompt-diagnostic`; `--confirm-single-update` must not authorize that path. The strict parser and frozen YAML remain unchanged.
+Historical/production prompt behavior remains versioned as `prompt_v0_grpo_smoke`.
+After the separately authorized successful generation-only A/B diagnostic,
+`prompt_v1_strict_concise` is approved only as the shared Qwen 0.5B PPO/GRPO smoke
+prompt; its production status remains not approved. Both smoke paths must resolve the
+same prompt version/hash/renderer and render the same `MathProblem` byte-identically.
+Main/formal 1.5B configs remain unactivated. The strict parser and reward/verifier
+contract are unchanged.
 
 ### Guarded prompt A/B implementation gate
 
@@ -95,3 +101,15 @@ imports. It uses the base model only; Trainer, LoRA, train, backward, optimizer,
 ### Prompt A/B cleanup semantics
 
 The immutable run `prompt_ab_qwen25_05b_20260713T101918Z` remains failure. Its worker allocator bytes were not persisted because close raised before returning evidence, but parent and manual post-run checks showed PID exit, no compute process and 0 MiB baseline/post memory. Future isolated-worker diagnostics treat allocator current memory as pre-exit evidence and warning only; the non-CUDA parent's post-exit PID/process/baseline check is authoritative. This does not activate v1 or authorize another A/B, GRPO or PPO run.
+
+### Prompt v1 smoke-only activation
+
+The successful rerun `prompt_ab_qwen25_05b_20260713T105428Z` produced v0: 8/8
+FORMAT_ERROR and zero nonzero-variance groups; v1: 6 FORMAT_ERROR, 2
+INVALID_EXPRESSION, 25% complete envelopes, and two nonzero-variance groups. v1 still
+had zero valid-expression rate, number-usage accuracy, pass@1, and pass@4. Therefore
+`prompt_v1_strict_concise` is frozen as `approved_for_smoke` and
+`not_approved` for production. Only the 0.5B PPO/GRPO smoke selectors use it; v0 and
+main/formal configs remain preserved. The next executable step requires a new explicit
+GRPO single-update authorization. PPO remains unauthorized and must never start
+automatically.
