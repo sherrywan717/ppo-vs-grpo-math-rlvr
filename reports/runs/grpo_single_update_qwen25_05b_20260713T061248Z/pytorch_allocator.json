@@ -1,0 +1,21 @@
+{
+  "available": false,
+  "device": null,
+  "max_memory_allocated": {
+    "bytes": null,
+    "mib": null
+  },
+  "max_memory_reserved": {
+    "bytes": null,
+    "mib": null
+  },
+  "memory_allocated": {
+    "bytes": null,
+    "mib": null
+  },
+  "memory_reserved": {
+    "bytes": null,
+    "mib": null
+  },
+  "unavailable_reason": "allocator collection was not started"
+}

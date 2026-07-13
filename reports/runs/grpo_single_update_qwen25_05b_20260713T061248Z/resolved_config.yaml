@@ -1,0 +1,50 @@
+budget:
+  gpu_hour_price_cny: 8.88
+  max_completions: 8
+  max_estimated_cost_cny: 2.22
+  max_generated_tokens: 1024
+  max_global_steps: 1
+  max_gpu_hours: 0.25
+  max_optimizer_steps: 1
+  max_wall_time_seconds: 900
+data:
+  manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/countdown_train.json
+  max_train_samples: 2
+experiment:
+  algorithm: grpo
+  name: smoke-grpo-qwen-0.5b
+  seed: 42
+generation:
+  generation_batch_size: 8
+  max_completion_length: 128
+  max_prompt_length: 512
+  num_generations: 4
+  temperature: 0.8
+  top_p: 0.95
+lora:
+  alpha: 32
+  dropout: 0
+  rank: 16
+  target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+model:
+  dtype: bfloat16
+  gradient_checkpointing: true
+  local_files_only: true
+  name_or_path: Qwen/Qwen2.5-0.5B-Instruct
+  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  use_qlora: false
+training:
+  gradient_accumulation_steps: 4
+  max_steps: 1
+  num_iterations: 1
+  per_device_train_batch_size: 2
+  push_to_hub: false
+  report_to: []
+  save_only_model: true
+  save_steps: 1
+  save_strategy: steps
+  save_total_limit: 1

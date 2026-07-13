@@ -1,0 +1,100 @@
+{
+  "run_id": "grpo_single_update_qwen25_05b_20260713T061248Z",
+  "files": [
+    {
+      "path": "completions.jsonl",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "environment.json",
+      "size": 116,
+      "sha256": "7c1e88fadc3505daf58112279cd861804cf062db7f89ddd15ac81708b100190d"
+    },
+    {
+      "path": "environment.txt",
+      "size": 31,
+      "sha256": "5df1c8e12532b5c081861f18bcbad61f710a448835d3e210468bbfdc2751eed2"
+    },
+    {
+      "path": "failure_report.json",
+      "size": 545,
+      "sha256": "4324f7dd3ce4ed726b8336ecd3095bde2a56f22f063025369a6afff200aadf21"
+    },
+    {
+      "path": "figures/gpu_memory.png",
+      "size": 61326,
+      "sha256": "b4c8050dd5051c84c65e18fd78905a96df13c03e822c107d9ceb7e39369a7f6a"
+    },
+    {
+      "path": "figures/gpu_memory.svg",
+      "size": 39960,
+      "sha256": "0e95f2ea6345375c0fa377fb94958a2b58bb1ed06992e432a5d9e57d33199dff"
+    },
+    {
+      "path": "figures/gpu_utilization.png",
+      "size": 52394,
+      "sha256": "ab54d4037a4a27aaedb7c2d53be65a84d82da27bf30c75f8721a21dae15e110d"
+    },
+    {
+      "path": "figures/gpu_utilization.svg",
+      "size": 37478,
+      "sha256": "7a01eeb170b3a2ef581578ed097d60d592274d821fa4c5a2b3ba6cfc46153242"
+    },
+    {
+      "path": "final_summary.json",
+      "size": 1205,
+      "sha256": "a1909bab39922166924ccdbb89032b0114989b92aeea01e359298fa6998939be"
+    },
+    {
+      "path": "gpu_metrics.csv",
+      "size": 696,
+      "sha256": "206cf8c4ca3312473ff8785c60106c5e47690480e291541cb70e689921471072"
+    },
+    {
+      "path": "metrics.csv",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "pytorch_allocator.json",
+      "size": 369,
+      "sha256": "9a69b2f73436ae443891483c9fa2d4f0b4b167665297ce009a2bbf882dcd0e69"
+    },
+    {
+      "path": "report.md",
+      "size": 116,
+      "sha256": "c231a7ec9752d7840c5d5abb3f5bf118e4d9012480a8402c3f039701433abad9"
+    },
+    {
+      "path": "resolved_config.json",
+      "size": 1381,
+      "sha256": "8ba507af49a08884d0d186a46989b31ab26d22b4b59641826a4e5f4fb51de61d"
+    },
+    {
+      "path": "resolved_config.yaml",
+      "size": 1072,
+      "sha256": "64e3e8b6efcae98a9aaef4c42e12506e3bd248aaa2911a9674c830d93e36fd2e"
+    },
+    {
+      "path": "run_manifest.json",
+      "size": 751,
+      "sha256": "86346550402bb1c2b1de85ce8c72b47843f5483b7db9e1eede40e7a5828bc544"
+    },
+    {
+      "path": "samples.jsonl.gz",
+      "size": 20,
+      "sha256": "05e778a48cd29d427fa990e535dd1a0b8265ae6daa8e40b876c9feb61969400c"
+    },
+    {
+      "path": "smoke_problems.json",
+      "size": 369,
+      "sha256": "ba21d13bd9bdc1e0ce7e84b25feede02ae7fe3cd1d79d79b7983f0f75fd59d76"
+    },
+    {
+      "path": "summary.json",
+      "size": 1096,
+      "sha256": "67ac431dc1603f2847b80c20251245b24a5fe759cad73cd3f72efbf848acb533"
+    }
+  ]
+}

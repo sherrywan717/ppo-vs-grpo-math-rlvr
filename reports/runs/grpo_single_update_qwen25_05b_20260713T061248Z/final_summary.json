@@ -1,0 +1,52 @@
+{
+  "status": "failure",
+  "failed_stage": null,
+  "exception_type": null,
+  "stop_reason": "RuntimeError: Invalid device argument ",
+  "counters": {
+    "limits": {
+      "completions": 8,
+      "generated_tokens": 1024,
+      "microsteps": 4,
+      "optimizer_steps": 1,
+      "global_step": 1
+    },
+    "completions": 0,
+    "generated_tokens": 0,
+    "microsteps": 0,
+    "optimizer_steps": 0,
+    "global_step": 0,
+    "start_timestamp": 11541898.984945215,
+    "elapsed_seconds": 0.0,
+    "exceeded": false,
+    "exceeded_reason": null,
+    "rewards": []
+  },
+  "reason": "RuntimeError: Invalid device argument ",
+  "completion_evidence_count": 0,
+  "metrics": {},
+  "trainer_log_history": [],
+  "checkpoint_inventory": null,
+  "duplicate_checkpoint_count": null,
+  "pytorch_allocator": {
+    "available": false,
+    "device": null,
+    "max_memory_allocated": {
+      "bytes": null,
+      "mib": null
+    },
+    "max_memory_reserved": {
+      "bytes": null,
+      "mib": null
+    },
+    "memory_allocated": {
+      "bytes": null,
+      "mib": null
+    },
+    "memory_reserved": {
+      "bytes": null,
+      "mib": null
+    },
+    "unavailable_reason": "allocator collection was not started"
+  }
+}
