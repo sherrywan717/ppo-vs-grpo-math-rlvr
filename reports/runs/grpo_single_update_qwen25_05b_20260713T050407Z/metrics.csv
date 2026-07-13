@@ -1,0 +1,2 @@
+status,loss,kl,grad_norm,learning_rate,reward_mean,generated_tokens,microsteps,optimizer_steps,global_step
+failure,,,,,,0,0,0,0

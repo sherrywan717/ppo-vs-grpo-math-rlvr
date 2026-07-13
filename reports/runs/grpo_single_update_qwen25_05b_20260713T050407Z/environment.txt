@@ -1,0 +1,9 @@
+python: 3.12.3
+trl: 0.24.0
+transformers: 4.57.6
+torch: 2.8.0+cu128
+gpu: NVIDIA H800 PCIe
+driver: 590.48.01
+offline: True
+cuda_initialized_observed: False
+full_environment_dumped: False

@@ -1,0 +1,8 @@
+{
+  "run_id": "grpo_single_update_qwen25_05b_20260713T050407Z",
+  "stage": "single_update",
+  "algorithm": "grpo",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "seed": 42,
+  "created_at": "2026-07-13T05:04:07.334451+00:00"
+}
