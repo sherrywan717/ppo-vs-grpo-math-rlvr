@@ -89,9 +89,11 @@ def test_pilot_manifest_order_hashes_and_no_gold_leakage():
 
 
 def test_ppo_prompt_repetition_and_grpo_pair_keys_are_exactly_matched():
-    ppo = pilot_episode_records("ppo")
-    grpo = pilot_episode_records("grpo")
-    assert ppo == grpo
+    ppo = pilot_episode_records("ppo", 42)
+    grpo = pilot_episode_records("grpo", 42)
+    assert [{k: v for k, v in row.items() if k != "algorithm"} for row in ppo] == [
+        {k: v for k, v in row.items() if k != "algorithm"} for row in grpo
+    ]
     assert len(ppo) == PILOT_COMPLETIONS == 16
     assert [row["pair_key"] for row in ppo] == pilot_pair_keys()
     counts = Counter(row["problem_id"] for row in ppo)
@@ -287,6 +289,7 @@ def test_artifact_and_report_templates_are_complete_and_disclaimed():
 def test_main_smoke_configs_and_stage_d_history_are_immutable():
     def join(left, right):
         return left + right
+
     ppo_root = Path("reports/runs/ppo_single_update_qwen25_05b_20260714T051538Z")
     grpo_root = Path("reports/runs/grpo_single_update_qwen25_05b_20260713T122258Z")
     expected = {

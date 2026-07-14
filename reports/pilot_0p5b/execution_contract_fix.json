@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "title": "Matched 0.5B pilot - not the final benchmark",
+  "scope": "CPU-only matched pilot execution-contract repair",
+  "status": "static_validation_passed",
+  "trl_contract": {
+    "version": "0.24.0",
+    "default_risk": "PPOTrainer constructs DataLoader(..., shuffle=True), prepares it with Accelerator, then train() consumes self.dataloader through repeat_generator; seed stability does not preserve the frozen prompt-major pairing order.",
+    "replacement_lifecycle": "GuardedPPOTrainer.__init__ immediately after PPOTrainer.__init__",
+    "replacement_scope": "DataLoader only",
+    "model_or_optimizer_reprepared": false,
+    "sampler": "SequentialSampler",
+    "batch_size": 16,
+    "drop_last": true,
+    "num_workers": 0,
+    "world_size": 1,
+    "accelerator_api": "trainer.accelerator.prepare_data_loader",
+    "preflight_prepared_batch_validation": true,
+    "train_iterator_revalidation": true
+  },
+  "prepared_fake_batch_evidence": {
+    "seeds": [
+      42,
+      123,
+      2026
+    ],
+    "record_count_per_seed": 16,
+    "sampler_before": "RandomSampler",
+    "sampler_after": "SequentialSampler",
+    "pair_keys": [
+      "countdown:train:0::generation:0",
+      "countdown:train:0::generation:1",
+      "countdown:train:0::generation:2",
+      "countdown:train:0::generation:3",
+      "countdown:train:1::generation:0",
+      "countdown:train:1::generation:1",
+      "countdown:train:1::generation:2",
+      "countdown:train:1::generation:3",
+      "countdown:train:2::generation:0",
+      "countdown:train:2::generation:1",
+      "countdown:train:2::generation:2",
+      "countdown:train:2::generation:3",
+      "countdown:train:3::generation:0",
+      "countdown:train:3::generation:1",
+      "countdown:train:3::generation:2",
+      "countdown:train:3::generation:3"
+    ]
+  },
+  "protected_profiles": [
+    {
+      "profile": "ppo_stage_d_smoke",
+      "algorithm": "ppo",
+      "config": "configs/smoke/ppo.yaml",
+      "config_sha256": "547e67360fd73385c688f6d1b3b10d95cf191b70456d1b893870540b6de9f668",
+      "expected_prompts": 4,
+      "responses_per_prompt": 1,
+      "expected_completions": 4,
+      "generated_token_cap": 512,
+      "updates": 1,
+      "optimizer_steps": 1,
+      "global_steps": 1
+    },
+    {
+      "profile": "grpo_stage_d_smoke",
+      "algorithm": "grpo",
+      "config": "configs/smoke/grpo.yaml",
+      "config_sha256": "068ff8d742849ffa0d43ccf6f4e74898e08c5f031c0f837c18ac8e5b183d8979",
+      "expected_prompts": 2,
+      "responses_per_prompt": 4,
+      "expected_completions": 8,
+      "generated_token_cap": 1024,
+      "updates": 1,
+      "optimizer_steps": 1,
+      "global_steps": 1
+    },
+    {
+      "profile": "ppo_matched_pilot",
+      "algorithm": "ppo",
+      "config_family": "configs/pilot/resolved/ppo_seed_{42,123,2026}.json",
+      "expected_prompts": 4,
+      "responses_per_prompt": 4,
+      "expected_completions": 16,
+      "generated_token_cap": 2048,
+      "updates": 1,
+      "optimizer_steps": 1,
+      "global_steps": 1
+    },
+    {
+      "profile": "grpo_matched_pilot",
+      "algorithm": "grpo",
+      "config_family": "configs/pilot/resolved/grpo_seed_{42,123,2026}.json",
+      "expected_prompts": 4,
+      "responses_per_prompt": 4,
+      "expected_completions": 16,
+      "generated_token_cap": 2048,
+      "updates": 1,
+      "optimizer_steps": 1,
+      "global_steps": 1
+    }
+  ],
+  "frozen_identity": {
+    "pilot_manifest_sha256": "0235210e038bc27ebf2e7218691f36f09c8e11f0bbc743f46a5318a279f6bc1f",
+    "resolved_config_sha256": {
+      "ppo_seed_42": "1daeba7e6cd5e0af43c7f7cb9db87b46d44608adf9fdf432dc7b2c34ea059fdd",
+      "ppo_seed_123": "9da0ad35e943cdeda2da410c20eec73e6d105f0ef66f7f67b1be22950a0e43c5",
+      "ppo_seed_2026": "d3255ddb849224a4d87a069d981fcacf85cb98a7afa986ff0a9fb284b7698044",
+      "grpo_seed_42": "83992a9c312b3ea6ab87f33dce1d4e9572a9647bbdb72bd67a6e98e90c182ac8",
+      "grpo_seed_123": "edec9ce1265dfaec8c712b2c65046fe860cbd3e10aab52cf31b6d5e0350c2a28",
+      "grpo_seed_2026": "1d558da6ea57cfa074fee30868f1772c76c617920e4e93a4897be2e2b48d6b00"
+    },
+    "prompt_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+    "reward_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+    "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+    "verifier_sha256": "593fa4f1f12702411248b77d8059b4df84a182334a8f9923a2283d04a3fb0c74"
+  },
+  "evidence_rules": {
+    "profile_selection": "exact repository config path plus raw-file SHA256 allowlist",
+    "arbitrary_cli_numeric_widening": false,
+    "online_overflow": "fail closed before optimizer update",
+    "final_count": "must equal expected_completions exactly",
+    "token_count_source": "completion IDs and binary masks",
+    "pairing": "problem_id::generation_index, each expected key exactly once",
+    "counter_consistency": "guard-derived counters persisted in metrics, summary and run manifest"
+  },
+  "historical_evidence": {
+    "stage_d_runs_modified": false,
+    "stage_d_smoke_profiles_weakened": false,
+    "ppo_exact_count_tests": "4 succeeds; 3 and 5 fail",
+    "grpo_exact_count_tests": "8 succeeds; 7 and 9 fail"
+  },
+  "cpu_safety": {
+    "cuda_initialized": false,
+    "model_or_tokenizer_loads": 0,
+    "generation_calls": 0,
+    "real_trainer_calls": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0
+  },
+  "gpu_suite_correctness_blockers": [],
+  "validation": {
+    "targeted_tests": {
+      "passed": 120,
+      "failed": 0
+    },
+    "full_pytest": {
+      "passed": 321,
+      "failed": 0
+    },
+    "ruff": "passed",
+    "compileall": "passed",
+    "check_env": "passed",
+    "manifest_validation": "passed",
+    "pilot_dry_runs": {
+      "ppo": 3,
+      "grpo": 3,
+      "failed": 0
+    },
+    "stage_d_dry_runs": {
+      "ppo": 1,
+      "grpo": 1,
+      "failed": 0
+    },
+    "fake_pilot_execute": {
+      "ppo": 1,
+      "grpo": 1,
+      "failed": 0
+    },
+    "fake_16_row_artifact_and_figure_finalization": "passed",
+    "git_diff_check": "passed"
+  },
+  "gpu_suite_authorized": false
+}

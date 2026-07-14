@@ -43,14 +43,9 @@ def main(
     (offline_probe or require_ppo_offline_environment)()
     (snapshot_probe or require_local_snapshot)()
     if execute_fn is None:
-        if is_pilot:
-            raise RuntimeError(
-                "matched PPO pilot execution remains disabled until the ordered "
-                "sequential rollout/evidence runtime is implemented and reviewed"
-            )
-        from math_rlvr.training.ppo_runtime import execute_real_ppo_smoke
+        from math_rlvr.training.ppo_runtime import execute_real_ppo
 
-        execute_fn = execute_real_ppo_smoke
+        execute_fn = execute_real_ppo
     result = execute_fn(config)
     if result.get("status") != "success":
         raise RuntimeError(result.get("reason", "guarded PPO smoke failed"))

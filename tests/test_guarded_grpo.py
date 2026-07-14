@@ -117,6 +117,7 @@ class Backend:
                         "problem_id": problem.problem_id,
                         "prompt_hash": problem.content_hash,
                         "generation_index": index % 4,
+                        "pair_key": f"{problem.problem_id}::generation:{index % 4}",
                         "completion_index": index,
                         "completion_ids": [index + 1] * exact_count,
                         "completion_mask": [1] * exact_count,
@@ -227,6 +228,7 @@ def test_fake_success_exact_counters_and_monitor_cleanup(tmp_path):
 @pytest.mark.parametrize(
     ("kwargs", "reason"),
     [
+        ({"completions": 7}, "protected completion"),
         ({"completions": 9}, "completion"),
         ({"tokens": 1025}, "token"),
         ({"steps": 2}, "second optimizer"),
@@ -395,10 +397,7 @@ def test_staged_reward_identity_and_components_persist_in_fake_artifacts(tmp_pat
     assert result["reward_policy_version"] == STAGED_REWARD_VERSION
     assert result["reward_component_weights"] == STAGED_COMPONENT_WEIGHTS
     assert result["reward_policy_sha256"] == STAGED_REWARD_SHA256
-    rows = [
-        json.loads(line)
-        for line in (life.root / "completions.jsonl").read_text().splitlines()
-    ]
+    rows = [json.loads(line) for line in (life.root / "completions.jsonl").read_text().splitlines()]
     for row in rows:
         assert row["canonical_status"] == row["reward_status"]
         assert row["reward_policy_version"] == STAGED_REWARD_VERSION

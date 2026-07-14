@@ -38,14 +38,9 @@ def main(argv=None, execute_fn=None, git_probe=None, snapshot_probe=None) -> int
     (git_probe or require_clean_git)()
     (snapshot_probe or require_local_snapshot)()
     if execute_fn is None:
-        if is_pilot:
-            raise RuntimeError(
-                "matched GRPO pilot execution remains disabled until the 16-completion "
-                "guarded runtime and grouped artifact path are implemented and reviewed"
-            )
-        from math_rlvr.training.grpo_runtime import execute_real_smoke
+        from math_rlvr.training.grpo_runtime import execute_real_grpo
 
-        execute_fn = execute_real_smoke
+        execute_fn = execute_real_grpo
     result = execute_fn(config)
     if result.get("status") != "success":
         raise RuntimeError(result.get("reason", "guarded GRPO smoke failed"))

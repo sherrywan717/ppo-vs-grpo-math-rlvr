@@ -15,6 +15,7 @@ from math_rlvr.artifacts.manager import ArtifactManager
 from math_rlvr.artifacts.monitor import ResourceMonitor
 from math_rlvr.dataset import MathProblem
 from math_rlvr.prompt import render_training_prompt
+from math_rlvr.training.execution_contract import expected_run_contract_for_config
 from math_rlvr.training.grpo_runtime import validate_backup_inventory
 from math_rlvr.training.guarded_grpo import (
     assert_json_safe,
@@ -24,6 +25,7 @@ from math_rlvr.training.guarded_grpo import (
 from math_rlvr.training.guarded_ppo import (
     PPO_SMOKE_CONFIG,
     ppo_checkpoint_inventory,
+    ppo_execution_problems_and_episodes,
     run_guarded_ppo,
 )
 
@@ -104,6 +106,8 @@ class RealPPOLifecycle:
                 "algorithm": self.config["experiment"]["algorithm"],
                 "seed": self.config["experiment"]["seed"],
                 "completion_evidence_count": summary.get("completion_evidence_count", 0),
+                "expected_run_contract": summary.get("expected_run_contract"),
+                "comparison_pair_keys": summary.get("expected_run_contract", {}).get("pair_keys"),
                 "resolved_ppo_contract": summary.get("resolved_ppo_contract"),
                 "model_roles": summary.get("model_roles"),
                 "prompt_version": self.config["prompt_version"],
@@ -116,9 +120,7 @@ class RealPPOLifecycle:
                 "verifier_contract": self.config.get("verifier_contract"),
                 "resolved_config_path": self.config.get("resolved_config_path"),
                 "resolved_config_sha256": self.config.get("resolved_config_sha256"),
-                "pilot_manifest_sha256": self.config.get("data", {}).get(
-                    "pilot_manifest_sha256"
-                ),
+                "pilot_manifest_sha256": self.config.get("data", {}).get("pilot_manifest_sha256"),
                 "report_disclaimer": self.config.get("reporting", {}).get(
                     "disclaimer", "Smoke diagnostic only; not an experiment result."
                 ),
@@ -156,6 +158,9 @@ class RealPPOLifecycle:
         safe_names = (
             "resolved_config.json",
             "run_manifest.json",
+            "expected_run_contract.json",
+            "ppo_episode_order.json",
+            "ppo_loader_contract.json",
             "completions.jsonl",
             "trainer_metrics.json",
             "trainer_log_history.json",
@@ -230,6 +235,9 @@ class RealPPOMonitor:
             self.lifecycle.manager.run_id,
             "ppo",
             self.config["experiment"]["seed"],
+            self.config.get("reporting", {}).get(
+                "disclaimer", "Smoke test — not a benchmark result"
+            ),
         )
         self.lifecycle.persist(
             "plot_inventory.json", {"generated": made, "unavailable": unavailable}
@@ -348,9 +356,17 @@ class RealPPOBackend:
             allocator.start()
             policy, tokenizer = load_policy_and_tokenizer(self.config, self.model_source)
             value_model = load_value_model(self.config, self.model_source)
+            contract = expected_run_contract_for_config(self.config, "ppo")
+            expected_problems, episode_records = ppo_execution_problems_and_episodes(
+                self.config, contract
+            )
+            if [problem.problem_id for problem in problems] != [
+                problem.problem_id for problem in expected_problems
+            ]:
+                raise RuntimeError("PPO backend received an unexpected episode order")
             prompt_lookup = {}
             dataset_rows = []
-            for problem in problems:
+            for problem, episode in zip(problems, episode_records, strict=True):
                 rendered = render_training_prompt(tokenizer, problem, self.config)
                 prompt_ids = tokenizer(rendered, add_special_tokens=False, truncation=False)[
                     "input_ids"
@@ -358,14 +374,18 @@ class RealPPOBackend:
                 if len(prompt_ids) > self.config["generation"]["max_prompt_length"]:
                     raise RuntimeError("PPO fixed prompt exceeds max_prompt_length")
                 key = tuple(int(value) for value in prompt_ids)
-                if key in prompt_lookup:
-                    raise RuntimeError("duplicate PPO tokenized prompt")
-                prompt_lookup[key] = {
-                    "problem_id": problem.problem_id,
-                    "prompt_hash": problem.content_hash,
-                    "problem": problem,
-                }
-                dataset_rows.append({"input_ids": prompt_ids})
+                existing = prompt_lookup.get(key)
+                if existing is not None and existing["problem_id"] != problem.problem_id:
+                    raise RuntimeError("distinct PPO problems have colliding tokenized prompts")
+                prompt_lookup.setdefault(
+                    key,
+                    {
+                        "problem_id": problem.problem_id,
+                        "prompt_hash": episode["rendered_prompt_hash"],
+                        "problem": problem,
+                    },
+                )
+                dataset_rows.append({"input_ids": prompt_ids, **episode})
             dataset = Dataset.from_list(dataset_rows)
             verifier = MathVerifier()
 
@@ -375,7 +395,7 @@ class RealPPOBackend:
                     raise RuntimeError("reward prompt not in fixed PPO lookup")
                 return verifier(metadata["problem"], completion)
 
-            evidence = PPOCompletionEvidenceRecorder(expected_completions=4)
+            evidence = PPOCompletionEvidenceRecorder(contract, episode_records)
             reward_model = PPOVerifierRewardModel(
                 tokenizer,
                 lambda _completion: None,
@@ -395,6 +415,10 @@ class RealPPOBackend:
                     "temperature": self.config["generation"]["temperature"],
                     "top_p": self.config["generation"]["top_p"],
                 },
+                ordered_episode_records=(
+                    episode_records if contract.profile == "ppo_matched_pilot" else None
+                ),
+                expected_contract=contract,
             )
             trainer = build_ppo_trainer(
                 self.config,
@@ -408,6 +432,11 @@ class RealPPOBackend:
                 trainer_factory=trainer_class,
                 cpu_only=False,
             )
+            loader_contract = getattr(trainer, "ordered_loader_evidence", None)
+            if contract.profile == "ppo_matched_pilot" and loader_contract is None:
+                raise RuntimeError("PPO pilot sequential loader evidence is missing")
+            if loader_contract is not None:
+                self.lifecycle.persist("ppo_loader_contract.json", loader_contract)
             model_roles = audit_ppo_parameter_roles(
                 policy,
                 value_model,
@@ -447,16 +476,20 @@ class RealPPOBackend:
                 [
                     {
                         "step": 1,
-                        "reward": sum(row["scalar_reward"] for row in completions) / 4,
+                        "reward": sum(row["scalar_reward"] for row in completions)
+                        / contract.expected_completions,
                         "policy_loss": metric("policy_loss"),
                         "value_loss": metric("value_loss"),
                         "kl": metric("objective_kl"),
                         "entropy": metric("entropy"),
-                        "correctness": statuses.count("verified_pass") / 4,
-                        "format_accuracy": 1 - statuses.count("format_error") / 4,
-                        "parse_success_rate": 1 - statuses.count("format_error") / 4,
+                        "correctness": statuses.count("verified_pass")
+                        / contract.expected_completions,
+                        "format_accuracy": 1
+                        - statuses.count("format_error") / contract.expected_completions,
+                        "parse_success_rate": 1
+                        - statuses.count("format_error") / contract.expected_completions,
                         "cumulative_generated_tokens": sum(lengths),
-                        "mean_completion_length": sum(lengths) / 4,
+                        "mean_completion_length": sum(lengths) / contract.expected_completions,
                     }
                 ],
                 (
@@ -492,6 +525,8 @@ class RealPPOBackend:
                     "trainer_log_history": metrics["raw_log_history"],
                     "completions": completions,
                     "model_roles": model_roles,
+                    "episode_records": episode_records,
+                    "loader_contract": loader_contract,
                 }
             )
             return run_result
@@ -505,8 +540,8 @@ class RealPPOBackend:
             run_result["pytorch_allocator"] = allocator_payload
 
 
-def execute_real_ppo_smoke(config):
-    """The only real PPO entry; caller has already passed dual CLI authorization."""
+def execute_real_ppo(config):
+    """Real PPO entry after CLI authorization; profile selection is hash-bound."""
     source = require_local_snapshot()
     lifecycle = RealPPOLifecycle(config)
     return run_guarded_ppo(
@@ -515,6 +550,11 @@ def execute_real_ppo_smoke(config):
         lifecycle,
         RealPPOMonitor(lifecycle),
     )
+
+
+def execute_real_ppo_smoke(config):
+    """Backward-compatible Stage D entry, still protected by the smoke config hash."""
+    return execute_real_ppo(config)
 
 
 def assert_runtime_config_path():

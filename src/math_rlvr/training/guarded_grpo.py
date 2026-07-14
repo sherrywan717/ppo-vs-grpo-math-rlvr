@@ -16,6 +16,10 @@ from math_rlvr.config import resolve_grpo_smoke_budget, validate_training_config
 from math_rlvr.dataset import MathProblem, load_manifest
 from math_rlvr.rewards.result import DEFAULT_REWARD_POLICY, RewardResult, RewardStatus
 from math_rlvr.rewards.staged import STAGED_REWARD_VERSION, reward_policy_from_config
+from math_rlvr.training.execution_contract import (
+    ExpectedRunContract,
+    expected_run_contract_for_config,
+)
 from math_rlvr.training.model_source import (
     DEFAULT_CACHE_ROOT,
     PINNED_REPO_ID,
@@ -83,17 +87,17 @@ class BudgetGuard:
                 "generated_tokens": self.max_tokens,
                 "microsteps": self.max_microsteps,
                 "optimizer_steps": self.max_optimizer_steps,
+                "updates": self.max_global_step,
                 "global_step": self.max_global_step,
             },
             "completions": self.completions,
             "generated_tokens": self.generated_tokens,
             "microsteps": self.microsteps,
             "optimizer_steps": self.optimizer_steps,
+            "updates": self.global_step,
             "global_step": self.global_step,
             "start_timestamp": self.started_at,
-            "elapsed_seconds": max(
-                0.0, (self._last_time or self.started_at) - self.started_at
-            ),
+            "elapsed_seconds": max(0.0, (self._last_time or self.started_at) - self.started_at),
             "exceeded": self.exceeded,
             "exceeded_reason": self.exceeded_reason,
             "rewards": [dict(row) for row in self.rewards],
@@ -105,6 +109,15 @@ class BudgetGuard:
 
     def record_generation(self, completions: int, tokens: int):
         self._time()
+        if (
+            not isinstance(completions, int)
+            or isinstance(completions, bool)
+            or completions <= 0
+            or not isinstance(tokens, int)
+            or isinstance(tokens, bool)
+            or tokens < 0
+        ):
+            self._raise(ValueError, "invalid GRPO completion/token counters")
         if self.completions + completions > self.max_completions:
             self._raise(BudgetExceededError, "completion cap exceeded before update")
         if self.generated_tokens + tokens > self.max_tokens:
@@ -124,7 +137,7 @@ class BudgetGuard:
         if not math.isfinite(scalar):
             self._raise(FloatingPointError, "non-finite reward")
         if len(self.rewards) >= self.max_completions:
-            self._raise(BudgetExceededError, "ninth reward/completion refused before update")
+            self._raise(BudgetExceededError, "reward/completion cap exceeded before update")
         row = {"status": result.status.value, "detail": str(result.detail), "reward": scalar}
         if reward_evidence is not None:
             if (
@@ -147,7 +160,7 @@ class BudgetGuard:
         if self.completions != self.max_completions or len(self.rewards) != self.max_completions:
             self._raise(
                 BudgetExceededError,
-                "optimizer update attempted before exactly 8 completions/rewards",
+                "optimizer update attempted before the protected completion/reward count",
             )
         if self.generated_tokens > self.max_tokens or self.microsteps != self.max_microsteps:
             self._raise(BudgetExceededError, "optimizer preconditions failed")
@@ -157,8 +170,13 @@ class BudgetGuard:
 
     def record_global_step(self, step: int):
         self._time()
-        if step > self.max_global_step:
-            self._raise(BudgetExceededError, "global_step cap exceeded")
+        if (
+            not isinstance(step, int)
+            or isinstance(step, bool)
+            or step < self.global_step
+            or step > self.max_global_step
+        ):
+            self._raise(BudgetExceededError, "invalid or out-of-range global_step")
         self.global_step = step
 
     def assert_success(self):
@@ -208,6 +226,20 @@ def select_smoke_problems(config: dict) -> list[MathProblem]:
         raise AuthorizationError("smoke manifest must provide two unique problems")
     if any(p.split != "train" or p.source != "countdown" for p in problems):
         raise AuthorizationError("smoke problems must be countdown train records")
+    return problems
+
+
+def select_grpo_execution_problems(
+    config: dict[str, Any], contract: ExpectedRunContract
+) -> list[MathProblem]:
+    manifest_path = Path(
+        config.get("data", {}).get("source_manifest") or config.get("data", {}).get("manifest")
+    )
+    problems = load_manifest(manifest_path)[: contract.expected_prompt_count]
+    if tuple(problem.problem_id for problem in problems) != contract.problem_ids:
+        raise AuthorizationError("GRPO execution problems differ from protected profile")
+    if any(problem.split != "train" or problem.source != "countdown" for problem in problems):
+        raise AuthorizationError("GRPO execution records must be Countdown train")
     return problems
 
 
@@ -396,11 +428,13 @@ def checkpoint_inventory(
 
 
 def validate_completion_evidence(
-    records: Any, guard: BudgetGuard
+    records: Any, guard: BudgetGuard, contract: ExpectedRunContract
 ) -> list[dict[str, Any]]:
-    if not isinstance(records, list) or len(records) != guard.max_completions:
-        raise RuntimeError("exactly 8 persisted completion evidence records are required")
-    per_problem: dict[str, list[int]] = {}
+    if not isinstance(records, list) or len(records) != contract.expected_completions:
+        raise RuntimeError(
+            f"exactly {contract.expected_completions} persisted completion records are required"
+        )
+    pair_keys = []
     total_tokens = 0
     for index, (record, reward) in enumerate(zip(records, guard.rewards, strict=True)):
         if record.get("completion_index") != index:
@@ -447,41 +481,67 @@ def validate_completion_evidence(
         generation_index = record.get("generation_index")
         if not isinstance(problem_id, str) or not isinstance(prompt_hash, str):
             raise RuntimeError("completion problem association missing")
-        per_problem.setdefault(problem_id, []).append(generation_index)
+        pair_key = f"{problem_id}::generation:{generation_index}"
+        if record.get("pair_key") != pair_key:
+            raise RuntimeError("GRPO comparison key is missing or inconsistent")
+        pair_keys.append(pair_key)
         total_tokens += exact_count
         assert_json_safe(record)
     if total_tokens != guard.generated_tokens:
         raise RuntimeError("persisted completion token total mismatch")
-    if sorted(sorted(values) for values in per_problem.values()) != [[0, 1, 2, 3]] * 2:
-        raise RuntimeError("completion generation indexes mismatch")
+    if len(set(pair_keys)) != contract.expected_completions or set(pair_keys) != set(
+        contract.pair_keys
+    ):
+        raise RuntimeError("GRPO comparison keys differ from protected profile")
     return records
 
 
 def run_guarded(
     config: dict, backend: Backend, verifier: Callable, lifecycle, monitor, clock=time.monotonic
 ) -> dict:
-    """Dependency-injected lifecycle used by fake tests and the real entry point."""
-    validate_smoke_authorization(config, SMOKE_CONFIG)
-    problems = select_smoke_problems(config)
+    """Dependency-injected lifecycle selected only by a protected config hash."""
+    contract = expected_run_contract_for_config(config, "grpo")
+    if contract.profile == "grpo_matched_pilot":
+        from math_rlvr.training.pilot import validate_pilot_execution_authorization
+
+        validate_pilot_execution_authorization(config, Path(contract.config_path), "grpo")
+    else:
+        validate_smoke_authorization(config, SMOKE_CONFIG)
+    problems = select_grpo_execution_problems(config, contract)
     started_at = clock()
     guard = BudgetGuard(
-        8, 1024, 1, 1, 4, started_at + TIMEOUT_SECONDS, clock, started_at=started_at
+        contract.expected_completions,
+        contract.generated_token_cap,
+        contract.expected_optimizer_steps,
+        contract.expected_global_steps,
+        contract.expected_microsteps,
+        started_at + config["budget"]["max_wall_time_seconds"],
+        clock,
+        started_at=started_at,
     )
     status = "failure"
     reason = None
     result = {}
     inventory = None
     lifecycle.start(config, problems)
+    lifecycle.persist("expected_run_contract.json", contract.to_dict())
     monitor.start()
     try:
         policy = reward_policy_from_config(config)
         result = backend.run(problems, guard, reward_recorder(guard, verifier, policy))
         guard.assert_success()
-        lifecycle.persist("trainer_metrics.json", result.get("metrics", {}))
-        lifecycle.persist(
-            "trainer_log_history.json", result.get("trainer_log_history", [])
-        )
-        completions = validate_completion_evidence(result.get("completions"), guard)
+        completions = validate_completion_evidence(result.get("completions"), guard, contract)
+        metrics = dict(result.get("metrics", {}))
+        metrics["evidence_counters"] = {
+            "completions": guard.completions,
+            "generated_tokens": guard.generated_tokens,
+            "updates": guard.global_step,
+            "optimizer_steps": guard.optimizer_steps,
+            "global_step": guard.global_step,
+        }
+        result["metrics"] = metrics
+        lifecycle.persist("trainer_metrics.json", metrics)
+        lifecycle.persist("trainer_log_history.json", result.get("trainer_log_history", []))
         lifecycle.persist_jsonl("completions.jsonl", completions)
         inventory = checkpoint_inventory(
             Path(result["checkpoint_dir"]),
@@ -511,6 +571,7 @@ def run_guarded(
             "metrics": result.get("metrics", {}),
             "trainer_log_history": result.get("trainer_log_history", []),
             "checkpoint_inventory": inventory if status == "success" else None,
+            "expected_run_contract": contract.to_dict(),
             "prompt_version": config.get("prompt_version"),
             "prompt_sha256": config.get("prompt_sha256"),
             "renderer_version": config.get("renderer_version"),
@@ -539,7 +600,12 @@ def run_guarded(
                 f"artifact_or_backup: {type(exc).__name__}: {exc}",
                 "artifact_finalization",
             )
-            summary = {**fallback, "backed_up": False, "counters": counters}
+            summary = {
+                **fallback,
+                "backed_up": False,
+                "counters": counters,
+                "expected_run_contract": contract.to_dict(),
+            }
             try:
                 assert_json_safe(summary)
                 lifecycle.persist("summary.json", summary)

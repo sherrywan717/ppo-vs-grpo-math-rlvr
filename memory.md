@@ -335,9 +335,40 @@ This file records operational history and pitfalls that should survive context c
 - Fixed order alternates: 42 PPO/GRPO, 123 GRPO/PPO, 2026 PPO/GRPO. Expected suite
   cost is 0.04917 GPU-hours / ¥0.4366; 2× planning ceiling is 0.09833 GPU-hours /
   ¥0.8732. Expected/hard peak VRAM is 7/14 GiB for PPO and 3.5/7 GiB for GRPO.
-- GPU suite is correctly blocked before model loading. TRL PPO uses a shuffled
-  DataLoader, so prompt-major repetitions require a reviewed sequential rollout and
-  pairing implementation. Existing guarded runtimes also retain historical 4/8
-  completion shapes and must be parameterized/fake-tested for 16 without weakening
-  Stage D. Do not execute the future commands until a separate CPU repair, clean gates,
-  and explicit GPU authorization.
+- The original pilot freeze correctly left GPU execution disabled because TRL PPO
+  shuffled its DataLoader and guarded evidence was fixed at historical 4/8 shapes.
+  The later CPU execution-contract repair below resolves both items; it does not
+  retroactively authorize any GPU run.
+
+## Matched Pilot Execution-Contract Repair
+
+- Baseline was clean `pivot/math-rlvr` at
+  `28b8d586766811f71de8c1a2b1f8779bd68bcbdf`. Frozen pilot manifest, six resolved
+  configs, Stage D configs and protected historical artifacts remained unchanged.
+- TRL 0.24.0 source confirms PPO constructs `DataLoader(shuffle=True)`, prepares it,
+  then `train()` consumes `self.dataloader`. For matched PPO only, the guarded subclass
+  now replaces only that loader after `PPOTrainer.__init__`: explicit
+  `SequentialSampler`, batch 16, `drop_last=True`, `num_workers=0`, world size 1, and
+  the existing Accelerator `prepare_data_loader`. It never re-prepares model or
+  optimizer.
+- Every PPO dataset row carries position, problem/generation identity, problem and
+  rendered-prompt hashes, seed and algorithm. The Accelerator-prepared first batch and
+  every consumed iterator validate the exact prompt-major 16-key order. PPO reward
+  evidence joins by this audited order and tokenized prompt identity, never by guessing
+  from completion text.
+- Immutable exact-path/SHA `ExpectedRunContract` profiles protect Stage D PPO=4/512,
+  Stage D GRPO=8/1,024, pilot PPO=16/2,048 and pilot GRPO=16/2,048. All require one
+  update/optimizer/global step. Profiles also bind local-only Qwen revision, BF16,
+  policy LoRA, sampling, prompt/reward and parser/verifier identities. Arbitrary CLI
+  widening and main/1.5B configs have no profile.
+- Online overflow fails before update; finalization requires exact completion count and
+  mask-derived token totals. Guard-derived counters are persisted into metrics,
+  summary and run manifest. GRPO maps its real prompt-major four-generation output to
+  the same 16 comparison keys exactly once without changing batching semantics.
+- CPU gates passed: 120 targeted tests, 321 full tests, Ruff, compileall, environment
+  check, manifest validation, six pilot dry-runs, two Stage D dry-runs, and explicit
+  fake PPO/GRPO 16-completion execute/finalization. CUDA stayed uninitialized; model
+  and tokenizer loads, real generation/Trainer/backward/optimizer calls were zero.
+- The two known correctness blockers are closed. The six GPU jobs still require a new
+  explicit user authorization, clean/offline/GPU preflight and the frozen run order;
+  never start them, retry automatically, or enter 1.5B from this CPU result.

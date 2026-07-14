@@ -130,6 +130,8 @@ class RealLifecycle:
                 "algorithm": self.config["experiment"]["algorithm"],
                 "seed": self.config["experiment"]["seed"],
                 "completion_evidence_count": summary.get("completion_evidence_count", 0),
+                "expected_run_contract": summary.get("expected_run_contract"),
+                "comparison_pair_keys": summary.get("expected_run_contract", {}).get("pair_keys"),
                 "prompt_version": self.config["prompt_version"],
                 "prompt_sha256": self.config["prompt_sha256"],
                 "renderer_version": self.config["renderer_version"],
@@ -140,9 +142,7 @@ class RealLifecycle:
                 "verifier_contract": self.config.get("verifier_contract"),
                 "resolved_config_path": self.config.get("resolved_config_path"),
                 "resolved_config_sha256": self.config.get("resolved_config_sha256"),
-                "pilot_manifest_sha256": self.config.get("data", {}).get(
-                    "pilot_manifest_sha256"
-                ),
+                "pilot_manifest_sha256": self.config.get("data", {}).get("pilot_manifest_sha256"),
                 "report_disclaimer": self.config.get("reporting", {}).get(
                     "disclaimer", "Smoke diagnostic only; not an experiment result."
                 ),
@@ -181,6 +181,9 @@ class RealLifecycle:
         safe_names = (
             "resolved_config.json",
             "run_manifest.json",
+            "expected_run_contract.json",
+            "ppo_episode_order.json",
+            "ppo_loader_contract.json",
             "completions.jsonl",
             "trainer_metrics.json",
             "trainer_log_history.json",
@@ -252,6 +255,7 @@ class RealBackend:
 
         from math_rlvr.rewards.staged import reward_policy_from_config
         from math_rlvr.training.builders import build_grpo_trainer, load_policy_and_tokenizer
+        from math_rlvr.training.execution_contract import expected_run_contract_for_config
         from math_rlvr.training.resource_evidence import CudaAllocatorEvidence
         from math_rlvr.training.trl_compat import (
             CompletionEvidenceRecorder,
@@ -260,8 +264,9 @@ class RealBackend:
             optimizer_guard_callback,
         )
 
+        contract = expected_run_contract_for_config(self.config, "grpo")
         allocator = CudaAllocatorEvidence(torch.cuda)
-        evidence = CompletionEvidenceRecorder(expected_completions=8)
+        evidence = CompletionEvidenceRecorder(contract)
         model = tokenizer = trainer = None
         run_result = {}
         try:
@@ -348,8 +353,8 @@ class RealBackend:
             run_result["pytorch_allocator"] = allocator_payload
 
 
-def execute_real_smoke(config):
-    """The only real GRPO entry; caller has already passed dual CLI authorization."""
+def execute_real_grpo(config):
+    """Real GRPO entry after CLI authorization; profile selection is hash-bound."""
     model_source = require_local_snapshot()
     lifecycle = RealLifecycle(config)
     return run_guarded(
@@ -359,3 +364,8 @@ def execute_real_smoke(config):
         lifecycle,
         RealMonitor(lifecycle),
     )
+
+
+def execute_real_smoke(config):
+    """Backward-compatible Stage D entry, still protected by the smoke config hash."""
+    return execute_real_grpo(config)

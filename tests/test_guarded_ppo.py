@@ -18,10 +18,12 @@ from math_rlvr.training.builders import (
     load_value_model,
     ppo_config,
 )
+from math_rlvr.training.execution_contract import expected_run_contract
 from math_rlvr.training.guarded_ppo import (
     PPOBudgetGuard,
     fake_reload_ppo_checkpoint,
     ppo_checkpoint_inventory,
+    ppo_execution_problems_and_episodes,
     run_guarded_ppo,
     write_fake_ppo_checkpoint,
 )
@@ -83,10 +85,7 @@ class Lifecycle:
 
     def persist_jsonl(self, name, rows):
         (self.root / name).write_text(
-            "".join(
-                json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n"
-                for row in rows
-            )
+            "".join(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n" for row in rows)
         )
 
     def finalize(self, summary):
@@ -112,6 +111,8 @@ class Backend:
 
     def run(self, problems, guard):
         self.calls += 1
+        contract = expected_run_contract(Path("configs/smoke/ppo.yaml"), "ppo")
+        _, episode_records = ppo_execution_problems_and_episodes(resolved_config(), contract)
         completions = self.overrides.get("completions", 4)
         tokens = self.overrides.get("tokens", 8)
         guard.record_generation(completions, tokens)
@@ -141,6 +142,7 @@ class Backend:
                         "problem_id": problem.problem_id,
                         "prompt_hash": problem.content_hash,
                         "generation_index": 0,
+                        "pair_key": f"{problem.problem_id}::generation:0",
                         "completion_index": index,
                         "prompt_token_ids": [index + 1],
                         "response_token_ids": [10 + index] * length,
@@ -161,6 +163,7 @@ class Backend:
             ),
             "completions": records,
             "model_roles": {"optimizer_exact_role_match": True},
+            "episode_records": episode_records,
         }
 
 
@@ -293,19 +296,16 @@ def test_nullable_telemetry_normalization_does_not_modify_historical_ppo_evidenc
         "completions.jsonl",
         "checkpoint_inventory.json",
     )
-    before = {
-        name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in protected
-    }
+    before = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in protected}
     extract_ppo_metrics([{"loss/policy_avg": 0.1, "val/ratio_var": float("nan")}])
-    after = {
-        name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in protected
-    }
+    after = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in protected}
     assert after == before
 
 
 @pytest.mark.parametrize(
     ("overrides", "reason"),
     [
+        ({"completions": 3}, "all protected responses"),
         ({"completions": 5}, "completion cap"),
         ({"tokens": 513}, "token cap"),
         ({"minibatches": 2}, "minibatch cap"),
@@ -506,11 +506,27 @@ def test_completion_recorder_and_scalar_value_shape_contract():
 
     queries = torch.tensor([[0, 1], [0, 2], [0, 3], [0, 4]])
     responses = torch.tensor([[0, 1, 11, 0], [0, 2, 12, 0], [0, 3, 13, 0], [0, 4, 14, 0]])
+    contract = expected_run_contract(Path("configs/smoke/ppo.yaml"), "ppo")
+    _, episodes = ppo_execution_problems_and_episodes(resolved_config(), contract)
     lookup = {
-        (index,): {"problem_id": f"p{index}", "prompt_hash": f"h{index}"} for index in range(1, 5)
+        (index,): {
+            "problem_id": episode["problem_id"],
+            "prompt_hash": episode["rendered_prompt_hash"],
+        }
+        for index, episode in enumerate(episodes, start=1)
     }
-    guard = PPOBudgetGuard(deadline=1000, clock=lambda: 0)
-    recorder = PPOCompletionEvidenceRecorder()
+    guard = PPOBudgetGuard(
+        max_completions=contract.expected_completions,
+        max_tokens=contract.generated_token_cap,
+        max_updates=contract.expected_updates,
+        max_optimizer_steps=contract.expected_optimizer_steps,
+        max_global_steps=contract.expected_global_steps,
+        max_epochs=contract.expected_ppo_epochs,
+        max_minibatches=contract.expected_minibatches,
+        deadline=1000,
+        clock=lambda: 0,
+    )
+    recorder = PPOCompletionEvidenceRecorder(contract, episodes)
     count, tokens = recorder.capture_generation(
         queries, responses, Tokenizer(), lookup, pad_token_id=0
     )

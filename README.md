@@ -184,11 +184,17 @@ Six committed resolved JSON configs are authorized by exact path and SHA; tempor
 seed overrides are forbidden. Parser and Countdown verifier identities are derived
 from canonical semantic JSON, not comments or Markdown.
 
-Real pilot execution is not yet authorized or enabled. TRL PPO's default shuffled
-DataLoader still needs a reviewed sequential prompt-major rollout/evidence path, and
-the historical guarded runners must be parameterized from 4/8 to 16 completions
-without changing Stage D behavior. Until both correctness blockers are resolved, the
-existing dual-confirmation CLIs fail closed before model loading. See
-`reports/pilot_0p5b/plan.md` for budgets, fixed run order, resource estimates, templates,
-and future command strings. A matched pilot is execution/aggregation evidence only;
+The two execution-contract blockers are resolved CPU-only. PPO now replaces the TRL
+0.24.0 shuffled loader immediately after Trainer construction with an explicit
+single-device `SequentialSampler` loader, prepared by the existing Trainer Accelerator.
+The prepared batch and the iterator consumed by `train()` must both match the 16
+prompt-major episode identities. PPO and GRPO finalization select immutable 4/8/16
+evidence profiles only from exact config path/SHA256 allowlists; online overflow and
+final under/over counts fail closed without weakening Stage D.
+
+This makes the six pilot commands technically ready for a future separately authorized
+GPU suite; it does not authorize or execute them. The existing `--execute
+--confirm-single-update` controls, clean/offline/snapshot gates, fixed ordering and zero
+retry policy remain. See `reports/pilot_0p5b/execution_contract_fix.md` and
+`reports/pilot_0p5b/plan.md`. A matched pilot is execution/aggregation evidence only;
 it cannot prove learning or PPO/GRPO superiority.

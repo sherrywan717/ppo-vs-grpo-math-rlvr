@@ -17,6 +17,10 @@ from math_rlvr.config import resolve_ppo_smoke_contract, validate_training_confi
 from math_rlvr.dataset import MathProblem, load_manifest
 from math_rlvr.rewards.result import RewardResult, RewardStatus
 from math_rlvr.rewards.staged import STAGED_REWARD_VERSION, reward_policy_from_config
+from math_rlvr.training.execution_contract import (
+    ExpectedRunContract,
+    expected_run_contract_for_config,
+)
 from math_rlvr.training.guarded_grpo import (
     AuthorizationError,
     BudgetExceededError,
@@ -33,14 +37,14 @@ EXPECTED_REWARD_SHA = "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d7955705
 
 @dataclass
 class PPOBudgetGuard:
-    max_completions: int = 4
-    max_tokens: int = 512
-    max_updates: int = 1
-    max_optimizer_steps: int = 1
-    max_global_steps: int = 1
-    max_epochs: int = 1
-    max_minibatches: int = 1
-    deadline: float = 0.0
+    max_completions: int
+    max_tokens: int
+    max_updates: int
+    max_optimizer_steps: int
+    max_global_steps: int
+    max_epochs: int
+    max_minibatches: int
+    deadline: float
     clock: Callable[[], float] = time.monotonic
     completions: int = 0
     generated_tokens: int = 0
@@ -123,7 +127,9 @@ class PPOBudgetGuard:
     def record_optimizer_step(self):
         self._time()
         if self.completions != self.max_completions or len(self.rewards) != self.max_completions:
-            self._fail(BudgetExceededError, "PPO optimizer step before four responses/rewards")
+            self._fail(
+                BudgetExceededError, "PPO optimizer step before all protected responses/rewards"
+            )
         self.optimizer_steps += 1
         if self.optimizer_steps > self.max_optimizer_steps:
             self._fail(BudgetExceededError, "PPO optimizer-step cap exceeded")
@@ -154,7 +160,16 @@ class PPOBudgetGuard:
             self.ppo_epochs,
             self.minibatches,
         )
-        if actual != (4, 4, 1, 1, 1, 1, 1) or self.generated_tokens > self.max_tokens:
+        expected = (
+            self.max_completions,
+            self.max_completions,
+            self.max_updates,
+            self.max_optimizer_steps,
+            self.max_global_steps,
+            self.max_epochs,
+            self.max_minibatches,
+        )
+        if actual != expected or self.generated_tokens > self.max_tokens:
             self._fail(BudgetExceededError, f"incomplete PPO counters: {actual}")
 
     def snapshot(self):
@@ -223,6 +238,49 @@ def select_ppo_smoke_problems(config: dict) -> list[MathProblem]:
     if any(p.source != "countdown" or p.split != "train" for p in problems):
         raise AuthorizationError("PPO smoke records must be Countdown train")
     return problems
+
+
+def ppo_execution_problems_and_episodes(
+    config: dict[str, Any], contract: ExpectedRunContract
+) -> tuple[list[MathProblem], list[dict[str, Any]]]:
+    manifest_path = Path(
+        config.get("data", {}).get("source_manifest") or config.get("data", {}).get("manifest")
+    )
+    unique = load_manifest(manifest_path)[: contract.expected_prompt_count]
+    if tuple(problem.problem_id for problem in unique) != contract.problem_ids:
+        raise AuthorizationError("PPO execution problems differ from protected profile")
+    if any(problem.source != "countdown" or problem.split != "train" for problem in unique):
+        raise AuthorizationError("PPO execution records must be Countdown train")
+    if contract.profile == "ppo_matched_pilot":
+        from math_rlvr.training.pilot import pilot_episode_records
+
+        episodes = pilot_episode_records("ppo", config["experiment"]["seed"])
+    else:
+        from math_rlvr.training.pilot import (
+            problem_contract_sha256,
+            rendered_prompt_payload_sha256,
+        )
+
+        episodes = [
+            {
+                "episode_position": index,
+                "problem_id": problem.problem_id,
+                "generation_index": 0,
+                "pair_key": f"{problem.problem_id}::generation:0",
+                "problem_hash": problem_contract_sha256(problem),
+                "rendered_prompt_hash": rendered_prompt_payload_sha256(
+                    problem, contract.prompt_version
+                ),
+                "seed": config["experiment"]["seed"],
+                "algorithm": "ppo",
+            }
+            for index, problem in enumerate(unique)
+        ]
+    problem_map = {problem.problem_id: problem for problem in unique}
+    expanded = [problem_map[row["problem_id"]] for row in episodes]
+    if tuple(row["pair_key"] for row in episodes) != contract.pair_keys:
+        raise AuthorizationError("PPO episode order differs from protected profile")
+    return expanded, episodes
 
 
 _ALLOWED = {
@@ -347,11 +405,13 @@ def fake_reload_ppo_checkpoint(root: Path):
     return {"inventory": inventory, "roles": sorted(loaded), "manifest": manifest}
 
 
-def validate_ppo_completion_evidence(records, guard):
-    if not isinstance(records, list) or len(records) != 4:
-        raise RuntimeError("exactly four PPO completion records required")
+def validate_ppo_completion_evidence(records, guard, contract: ExpectedRunContract):
+    if not isinstance(records, list) or len(records) != contract.expected_completions:
+        raise RuntimeError(
+            f"exactly {contract.expected_completions} PPO completion records required"
+        )
     total = 0
-    problem_ids = set()
+    pair_keys = []
     for index, (row, reward) in enumerate(zip(records, guard.rewards, strict=True)):
         ids, mask = row.get("response_token_ids"), row.get("response_mask")
         if (
@@ -376,25 +436,36 @@ def validate_ppo_completion_evidence(records, guard):
             or row.get("canonical_status") != reward["status"]
         ):
             raise RuntimeError("PPO ordered reward mismatch")
-        if row.get("generation_index") != 0 or not isinstance(row.get("prompt_token_ids"), list):
+        if not isinstance(row.get("prompt_token_ids"), list):
             raise RuntimeError("PPO prompt/response boundary evidence incomplete")
         if not isinstance(row.get("problem_id"), str) or not isinstance(
             row.get("prompt_hash"), str
         ):
             raise RuntimeError("PPO fixed-problem identity missing")
-        problem_ids.add(row["problem_id"])
+        pair_key = f"{row['problem_id']}::generation:{row.get('generation_index')}"
+        if row.get("pair_key") != pair_key:
+            raise RuntimeError("PPO comparison key is missing or inconsistent")
+        pair_keys.append(pair_key)
         assert_json_safe(row)
         total += sum(mask)
     if total != guard.generated_tokens:
         raise RuntimeError("PPO persisted token total mismatch")
-    if len(problem_ids) != 4:
-        raise RuntimeError("PPO requires four unique one-response prompts")
+    if tuple(pair_keys) != contract.pair_keys:
+        raise RuntimeError("PPO comparison keys differ from protected profile")
     return records
 
 
 def run_guarded_ppo(config, backend: PPOBackend, lifecycle, monitor, clock=time.monotonic):
+    contract = expected_run_contract_for_config(config, "ppo")
     started = clock()
     guard = PPOBudgetGuard(
+        max_completions=contract.expected_completions,
+        max_tokens=contract.generated_token_cap,
+        max_updates=contract.expected_updates,
+        max_optimizer_steps=contract.expected_optimizer_steps,
+        max_global_steps=contract.expected_global_steps,
+        max_epochs=contract.expected_ppo_epochs,
+        max_minibatches=contract.expected_minibatches,
         deadline=started + config["budget"]["max_wall_time_seconds"],
         clock=clock,
         started_at=started,
@@ -402,16 +473,48 @@ def run_guarded_ppo(config, backend: PPOBackend, lifecycle, monitor, clock=time.
     status, reason, result, inventory = "failure", None, {}, None
     monitor_started = False
     try:
-        contract = validate_ppo_authorization(config, PPO_SMOKE_CONFIG)
-        problems = select_ppo_smoke_problems(config)
+        if contract.profile == "ppo_matched_pilot":
+            from math_rlvr.training.pilot import validate_pilot_execution_authorization
+
+            validate_pilot_execution_authorization(config, Path(contract.config_path), "ppo")
+        else:
+            validate_ppo_authorization(config, PPO_SMOKE_CONFIG)
+        problems, episode_records = ppo_execution_problems_and_episodes(config, contract)
         lifecycle.start(config, problems)
+        lifecycle.persist("expected_run_contract.json", contract.to_dict())
+        lifecycle.persist("ppo_episode_order.json", episode_records)
         monitor.start()
         monitor_started = True
         result = backend.run(problems, guard)
+        if result.get("episode_records") != episode_records:
+            raise RuntimeError("PPO backend episode records differ from protected order")
+        if contract.profile == "ppo_matched_pilot":
+            loader_contract = result.get("loader_contract")
+            expected_loader = {
+                "replacement_sampler_type": "SequentialSampler",
+                "batch_size": contract.expected_completions,
+                "drop_last": True,
+                "num_workers": 0,
+                "world_size": 1,
+                "prepared_first_batch_pair_keys": list(contract.pair_keys),
+            }
+            if not isinstance(loader_contract, dict) or any(
+                loader_contract.get(key) != value for key, value in expected_loader.items()
+            ):
+                raise RuntimeError("PPO pilot prepared-loader evidence mismatch")
         guard.assert_success()
-        completions = validate_ppo_completion_evidence(result.get("completions"), guard)
+        completions = validate_ppo_completion_evidence(result.get("completions"), guard, contract)
+        metrics = dict(result.get("metrics", {}))
+        metrics["evidence_counters"] = {
+            "completions": guard.completions,
+            "generated_tokens": guard.generated_tokens,
+            "updates": guard.updates,
+            "optimizer_steps": guard.optimizer_steps,
+            "global_step": guard.global_step,
+        }
+        result["metrics"] = metrics
         lifecycle.persist_jsonl("completions.jsonl", completions)
-        lifecycle.persist("trainer_metrics.json", result.get("metrics", {}))
+        lifecycle.persist("trainer_metrics.json", metrics)
         lifecycle.persist("trainer_log_history.json", result.get("trainer_log_history", []))
         inventory = ppo_checkpoint_inventory(Path(result["checkpoint_dir"]))
         lifecycle.persist("checkpoint_inventory.json", inventory)
@@ -435,7 +538,11 @@ def run_guarded_ppo(config, backend: PPOBackend, lifecycle, monitor, clock=time.
             except Exception as exc:
                 status = "failure"
                 reason = f"monitor_stop: {type(exc).__name__}: {exc}"
-        contract = resolve_ppo_smoke_contract(config)
+        resolved_contract = (
+            config.get("resolved_pilot_contract")
+            if contract.profile == "ppo_matched_pilot"
+            else resolve_ppo_smoke_contract(config)
+        )
         summary = {
             "status": status,
             "reason": reason,
@@ -443,15 +550,19 @@ def run_guarded_ppo(config, backend: PPOBackend, lifecycle, monitor, clock=time.
             "completion_evidence_count": len(result.get("completions", [])),
             "metrics": result.get("metrics", {}),
             "checkpoint_inventory": inventory,
-            "resolved_ppo_contract": contract,
+            "resolved_ppo_contract": resolved_contract,
+            "expected_run_contract": contract.to_dict(),
             "model_roles": result.get("model_roles"),
+            "loader_contract": result.get("loader_contract"),
             "prompt_version": config["prompt_version"],
             "prompt_sha256": config["prompt_sha256"],
             "renderer_version": config["renderer_version"],
             "reward_policy_version": config["reward_policy_version"],
             "reward_policy_sha256": config["reward_policy_sha256"],
             "reward_component_weights": config["reward_component_weights"],
-            "smoke_disclaimer": "Smoke test - not a benchmark result",
+            "smoke_disclaimer": config.get("reporting", {}).get(
+                "disclaimer", "Smoke test - not a benchmark result"
+            ),
         }
         try:
             lifecycle.persist("summary.json", summary)
@@ -470,7 +581,8 @@ def run_guarded_ppo(config, backend: PPOBackend, lifecycle, monitor, clock=time.
                 **fallback,
                 "backed_up": False,
                 "counters": guard.snapshot(),
-                "resolved_ppo_contract": contract,
+                "resolved_ppo_contract": resolved_contract,
+                "expected_run_contract": contract.to_dict(),
             }
             try:
                 lifecycle.persist("failure_report.json", summary)

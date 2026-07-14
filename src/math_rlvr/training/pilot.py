@@ -32,9 +32,7 @@ PILOT_TOKEN_CAP = 2048
 PILOT_CONFIG_ROOT = Path("configs/pilot")
 PILOT_MANIFEST_PATH = PILOT_CONFIG_ROOT / "matched_0p5b_manifest.json"
 PILOT_REGISTRY_PATH = PILOT_CONFIG_ROOT / "resolved_config_sha256.json"
-SOURCE_MANIFEST_PATH = Path(
-    "/root/autodl-tmp/datasets/math_rlvr/manifests/countdown_train.json"
-)
+SOURCE_MANIFEST_PATH = Path("/root/autodl-tmp/datasets/math_rlvr/manifests/countdown_train.json")
 SOURCE_MANIFEST_SHA256 = "f7b3138c4fd29063ee05b568462c9cc5c2f8697ee63b8b208949b1b3998ce196"
 POLICY_LORA = {
     "rank": 16,
@@ -53,15 +51,13 @@ RUN_ORDER = (
 
 
 def _canonical_json_bytes(payload: Any) -> bytes:
-    return json.dumps(
-        payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")
-    ).encode("utf-8")
+    return json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode(
+        "utf-8"
+    )
 
 
 def canonical_json_sha256(payload: Any) -> str:
     return hashlib.sha256(_canonical_json_bytes(payload)).hexdigest()
-
-
 
 
 def rendered_prompt_payload_sha256(problem: MathProblem, version: str) -> str:
@@ -73,6 +69,7 @@ def rendered_prompt_payload_sha256(problem: MathProblem, version: str) -> str:
             "add_generation_prompt": True,
         }
     )
+
 
 def file_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -191,15 +188,25 @@ def pilot_pair_keys() -> list[str]:
     ]
 
 
-def pilot_episode_records(algorithm: str) -> list[dict[str, Any]]:
+def pilot_episode_records(algorithm: str, seed: int) -> list[dict[str, Any]]:
     if algorithm not in {"ppo", "grpo"}:
         raise ValueError("pilot algorithm must be ppo or grpo")
+    if seed not in PILOT_SEEDS:
+        raise ValueError("pilot episode seed is not approved")
+    manifest = validate_pilot_manifest()
+    problem_rows = {row["problem_id"]: row for row in manifest["problems"]}
     return [
         {
-            "episode_index": index,
+            "episode_position": index,
             "problem_id": pair_key.split("::", 1)[0],
             "generation_index": int(pair_key.rsplit(":", 1)[1]),
             "pair_key": pair_key,
+            "problem_hash": problem_rows[pair_key.split("::", 1)[0]]["problem_sha256"],
+            "rendered_prompt_hash": problem_rows[pair_key.split("::", 1)[0]][
+                "rendered_prompt_sha256"
+            ],
+            "seed": seed,
+            "algorithm": algorithm,
         }
         for index, pair_key in enumerate(pilot_pair_keys())
     ]
@@ -232,13 +239,17 @@ def _common_contract(config: dict[str, Any], algorithm: str) -> None:
         raise ValueError("pilot model identity mismatch")
     if config.get("prompt") != {"version": PROMPT_V1_STRICT_CONCISE}:
         raise ValueError("pilot prompt selector mismatch")
-    if config.get("prompt_version") != PROMPT_V1_STRICT_CONCISE or config.get(
-        "prompt_sha256"
-    ) != PROMPT_V1_SHA256 or config.get("renderer_version") != PROMPT_RENDERER_VERSION:
+    if (
+        config.get("prompt_version") != PROMPT_V1_STRICT_CONCISE
+        or config.get("prompt_sha256") != PROMPT_V1_SHA256
+        or config.get("renderer_version") != PROMPT_RENDERER_VERSION
+    ):
         raise ValueError("pilot resolved prompt identity mismatch")
-    if config.get("reward") != {"policy": STAGED_REWARD_VERSION} or config.get(
-        "reward_policy_version"
-    ) != STAGED_REWARD_VERSION or config.get("reward_policy_sha256") != STAGED_REWARD_SHA256:
+    if (
+        config.get("reward") != {"policy": STAGED_REWARD_VERSION}
+        or config.get("reward_policy_version") != STAGED_REWARD_VERSION
+        or config.get("reward_policy_sha256") != STAGED_REWARD_SHA256
+    ):
         raise ValueError("pilot resolved reward identity mismatch")
     metadata = parser_verifier_metadata()
     if any(config.get(key) != value for key, value in metadata.items()):
@@ -292,9 +303,11 @@ def _common_contract(config: dict[str, Any], algorithm: str) -> None:
     }:
         raise ValueError("pilot artifact isolation mismatch")
     reporting = config.get("reporting", {})
-    if reporting.get("disclaimer") != PILOT_DISCLAIMER or reporting.get(
-        "completion_matched_metrics"
-    ) is not True or reporting.get("generated_token_normalized_metrics") is not True:
+    if (
+        reporting.get("disclaimer") != PILOT_DISCLAIMER
+        or reporting.get("completion_matched_metrics") is not True
+        or reporting.get("generated_token_normalized_metrics") is not True
+    ):
         raise ValueError("pilot reporting contract mismatch")
 
 
@@ -309,11 +322,7 @@ def resolve_ppo_pilot_contract(config: dict[str, Any]) -> dict[str, Any]:
     microbatches = local_minibatch // per_device
     outer_updates = (training["total_episodes"] + local_batch - 1) // local_batch
     optimizer_steps = (
-        outer_updates
-        * training["num_ppo_epochs"]
-        * minibatches
-        * microbatches
-        // accumulation
+        outer_updates * training["num_ppo_epochs"] * minibatches * microbatches // accumulation
     )
     return {
         "unique_prompts": config["data"]["unique_prompts"],
@@ -323,9 +332,7 @@ def resolve_ppo_pilot_contract(config: dict[str, Any]) -> dict[str, Any]:
         "rollout_batch_size": local_batch,
         "micro_batch_size": per_device,
         "gradient_accumulation_steps": accumulation,
-        "local_rollout_forward_batch_size": training[
-            "local_rollout_forward_batch_size"
-        ],
+        "local_rollout_forward_batch_size": training["local_rollout_forward_batch_size"],
         "num_ppo_epochs": training["num_ppo_epochs"],
         "num_mini_batches": minibatches,
         "microbatches_per_minibatch": microbatches,
@@ -334,8 +341,7 @@ def resolve_ppo_pilot_contract(config: dict[str, Any]) -> dict[str, Any]:
         "global_steps": outer_updates,
         "total_completions": training["total_episodes"],
         "max_completion_length": generation["max_new_tokens"],
-        "total_generated_tokens": training["total_episodes"]
-        * generation["max_new_tokens"],
+        "total_generated_tokens": training["total_episodes"] * generation["max_new_tokens"],
         "num_generations_in_ppo_config": False,
         "authoritative_checkpoints": training["save_total_limit"],
         "episode_pair_keys": pilot_pair_keys(),
@@ -361,17 +367,17 @@ def resolve_grpo_pilot_contract(config: dict[str, Any]) -> dict[str, Any]:
         "global_steps": training["max_steps"],
         "total_completions": generation_batch,
         "max_completion_length": generation["max_completion_length"],
-        "total_generated_tokens": generation_batch
-        * generation["max_completion_length"],
+        "total_generated_tokens": generation_batch * generation["max_completion_length"],
         "authoritative_checkpoints": training["save_total_limit"],
         "completion_pair_keys": pilot_pair_keys(),
     }
 
 
 def validate_pilot_config_content(config: dict[str, Any], algorithm: str) -> dict[str, Any]:
-    if algorithm not in {"ppo", "grpo"} or config.get("experiment", {}).get(
-        "algorithm"
-    ) != algorithm:
+    if (
+        algorithm not in {"ppo", "grpo"}
+        or config.get("experiment", {}).get("algorithm") != algorithm
+    ):
         raise ValueError("pilot algorithm mismatch")
     _common_contract(config, algorithm)
     if algorithm == "ppo":
@@ -420,9 +426,10 @@ def validate_pilot_config_content(config: dict[str, Any], algorithm: str) -> dic
             "push_to_hub": False,
             "report_to": [],
         }
-        if config["generation"].get("num_generations") != 4 or config[
-            "generation"
-        ].get("generation_batch_size") != 16:
+        if (
+            config["generation"].get("num_generations") != 4
+            or config["generation"].get("generation_batch_size") != 16
+        ):
             raise ValueError("GRPO pilot generation contract mismatch")
         if config["training"] != expected_training:
             raise ValueError("GRPO pilot training contract mismatch")

@@ -8,6 +8,7 @@ from test_guarded_grpo import Backend, Lifecycle, Monitor, checkpoint, verifier
 
 from math_rlvr.config import load_config
 from math_rlvr.rewards.result import RewardResult, RewardStatus
+from math_rlvr.training.execution_contract import expected_run_contract
 from math_rlvr.training.grpo_runtime import validate_backup_inventory
 from math_rlvr.training.guarded_grpo import (
     CheckpointSafetyError,
@@ -114,8 +115,9 @@ class FakeTokenizer:
 
 def make_ordered_recorder():
     texts = [f"<reasoning>思考{i}</reasoning><answer>{i}</answer>" for i in range(8)]
-    recorder = CompletionEvidenceRecorder()
-    problem_ids = ["p0"] * 4 + ["p1"] * 4
+    contract = expected_run_contract(Path("configs/smoke/grpo.yaml"), "grpo")
+    recorder = CompletionEvidenceRecorder(contract)
+    problem_ids = [contract.problem_ids[0]] * 4 + [contract.problem_ids[1]] * 4
     for problem_id, text in zip(problem_ids, texts, strict=True):
         recorder.record_reward(
             problem_id,
@@ -126,7 +128,7 @@ def make_ordered_recorder():
     inputs = [
         {
             "problem_id": problem_id,
-            "prompt_hash": "hash0" if problem_id == "p0" else "hash1",
+            "prompt_hash": "hash0" if problem_id.endswith(":0") else "hash1",
         }
         for problem_id in problem_ids
     ]
@@ -155,9 +157,38 @@ def test_completion_ids_text_reward_are_exactly_associated():
         assert row["exact_token_count"] == sum(row["completion_mask"])
 
 
+def test_grpo_group_order_may_differ_while_pair_key_set_remains_exact():
+    contract = expected_run_contract(Path("configs/smoke/grpo.yaml"), "grpo")
+    texts = [f"<reasoning>x{i}</reasoning><answer>{i}</answer>" for i in range(8)]
+    problem_ids = [contract.problem_ids[1]] * 4 + [contract.problem_ids[0]] * 4
+    recorder = CompletionEvidenceRecorder(contract)
+    for problem_id, text in zip(problem_ids, texts, strict=True):
+        recorder.record_reward(
+            problem_id,
+            text,
+            RewardResult(RewardStatus.VERIFIED_PASS, detail="ok"),
+            1.0,
+        )
+    inputs = [
+        {"problem_id": problem_id, "prompt_hash": f"hash-{problem_id}"}
+        for problem_id in problem_ids
+    ]
+    ids = torch.arange(16, dtype=torch.long).reshape(8, 2)
+    mask = torch.ones_like(ids)
+    recorder.capture_generation(
+        inputs,
+        {"completion_ids": ids, "completion_mask": mask},
+        FakeTokenizer(texts),
+    )
+    rows = recorder.records()
+    assert rows[0]["problem_id"] == contract.problem_ids[1]
+    assert {row["pair_key"] for row in rows} == set(contract.pair_keys)
+    assert len({row["pair_key"] for row in rows}) == 8
+
+
 def test_completion_reward_order_mismatch_fails_closed():
     recorder, texts, inputs, payload = make_ordered_recorder()
-    inputs[0]["problem_id"] = "p1"
+    inputs[0]["problem_id"] = inputs[4]["problem_id"]
     with pytest.raises(TRLContractError, match="order mismatch"):
         recorder.capture_generation(inputs, payload, FakeTokenizer(texts))
 
@@ -185,7 +216,7 @@ def test_missing_completion_evidence_cannot_succeed(tmp_path):
         Monitor(),
     )
     assert result["status"] == "failure"
-    assert "8 persisted completion evidence" in result["reason"]
+    assert "8 persisted completion records" in result["reason"]
 
 
 @pytest.mark.parametrize("key", ["kl", "train/kl", "objective/kl"])

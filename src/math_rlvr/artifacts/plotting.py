@@ -66,10 +66,11 @@ def plot_one(output, name, data, xkey, ykeys, ylabel, title):
     return True
 
 
-def generate(run_dir, run_id, algorithm, seed):
+def generate(run_dir, run_id, algorithm, seed, disclaimer=None):
     output = run_dir / "figures"
     output.mkdir(exist_ok=True)
-    title = f"{run_id} | {algorithm} | seed {seed}\nSmoke test — not a benchmark result"
+    disclaimer = disclaimer or "Smoke test — not a benchmark result"
+    title = f"{run_id} | {algorithm} | seed {seed}\n{disclaimer}"
     made = []
     unavailable = []
     metric_rows = rows(run_dir / "metrics.csv")

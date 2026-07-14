@@ -231,10 +231,23 @@ both. PPOConfig never receives `num_generations`; its local batch is 4 × GA4 = 
 rollout forward batch is 4. GRPOConfig resolves generation batch 16, four generations,
 per-device batch 4, GA4, and four steps per generation.
 
-GPU pilot execution remains blocked on two correctness items: TRL PPO 0.24.0 defaults
-to `DataLoader(shuffle=True)`, so prompt-major repetition/pair keys need a reviewed
-sequential evidence path; Stage D guarded runtimes still enforce historical 4/8
-completion shapes and need 16-completion parameterization with fake tests. The CLIs
-reuse only `--execute --confirm-single-update` but fail closed before model loading
-until these items are resolved. This is not authorization to run any of the six GPU
-jobs, rerun Stage D, download 1.5B, or start formal training.
+The two matched-pilot execution correctness items are resolved. For PPO pilot only,
+the sole TRL compatibility shim replaces `self.dataloader` immediately after
+`PPOTrainer.__init__` with an explicit `SequentialSampler`, batch size 16,
+`drop_last=True`, and `num_workers=0`, using only the existing Trainer
+`accelerator.prepare_data_loader`. Prepared-batch metadata and the actual iterator
+consumed by `train()` must match all 16 prompt-major records exactly; model and
+optimizer are never prepared twice.
+
+PPO/GRPO evidence now uses immutable `ExpectedRunContract` profiles selected only by
+exact repository config path and SHA256: Stage D PPO=4, Stage D GRPO=8, matched
+PPO=16, matched GRPO=16. Profiles bind model, LoRA, sampling, prompt, reward,
+parser/verifier, manifest, completion/token, and update identities. Overflow fails
+online; final counts require equality. Main/1.5B and CLI-provided numeric widening are
+rejected. Do not bypass the profile resolver or scatter additional TRL monkey patches.
+
+The six pilot commands are technically ready but remain unauthorized until the user
+explicitly approves a GPU suite. Keep the dual confirmation, clean/offline/local
+snapshot checks, fixed run order, isolated checkpoints/backups and no-retry policy.
+This CPU repair is not authorization to run a pilot, rerun Stage D, download 1.5B, or
+start formal training.
