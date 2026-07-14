@@ -1,0 +1,50 @@
+{
+  "normalized": {
+    "reward_mean": 0.08750000000000001,
+    "reward_population_variance": 0.00046875000000000004,
+    "zero_advantage_fraction": {
+      "value": null,
+      "available": false,
+      "reason": "TRL PPO did not persist token-level advantages; reward variance is not a substitute"
+    },
+    "loss": {
+      "value": null,
+      "available": false,
+      "reason": "TRL PPO 0.24.0 did not emit an aggregate total loss"
+    },
+    "policy_loss": {
+      "value": -0.003038088558241725,
+      "available": true,
+      "raw_key": "loss/policy_avg"
+    },
+    "value_loss": {
+      "value": 24.101951599121094,
+      "available": true,
+      "raw_key": "loss/value_avg"
+    },
+    "kl": {
+      "value": 0.0792231559753418,
+      "available": true,
+      "raw_key": "objective/kl"
+    },
+    "entropy": {
+      "value": 0.16412295401096344,
+      "available": true,
+      "raw_key": "policy/entropy_avg"
+    },
+    "grad_norm": {
+      "value": null,
+      "available": false,
+      "reason": "TRL PPO 0.24.0 did not emit or persist grad norm"
+    },
+    "ratio_variance": {
+      "value": null,
+      "available": false,
+      "reason": "TRL emitted val/ratio_var=NaN for one observation; non-finite value rejected, not coerced to zero"
+    }
+  },
+  "raw_log_history": null,
+  "raw_log_history_available": false,
+  "raw_log_history_unavailable_reason": "automatic persistence rejected the raw row because val/ratio_var was NaN",
+  "source": "metrics.csv plus completion evidence; unavailable values remain null"
+}

@@ -1,0 +1,14 @@
+{
+  "archive": "/root/autodl-fs/math-rlvr-backups/ppo_single_update_qwen25_05b_20260714T051538Z.failure-evidence-complete.tar.gz",
+  "checksum_sidecar": "/root/autodl-fs/math-rlvr-backups/ppo_single_update_qwen25_05b_20260714T051538Z.failure-evidence-complete.tar.gz.sha256",
+  "sha256": "87f4b7babd2469df5b99ac0d08fa387c7b8f3d6dc5595911ed113e1cea1211ff",
+  "size_bytes": 5334454,
+  "tar_entry_count": 68,
+  "tar_list_verified": true,
+  "checksum_verified": true,
+  "inventory_verified": true,
+  "model_cache_included": false,
+  "full_base_weights_included": false,
+  "intermediate_archive_retained": "/root/autodl-fs/math-rlvr-backups/ppo_single_update_qwen25_05b_20260714T051538Z.failure.tar.gz",
+  "assessment": "execution_success/nonessential_telemetry_warning"
+}

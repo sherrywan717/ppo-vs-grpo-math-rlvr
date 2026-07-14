@@ -1,0 +1,55 @@
+{
+  "status": "failure",
+  "phase": "artifact_finalization",
+  "reason": "artifact_or_backup: TypeError: non-finite float at $.metrics.raw_log_history[0].val/ratio_var",
+  "backed_up": false,
+  "counters": {
+    "limits": {
+      "completions": 4,
+      "generated_tokens": 512,
+      "updates": 1,
+      "optimizer_steps": 1,
+      "global_steps": 1,
+      "ppo_epochs": 1,
+      "minibatches": 1
+    },
+    "completions": 4,
+    "generated_tokens": 141,
+    "updates": 1,
+    "optimizer_steps": 1,
+    "global_step": 1,
+    "ppo_epochs": 1,
+    "minibatches": 1,
+    "reward_count": 4,
+    "elapsed_seconds": 9.020524367690086,
+    "exceeded": false,
+    "exceeded_reason": null
+  },
+  "resolved_ppo_contract": {
+    "selected_dataset_records": 4,
+    "unique_prompts": 4,
+    "responses_per_prompt": 1,
+    "rollout_batch_size": 4,
+    "micro_batch_size": 4,
+    "gradient_accumulation_steps": 1,
+    "num_ppo_epochs": 1,
+    "num_mini_batches": 1,
+    "microbatches_per_minibatch": 1,
+    "total_episodes": 4,
+    "outer_updates": 1,
+    "optimizer_steps_per_update": 1,
+    "total_optimizer_steps": 1,
+    "global_steps": 1,
+    "total_completions": 4,
+    "max_completion_length": 128,
+    "total_generated_tokens": 512,
+    "authoritative_checkpoints": 1,
+    "configured_num_generations": 4,
+    "num_generations_effective_for_ppo": 1,
+    "ignored_generation_fields": {
+      "num_generations": "TRL 0.24.0 PPO samples one response for each rollout dataset row; this shared-schema field is not passed to PPOConfig"
+    },
+    "configured_top_p": 0.95,
+    "effective_top_p": 0.95
+  }
+}

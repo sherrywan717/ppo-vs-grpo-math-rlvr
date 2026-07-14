@@ -1,0 +1,16 @@
+Captured combined launcher output; terminal progress control characters normalized.
+
+Some weights of Qwen2ForSequenceClassification were not initialized from the fixed local checkpoint and are newly initialized: ["score.weight"].
+The value scalar score head is intentionally trainable.
+
+TRL warning: PPOTrainer is experimental/deprecation candidate.
+PyTorch warning: non-tuple multidimensional indexing is deprecated.
+PyTorch warning: val/ratio_var variance degrees of freedom <= 0.
+
+Training progress: 1/1 step completed in approximately 3.22 seconds.
+
+Final TRL metrics:
+{"eps": 1, "objective/kl": 0.0792231559753418, "objective/entropy": -16.111988067626953, "objective/non_score_reward": -0.0039611575193703175, "objective/rlhf_reward": 0.08353884518146515, "objective/scores": 0.08750000596046448, "policy/approxkl_avg": 0.0005156623665243387, "policy/clipfrac_avg": 0.014184396713972092, "loss/policy_avg": -0.003038088558241725, "loss/value_avg": 24.101951599121094, "val/clipfrac_avg": 0.0, "policy/entropy_avg": 0.16412295401096344, "val/ratio": 0.9992538690567017, "val/ratio_var": NaN, "val/num_eos_tokens": 4, "lr": 1e-05, "episode": 4, "epoch": 1.0}
+
+Traceback summary:
+RuntimeError: artifact_or_backup: TypeError: non-finite float at $.metrics.raw_log_history[0].val/ratio_var

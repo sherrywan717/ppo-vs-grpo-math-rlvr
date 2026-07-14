@@ -1,0 +1,171 @@
+{
+  "run_id": "ppo_single_update_qwen25_05b_20260714T051538Z",
+  "generated_at": "2026-07-14T05:32:43.407610+00:00",
+  "files": [
+    {
+      "path": "backup_manifest.json",
+      "size": 768,
+      "sha256": "32945d3b7fb48f02f2693e0cf08977db8e6035fa6f2dcdde1e25db7a95a0c8bc"
+    },
+    {
+      "path": "checkpoint_inventory.json",
+      "size": 1830,
+      "sha256": "ac3cc5877a55cdd1d3284c122f1dd6612f2e884edcf106e9ab02d487f52ca33f"
+    },
+    {
+      "path": "command_result.json",
+      "size": 516,
+      "sha256": "1377daf8403de36c62b4e6ea34b08f06d3c6e350d9a0edd4bdc403842a340837"
+    },
+    {
+      "path": "completions.jsonl",
+      "size": 10058,
+      "sha256": "008bad5f06e1594d1f9d8fa0e0da232d60e2f4ca1a14b866fc48a78fd6035c9e"
+    },
+    {
+      "path": "failure_report.json",
+      "size": 1595,
+      "sha256": "5ffa4059d48a0eb6ee8b595ba2ed2c789d19e38b3acfdbadc047e0c1e6d6011e"
+    },
+    {
+      "path": "figures/completion_length.png",
+      "size": 53162,
+      "sha256": "986b569761757e508cff5381ff27bfcf4c24c48d850df733f437899d53a5189b"
+    },
+    {
+      "path": "figures/correctness_and_validity.png",
+      "size": 60767,
+      "sha256": "64757c8d310ceab2ae9f8f7ced447f847ddca80d2e74d7de56a97e572699ef2c"
+    },
+    {
+      "path": "figures/entropy_curve.png",
+      "size": 55155,
+      "sha256": "de8b5a83a6f331b5d23fb2462a291bfcccae248ba2dacb2b774cae9d8d9500e0"
+    },
+    {
+      "path": "figures/generated_tokens.png",
+      "size": 50028,
+      "sha256": "b3a9d59de9560268e0a80eace6933b96d22282209d5fd9da1a9b65878a6aa8ab"
+    },
+    {
+      "path": "figures/gpu_memory.png",
+      "size": 62455,
+      "sha256": "dec8841759b5752e5367f151fa8b3ad8b786375435b455ded4f391cb774c8ff7"
+    },
+    {
+      "path": "figures/gpu_utilization.png",
+      "size": 63928,
+      "sha256": "5d41b1427dee9a7180b0af0646d71b1172aa5239c368b1272c43815d284db24c"
+    },
+    {
+      "path": "figures/kl_curve.png",
+      "size": 56935,
+      "sha256": "f6f92e94a91c91f001ec65078d28b661b9e42f19cdb51898ceaa7f836e6c302b"
+    },
+    {
+      "path": "figures/policy_loss.png",
+      "size": 59739,
+      "sha256": "756871f1b7d75402d3c801a5673d3743a8fb951429cdebaf1db16b17935234c8"
+    },
+    {
+      "path": "figures/ppo_value_loss.png",
+      "size": 47309,
+      "sha256": "6ce53cdb4b8030301176ff81f81fc69595da0dabf95c03e2de8ece24bcadd5c0"
+    },
+    {
+      "path": "figures/reward_curve.png",
+      "size": 52019,
+      "sha256": "9b99acf7235ed55167321d4c82caa467e009ef7a46fd30bff61d680692a27beb"
+    },
+    {
+      "path": "final_summary.json",
+      "size": 6423,
+      "sha256": "8dcaf7bf79e4c15c2ae364b58bc988d9a2e8bbb644f5972c75b059f2a4588428"
+    },
+    {
+      "path": "gpu_metrics.csv",
+      "size": 2306,
+      "sha256": "2e7b744e44cb732e02390cb97cd92d9ee70bc61700edac17adde42ae8cdb40b0"
+    },
+    {
+      "path": "launcher_output.txt",
+      "size": 1291,
+      "sha256": "0936a0ac0ced06c4fdebdb482d2b0e7baafb216b18142f0fd8c29814bc053de6"
+    },
+    {
+      "path": "metrics.csv",
+      "size": 268,
+      "sha256": "fed7c18c869eb3c3209acaf9258284ca66ee76c09ede116316ecd60289a0006c"
+    },
+    {
+      "path": "model_roles.json",
+      "size": 23499,
+      "sha256": "54799ca53ba40d832b8cda31fe0196d459e750e28c4a90c7c3abe1ff3268a596"
+    },
+    {
+      "path": "plot_inventory.json",
+      "size": 265,
+      "sha256": "46d2f92b0e7cc34ba71fb99a68b87cbfdec6fb095292e1d9146e28276ece244c"
+    },
+    {
+      "path": "post_process_gpu_release.json",
+      "size": 110,
+      "sha256": "b3479ae96c763047f4c1c7cb51ba84db6facb34c73987aa62af6855e0d61f672"
+    },
+    {
+      "path": "post_run_cpu_gates.json",
+      "size": 362,
+      "sha256": "0eb6a100ecdca3727a762b5b3130319a5dfe0d139d88b749b29c83e4662937a0"
+    },
+    {
+      "path": "pytorch_allocator.json",
+      "size": 772,
+      "sha256": "f37a343a5b3866ee1ede2832fca55bdd8b1323c0f10da4653816d437adb2cb32"
+    },
+    {
+      "path": "report.md",
+      "size": 2448,
+      "sha256": "3e0d50ca6205f2ac60986c5c23dd71b5c944054ad200444be65425d113e0c9b8"
+    },
+    {
+      "path": "resolved_config.json",
+      "size": 2585,
+      "sha256": "26bc2f9dd5f8ce3d5f92d7a3e197f19c3105c8596e53db60339b2181532fc6a3"
+    },
+    {
+      "path": "resource_metrics.csv",
+      "size": 2306,
+      "sha256": "2e7b744e44cb732e02390cb97cd92d9ee70bc61700edac17adde42ae8cdb40b0"
+    },
+    {
+      "path": "resource_metrics.jsonl",
+      "size": 5787,
+      "sha256": "758442d4339ed23614ebed3fe5f05bbc320e63b92a05b0cc61380013f39a7ed8"
+    },
+    {
+      "path": "resource_summary.json",
+      "size": 157,
+      "sha256": "3e8ea84518f75d50125d93d62ccc85124f045df7aae40687974ca198f59a104e"
+    },
+    {
+      "path": "reward_statistics.json",
+      "size": 318,
+      "sha256": "7412d978578c93ed7a8dceb4a7a5d95af63ad32c53289df08335dbd3ac07e80a"
+    },
+    {
+      "path": "run_manifest.json",
+      "size": 1511,
+      "sha256": "9e3857cb0efdb7306979254936b3f8529fb660c3baf0da4f70a41e7756e7eb38"
+    },
+    {
+      "path": "summary.json",
+      "size": 6423,
+      "sha256": "8dcaf7bf79e4c15c2ae364b58bc988d9a2e8bbb644f5972c75b059f2a4588428"
+    },
+    {
+      "path": "trainer_metrics.json",
+      "size": 1530,
+      "sha256": "2474c95e8748358d1290307b1145fe6c190394ccb9a04286b101d5535ca895f7"
+    }
+  ]
+}

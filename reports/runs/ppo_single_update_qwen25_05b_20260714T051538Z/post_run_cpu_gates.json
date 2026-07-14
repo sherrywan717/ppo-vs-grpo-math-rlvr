@@ -1,0 +1,14 @@
+{
+  "compileall": "passed",
+  "ruff": "passed",
+  "pytest": "270 passed",
+  "check_env": {
+    "status": "passed",
+    "cuda_initialized": false,
+    "model_or_tokenizer_loaded": false,
+    "generated_code_execution": false
+  },
+  "manifest_validation": "passed",
+  "grpo_dry_run": "passed; no training started",
+  "ppo_dry_run": "passed; no training started"
+}

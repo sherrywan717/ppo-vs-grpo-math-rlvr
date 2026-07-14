@@ -1,0 +1,11 @@
+{
+  "command": "PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.ppo --config configs/smoke/ppo.yaml --execute --confirm-single-update",
+  "invocation_count": 1,
+  "retry_count": 0,
+  "exit_code": 1,
+  "command_wall_time_seconds": 13.142639939,
+  "output_file": "launcher_output.txt",
+  "output_capture": "combined stdout/stderr returned by launcher; terminal progress control characters normalized",
+  "training_step_completed": true,
+  "failure_phase": "artifact_finalization"
+}

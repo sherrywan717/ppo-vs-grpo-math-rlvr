@@ -1,0 +1,199 @@
+{
+  "run_id": "ppo_single_update_qwen25_05b_20260714T051538Z",
+  "status": "execution_success",
+  "classification": "execution_success/nonessential_telemetry_warning",
+  "phase": "artifact_finalization",
+  "reason": null,
+  "retry_count": 0,
+  "training_execution_completed": true,
+  "counters": {
+    "limits": {
+      "completions": 4,
+      "generated_tokens": 512,
+      "updates": 1,
+      "optimizer_steps": 1,
+      "global_steps": 1,
+      "ppo_epochs": 1,
+      "minibatches": 1
+    },
+    "completions": 4,
+    "generated_tokens": 141,
+    "updates": 1,
+    "optimizer_steps": 1,
+    "global_step": 1,
+    "ppo_epochs": 1,
+    "minibatches": 1,
+    "reward_count": 4,
+    "elapsed_seconds": 9.020524367690086,
+    "exceeded": false,
+    "exceeded_reason": null
+  },
+  "completion_evidence": {
+    "count": 4,
+    "generated_tokens": 141,
+    "problem_ids": [
+      "countdown:train:0",
+      "countdown:train:2",
+      "countdown:train:3",
+      "countdown:train:1"
+    ],
+    "prompt_hashes": [
+      "296b30c27fa7fc75d4dee32c40d0aefe2cfb05198621d27c776d6c31f1a401a3",
+      "27c11963923a10bb5127598f330ae2a8d7e999122fde3c96090a741284384f79",
+      "70bfbabcec9321d926d09597d5a33314811148107e8e4575fd81de085335d832",
+      "5838e3d11c5a7d19f65dedb4a801367acc5a14b749bcf0debc1986da9f5f4992"
+    ],
+    "rewards": [
+      0.05,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "statuses": [
+      "format_error",
+      "format_error",
+      "invalid_expression",
+      "invalid_expression"
+    ]
+  },
+  "metrics": {
+    "reward_mean": 0.08750000000000001,
+    "reward_population_variance": 0.00046875000000000004,
+    "zero_advantage_fraction": {
+      "value": null,
+      "available": false,
+      "reason": "TRL PPO did not persist token-level advantages; reward variance is not a substitute"
+    },
+    "loss": {
+      "value": null,
+      "available": false,
+      "reason": "TRL PPO 0.24.0 did not emit an aggregate total loss"
+    },
+    "policy_loss": {
+      "value": -0.003038088558241725,
+      "available": true,
+      "raw_key": "loss/policy_avg"
+    },
+    "value_loss": {
+      "value": 24.101951599121094,
+      "available": true,
+      "raw_key": "loss/value_avg"
+    },
+    "kl": {
+      "value": 0.0792231559753418,
+      "available": true,
+      "raw_key": "objective/kl"
+    },
+    "entropy": {
+      "value": 0.16412295401096344,
+      "available": true,
+      "raw_key": "policy/entropy_avg"
+    },
+    "grad_norm": {
+      "value": null,
+      "available": false,
+      "reason": "TRL PPO 0.24.0 did not emit or persist grad norm"
+    },
+    "ratio_variance": {
+      "value": null,
+      "available": false,
+      "reason": "TRL emitted val/ratio_var=NaN for one observation; non-finite value rejected, not coerced to zero"
+    }
+  },
+  "model_roles": {
+    "policy": {
+      "trainable_parameters": 2162688,
+      "total_parameters_including_lora": 496195456,
+      "trainable_ratio": 0.004358540518355734,
+      "adapter": "q/k/v/o LoRA r16 alpha32"
+    },
+    "value": {
+      "lora_trainable_parameters": 540672,
+      "scalar_head_trainable_parameters": 896,
+      "trainable_parameters": 541568,
+      "total_parameters_including_lora_head": 494574336,
+      "trainable_ratio": 0.0010950184038663908,
+      "adapter": "q/v LoRA r8 alpha16 plus scalar head"
+    },
+    "reference": {
+      "mode": "peft_disable_adapter",
+      "frozen": true,
+      "trainable_parameters": 0
+    },
+    "reward": {
+      "parameter_free": true,
+      "trainable_parameters": 0,
+      "policy": "shaped_v2_staged"
+    },
+    "policy_value_base_objects_distinct": true,
+    "optimizer": {
+      "parameter_tensors": 289,
+      "parameter_elements": 2704256,
+      "exact_policy_value_trainable_union": true,
+      "includes_reference": false,
+      "includes_reward": false
+    }
+  },
+  "checkpoint": {
+    "inventory_file": "checkpoint_inventory.json",
+    "passed": true,
+    "base_weights_included": false,
+    "optimizer_state_included": false,
+    "total_size_bytes": 10880008
+  },
+  "resources": {
+    "guarded_elapsed_seconds": 9.020524367690086,
+    "command_wall_time_seconds": 13.142639939,
+    "pytorch_peak_allocated_mib": 6695.84228515625,
+    "pytorch_peak_reserved_mib": 6984.0,
+    "nvidia_smi_peak_vram_mb": 5291.0,
+    "mean_gpu_utilization": 8.423076923076923,
+    "gpu_hours": 0.002613292737967438,
+    "estimated_cost_cny": 0.023206039513150853,
+    "limits": {
+      "wall_seconds": 1200,
+      "vram_gib": 14,
+      "gpu_hours": 0.3333333333,
+      "cost_cny": 2.96
+    },
+    "within_limits": true
+  },
+  "learning_signal": {
+    "reward_variance_nonzero": true,
+    "assessment": "reward variance was nonzero; this confirms scalar variation only and is not a learning claim"
+  },
+  "warnings": [
+    "value scalar score head was newly initialized as intended",
+    "TRL PPO deprecation warning",
+    "PyTorch multidimensional indexing deprecation warning",
+    "TRL val/ratio_var was non-finite and caused fail-closed artifact finalization"
+  ],
+  "post_process_gpu_release": {
+    "memory_used_mib": 0,
+    "compute_process_count": 0,
+    "verified_at": "2026-07-14T05:21:47.296177+00:00"
+  },
+  "backup": {
+    "verified": true,
+    "archive": "/root/autodl-fs/math-rlvr-backups/ppo_single_update_qwen25_05b_20260714T051538Z.failure-evidence-complete.tar.gz",
+    "checksum_sidecar": "/root/autodl-fs/math-rlvr-backups/ppo_single_update_qwen25_05b_20260714T051538Z.failure-evidence-complete.tar.gz.sha256",
+    "note": "final evidence-complete archive; SHA256 external to avoid self-reference"
+  },
+  "source_commit": "ef74e46d375b943d490d89bb33d5d3421f0378c6",
+  "launcher_result": {
+    "command": "PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.ppo --config configs/smoke/ppo.yaml --execute --confirm-single-update",
+    "invocation_count": 1,
+    "retry_count": 0,
+    "exit_code": 1,
+    "command_wall_time_seconds": 13.142639939,
+    "output_file": "launcher_output.txt",
+    "output_capture": "combined stdout/stderr returned by launcher; terminal progress control characters normalized",
+    "training_step_completed": true,
+    "failure_phase": "artifact_finalization"
+  },
+  "runner_status": "failure",
+  "runner_exit_code": 1,
+  "runner_failure_reason": "artifact_or_backup: TypeError: non-finite float at $.metrics.raw_log_history[0].val/ratio_var",
+  "blocking_failure": false,
+  "artifact_evidence_status": "recovered_complete"
+}

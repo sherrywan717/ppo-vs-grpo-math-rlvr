@@ -1,0 +1,15 @@
+{
+  "generated": [
+    "reward_curve",
+    "correctness_and_validity",
+    "policy_loss",
+    "ppo_value_loss",
+    "kl_curve",
+    "entropy_curve",
+    "generated_tokens",
+    "completion_length",
+    "gpu_memory",
+    "gpu_utilization"
+  ],
+  "unavailable": []
+}
