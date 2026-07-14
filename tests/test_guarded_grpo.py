@@ -5,13 +5,14 @@ from pathlib import Path
 import pytest
 import torch
 
-from math_rlvr.config import load_config, resolve_training_config
+from math_rlvr.config import load_config
 from math_rlvr.rewards.result import RewardResult, RewardStatus
 from math_rlvr.rewards.staged import (
     STAGED_COMPONENT_WEIGHTS,
     STAGED_REWARD_SHA256,
     STAGED_REWARD_VERSION,
 )
+from math_rlvr.training.common import preflight
 from math_rlvr.training.grpo import main
 from math_rlvr.training.guarded_grpo import (
     BudgetGuard,
@@ -384,7 +385,7 @@ def test_non_json_metric_fails_closed_with_primitive_fallback(tmp_path):
 
 
 def test_staged_reward_identity_and_components_persist_in_fake_artifacts(tmp_path):
-    config = resolve_training_config(load_config("configs/smoke/grpo.yaml"))
+    config = preflight(Path("configs/smoke/grpo.yaml"), "grpo")
     life = Lifecycle(tmp_path / "staged-run")
     result = run_guarded(
         config,

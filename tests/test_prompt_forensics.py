@@ -177,10 +177,14 @@ def test_v1_smoke_activation_identity_and_shared_renderer(tokenizer, smoke_probl
     ppo = preflight(Path("configs/smoke/ppo.yaml"), "ppo")
     for key in ("prompt_version", "prompt_sha256", "renderer_version"):
         assert grpo[key] == ppo[key]
+    from math_rlvr.training.execution_contract import validated_scope_from_config
+
+    grpo_scope = validated_scope_from_config(grpo, "grpo")
+    ppo_scope = validated_scope_from_config(ppo, "ppo")
     for problem in smoke_problems:
-        assert grpo_smoke_renderer(tokenizer, problem, grpo) == ppo_smoke_renderer(
-            tokenizer, problem, ppo
-        )
+        assert grpo_smoke_renderer(
+            tokenizer, problem, grpo, scope=grpo_scope.scope
+        ) == ppo_smoke_renderer(tokenizer, problem, ppo, scope=ppo_scope.scope)
 
 
 def test_smoke_yaml_authorized_selectors_only_and_main_is_unactivated():

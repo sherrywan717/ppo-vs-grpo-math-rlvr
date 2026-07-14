@@ -487,14 +487,16 @@ def validate_pilot_config_file(path: Path, algorithm: str) -> tuple[dict[str, An
 
 
 def enrich_pilot_config(
-    config: dict[str, Any], contract: dict[str, Any], config_path: Path
+    config: dict[str, Any], contract: dict[str, Any], config_path: Path, scope=None
 ) -> dict[str, Any]:
     from math_rlvr.config import resolve_training_config
+    from math_rlvr.training.execution_contract import validated_experiment_scope
 
-    resolved = resolve_training_config(config)
+    scope = scope or validated_experiment_scope(config_path, config["experiment"]["algorithm"])
+    resolved = resolve_training_config(config, scope)
     resolved["resolved_pilot_contract"] = contract
-    resolved["resolved_config_path"] = str(config_path)
-    resolved["resolved_config_sha256"] = file_sha256(config_path)
+    resolved["resolved_config_path"] = scope.config_path
+    resolved["resolved_config_sha256"] = scope.config_sha256
     return resolved
 
 
@@ -502,7 +504,10 @@ def validate_pilot_execution_authorization(
     config: dict[str, Any], config_path: Path, algorithm: str
 ) -> dict[str, Any]:
     frozen, contract = validate_pilot_config_file(config_path, algorithm)
-    expected = enrich_pilot_config(frozen, contract, config_path)
+    from math_rlvr.training.execution_contract import validated_experiment_scope
+
+    scope = validated_experiment_scope(config_path, algorithm)
+    expected = enrich_pilot_config(frozen, contract, config_path, scope)
     if config != expected:
         raise ValueError("resolved pilot execution config differs from frozen file")
     return contract

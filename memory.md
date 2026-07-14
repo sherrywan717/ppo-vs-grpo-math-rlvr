@@ -400,3 +400,34 @@ This file records operational history and pitfalls that should survive context c
 - The blocker requires a separate CPU-only pilot-aware prompt routing repair. No retry
   was attempted and Runs 2–6 were not executed. This suite authorization is exhausted;
   a repaired GPU run requires new explicit authorization. Do not enter 1.5B.
+
+## Pilot-aware Prompt Routing CPU Repair
+
+- Baseline was clean `pivot/math-rlvr` at
+  `fbce9506f0b824bb26cc70a89d5c7d7a33b2b057`. The prior PPO seed-42 failure,
+  Git-safe evidence and backup were fingerprinted before work and remained unchanged.
+- Root cause affected both delayed runtimes: CPU pilot resolution understood the pilot
+  family, but `prompt_version_from_config` later inferred eligibility solely from
+  `experiment.name.startswith("smoke-")`. PPO called it after policy/value loading;
+  GRPO had the same latent path after policy loading.
+- `ValidatedExperimentScope` now binds scope to exact repository path/raw SHA.
+  Stage D and matched pilot are derived from `ExpectedRunContract`; exact main configs
+  resolve to `MAIN_FORMAL` with no execution profile. Names, arbitrary strings,
+  unknown paths, hash drift and serialized scope drift cannot grant v1 access.
+- Resolver, dry-run, ExpectedRunContract, pre-model prompt preflight, delayed dataset
+  builder and prompt selector all verify one scope. Before model handling, PPO renders
+  16 protected Python message rows and GRPO renders four, checking frozen rendered
+  hashes and the same 16 comparison keys. Future runs persist
+  `prompt_scope_preflight.json`.
+- CPU regressions covered PPO/GRPO seeds 42/123/2026, the exact seed-42 failed path,
+  main `pilot-*` name spoofing, unknown path/hash, Stage D, historical v0,
+  prompt-major/evidence profiles and immutable failure hashes. Results: 168 targeted
+  and 337 full tests passed, plus Ruff, compileall, check_env, manifest validation,
+  six pilot and two Stage D dry-runs, and fake PPO/GRPO execute/finalization.
+- CUDA remained uninitialized; real model/tokenizer load, generation, Trainer,
+  backward and optimizer calls were zero. Frozen pilot/config/prompt/reward/parser/
+  verifier identities did not change. No GPU command, failed-run retry or 1.5B action
+  occurred.
+- Routing is technically repaired, but GPU execution remains unauthorized. Any new
+  matched suite must receive explicit authorization and start from a new PPO seed-42
+  run; the immutable failed attempt stays excluded from scientific aggregation.

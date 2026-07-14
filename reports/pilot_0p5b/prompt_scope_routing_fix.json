@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "title": "Pilot-aware prompt routing fix",
+  "disclaimer": "Matched 0.5B pilot - not the final benchmark",
+  "status": "static_validation_passed",
+  "execution": {
+    "cpu_only": true,
+    "cuda_initialized": false,
+    "real_model_loads": 0,
+    "real_tokenizer_loads": 0,
+    "generation_calls": 0,
+    "trainer_calls": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0,
+    "gpu_runs": 0
+  },
+  "baseline": {
+    "branch": "pivot/math-rlvr",
+    "head": "fbce9506f0b824bb26cc70a89d5c7d7a33b2b057",
+    "worktree": "clean"
+  },
+  "root_cause": {
+    "old_selector": "prompt_version_from_config inferred smoke eligibility from experiment.name.startswith('smoke-')",
+    "ppo_delayed_caller": "ppo_runtime.RealPPOBackend dataset row construction after policy/value load",
+    "grpo_delayed_caller": "grpo_runtime.RealBackend dataset row construction after policy load",
+    "consequence": "valid matched pilot config was rejected as main/formal before generation"
+  },
+  "validated_scope_routing": {
+    "type": "ValidatedExperimentScope",
+    "scopes": {
+      "STAGE_D_SMOKE": {
+        "prompt_v1_allowed": true,
+        "source": "ExpectedRunContract exact config path/raw SHA allowlist"
+      },
+      "MATCHED_0P5B_PILOT": {
+        "prompt_v1_allowed": true,
+        "source": "ExpectedRunContract exact resolved-config path/raw SHA allowlist"
+      },
+      "MAIN_FORMAL": {
+        "prompt_v1_allowed": false,
+        "source": "exact configs/main path/raw SHA allowlist",
+        "expected_run_profile": null
+      }
+    },
+    "serialized_fields": [
+      "scope",
+      "algorithm",
+      "config_path",
+      "config_sha256",
+      "expected_run_profile"
+    ],
+    "experiment_name_used_for_scope": false,
+    "unknown_scope_policy": "fail_closed"
+  },
+  "runtime_consistency": {
+    "layers": [
+      "CPU resolved scope",
+      "ExpectedRunContract scope",
+      "delayed runtime scope",
+      "prompt selector scope"
+    ],
+    "equality_required": true,
+    "before_model_load": true,
+    "ppo_python_rows": 16,
+    "grpo_python_rows": 4,
+    "comparison_keys": 16,
+    "persisted_future_artifact": "prompt_scope_preflight.json"
+  },
+  "delayed_runtime_tests": {
+    "ppo_seeds": [
+      42,
+      123,
+      2026
+    ],
+    "ppo_rows_each": 16,
+    "ppo_order": "prompt-major, generation_index 0..3",
+    "grpo_seeds": [
+      42,
+      123,
+      2026
+    ],
+    "grpo_prompts_each": 4,
+    "comparison_keys_each": 16,
+    "fake_tokenizer_boundary": true,
+    "real_model_loads": 0,
+    "seed42_original_error_regression": "passed"
+  },
+  "safety_regressions": {
+    "main_name_spoof_rejected": true,
+    "arbitrary_string_scope_rejected": true,
+    "unknown_path_rejected": true,
+    "raw_sha_mismatch_rejected": true,
+    "stage_d_v1_allowed": true,
+    "historical_v0_replay_unchanged": true
+  },
+  "frozen_hashes": {
+    "pilot_manifest_contract_sha256": "0235210e038bc27ebf2e7218691f36f09c8e11f0bbc743f46a5318a279f6bc1f",
+    "prompt_v1_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+    "reward_sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14",
+    "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+    "verifier_sha256": "593fa4f1f12702411248b77d8059b4df84a182334a8f9923a2283d04a3fb0c74",
+    "resolved_configs": {
+      "ppo_42": "1daeba7e6cd5e0af43c7f7cb9db87b46d44608adf9fdf432dc7b2c34ea059fdd",
+      "ppo_123": "9da0ad35e943cdeda2da410c20eec73e6d105f0ef66f7f67b1be22950a0e43c5",
+      "ppo_2026": "d3255ddb849224a4d87a069d981fcacf85cb98a7afa986ff0a9fb284b7698044",
+      "grpo_42": "83992a9c312b3ea6ab87f33dce1d4e9572a9647bbdb72bd67a6e98e90c182ac8",
+      "grpo_123": "edec9ce1265dfaec8c712b2c65046fe860cbd3e10aab52cf31b6d5e0350c2a28",
+      "grpo_2026": "1d558da6ea57cfa074fee30868f1772c76c617920e4e93a4897be2e2b48d6b00"
+    }
+  },
+  "immutable_failed_run": {
+    "run_id": "ppo_matched_0p5b_seed42_20260714T073357Z",
+    "status": "failure_before_generation/no_update",
+    "counters": {
+      "completions": 0,
+      "generated_tokens": 0,
+      "updates": 0,
+      "optimizer_steps": 0,
+      "global_steps": 0
+    },
+    "scientific_result": false,
+    "full_run_tree_sha256": "5a6aa625d9a5860a1525080b9f7cae103b81cd6bdcf4a4d754e7d0883ffabb67",
+    "git_safe_tree": "b37527cacc1e85ec90219e6cc7429d3d283c097d",
+    "backup_sha256": "21a64fb02f8522901eea92f4f027ba143b8b04f2a8c08292b75d0b6e9ec8f7a2",
+    "modified": false
+  },
+  "validation": {
+    "targeted_tests": 168,
+    "full_pytest": 337,
+    "ruff": "passed",
+    "compileall": "passed",
+    "check_env": "passed",
+    "manifest_validation": "passed",
+    "pilot_dry_runs": 6,
+    "stage_d_dry_runs": 2,
+    "fake_ppo_grpo_execute": "passed",
+    "git_diff_check": "passed"
+  },
+  "warnings_not_modified": [
+    "PTY stdout/stderr capture behavior",
+    "Matplotlib SVG trailing whitespace",
+    "CSV CRLF",
+    "nullable val/ratio_var",
+    "scalar head initialization notice",
+    "worker pre-exit allocator residue",
+    "optional figures/nonessential telemetry"
+  ],
+  "blockers": {
+    "routing_correctness_blockers_remaining": [],
+    "gpu_execution_authorized": false,
+    "next_requirement": "new explicit authorization plus normal clean/offline/snapshot/idle-GPU preflight"
+  }
+}

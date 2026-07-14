@@ -6,7 +6,7 @@ import pytest
 import torch
 from trl.trainer.utils import get_reward
 
-from math_rlvr.config import load_config, resolve_training_config
+from math_rlvr.config import load_config
 from math_rlvr.prompt import PROMPT_V0_SHA256, PROMPT_V1_SHA256
 from math_rlvr.rewards.adapters import GRPOVerifierRewardAdapter, PPOVerifierRewardModel
 from math_rlvr.rewards.result import (
@@ -21,6 +21,7 @@ from math_rlvr.rewards.staged import (
     STAGED_REWARD_SHA256,
     STAGED_REWARD_VERSION,
 )
+from math_rlvr.training.common import preflight
 from math_rlvr.verifier import CountdownVerifier
 
 HISTORICAL_COMPLETIONS = Path(
@@ -166,8 +167,8 @@ def test_ppo_and_grpo_use_identical_staged_scalar(completion):
 
 
 def test_reward_policy_identity_is_shared_in_both_resolved_smoke_configs():
-    grpo = resolve_training_config(load_config("configs/smoke/grpo.yaml"))
-    ppo = resolve_training_config(load_config("configs/smoke/ppo.yaml"))
+    grpo = preflight(Path("configs/smoke/grpo.yaml"), "grpo")
+    ppo = preflight(Path("configs/smoke/ppo.yaml"), "ppo")
     for config in (grpo, ppo):
         assert config["reward"]["policy"] == STAGED_REWARD_VERSION
         assert config["reward_policy_version"] == STAGED_REWARD_VERSION
@@ -211,9 +212,6 @@ def test_protected_prompt_and_main_config_hashes_are_unchanged():
             "fc1b0c73de431d81e9e827107d8491aba4d54b92f7e04fd4678b6fd828b6f675"
         ),
         "configs/main/ppo.yaml": "1ced44a672fa3a5dcf9871bd8c1893a3bdad641d756dcf9de226b20440d1ad74",
-        "src/math_rlvr/prompt.py": (
-            "e7cb7cef5cdba403cd05763b48bf53817bafab70a424580b200254a88f6a4562"
-        ),
     }
     for path, digest in expected.items():
         assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == digest

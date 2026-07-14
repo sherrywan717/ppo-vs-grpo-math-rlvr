@@ -261,3 +261,24 @@ a real execution-chain blocker; any repair requires separate CPU-only authorizat
 tests, a new commit, and a new explicit GPU authorization. Never retry this command,
 continue the pilot suite, rerun Stage D, download 1.5B, or start formal training from
 the present authorization.
+
+### Pilot-aware prompt routing repair
+
+The CPU-only repair after failed run
+`ppo_matched_0p5b_seed42_20260714T073357Z` removes experiment-name prefix routing.
+`ValidatedExperimentScope` is now selected only from an exact repository config path
+and raw SHA256. Protected Stage D and matched-pilot scopes come from
+`ExpectedRunContract`; exact main config paths resolve to `MAIN_FORMAL` without
+gaining an execution profile. Unknown, spoofed or drifted scope evidence fails closed.
+
+PPO and GRPO share the same explicit scope selector. Before any snapshot/model handling,
+their execute paths render and validate 16 PPO Python message rows or four GRPO rows,
+including frozen prompt hashes and all comparison keys. The delayed dataset builders
+receive the same scope, and future artifacts persist `prompt_scope_preflight.json`.
+Main configs renamed to `pilot-*` still reject smoke-only v1; Stage D and the matched
+pilot allow v1; historical v0 replay is unchanged.
+
+CPU gates passed with CUDA uninitialized and zero real model/tokenizer/generation/train
+calls. The historical failed run, reports and verified backup remain immutable and are
+not a scientific PPO result. This repair does not authorize retrying it, running any
+pilot job, or entering 1.5B. A new suite requires a new explicit GPU authorization.

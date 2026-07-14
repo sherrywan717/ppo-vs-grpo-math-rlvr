@@ -14,9 +14,9 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from math_rlvr.config import load_config, resolve_training_config
 from math_rlvr.dataset import load_manifest
 from math_rlvr.rewards.staged import STAGED_REWARD_POLICY
+from math_rlvr.training.common import preflight
 from math_rlvr.verifier import MathVerifier
 
 INPUT = Path(
@@ -220,8 +220,8 @@ def replay() -> dict:
     plt.savefig(figures / "reward_components.png", dpi=150)
     plt.close()
 
-    grpo = resolve_training_config(load_config("configs/smoke/grpo.yaml"))
-    ppo = resolve_training_config(load_config("configs/smoke/ppo.yaml"))
+    grpo = preflight(Path("configs/smoke/grpo.yaml"), "grpo")
+    ppo = preflight(Path("configs/smoke/ppo.yaml"), "ppo")
     if (
         grpo["reward_policy_sha256"] != ppo["reward_policy_sha256"]
         or grpo["reward_component_weights"] != ppo["reward_component_weights"]

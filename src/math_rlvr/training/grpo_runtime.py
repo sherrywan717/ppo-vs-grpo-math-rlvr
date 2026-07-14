@@ -182,6 +182,7 @@ class RealLifecycle:
             "resolved_config.json",
             "run_manifest.json",
             "expected_run_contract.json",
+            "prompt_scope_preflight.json",
             "ppo_episode_order.json",
             "ppo_loader_contract.json",
             "completions.jsonl",
@@ -243,11 +244,35 @@ class RealMonitor:
         self.monitor.stop()
 
 
+def build_grpo_runtime_dataset_rows(config, problems, scope):
+    """Actual delayed GRPO row builder, parameterized by validated scope evidence."""
+    from math_rlvr.training.execution_contract import validated_scope_from_config
+    from math_rlvr.training.pilot import rendered_prompt_payload_sha256
+
+    validated = validated_scope_from_config(config, "grpo")
+    if scope != validated:
+        raise ValueError("GRPO dataset-builder scope differs from validated config scope")
+    rows = []
+    for problem in problems:
+        prompt = format_training_problem(problem, config, scope=scope.scope)
+        rendered_hash = rendered_prompt_payload_sha256(problem, config["prompt_version"])
+        rows.append(
+            {
+                "prompt": prompt,
+                "problem_id": problem.problem_id,
+                "prompt_hash": problem.content_hash,
+                "rendered_prompt_hash": rendered_hash,
+            }
+        )
+    return rows
+
+
 class RealBackend:
-    def __init__(self, config, lifecycle, model_source):
+    def __init__(self, config, lifecycle, model_source, prompt_preflight):
         self.config = copy.deepcopy(config)
         self.lifecycle = lifecycle
         self.model_source = model_source
+        self.prompt_preflight = copy.deepcopy(prompt_preflight)
 
     def run(self, problems: list[MathProblem], guard, _unused_reward):
         import torch
@@ -257,6 +282,7 @@ class RealBackend:
         from math_rlvr.training.builders import build_grpo_trainer, load_policy_and_tokenizer
         from math_rlvr.training.execution_contract import expected_run_contract_for_config
         from math_rlvr.training.resource_evidence import CudaAllocatorEvidence
+        from math_rlvr.training.runtime_prompt_scope import validate_runtime_prompt_preflight
         from math_rlvr.training.trl_compat import (
             CompletionEvidenceRecorder,
             extract_kl_metric,
@@ -265,6 +291,10 @@ class RealBackend:
         )
 
         contract = expected_run_contract_for_config(self.config, "grpo")
+        scope = validate_runtime_prompt_preflight(
+            self.config, "grpo", self.prompt_preflight
+        )
+        self.lifecycle.persist("prompt_scope_preflight.json", self.prompt_preflight)
         allocator = CudaAllocatorEvidence(torch.cuda)
         evidence = CompletionEvidenceRecorder(contract)
         model = tokenizer = trainer = None
@@ -282,14 +312,7 @@ class RealBackend:
             if tokenizer.pad_token_id is None:
                 tokenizer.pad_token = tokenizer.eos_token
             problem_map = {p.problem_id: p for p in problems}
-            rows = [
-                {
-                    "prompt": format_training_problem(p, self.config),
-                    "problem_id": p.problem_id,
-                    "prompt_hash": p.content_hash,
-                }
-                for p in problems
-            ]
+            rows = build_grpo_runtime_dataset_rows(self.config, problems, scope)
             dataset = Dataset.from_list(rows)
             verifier = MathVerifier()
             policy = reward_policy_from_config(self.config)
@@ -355,11 +378,14 @@ class RealBackend:
 
 def execute_real_grpo(config):
     """Real GRPO entry after CLI authorization; profile selection is hash-bound."""
+    from math_rlvr.training.runtime_prompt_scope import prepare_runtime_prompt_preflight
+
+    prompt_preflight = prepare_runtime_prompt_preflight(config, "grpo")
     model_source = require_local_snapshot()
     lifecycle = RealLifecycle(config)
     return run_guarded(
         config,
-        RealBackend(config, lifecycle, model_source),
+        RealBackend(config, lifecycle, model_source, prompt_preflight),
         lambda _: None,
         lifecycle,
         RealMonitor(lifecycle),

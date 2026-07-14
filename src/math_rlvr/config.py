@@ -34,7 +34,7 @@ def load_config(path: str | Path) -> dict[str, Any]:
     return config
 
 
-def validate_training_config(config: dict[str, Any], algorithm: str) -> None:
+def validate_training_config(config: dict[str, Any], algorithm: str, scope=None) -> None:
     if config.get("experiment", {}).get("algorithm") != algorithm:
         raise ValueError(f"Config is not for {algorithm}")
     model = config.get("model", {})
@@ -47,17 +47,22 @@ def validate_training_config(config: dict[str, Any], algorithm: str) -> None:
     if config.get("lora") != POLICY_LORA:
         raise ValueError("policy LoRA contract mismatch")
     is_pilot = config.get("pilot", {}).get("family") == "matched_0p5b_v1"
-    selected_prompt = (
-        config.get("prompt", {}).get("version")
-        if is_pilot
-        else prompt_version_from_config(config)
-    )
+    if scope is None and config.get("validated_experiment_scope") is not None:
+        from math_rlvr.training.execution_contract import validated_scope_from_config
+
+        scope = validated_scope_from_config(config, algorithm)
+    if scope is None:
+        selected_prompt = config.get("prompt", {}).get("version") or "prompt_v0_grpo_smoke"
+    else:
+        selected_prompt = prompt_version_from_config(config, scope.scope)
     expected_prompt_metadata = prompt_metadata(selected_prompt)
     for key in ("prompt_version", "prompt_sha256", "renderer_version"):
         if key in config and config[key] != expected_prompt_metadata[key]:
             raise ValueError(f"resolved prompt metadata mismatch: {key}")
     generation = config.get("generation", {})
-    is_smoke = "smoke" in config["experiment"]["name"]
+    is_smoke = (
+        scope is not None and scope.scope.value == "stage_d_smoke"
+    ) or (scope is None and model.get("name_or_path") == SMOKE_MODEL and not is_pilot)
     completion_length = 128 if is_smoke or is_pilot else 384
     expected = {
         "max_prompt_length": 512,
@@ -295,15 +300,18 @@ def validate_ppo_smoke_budget(config: dict[str, Any]) -> None:
         raise ValueError("PPO smoke YAML and hard budgets disagree")
 
 
-def resolve_training_config(config: dict[str, Any]) -> dict[str, Any]:
-    """Return a copy enriched with derived prompt identity metadata."""
+def resolve_training_config(config: dict[str, Any], scope) -> dict[str, Any]:
+    """Return a copy enriched from one exact path/SHA-validated scope."""
+    from math_rlvr.training.execution_contract import ValidatedExperimentScope
+
+    if not isinstance(scope, ValidatedExperimentScope):
+        raise ValueError("training config resolution requires validated experiment scope")
     resolved = dict(config)
-    prompt_version = (
-        config.get("prompt", {}).get("version")
-        if config.get("pilot", {}).get("family") == "matched_0p5b_v1"
-        else prompt_version_from_config(config)
-    )
+    prompt_version = prompt_version_from_config(config, scope.scope)
     resolved.update(prompt_metadata(prompt_version))
+    resolved["validated_experiment_scope"] = scope.to_dict()
+    resolved["resolved_config_path"] = scope.config_path
+    resolved["resolved_config_sha256"] = scope.config_sha256
     resolved.update(reward_metadata_from_config(config))
     if config.get("pilot", {}).get("family") == "matched_0p5b_v1":
         resolved.update(parser_verifier_metadata())

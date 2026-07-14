@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 import torch
 
-from math_rlvr.config import load_config, resolve_training_config
+from math_rlvr.config import load_config
 from math_rlvr.rewards.result import RewardResult, RewardStatus
 from math_rlvr.rewards.staged import STAGED_REWARD_POLICY
 from math_rlvr.training.builders import (
@@ -18,6 +18,7 @@ from math_rlvr.training.builders import (
     load_value_model,
     ppo_config,
 )
+from math_rlvr.training.common import preflight
 from math_rlvr.training.execution_contract import expected_run_contract
 from math_rlvr.training.guarded_ppo import (
     PPOBudgetGuard,
@@ -43,7 +44,7 @@ from math_rlvr.training.trl_compat import (
 
 
 def resolved_config():
-    return resolve_training_config(load_config("configs/smoke/ppo.yaml"))
+    return preflight(Path("configs/smoke/ppo.yaml"), "ppo")
 
 
 class Monitor:
@@ -665,7 +666,7 @@ def test_policy_and_value_loaders_use_only_same_fixed_snapshot(monkeypatch, tmp_
 
 def test_resolved_prompt_and_reward_identity_matches_grpo():
     ppo = resolved_config()
-    grpo = resolve_training_config(load_config("configs/smoke/grpo.yaml"))
+    grpo = preflight(Path("configs/smoke/grpo.yaml"), "grpo")
     for key in (
         "prompt_version",
         "prompt_sha256",

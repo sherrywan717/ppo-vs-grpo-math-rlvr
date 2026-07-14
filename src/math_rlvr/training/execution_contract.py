@@ -12,6 +12,7 @@ from math_rlvr.prompt import (
     PROMPT_RENDERER_VERSION,
     PROMPT_V1_SHA256,
     PROMPT_V1_STRICT_CONCISE,
+    ExperimentScope,
 )
 from math_rlvr.rewards.staged import STAGED_REWARD_SHA256, STAGED_REWARD_VERSION
 
@@ -20,6 +21,15 @@ SOURCE_MANIFEST_SHA256 = "f7b3138c4fd29063ee05b568462c9cc5c2f8697ee63b8b208949b1
 PILOT_MANIFEST_SHA256 = "0235210e038bc27ebf2e7218691f36f09c8e11f0bbc743f46a5318a279f6bc1f"
 MODEL_REPO = "Qwen/Qwen2.5-0.5B-Instruct"
 MODEL_REVISION = "7ae557604adf67be50417f59c2c2f167def9a775"
+
+_MAIN_FORMAL_CONFIG_SHA256 = {
+    "configs/main/ppo.yaml": (
+        "ppo", "1ced44a672fa3a5dcf9871bd8c1893a3bdad641d756dcf9de226b20440d1ad74"
+    ),
+    "configs/main/grpo.yaml": (
+        "grpo", "fc1b0c73de431d81e9e827107d8491aba4d54b92f7e04fd4678b6fd828b6f675"
+    ),
+}
 
 _CONFIG_SHA256 = {
     "configs/smoke/ppo.yaml": "547e67360fd73385c688f6d1b3b10d95cf191b70456d1b893870540b6de9f668",
@@ -46,10 +56,31 @@ _CONFIG_SHA256 = {
 
 
 @dataclass(frozen=True)
+class ValidatedExperimentScope:
+    """Scope evidence selected only by an exact repository path and raw SHA256."""
+
+    scope: ExperimentScope
+    algorithm: str
+    config_path: str
+    config_sha256: str
+    expected_run_profile: str | None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "scope": self.scope.value,
+            "algorithm": self.algorithm,
+            "config_path": self.config_path,
+            "config_sha256": self.config_sha256,
+            "expected_run_profile": self.expected_run_profile,
+        }
+
+
+@dataclass(frozen=True)
 class ExpectedRunContract:
     """Immutable evidence contract selected only by an exact path/SHA allowlist."""
 
     profile: str
+    experiment_scope: ExperimentScope
     algorithm: str
     config_path: str
     config_sha256: str
@@ -96,6 +127,7 @@ class ExpectedRunContract:
 
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)
+        payload["experiment_scope"] = self.experiment_scope.value
         payload["problem_ids"] = list(self.problem_ids)
         payload["policy_lora_targets"] = list(self.policy_lora_targets)
         payload["pair_keys"] = list(self.pair_keys)
@@ -126,6 +158,14 @@ def _profile_shape(relative: str) -> tuple[str, str, int, int, int, int, int, in
     raise ValueError("config path has no protected execution evidence profile")
 
 
+def _scope_for_profile(profile: str) -> ExperimentScope:
+    if profile.endswith("_stage_d_smoke"):
+        return ExperimentScope.STAGE_D_SMOKE
+    if profile.endswith("_matched_pilot"):
+        return ExperimentScope.MATCHED_0P5B_PILOT
+    raise ValueError("execution profile has no validated experiment scope")
+
+
 def expected_run_contract(config_path: Path, algorithm: str) -> ExpectedRunContract:
     """Resolve an exact profile; caller-provided numeric limits are never accepted."""
     relative = _relative_config_path(config_path)
@@ -154,6 +194,7 @@ def expected_run_contract(config_path: Path, algorithm: str) -> ExpectedRunContr
     problem_ids = tuple(f"countdown:train:{index}" for index in range(prompts))
     return ExpectedRunContract(
         profile=profile,
+        experiment_scope=_scope_for_profile(profile),
         algorithm=algorithm,
         config_path=relative,
         config_sha256=expected_sha,
@@ -194,6 +235,57 @@ def expected_run_contract(config_path: Path, algorithm: str) -> ExpectedRunContr
     )
 
 
+def validated_experiment_scope(
+    config_path: Path, algorithm: str
+) -> ValidatedExperimentScope:
+    """Resolve scope from the sole exact path/SHA allowlist; names are irrelevant."""
+    relative = _relative_config_path(config_path)
+    if relative in _CONFIG_SHA256:
+        contract = expected_run_contract(config_path, algorithm)
+        return ValidatedExperimentScope(
+            scope=contract.experiment_scope,
+            algorithm=algorithm,
+            config_path=relative,
+            config_sha256=contract.config_sha256,
+            expected_run_profile=contract.profile,
+        )
+    main = _MAIN_FORMAL_CONFIG_SHA256.get(relative)
+    if main is None:
+        raise ValueError("config path has no validated experiment scope")
+    expected_algorithm, expected_sha = main
+    if algorithm != expected_algorithm:
+        raise ValueError("validated experiment scope algorithm mismatch")
+    if _file_sha256(config_path.resolve()) != expected_sha:
+        raise ValueError("validated experiment scope config SHA256 mismatch")
+    return ValidatedExperimentScope(
+        scope=ExperimentScope.MAIN_FORMAL,
+        algorithm=algorithm,
+        config_path=relative,
+        config_sha256=expected_sha,
+        expected_run_profile=None,
+    )
+
+
+def validated_scope_from_config(
+    config: dict[str, Any], algorithm: str
+) -> ValidatedExperimentScope:
+    """Revalidate serialized scope evidence against the same exact allowlist."""
+    payload = config.get("validated_experiment_scope")
+    if not isinstance(payload, dict):
+        raise ValueError("resolved config is missing validated experiment scope")
+    path = payload.get("config_path")
+    if not isinstance(path, str):
+        raise ValueError("validated experiment scope path is missing")
+    validated = validated_experiment_scope(Path(path), algorithm)
+    if payload != validated.to_dict():
+        raise ValueError("serialized experiment scope differs from path/SHA validation")
+    if config.get("resolved_config_path") != validated.config_path:
+        raise ValueError("resolved config path differs from validated experiment scope")
+    if config.get("resolved_config_sha256") != validated.config_sha256:
+        raise ValueError("resolved config SHA256 differs from validated experiment scope")
+    return validated
+
+
 def expected_run_contract_for_config(config: dict[str, Any], algorithm: str) -> ExpectedRunContract:
     path = config.get("resolved_config_path")
     if path is None:
@@ -201,11 +293,20 @@ def expected_run_contract_for_config(config: dict[str, Any], algorithm: str) -> 
     contract = expected_run_contract(Path(path), algorithm)
     if config.get("resolved_config_sha256") not in (None, contract.config_sha256):
         raise ValueError("resolved config SHA256 differs from protected execution profile")
+    if config.get("validated_experiment_scope") is None:
+        scope = validated_experiment_scope(Path(path), algorithm)
+    else:
+        scope = validated_scope_from_config(config, algorithm)
+    if (
+        scope.scope is not contract.experiment_scope
+        or scope.expected_run_profile != contract.profile
+    ):
+        raise ValueError("ExpectedRunContract scope differs from resolved experiment scope")
     identity_config = config
     if config.get("prompt_sha256") is None or config.get("reward_policy_sha256") is None:
         from math_rlvr.config import resolve_training_config
 
-        identity_config = resolve_training_config(config)
+        identity_config = resolve_training_config(config, scope)
     identity = {
         "algorithm": identity_config.get("experiment", {}).get("algorithm"),
         "model_repo": identity_config.get("model", {}).get("name_or_path"),

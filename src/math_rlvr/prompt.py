@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from enum import StrEnum
 from typing import Any
 
 from math_rlvr.dataset import MathProblem
@@ -9,6 +10,14 @@ from math_rlvr.dataset import MathProblem
 PROMPT_V0_GRPO_SMOKE = "prompt_v0_grpo_smoke"
 PROMPT_V1_STRICT_CONCISE = "prompt_v1_strict_concise"
 PROMPT_RENDERER_VERSION = "math_rlvr.prompt.chat_template.v1"
+
+
+class ExperimentScope(StrEnum):
+    """Validated experiment scopes; never derive these from experiment names."""
+
+    STAGE_D_SMOKE = "stage_d_smoke"
+    MATCHED_0P5B_PILOT = "matched_0p5b_pilot"
+    MAIN_FORMAL = "main_formal"
 
 SYSTEM_PROMPT = (
     "Solve the math problem. Output exactly one <reasoning>...</reasoning> block "
@@ -85,18 +94,25 @@ def prompt_metadata(version: str) -> dict[str, str]:
     }
 
 
-def prompt_version_from_config(config: dict[str, Any] | None) -> str:
-    if config is None:
-        return PROMPT_V0_GRPO_SMOKE
-    selected = config.get("prompt", {}).get("version")
-    is_smoke = str(config.get("experiment", {}).get("name", "")).startswith("smoke-")
-    if is_smoke:
+def prompt_version_from_config(
+    config: dict[str, Any] | None, scope: ExperimentScope
+) -> str:
+    """Select a prompt only from a path/SHA-validated experiment scope."""
+    if not isinstance(scope, ExperimentScope):
+        raise ValueError("prompt selection requires a validated experiment scope")
+    selected = None if config is None else config.get("prompt", {}).get("version")
+    if scope in {
+        ExperimentScope.STAGE_D_SMOKE,
+        ExperimentScope.MATCHED_0P5B_PILOT,
+    }:
         if selected != PROMPT_V1_STRICT_CONCISE:
-            raise ValueError("0.5B smoke requires approved strict-concise prompt")
+            raise ValueError("bounded 0.5B scope requires approved strict-concise prompt")
         return selected
-    if selected is not None:
-        raise ValueError("main/formal configs must not activate a smoke prompt")
-    return PROMPT_V0_GRPO_SMOKE
+    if scope is ExperimentScope.MAIN_FORMAL:
+        if selected is not None:
+            raise ValueError("main/formal configs must not activate a smoke prompt")
+        return PROMPT_V0_GRPO_SMOKE
+    raise ValueError("unknown validated experiment scope")
 
 
 def format_problem_v0(problem: MathProblem) -> list[dict[str, str]]:
@@ -129,15 +145,22 @@ def render_prompt_version(tokenizer, problem: MathProblem, version: str) -> str:
 
 
 def format_training_problem(
-    problem: MathProblem, config: dict[str, Any] | None = None
+    problem: MathProblem,
+    config: dict[str, Any] | None,
+    *,
+    scope: ExperimentScope,
 ) -> list[dict[str, str]]:
-    return format_problem_version(problem, prompt_version_from_config(config))
+    return format_problem_version(problem, prompt_version_from_config(config, scope))
 
 
 def render_training_prompt(
-    tokenizer, problem: MathProblem, config: dict[str, Any] | None = None
+    tokenizer,
+    problem: MathProblem,
+    config: dict[str, Any] | None,
+    *,
+    scope: ExperimentScope,
 ) -> str:
-    return render_prompt_version(tokenizer, problem, prompt_version_from_config(config))
+    return render_prompt_version(tokenizer, problem, prompt_version_from_config(config, scope))
 
 
 def format_problem(problem: MathProblem) -> list[dict[str, str]]:

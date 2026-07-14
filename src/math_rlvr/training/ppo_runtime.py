@@ -159,6 +159,7 @@ class RealPPOLifecycle:
             "resolved_config.json",
             "run_manifest.json",
             "expected_run_contract.json",
+            "prompt_scope_preflight.json",
             "ppo_episode_order.json",
             "ppo_loader_contract.json",
             "completions.jsonl",
@@ -323,11 +324,52 @@ def write_authoritative_ppo_checkpoint(
     return root
 
 
+def build_ppo_runtime_dataset_rows(
+    config,
+    tokenizer,
+    problems,
+    episode_records,
+    scope,
+):
+    """Actual delayed PPO row builder, parameterized by validated scope evidence."""
+    from math_rlvr.training.execution_contract import validated_scope_from_config
+    from math_rlvr.training.pilot import rendered_prompt_payload_sha256
+
+    validated = validated_scope_from_config(config, "ppo")
+    if scope != validated:
+        raise ValueError("PPO dataset-builder scope differs from validated config scope")
+    prompt_lookup = {}
+    dataset_rows = []
+    for problem, episode in zip(problems, episode_records, strict=True):
+        rendered = render_training_prompt(tokenizer, problem, config, scope=scope.scope)
+        rendered_hash = rendered_prompt_payload_sha256(problem, config["prompt_version"])
+        if rendered_hash != episode["rendered_prompt_hash"]:
+            raise ValueError("PPO delayed renderer prompt hash drift")
+        prompt_ids = tokenizer(rendered, add_special_tokens=False, truncation=False)["input_ids"]
+        if len(prompt_ids) > config["generation"]["max_prompt_length"]:
+            raise RuntimeError("PPO fixed prompt exceeds max_prompt_length")
+        key = tuple(int(value) for value in prompt_ids)
+        existing = prompt_lookup.get(key)
+        if existing is not None and existing["problem_id"] != problem.problem_id:
+            raise RuntimeError("distinct PPO problems have colliding tokenized prompts")
+        prompt_lookup.setdefault(
+            key,
+            {
+                "problem_id": problem.problem_id,
+                "prompt_hash": episode["rendered_prompt_hash"],
+                "problem": problem,
+            },
+        )
+        dataset_rows.append({"input_ids": prompt_ids, **episode})
+    return prompt_lookup, dataset_rows
+
+
 class RealPPOBackend:
-    def __init__(self, config, lifecycle, model_source):
+    def __init__(self, config, lifecycle, model_source, prompt_preflight):
         self.config = copy.deepcopy(config)
         self.lifecycle = lifecycle
         self.model_source = model_source
+        self.prompt_preflight = copy.deepcopy(prompt_preflight)
 
     def run(self, problems: list[MathProblem], guard):
         import torch
@@ -342,6 +384,7 @@ class RealPPOBackend:
             load_value_model,
         )
         from math_rlvr.training.resource_evidence import CudaAllocatorEvidence
+        from math_rlvr.training.runtime_prompt_scope import validate_runtime_prompt_preflight
         from math_rlvr.training.trl_compat import (
             PPOCompletionEvidenceRecorder,
             extract_ppo_metrics,
@@ -349,6 +392,14 @@ class RealPPOBackend:
         )
         from math_rlvr.verifier import MathVerifier
 
+        contract = expected_run_contract_for_config(self.config, "ppo")
+        scope = validate_runtime_prompt_preflight(
+            self.config, "ppo", self.prompt_preflight
+        )
+        expected_problems, episode_records = ppo_execution_problems_and_episodes(
+            self.config, contract
+        )
+        self.lifecycle.persist("prompt_scope_preflight.json", self.prompt_preflight)
         allocator = CudaAllocatorEvidence(torch.cuda)
         policy = tokenizer = value_model = reward_model = trainer = None
         run_result = {}
@@ -356,36 +407,13 @@ class RealPPOBackend:
             allocator.start()
             policy, tokenizer = load_policy_and_tokenizer(self.config, self.model_source)
             value_model = load_value_model(self.config, self.model_source)
-            contract = expected_run_contract_for_config(self.config, "ppo")
-            expected_problems, episode_records = ppo_execution_problems_and_episodes(
-                self.config, contract
-            )
             if [problem.problem_id for problem in problems] != [
                 problem.problem_id for problem in expected_problems
             ]:
                 raise RuntimeError("PPO backend received an unexpected episode order")
-            prompt_lookup = {}
-            dataset_rows = []
-            for problem, episode in zip(problems, episode_records, strict=True):
-                rendered = render_training_prompt(tokenizer, problem, self.config)
-                prompt_ids = tokenizer(rendered, add_special_tokens=False, truncation=False)[
-                    "input_ids"
-                ]
-                if len(prompt_ids) > self.config["generation"]["max_prompt_length"]:
-                    raise RuntimeError("PPO fixed prompt exceeds max_prompt_length")
-                key = tuple(int(value) for value in prompt_ids)
-                existing = prompt_lookup.get(key)
-                if existing is not None and existing["problem_id"] != problem.problem_id:
-                    raise RuntimeError("distinct PPO problems have colliding tokenized prompts")
-                prompt_lookup.setdefault(
-                    key,
-                    {
-                        "problem_id": problem.problem_id,
-                        "prompt_hash": episode["rendered_prompt_hash"],
-                        "problem": problem,
-                    },
-                )
-                dataset_rows.append({"input_ids": prompt_ids, **episode})
+            prompt_lookup, dataset_rows = build_ppo_runtime_dataset_rows(
+                self.config, tokenizer, problems, episode_records, scope
+            )
             dataset = Dataset.from_list(dataset_rows)
             verifier = MathVerifier()
 
@@ -542,11 +570,14 @@ class RealPPOBackend:
 
 def execute_real_ppo(config):
     """Real PPO entry after CLI authorization; profile selection is hash-bound."""
+    from math_rlvr.training.runtime_prompt_scope import prepare_runtime_prompt_preflight
+
+    prompt_preflight = prepare_runtime_prompt_preflight(config, "ppo")
     source = require_local_snapshot()
     lifecycle = RealPPOLifecycle(config)
     return run_guarded_ppo(
         config,
-        RealPPOBackend(config, lifecycle, source),
+        RealPPOBackend(config, lifecycle, source, prompt_preflight),
         lifecycle,
         RealPPOMonitor(lifecycle),
     )

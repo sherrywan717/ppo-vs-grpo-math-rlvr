@@ -7,10 +7,10 @@ from math_rlvr.config import (
     load_config,
     resolve_grpo_smoke_budget,
     resolve_ppo_smoke_contract,
-    resolve_training_config,
     validate_runtime_path,
     validate_training_config,
 )
+from math_rlvr.training.common import preflight
 
 
 @pytest.mark.parametrize(
@@ -110,8 +110,8 @@ def test_ppo_smoke_budget_conflicts_fail_closed(section, key, bad_value):
 
 
 def test_smoke_reward_selector_is_identical_and_resolved():
-    grpo = resolve_training_config(load_config("configs/smoke/grpo.yaml"))
-    ppo = resolve_training_config(load_config("configs/smoke/ppo.yaml"))
+    grpo = preflight(Path("configs/smoke/grpo.yaml"), "grpo")
+    ppo = preflight(Path("configs/smoke/ppo.yaml"), "ppo")
     assert grpo["reward"] == ppo["reward"] == {"policy": "shaped_v2_staged"}
     assert grpo["reward_policy_version"] == ppo["reward_policy_version"]
     assert grpo["reward_component_weights"] == ppo["reward_component_weights"]
