@@ -1,0 +1,78 @@
+{
+  "run_id": "ppo_matched_0p5b_seed42_20260714T085240Z",
+  "disclaimer": "Matched 0.5B pilot - not the final benchmark",
+  "suite_sequence": 1,
+  "algorithm": "ppo",
+  "seed": 42,
+  "status": "failure_during_update/budget_guard",
+  "stop_category": "completion_update_alignment",
+  "reason": "BudgetExceededError: PPO epoch/minibatch cap exceeded",
+  "counters": {
+    "completions": 16,
+    "generated_tokens": 574,
+    "reward_count": 16,
+    "updates": 0,
+    "optimizer_steps": 1,
+    "global_steps": 0,
+    "ppo_epochs": 2,
+    "minibatches": 2,
+    "limits": {
+      "completions": 16,
+      "generated_tokens": 2048,
+      "updates": 1,
+      "optimizer_steps": 1,
+      "global_steps": 1,
+      "ppo_epochs": 1,
+      "minibatches": 1
+    }
+  },
+  "completion_evidence_count": 0,
+  "completion_texts_available": false,
+  "metrics_available": false,
+  "checkpoint": null,
+  "loader_contract": {
+    "prepared_loader_type": "DataLoaderShard",
+    "sampler": "SequentialSampler",
+    "batch_size": 16,
+    "drop_last": true,
+    "num_workers": 0,
+    "world_size": 1,
+    "pair_keys_verified": true
+  },
+  "model_roles": {
+    "policy_trainable_parameters": 2162688,
+    "value_trainable_parameters": 541568,
+    "reward_trainable_parameters": 0,
+    "reference_trainable_parameters": 0,
+    "optimizer_parameter_elements": 2704256,
+    "optimizer_exact_role_match": true
+  },
+  "resource_evidence": {
+    "guard_elapsed_seconds": 16.786310022696853,
+    "resource_window_seconds": 17.00034363567829,
+    "nvidia_smi_peak_vram_mib": 10903.0,
+    "pytorch_peak_allocated_mib": 9984.15625,
+    "pytorch_peak_reserved_mib": 10528.0,
+    "gpu_hours": 0.004722317676577303,
+    "estimated_cost_cny": 0.041934180968006454,
+    "post_process_vram_mib": 0,
+    "post_process_compute_processes": 0
+  },
+  "backup": {
+    "path": "/root/autodl-fs/math-rlvr-backups/ppo_matched_0p5b_seed42_20260714T085240Z.failure.tar.gz",
+    "sha256": "dbc4377f5ba30294aab31f7d7cdb5efe0f289b58b3a2160004dd51086b4d0de4",
+    "archive_listing_verified": true,
+    "checksum_verified": true
+  },
+  "frozen_identity_passed": true,
+  "prompt_scope_layers_matched": true,
+  "collator_mapping_contract_passed": true,
+  "scientific_result": false,
+  "included_in_aggregate": false,
+  "automatic_retry": false,
+  "later_suite_runs_executed": false,
+  "historical_failures_preserved": [
+    "ppo_matched_0p5b_seed42_20260714T073357Z",
+    "ppo_matched_0p5b_seed42_20260714T082003Z"
+  ]
+}
