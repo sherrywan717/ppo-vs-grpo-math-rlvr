@@ -311,13 +311,68 @@ PPO_METRIC_ALIASES = {
     "reward_mean": ("objective/scores",),
 }
 
+PPO_NULLABLE_TELEMETRY = {
+    "ratio_variance": {
+        "raw_key": "val/ratio_var",
+        "reason": (
+            "TRL 0.24.0 may emit an undefined sample variance when only one "
+            "ratio observation is available; this diagnostic is not used for "
+            "rewards, losses, optimization, checkpoint counters, or budgets"
+        ),
+    }
+}
+
+
+def _non_finite_kind(value: int | float) -> str:
+    numeric = float(value)
+    if math.isnan(numeric):
+        return "nan"
+    return "positive_infinity" if numeric > 0 else "negative_infinity"
+
+
+def _sanitize_ppo_log_history(
+    log_history: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    allowed = {
+        telemetry["raw_key"]: telemetry["reason"]
+        for telemetry in PPO_NULLABLE_TELEMETRY.values()
+    }
+    sanitized, nullable = [], []
+    for index, item in enumerate(log_history):
+        row = {}
+        for raw_key, value in item.items():
+            if isinstance(value, (int, float)) and not math.isfinite(float(value)):
+                reason = allowed.get(raw_key)
+                if reason is None:
+                    raise TRLContractError(f"non-finite PPO metric at {raw_key}")
+                evidence = {
+                    "log_history_index": index,
+                    "raw_key": raw_key,
+                    "value": None,
+                    "available": False,
+                    "classification": "non_finite",
+                    "non_finite_kind": _non_finite_kind(value),
+                    "reason": reason,
+                }
+                row[raw_key] = None
+                nullable.append(evidence)
+                continue
+            row[raw_key] = value
+        sanitized.append(row)
+    return sanitized, nullable
+
 
 def extract_ppo_metrics(log_history: list[dict[str, Any]]) -> dict[str, Any]:
     """Normalize only reviewed TRL 0.24.0 metric keys; missing means unavailable."""
     assert_trl_version()
-    row = next(
-        (entry for entry in reversed(log_history) if "loss/policy_avg" in entry),
-        {},
+    sanitized_history, nullable = _sanitize_ppo_log_history(log_history)
+    selected_index, row = next(
+        (
+            (index, entry)
+            for index, entry in reversed(list(enumerate(log_history)))
+            if "loss/policy_avg" in entry
+        ),
+        (None, {}),
     )
     normalized = {}
     for name, aliases in PPO_METRIC_ALIASES.items():
@@ -333,7 +388,56 @@ def extract_ppo_metrics(log_history: list[dict[str, Any]]) -> dict[str, Any]:
             "value": float(value),
             "raw_key": raw_key,
         }
-    return {"normalized": normalized, "raw_log_history": [dict(item) for item in log_history]}
+    for name, telemetry in PPO_NULLABLE_TELEMETRY.items():
+        raw_key = telemetry["raw_key"]
+        if raw_key not in row:
+            normalized[name] = {
+                "available": False,
+                "value": None,
+                "raw_key": None,
+                "classification": "missing",
+                "non_finite_kind": None,
+                "reason": f"TRL PPO log row did not expose {raw_key}",
+            }
+            continue
+        value = row[raw_key]
+        if not isinstance(value, (int, float)):
+            raise TRLContractError(f"invalid PPO telemetry at {raw_key}")
+        if math.isfinite(float(value)):
+            normalized[name] = {
+                "available": True,
+                "value": float(value),
+                "raw_key": raw_key,
+                "classification": None,
+                "non_finite_kind": None,
+                "reason": None,
+            }
+            continue
+        evidence = next(
+            item
+            for item in nullable
+            if item["log_history_index"] == selected_index and item["raw_key"] == raw_key
+        )
+        normalized[name] = {
+            key: evidence[key]
+            for key in (
+                "available",
+                "value",
+                "raw_key",
+                "classification",
+                "non_finite_kind",
+                "reason",
+            )
+        }
+    return {
+        "normalized": normalized,
+        "raw_log_history": sanitized_history,
+        "nullable_telemetry": nullable,
+        "warnings": [
+            {"category": "nullable_nonessential_telemetry", **item}
+            for item in nullable
+        ],
+    }
 
 
 def enforce_ppo_generation_contract(generation_config, contract) -> None:

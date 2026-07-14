@@ -258,3 +258,49 @@ This file records operational history and pitfalls that should survive context c
 - A future real PPO smoke requires both flags, clean Git, both offline variables, the
   exact local snapshot, and a new explicit authorization. This implementation gate is
   not that authorization.
+
+
+## Accepted PPO Single-Update Smoke and Telemetry Closeout
+
+- The user accepted immutable run `ppo_single_update_qwen25_05b_20260714T051538Z` as
+  `execution_success/nonessential_telemetry_warning`; it must never be rerun or have
+  its original failure report, launcher output, completions, checkpoint inventory, or
+  other historical evidence rewritten.
+- The training path completed four unique prompts, four responses/completions, 141
+  generated tokens, and exactly one PPO epoch, minibatch, update, optimizer step, and
+  global step. Rewards `[0.05, 0.10, 0.10, 0.10]` had population variance
+  `0.00046875`. The role-separated policy/value adapter and scalar-head checkpoint
+  contained no full base or optimizer weights.
+- Launcher exit code 1 was post-training artifact finalization only: TRL 0.24.0 emitted
+  `val/ratio_var=NaN`, and the literal trainer history reached strict JSON safety.
+  The run remains accepted rather than retroactively rewritten.
+- The CPU-only repair allowlists only `val/ratio_var` as nullable nonessential
+  telemetry. It persists `value=null`, `available=false`, the raw key,
+  `classification=non_finite`, the NaN/Inf subtype, and an explicit reason. It never
+  fabricates zero and does not mutate original in-memory history. Required metrics,
+  rewards, losses, counters, budgets, and unreviewed metric keys still fail closed on
+  every NaN/Inf.
+- Regression tests cover successful finalization with this warning, required/unreviewed
+  non-finite failures, strict finite JSON, and unchanged SHA256 hashes for the four
+  protected historical PPO evidence files. No CUDA, model load, generation, or real
+  PPO/GRPO execution occurred during the repair.
+
+## Stage D Smoke Readiness Decision
+
+- The current matching GRPO technical smoke already exists:
+  `grpo_single_update_qwen25_05b_20260713T122258Z`. It used the fixed Qwen 0.5B
+  revision, `prompt_v1_strict_concise`, `shaped_v2_staged`, the shared canonical
+  parser/verifier semantics, completed a real optimizer/global step with credible
+  artifacts, and had nonzero reward variance in both groups.
+- Stage D technical smoke is complete. The old v0 and zero-reward v1 GRPO smokes are
+  not comparators for the accepted PPO run.
+- The accepted PPO and GRPO runs do not support an algorithm-effect claim: PPO used
+  four prompts × one response and a 4/512 completion/token budget; GRPO used two
+  prompts × four responses and an 8/1,024 budget. Their actual totals and variance
+  aggregation units also differ. A single update validates execution, not task
+  learning or PPO superiority.
+- The historical reports share the exact reward version/SHA and canonical status
+  semantics but do not serialize a standalone parser/verifier version or SHA. The
+  next matched 0.5B pilot should add that evidence, freeze one prompt allocation,
+  match actual completion/token budgets, and predefine at least three seeds. The plan
+  in `reports/stage_d/smoke_readiness_matrix.{json,md}` is not GPU authorization.

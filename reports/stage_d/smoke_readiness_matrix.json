@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "assessment_date_utc": "2026-07-14",
+  "scope": "existing Git-safe reports and run manifests only",
+  "runs": {
+    "ppo": "ppo_single_update_qwen25_05b_20260714T051538Z",
+    "grpo": "grpo_single_update_qwen25_05b_20260713T122258Z"
+  },
+  "matrix": [
+    {
+      "field": "model_repo_revision",
+      "ppo": {
+        "repo": "Qwen/Qwen2.5-0.5B-Instruct",
+        "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "dtype": "bfloat16",
+        "local_files_only": true
+      },
+      "grpo": {
+        "repo": "Qwen/Qwen2.5-0.5B-Instruct",
+        "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "dtype": "bfloat16",
+        "local_files_only": true
+      },
+      "matched": true
+    },
+    {
+      "field": "active_prompt_identity",
+      "ppo": {
+        "version": "prompt_v1_strict_concise",
+        "sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+        "renderer": "math_rlvr.prompt.chat_template.v1"
+      },
+      "grpo": {
+        "version": "prompt_v1_strict_concise",
+        "sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+        "renderer": "math_rlvr.prompt.chat_template.v1"
+      },
+      "matched": true
+    },
+    {
+      "field": "reward_identity",
+      "ppo": {
+        "version": "shaped_v2_staged",
+        "sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14"
+      },
+      "grpo": {
+        "version": "shaped_v2_staged",
+        "sha256": "90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14"
+      },
+      "matched": true
+    },
+    {
+      "field": "parser_verifier_contract",
+      "ppo": {
+        "contract": "canonical strict parser/verifier reached through shaped_v2_staged",
+        "explicit_version_field_in_run_report": false
+      },
+      "grpo": {
+        "contract": "canonical strict parser/verifier reached through shaped_v2_staged",
+        "explicit_version_field_in_run_report": false
+      },
+      "matched": true,
+      "evidence_caveat": "The shared reward version/SHA and canonical status evidence match, but neither historical run report serializes a separate parser/verifier version or SHA."
+    },
+    {
+      "field": "data_and_problem_ids",
+      "ppo": {
+        "task": "Countdown train smoke",
+        "problem_ids": [
+          "countdown:train:0",
+          "countdown:train:2",
+          "countdown:train:3",
+          "countdown:train:1"
+        ],
+        "unique_prompts": 4,
+        "responses_per_prompt": 1
+      },
+      "grpo": {
+        "task": "Countdown train smoke",
+        "problem_ids": [
+          "countdown:train:0",
+          "countdown:train:1"
+        ],
+        "unique_prompts": 2,
+        "responses_per_prompt": 4
+      },
+      "matched": false,
+      "reason": "The task matches and two problem IDs overlap, but prompt allocation and response grouping differ."
+    },
+    {
+      "field": "sampling",
+      "ppo": {
+        "temperature": 0.8,
+        "top_p": 0.95,
+        "max_completion_length": 128
+      },
+      "grpo": {
+        "temperature": 0.8,
+        "top_p": 0.95,
+        "max_completion_length": 128
+      },
+      "matched": true
+    },
+    {
+      "field": "policy_lora",
+      "ppo": {
+        "rank": 16,
+        "alpha": 32,
+        "dropout": 0,
+        "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+        "trainable_parameters": 2162688
+      },
+      "grpo": {
+        "rank": 16,
+        "alpha": 32,
+        "dropout": 0,
+        "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+        "trainable_parameters": 2162688
+      },
+      "matched": true
+    },
+    {
+      "field": "completion_and_generated_token_budget",
+      "ppo": {
+        "completion_budget": 4,
+        "generated_token_budget": 512,
+        "actual_completions": 4,
+        "actual_generated_tokens": 141
+      },
+      "grpo": {
+        "completion_budget": 8,
+        "generated_token_budget": 1024,
+        "actual_completions": 8,
+        "actual_generated_tokens": 276
+      },
+      "matched": false,
+      "reason": "Both stayed within their frozen smoke budgets, but the budgets and actual totals are not equal."
+    },
+    {
+      "field": "training_steps",
+      "ppo": {
+        "ppo_epochs": 1,
+        "minibatches": 1,
+        "update_steps": 1,
+        "optimizer_steps": 1,
+        "global_steps": 1
+      },
+      "grpo": {
+        "iterations": 1,
+        "microsteps": 4,
+        "optimizer_steps": 1,
+        "global_steps": 1
+      },
+      "matched": true,
+      "note": "Outer optimizer/global step counts match; algorithm-specific inner work differs."
+    },
+    {
+      "field": "seed",
+      "ppo": 42,
+      "grpo": 42,
+      "matched": true
+    },
+    {
+      "field": "actual_reward_variance",
+      "ppo": {
+        "population_variance": 0.00046875000000000004,
+        "nonzero": true
+      },
+      "grpo": {
+        "group_population_variances": [0.00296875, 0.0006250000000000001],
+        "nonzero_variance_groups": 2,
+        "zero_advantage_groups": 0
+      },
+      "matched": false,
+      "reason": "Both have nonzero scalar reward variation, but PPO reports rollout-level variance and GRPO reports within-prompt group variance."
+    },
+    {
+      "field": "completion_format_status",
+      "ppo": {
+        "format_error": 2,
+        "invalid_expression": 2
+      },
+      "grpo": {
+        "format_error": 8
+      },
+      "matched": false,
+      "reason": "Observed completion outcomes differ and are not comparable because the sampled prompt/response allocations differ."
+    },
+    {
+      "field": "checkpoint_safety",
+      "ppo": {
+        "passed": true,
+        "base_weights_included": false,
+        "optimizer_state_included": false,
+        "role_separated_adapter_head_only": true
+      },
+      "grpo": {
+        "passed": true,
+        "base_weights_included": false,
+        "optimizer_state_included": false,
+        "single_adapter_checkpoint": true
+      },
+      "matched": true
+    },
+    {
+      "field": "real_training_update",
+      "ppo": {
+        "completed": true,
+        "classification": "execution_success/nonessential_telemetry_warning",
+        "launcher_exit_code": 1,
+        "exit_code_reason": "artifact finalization rejected nonessential val/ratio_var=NaN after the update"
+      },
+      "grpo": {
+        "completed": true,
+        "classification": "success",
+        "optimizer_steps": 1,
+        "global_steps": 1
+      },
+      "matched": true
+    }
+  ],
+  "decision": {
+    "matching_grpo_exists": true,
+    "matching_grpo_run_id": "grpo_single_update_qwen25_05b_20260713T122258Z",
+    "matching_grpo_criteria": {
+      "prompt_v1_strict_concise": true,
+      "shaped_v2_staged": true,
+      "fixed_qwen_0_5b_revision": true,
+      "shared_current_parser_verifier_contract": true,
+      "complete_training_update_and_credible_artifacts": true,
+      "nonzero_reward_variance": true
+    },
+    "stage_d_technical_smoke": "complete",
+    "algorithm_effect_comparison_ready": false,
+    "algorithm_effect_comparison_blockers": [
+      "PPO used four unique prompts with one response each; GRPO used two prompts with four responses each.",
+      "PPO and GRPO completion/token budgets and actual totals differ.",
+      "Reward variance is aggregated at different units and completion status distributions arise from unmatched samples.",
+      "The historical run reports do not serialize a standalone parser/verifier version or SHA."
+    ],
+    "interpretation": "The runs validate both guarded single-update execution paths with the same model, prompt, reward, sampling parameters, policy LoRA, seed, safe checkpoints, and nonzero reward variation. They do not establish learning or PPO superiority over GRPO."
+  },
+  "next_stage_plan": {
+    "name": "Qwen 0.5B matched PPO-versus-GRPO pilot",
+    "status": "planning_only_not_authorized",
+    "actions_before_any_gpu_execution": [
+      "Freeze paired pilot configs and a common ordered Countdown prompt manifest.",
+      "Use the exact current model revision, prompt/reward hashes, parser/verifier contract, sampling settings, policy LoRA, and seed list.",
+      "Match actual completions and generated-token caps per algorithm and per seed; predefine how PPO repeats prompts to match GRPO group sampling.",
+      "Serialize explicit parser and verifier version/hash evidence.",
+      "Use at least three predefined seeds and report per-seed and aggregate results without treating one update as task learning.",
+      "Run CPU preflights and obtain separate explicit GPU authorization."
+    ],
+    "proposed_unit": {
+      "shared_unique_prompts": 4,
+      "responses_per_prompt_per_algorithm": 4,
+      "completions_per_algorithm_per_seed": 16,
+      "generated_token_cap_per_algorithm_per_seed": 2048,
+      "seeds": 3
+    },
+    "rough_cost_envelope_from_observed_smokes": {
+      "method": "linear completion-count scaling of observed one-update GPU-hours, with a 2x planning ceiling; setup-dominated runtime makes this approximate",
+      "estimated_total_gpu_hours_range": [0.0491, 0.0982],
+      "estimated_total_cost_cny_range_at_8_88": [0.44, 0.88]
+    },
+    "planned_config_paths": [
+      "configs/pilot/ppo_0p5b_matched.yaml",
+      "configs/pilot/grpo_0p5b_matched.yaml"
+    ],
+    "config_paths_exist": false,
+    "candidate_command_templates": [
+      "PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.ppo --config configs/pilot/ppo_0p5b_matched.yaml --execute --confirm-single-update",
+      "PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.grpo --config configs/pilot/grpo_0p5b_matched.yaml --execute --confirm-single-update"
+    ]
+  },
+  "sources": [
+    "reports/runs/ppo_single_update_qwen25_05b_20260714T051538Z/resolved_config.json",
+    "reports/runs/ppo_single_update_qwen25_05b_20260714T051538Z/final_summary.json",
+    "reports/runs/ppo_single_update_qwen25_05b_20260714T051538Z/completions.jsonl",
+    "reports/runs/ppo_single_update_qwen25_05b_20260714T051538Z/checkpoint_inventory.json",
+    "reports/runs/grpo_single_update_qwen25_05b_20260713T122258Z/resolved_config.json",
+    "reports/runs/grpo_single_update_qwen25_05b_20260713T122258Z/post_run_assessment.json",
+    "reports/runs/grpo_single_update_qwen25_05b_20260713T122258Z/completions.jsonl",
+    "reports/runs/grpo_single_update_qwen25_05b_20260713T122258Z/checkpoint_inventory.json"
+  ]
+}

@@ -458,7 +458,7 @@ class RealPPOBackend:
                 {
                     "checkpoint_dir": str(checkpoint),
                     "metrics": metrics,
-                    "trainer_log_history": log_history,
+                    "trainer_log_history": metrics["raw_log_history"],
                     "completions": completions,
                     "model_roles": model_roles,
                 }

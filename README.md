@@ -10,8 +10,9 @@ Formal reward is fixed: format 0.10, parse/semantic validity 0.10, correctness 0
 
 PPO uses a separate sequence-classification value model from the policy checkpoint,
 value LoRA `r=8`, alpha 16 on q/v projections, and a trainable scalar head. The
-guarded runner and CPU fake contracts are implemented; no real PPO update has run and
-GPU PPO remains separately authorized.
+guarded runner completed the accepted one-update Qwen 0.5B smoke
+`ppo_single_update_qwen25_05b_20260714T051538Z`. Its scientific/execution status is
+`execution_success/nonessential_telemetry_warning`; it must not be rerun.
 
 ## Data and layout
 
@@ -35,8 +36,8 @@ configs do not activate v1.
 
 PPO and GRPO must resolve and report the same `prompt_version`, `prompt_sha256`, and
 `renderer_version`; rendering the same `MathProblem` must be byte-identical. See
-`docs/smoke-prompt-fairness.md`. This selector change authorizes no GPU execution and
-does not authorize PPO.
+`docs/smoke-prompt-fairness.md`. Both current one-update smoke paths have now used
+this identity; any new GPU execution still requires separate explicit authorization.
 
 ## Guarded GRPO execution
 
@@ -65,15 +66,15 @@ adapter disabled; the verifier reward model has zero parameters. The sole
 `checkpoint-1` contains separate policy adapter, value adapter, and scalar-head
 safetensors plus JSON metadata, never base-model or optimizer weights.
 
-The default PPO CLI remains a dry-run. A future real invocation requires the frozen
+The default PPO CLI remains a dry-run. The accepted historical smoke used the frozen
 config, clean branch, both offline variables, fixed snapshot, and both flags:
 
 ```bash
 PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.ppo --config configs/smoke/ppo.yaml --execute --confirm-single-update
 ```
 
-This command is documented for the next separately authorized stage. It was not run
-during the CPU implementation gate.
+This exact smoke was run once and must not be retried. The command remains documentation
+of the guarded entry point, not authorization for another GPU run.
 
 ## CPU-only checks
 
@@ -100,7 +101,10 @@ expression, and number-usage validity; reward, completions, generated tokens,
 completion length, wall time, KL, entropy, peak VRAM, GPU-hours, and CNY cost. The
 guarded PPO smoke normalizes only metrics exposed by reviewed TRL 0.24.0 keys,
 including policy/value loss, KL, entropy, clip fraction, ratio, reward mean, and
-learning rate; unavailable fields remain null/unavailable rather than fabricated.
+learning rate. The sole nullable nonessential telemetry allowlist currently contains
+`val/ratio_var`: a non-finite value becomes `null`, `available=false`, and retains its
+raw key, classification, and reason. It is never fabricated as zero. Any non-finite
+required or unreviewed metric still fails closed.
 
 ## GRPO evidence and checkpoint safety
 
@@ -146,6 +150,22 @@ number-usage accuracy, and the sparse policy remain unchanged. `RESOURCE_LIMIT` 
 no partial score; `INFRA_ERROR` aborts. Only an original strict canonical
 `VERIFIED_PASS` reaches 1.0.
 
-PPO and GRPO smoke configs must resolve the same reward version, component weights, and
-policy SHA256. PPO remains unauthorized, and this CPU intervention does not authorize a
-new GRPO execution.
+PPO and GRPO smoke configs resolve the same reward version, component weights, and
+policy SHA256. Both accepted current technical smokes used this identity; this does not
+authorize another GPU execution.
+
+
+## Stage D technical-smoke conclusion
+
+The accepted PPO run `ppo_single_update_qwen25_05b_20260714T051538Z` and GRPO run
+`grpo_single_update_qwen25_05b_20260713T122258Z` both completed a real single update
+with the fixed Qwen 0.5B revision, `prompt_v1_strict_concise`,
+`shaped_v2_staged`, nonzero reward variation, and safe adapter-only checkpoints.
+Stage D technical smoke is complete.
+
+These single-update smokes validate execution, evidence, reward integration, and
+checkpoint paths only. They do not prove task learning or that PPO is better than
+GRPO. The runs are not an algorithm-effect comparison because PPO used four prompts
+with one response each while GRPO used two prompts with four responses each, and their
+completion/token budgets differ. See `reports/stage_d/smoke_readiness_matrix.md` for
+the evidence matrix and the planning-only matched 0.5B pilot proposal.

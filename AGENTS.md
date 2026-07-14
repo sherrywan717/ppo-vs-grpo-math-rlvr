@@ -13,7 +13,7 @@ The active branch is `pivot/math-rlvr`. Important milestones are:
 - `5a10cbae2abcb066b423b10ff9d327ad1483b75c` — artifact-first Stage D infrastructure, frozen configs, reports, CPU gates, tokenizer audit, trainer builders, and shared PPO/GRPO prompt renderer.
 - `6daca223bd17ddc9201e0b8dc7cdc3c677db9b39` — successful Qwen 0.5B CUDA/model-load sanity report.
 - The local 0.5B snapshot is revision `7ae557604adf67be50417f59c2c2f167def9a775` under `/root/autodl-tmp/cache/huggingface`; never copy model weights into Git, run artifacts, backups, or `/root/autodl-fs`.
-- CPU tokenizer audit, static gates, and CUDA load sanity have passed. No PPO update has been executed; the second bounded GRPO smoke executed exactly one optimizer update but remained a failed run.
+- CPU tokenizer audit, static gates, and CUDA load sanity have passed. Current accepted one-update smokes are GRPO `grpo_single_update_qwen25_05b_20260713T122258Z` and PPO `ppo_single_update_qwen25_05b_20260714T051538Z`; neither is a formal algorithm comparison.
 - The guarded GRPO runner requires `--execute --confirm-single-update`; either missing flag fails before delayed model/CUDA imports. Exact completion tokens are guarded through the isolated TRL 0.24.0 shim.
 
 Read `memory.md` before changing execution code or launching another run; it records measured results and known pitfalls.
@@ -176,3 +176,39 @@ Real PPO requires `--execute --confirm-single-update`, a clean
 explicit user authorization. The CPU implementation/fake execute did not initialize
 CUDA, load a model, generate a completion, or execute an optimizer update. Never run
 the documented real PPO command automatically.
+
+
+### Accepted PPO smoke and nullable telemetry repair
+
+The user accepted immutable run `ppo_single_update_qwen25_05b_20260714T051538Z` as
+`execution_success/nonessential_telemetry_warning`. It completed four prompts, four
+responses/completions, 141 generated tokens, and exactly one PPO epoch, minibatch,
+update, optimizer step, and global step. Reward population variance was
+`0.00046875`; the checkpoint is role-separated adapter/head-only. The launcher exit
+code 1 occurred after training when formal artifact finalization rejected TRL's
+nonessential `val/ratio_var=NaN`. Never rerun this smoke or rewrite its original
+failure report, launcher output, completions, checkpoint inventory, or other evidence.
+
+The TRL compatibility shim has a narrow nullable nonessential telemetry allowlist.
+Only `val/ratio_var` may normalize a non-finite value to standard JSON `null` with
+`available=false`, its original raw key, non-finite classification, and an explicit
+reason. It is never coerced to zero. Required metrics, rewards, losses, counters,
+budgets, and all unreviewed metric keys remain fail-closed on NaN/Inf. Persisted
+trainer history uses the sanitized copy; the original in-memory history is not
+mutated.
+
+### Stage D technical-smoke completion
+
+`reports/stage_d/smoke_readiness_matrix.{json,md}` establishes that the accepted PPO
+run has a current GRPO technical-smoke counterpart:
+`grpo_single_update_qwen25_05b_20260713T122258Z`. Both used the exact fixed Qwen 0.5B
+revision, `prompt_v1_strict_concise`, `shaped_v2_staged`, common sampling and policy
+LoRA, completed a real update, produced nonzero reward variation, and passed
+checkpoint safety. Stage D technical smoke is complete.
+
+This is not an algorithm-effect result. PPO sampled four unique prompts once each;
+GRPO sampled two prompts four times each, with different completion/token budgets and
+variance aggregation. A future 0.5B matched pilot must freeze common prompt allocation,
+actual completion/token budgets, explicit parser/verifier hashes, and multiple seeds,
+then receive new explicit GPU authorization. Do not execute it automatically, and do
+not enter 1.5B or formal training implicitly.

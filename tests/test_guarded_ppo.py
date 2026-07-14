@@ -1,7 +1,9 @@
 import copy
 import csv
+import hashlib
 import inspect
 import json
+import math
 from pathlib import Path
 
 import pytest
@@ -33,6 +35,7 @@ from math_rlvr.training.trl_compat import (
     PPOCompletionEvidenceRecorder,
     TRLContractError,
     enforce_ppo_generation_contract,
+    extract_ppo_metrics,
     validate_ppo_value_shape,
 )
 
@@ -76,11 +79,14 @@ class Lifecycle:
     def persist(self, name, payload):
         if self.fail_write and name == "summary.json":
             raise OSError("artifact write failed")
-        (self.root / name).write_text(json.dumps(payload))
+        (self.root / name).write_text(json.dumps(payload, allow_nan=False))
 
     def persist_jsonl(self, name, rows):
         (self.root / name).write_text(
-            "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows)
+            "".join(
+                json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n"
+                for row in rows
+            )
         )
 
     def finalize(self, summary):
@@ -149,8 +155,10 @@ class Backend:
                 )
         return {
             "checkpoint_dir": str(self.checkpoint),
-            "metrics": {"policy_loss": 0.1},
-            "trainer_log_history": [{"loss/policy_avg": 0.1}],
+            "metrics": self.overrides.get("metrics", {"policy_loss": 0.1}),
+            "trainer_log_history": self.overrides.get(
+                "trainer_log_history", [{"loss/policy_avg": 0.1}]
+            ),
             "completions": records,
             "model_roles": {"optimizer_exact_role_match": True},
         }
@@ -206,6 +214,93 @@ def test_fake_guarded_ppo_success_exact_contract(tmp_path):
     assert result["counters"]["minibatches"] == 1
     assert result["resolved_ppo_contract"]["total_completions"] == 4
     assert monitor.started and monitor.stopped and lifecycle.backed_up
+
+
+def test_nullable_ratio_variance_warns_and_finalizes_successfully(tmp_path):
+    history = [
+        {
+            "loss/policy_avg": -0.01,
+            "loss/value_avg": 0.2,
+            "objective/kl": 0.03,
+            "objective/scores": 0.1,
+            "val/ratio_var": float("nan"),
+        }
+    ]
+    metrics = extract_ppo_metrics(history)
+    ratio_variance = metrics["normalized"]["ratio_variance"]
+    assert ratio_variance == {
+        "available": False,
+        "value": None,
+        "raw_key": "val/ratio_var",
+        "classification": "non_finite",
+        "non_finite_kind": "nan",
+        "reason": (
+            "TRL 0.24.0 may emit an undefined sample variance when only one "
+            "ratio observation is available; this diagnostic is not used for "
+            "rewards, losses, optimization, checkpoint counters, or budgets"
+        ),
+    }
+    assert metrics["raw_log_history"][0]["val/ratio_var"] is None
+    assert metrics["nullable_telemetry"][0]["raw_key"] == "val/ratio_var"
+    assert metrics["warnings"][0]["category"] == "nullable_nonessential_telemetry"
+    assert math.isnan(history[0]["val/ratio_var"])
+    json.dumps(metrics, allow_nan=False)
+
+    lifecycle = Lifecycle(tmp_path / "run")
+    result = run_guarded_ppo(
+        resolved_config(),
+        Backend(
+            fake_checkpoint(tmp_path),
+            metrics=metrics,
+            trainer_log_history=metrics["raw_log_history"],
+        ),
+        lifecycle,
+        Monitor(),
+    )
+    assert result["status"] == "success"
+    assert result["backed_up"] is True
+    persisted = json.loads((tmp_path / "run" / "trainer_metrics.json").read_text())
+    assert persisted["normalized"]["ratio_variance"]["value"] is None
+
+
+@pytest.mark.parametrize(
+    ("raw_key", "value"),
+    [
+        ("loss/policy_avg", float("nan")),
+        ("loss/value_avg", float("inf")),
+        ("objective/kl", float("-inf")),
+        ("objective/scores", float("nan")),
+        ("val/unreviewed_metric", float("nan")),
+    ],
+)
+def test_required_or_unreviewed_nonfinite_ppo_metrics_fail_closed(raw_key, value):
+    row = {
+        "loss/policy_avg": 0.1,
+        "loss/value_avg": 0.2,
+        "objective/kl": 0.0,
+        "objective/scores": 0.1,
+    }
+    row[raw_key] = value
+    with pytest.raises(TRLContractError, match=raw_key):
+        extract_ppo_metrics([row])
+
+
+def test_nullable_telemetry_normalization_does_not_modify_historical_ppo_evidence():
+    root = Path("reports/runs/ppo_single_update_qwen25_05b_20260714T051538Z")
+    protected = (
+        "failure_report.json",
+        "launcher_output.txt",
+        "completions.jsonl",
+        "checkpoint_inventory.json",
+    )
+    before = {
+        name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in protected
+    }
+    extract_ppo_metrics([{"loss/policy_avg": 0.1, "val/ratio_var": float("nan")}])
+    after = {
+        name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in protected
+    }
+    assert after == before
 
 
 @pytest.mark.parametrize(
