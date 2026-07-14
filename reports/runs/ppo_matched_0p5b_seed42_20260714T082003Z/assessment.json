@@ -1,0 +1,40 @@
+{
+  "run_id": "ppo_matched_0p5b_seed42_20260714T082003Z",
+  "disclaimer": "Matched 0.5B pilot - not the final benchmark",
+  "suite_sequence": 1,
+  "algorithm": "ppo",
+  "seed": 42,
+  "status": "failure_before_generation/no_update",
+  "stop_category": "execution_contract",
+  "reason": "TRLContractError: PPO data collator must return a mapping",
+  "counters": {
+    "completions": 0,
+    "generated_tokens": 0,
+    "updates": 0,
+    "optimizer_steps": 0,
+    "global_steps": 0
+  },
+  "checkpoint": null,
+  "resource_evidence": {
+    "nvidia_smi_peak_vram_mib": 2451.0,
+    "pytorch_peak_allocated_mib": 1910.64990234375,
+    "pytorch_peak_reserved_mib": 1992.0,
+    "gpu_hours": 0.001623465743743711,
+    "estimated_cost_cny": 0.014416375804444156,
+    "post_process_vram_mib": 0,
+    "post_process_compute_processes": 0
+  },
+  "backup": {
+    "path": "/root/autodl-fs/math-rlvr-backups/ppo_matched_0p5b_seed42_20260714T082003Z.failure.tar.gz",
+    "sha256": "8fc1800417dc79ee22b6b8880986de8b4ea92efa48e48d869f2ee69ee6e34118",
+    "archive_listing_verified": true,
+    "checksum_verified": true
+  },
+  "frozen_identity_passed": true,
+  "prompt_scope_layers_matched": true,
+  "scientific_result": false,
+  "included_in_aggregate": false,
+  "automatic_retry": false,
+  "later_suite_runs_executed": false,
+  "historical_failure_preserved": "ppo_matched_0p5b_seed42_20260714T073357Z"
+}

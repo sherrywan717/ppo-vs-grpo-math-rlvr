@@ -1,0 +1,105 @@
+{
+  "run_id": "ppo_matched_0p5b_seed42_20260714T082003Z",
+  "files": [
+    {
+      "path": "completions.jsonl",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "environment.txt",
+      "size": 35,
+      "sha256": "6a5535bbd64d33d8423086b8d3eb910840e0649ecdd53912346713e8ff35ea46"
+    },
+    {
+      "path": "expected_run_contract.json",
+      "size": 2401,
+      "sha256": "bd2216479e762f456e1de9094a7e6197172292083bb9fc9197ed0421fe1cf203"
+    },
+    {
+      "path": "failure_report.json",
+      "size": 615,
+      "sha256": "53b7363b571bd32ef69cc653f8210b105398d34eb350a77e555cd45d7114cc57"
+    },
+    {
+      "path": "figures/gpu_memory.png",
+      "size": 59801,
+      "sha256": "1d33158c61906991b7a7a501a38d5f3561f22b606173d263a811590c686d1609"
+    },
+    {
+      "path": "figures/gpu_memory.svg",
+      "size": 36008,
+      "sha256": "a49cb27a8e448c88b3e2d1176291d9754031f3a4e8938af62cf5ba659971cc3f"
+    },
+    {
+      "path": "figures/gpu_utilization.png",
+      "size": 58225,
+      "sha256": "17db5d6e473d61350cffff45641024aaaef73f67be799fd424af422a4a893075"
+    },
+    {
+      "path": "figures/gpu_utilization.svg",
+      "size": 35062,
+      "sha256": "0f793f0dfef5d318983890f5d6a1ed73121626be388291a32b4f51d31505a08f"
+    },
+    {
+      "path": "final_summary.json",
+      "size": 5323,
+      "sha256": "d6384d40bc0aa75c20f85d80bd5b7a71ca219845b1e9b580a9336646d35162e4"
+    },
+    {
+      "path": "gpu_metrics.csv",
+      "size": 1358,
+      "sha256": "b70f3da84c2584c5117db360bfff874737fa05092e6e217086e55d099069648f"
+    },
+    {
+      "path": "metrics.csv",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "ppo_episode_order.json",
+      "size": 6025,
+      "sha256": "d2bc9a87c3375e81d2707a7497cc992b3b54d78fd67cc3cf2760b9f8e5df5a73"
+    },
+    {
+      "path": "prompt_scope_preflight.json",
+      "size": 19101,
+      "sha256": "a9fb6dd5cad018143bd9245dc948172749753f6c0a4dca80fd3c6fc0e091b84a"
+    },
+    {
+      "path": "pytorch_allocator.json",
+      "size": 787,
+      "sha256": "b4f50069355bcbcc61d13c00bd52183163214fbab7d157fbae9be2d2cfd017ac"
+    },
+    {
+      "path": "report.md",
+      "size": 108,
+      "sha256": "3cdfdc16990b0e735e2ac116ea815207b0860b21a47ba0e087c1410c756e47d2"
+    },
+    {
+      "path": "resolved_config.json",
+      "size": 6697,
+      "sha256": "d22594d67f56406a9ea4b923f5e49debd172b855b225dd182c22eeb6e097af33"
+    },
+    {
+      "path": "resolved_config.yaml",
+      "size": 5501,
+      "sha256": "dad4353c1a419929bc8a0aa105f77f14160d502bc70f95cbf268f452a540264a"
+    },
+    {
+      "path": "run_manifest.json",
+      "size": 6556,
+      "sha256": "e1f6b4de1d48afb17f646e3c3249897954fbf90acd778c1db3ef8581ad4beb14"
+    },
+    {
+      "path": "samples.jsonl.gz",
+      "size": 20,
+      "sha256": "938b95742d6cb3593c06871fa5f771b3b9cb497baa1f12a57afd4f20845eb408"
+    },
+    {
+      "path": "summary.json",
+      "size": 5195,
+      "sha256": "bf1b04eef3544c6f1c8cb49f9f50fdb683ba8ab9c283afe3c30ad638db441ef2"
+    }
+  ]
+}
