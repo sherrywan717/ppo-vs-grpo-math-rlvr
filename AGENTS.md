@@ -246,8 +246,18 @@ parser/verifier, manifest, completion/token, and update identities. Overflow fai
 online; final counts require equality. Main/1.5B and CLI-provided numeric widening are
 rejected. Do not bypass the profile resolver or scatter additional TRL monkey patches.
 
-The six pilot commands are technically ready but remain unauthorized until the user
-explicitly approves a GPU suite. Keep the dual confirmation, clean/offline/local
-snapshot checks, fixed run order, isolated checkpoints/backups and no-retry policy.
-This CPU repair is not authorization to run a pilot, rerun Stage D, download 1.5B, or
-start formal training.
+The user subsequently authorized the frozen six-run suite. Its first and only executed
+command, PPO seed 42 run `ppo_matched_0p5b_seed42_20260714T073357Z`, failed before
+generation or training. The delayed PPO dataset renderer called
+`render_training_prompt`, whose selector treats only `smoke-*` names as eligible for
+the strict-concise prompt and rejected the valid pilot name as main/formal. Counters
+were 0 completions, 0 tokens, and 0 update/optimizer/global steps; no checkpoint was
+written. The worker exited, the GPU returned to 0 MiB with no compute process, and the
+failure archive verified successfully.
+
+The no-retry and suite-stop rules were applied: runs 2–6 were not executed. Preserve
+this failed run and its reports/backup unchanged. The prompt-stage routing mismatch is
+a real execution-chain blocker; any repair requires separate CPU-only authorization,
+tests, a new commit, and a new explicit GPU authorization. Never retry this command,
+continue the pilot suite, rerun Stage D, download 1.5B, or start formal training from
+the present authorization.

@@ -372,3 +372,31 @@ This file records operational history and pitfalls that should survive context c
 - The two known correctness blockers are closed. The six GPU jobs still require a new
   explicit user authorization, clean/offline/GPU preflight and the frozen run order;
   never start them, retry automatically, or enter 1.5B from this CPU result.
+
+## Matched Pilot First GPU Attempt and Suite Stop
+
+- The user explicitly authorized the frozen six-run matched suite from clean
+  `pivot/math-rlvr` at `10fcc2173e45b5eab438b0712b9aa9562abdf214`. Initial Git,
+  config/manifest identity, offline/local snapshot, storage and idle H800 preflights
+  all passed; the preflight process reported CUDA uninitialized and zero model loads.
+- Only Run 1 was executed, exactly once:
+  `ppo_matched_0p5b_seed42_20260714T073357Z`. The frozen config hash was
+  `1daeba7e6cd5e0af43c7f7cb9db87b46d44608adf9fdf432dc7b2c34ea059fdd`.
+- The delayed execution path initialized the PPO value scalar head, then dataset
+  rendering called `render_training_prompt`. `prompt_version_from_config` recognizes
+  only `smoke-*` experiment names as allowed to select `prompt_v1_strict_concise`, so
+  the valid `pilot-*` experiment fell into the main/formal rejection branch and raised
+  `ValueError: main/formal configs must not activate a smoke prompt`.
+- This was a failure before generation/training: 0 completions, 0 generated tokens,
+  0 update/optimizer/global steps, no reward or loss evidence, and no checkpoint. The
+  expected 16 prompt-major comparison keys and every frozen identity were recorded,
+  but no actual completions exist to validate or aggregate.
+- The resource window was 4.899377426 seconds, `nvidia-smi` peak was 4 MiB, GPU-hours
+  were 0.001360938173925711 and estimated cost was CNY 0.012085130984460315. The
+  worker exited; afterward GPU memory was 0 MiB with no compute process.
+- Full artifacts and Git-safe reports were saved. The verified failure backup is
+  `/root/autodl-fs/math-rlvr-backups/ppo_matched_0p5b_seed42_20260714T073357Z.failure.tar.gz`,
+  SHA256 `21a64fb02f8522901eea92f4f027ba143b8b04f2a8c08292b75d0b6e9ec8f7a2`.
+- The blocker requires a separate CPU-only pilot-aware prompt routing repair. No retry
+  was attempted and Runs 2–6 were not executed. This suite authorization is exhausted;
+  a repaired GPU run requires new explicit authorization. Do not enter 1.5B.
