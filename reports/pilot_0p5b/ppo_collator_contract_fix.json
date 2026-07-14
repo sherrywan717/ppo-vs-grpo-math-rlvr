@@ -1,0 +1,132 @@
+{
+  "title": "PPO pilot collator mapping contract fix",
+  "baseline": {
+    "branch": "pivot/math-rlvr",
+    "head": "3df98042f53045116b99493b4a63826eb4fad46c",
+    "worktree_clean_before_work": true
+  },
+  "scope": "CPU-only minimal TRL 0.24.0 compatibility repair",
+  "reproduction": {
+    "config_path": "configs/pilot/resolved/ppo_seed_42.json",
+    "config_sha256": "1daeba7e6cd5e0af43c7f7cb9db87b46d44608adf9fdf432dc7b2c34ea059fdd",
+    "dataset_rows": 16,
+    "dataset_feature_type": "dict",
+    "dataset_feature_keys": [
+      "algorithm",
+      "episode_position",
+      "generation_index",
+      "input_ids",
+      "pair_key",
+      "problem_hash",
+      "problem_id",
+      "rendered_prompt_hash",
+      "seed"
+    ],
+    "base_collator": "transformers.DataCollatorWithPadding",
+    "base_return_type": "transformers.tokenization_utils_base.BatchEncoding",
+    "base_is_mapping": true,
+    "base_is_mutable_mapping": true,
+    "base_is_dict": false,
+    "base_keys": [
+      "input_ids",
+      "attention_mask"
+    ],
+    "tensor_shapes": {
+      "input_ids": [
+        16,
+        161
+      ],
+      "attention_mask": [
+        16,
+        161
+      ]
+    },
+    "tensor_dtypes": {
+      "input_ids": "torch.int64",
+      "attention_mask": "torch.int64"
+    },
+    "exact_failure": "TRLContractError: PPO data collator must return a mapping",
+    "failure_location": "OrderedMetadataCollator.__call__ dict-only type check before metadata attachment",
+    "cuda_initialized": false,
+    "model_loaded": false
+  },
+  "repair": {
+    "module": "src/math_rlvr/training/trl_compat.py",
+    "changes": [
+      "accept the actual mutable Mapping returned by the base collator",
+      "accept Mapping at prepared-batch metadata extraction/validation"
+    ],
+    "wrapper_return_type_before_fix": null,
+    "wrapper_return_type_before_fix_reason": "dict-only check raised before returning",
+    "wrapper_return_type_after_fix": "transformers.tokenization_utils_base.BatchEncoding",
+    "accelerator_prepared_batch_type": "transformers.tokenization_utils_base.BatchEncoding",
+    "accelerator_prepared_is_mapping": true,
+    "retokenized": false,
+    "tensor_contract_changed": false,
+    "response_boundary_changed": false,
+    "metadata_passed_to_model_kwargs": false,
+    "site_packages_modified": false
+  },
+  "loader_contract": {
+    "sampler": "SequentialSampler",
+    "batch_size": 16,
+    "drop_last": true,
+    "num_workers": 0,
+    "world_size": 1,
+    "pair_keys": [
+      "countdown:train:0::generation:0",
+      "countdown:train:0::generation:1",
+      "countdown:train:0::generation:2",
+      "countdown:train:0::generation:3",
+      "countdown:train:1::generation:0",
+      "countdown:train:1::generation:1",
+      "countdown:train:1::generation:2",
+      "countdown:train:1::generation:3",
+      "countdown:train:2::generation:0",
+      "countdown:train:2::generation:1",
+      "countdown:train:2::generation:2",
+      "countdown:train:2::generation:3",
+      "countdown:train:3::generation:0",
+      "countdown:train:3::generation:1",
+      "countdown:train:3::generation:2",
+      "countdown:train:3::generation:3"
+    ],
+    "prepared_order_verified": true,
+    "train_consumption_proxy_verified": true
+  },
+  "protected_history": {
+    "excluded_runs": [
+      "ppo_matched_0p5b_seed42_20260714T073357Z",
+      "ppo_matched_0p5b_seed42_20260714T082003Z"
+    ],
+    "hash_regressions_passed": true,
+    "included_in_scientific_aggregate": false
+  },
+  "frozen_identity": {
+    "pilot_manifest_contract_sha256": "0235210e038bc27ebf2e7218691f36f09c8e11f0bbc743f46a5318a279f6bc1f",
+    "six_resolved_config_hashes_unchanged": true,
+    "prompt_reward_parser_verifier_unchanged": true,
+    "budgets_unchanged": true
+  },
+  "verification": {
+    "targeted_tests_passed": 47,
+    "full_pytest_passed": 369,
+    "ruff": "passed",
+    "compileall": "passed",
+    "check_env": "passed",
+    "manifest_validation": "passed",
+    "ppo_stage_d_dry_run": "passed",
+    "grpo_stage_d_dry_run": "passed",
+    "ppo_pilot_dry_runs": 3,
+    "grpo_pilot_dry_runs": 3,
+    "fake_pilot_finalization": "passed",
+    "git_diff_check": "passed",
+    "cuda_initialized": false,
+    "real_model_loads": 0,
+    "generation_calls": 0,
+    "trainer_train_calls": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0
+  },
+  "decision": "stage_a_passed_gpu_suite_authorized_after_commit_backup_and_fresh_preflight"
+}

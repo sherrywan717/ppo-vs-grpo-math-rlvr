@@ -282,3 +282,19 @@ CPU gates passed with CUDA uninitialized and zero real model/tokenizer/generatio
 calls. The historical failed run, reports and verified backup remain immutable and are
 not a scientific PPO result. This repair does not authorize retrying it, running any
 pilot job, or entering 1.5B. A new suite requires a new explicit GPU authorization.
+
+
+### PPO pilot collator mapping repair
+
+The separately authorized new matched suite first exposed and preserved a second
+immutable pre-generation failure, `ppo_matched_0p5b_seed42_20260714T082003Z`. The
+base TRL/Transformers collator correctly returned a `BatchEncoding`, but the ordered
+metadata wrapper incorrectly required concrete `dict`, raising before generation or
+update. The run and its failure backup remain excluded from scientific aggregation.
+
+The CPU-only repair is limited to `training/trl_compat.py`: the wrapper accepts the
+actual mutable Mapping and prepared-batch validation accepts Mapping. It returns the
+same `BatchEncoding`; token tensors, padding, dtypes and response boundaries are
+unchanged. Metadata stays outside model kwargs. Real local-tokenizer and CPU
+Accelerator tests verify the 16-row SequentialSampler order; full CPU gates passed.
+This repair by itself changes no frozen config, manifest, identity or budget.

@@ -431,3 +431,28 @@ This file records operational history and pitfalls that should survive context c
 - Routing is technically repaired, but GPU execution remains unauthorized. Any new
   matched suite must receive explicit authorization and start from a new PPO seed-42
   run; the immutable failed attempt stays excluded from scientific aggregation.
+
+
+## PPO Pilot Collator Mapping CPU Repair
+
+- New immutable failure: `ppo_matched_0p5b_seed42_20260714T082003Z`, executed once
+  from `3df98042f53045116b99493b4a63826eb4fad46c`. Frozen identities and four prompt
+  scope layers passed, but the run stopped with
+  `TRLContractError: PPO data collator must return a mapping` before generation: 0
+  completions/tokens, 0 update/optimizer/global steps and no checkpoint. Runs 2--6
+  were not executed. Its verified failure backup SHA256 is
+  `8fc1800417dc79ee22b6b8880986de8b4ea92efa48e48d869f2ee69ee6e34118`.
+- Exact CPU reproduction used the frozen PPO seed-42 config, real 16-row dataset,
+  fixed local tokenizer, `DataCollatorWithPadding`, CPU DataLoader and CPU
+  Accelerator. The base returned `BatchEncoding`, a `MutableMapping` but not a
+  concrete `dict`, with `input_ids`/`attention_mask` shaped `[16, 161]` and int64.
+- Root cause was solely the ordered metadata wrapper's concrete-dict check. The
+  compatibility boundary now accepts `MutableMapping` for attachment and `Mapping`
+  for prepared-batch validation, preserving the same `BatchEncoding`. It does not
+  retokenize, change padding/dtypes/response boundaries or pass metadata to model
+  kwargs.
+- Verification: 47 targeted and 369 full tests passed, plus Ruff, compileall,
+  check_env, manifest validation, six pilot and two Stage D dry-runs, and fake
+  16-completion finalization. CUDA remained uninitialized; model load, generation,
+  Trainer.train, backward and optimizer calls were zero. Both historical PPO pilot
+  failures and all frozen hashes remain unchanged and excluded from aggregation.

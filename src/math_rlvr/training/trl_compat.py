@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 from collections import Counter
-from collections.abc import Iterator
+from collections.abc import Iterator, Mapping, MutableMapping
 from typing import Any
 
 import trl
@@ -39,9 +39,11 @@ def _batch_values(value: Any) -> list[Any]:
     return value
 
 
-def extract_ordered_episode_batch(batch: dict[str, Any]) -> list[dict[str, Any]]:
+def extract_ordered_episode_batch(batch: Mapping[str, Any]) -> list[dict[str, Any]]:
     """Extract the metadata from the actual Accelerator-prepared rollout batch."""
-    if not isinstance(batch, dict) or any(field not in batch for field in ORDERED_EPISODE_FIELDS):
+    if not isinstance(batch, Mapping) or any(
+        field not in batch for field in ORDERED_EPISODE_FIELDS
+    ):
         raise TRLContractError("prepared PPO batch is missing ordered episode metadata")
     columns = {field: _batch_values(batch[field]) for field in ORDERED_EPISODE_FIELDS}
     lengths = {len(values) for values in columns.values()}
@@ -54,7 +56,7 @@ def extract_ordered_episode_batch(batch: dict[str, Any]) -> list[dict[str, Any]]
 
 
 def validate_ordered_episode_batch(
-    batch: dict[str, Any], expected_records: list[dict[str, Any]]
+    batch: Mapping[str, Any], expected_records: list[dict[str, Any]]
 ) -> list[dict[str, Any]]:
     actual = extract_ordered_episode_batch(batch)
     expected = [{field: row[field] for field in ORDERED_EPISODE_FIELDS} for row in expected_records]
@@ -78,7 +80,7 @@ class OrderedMetadataCollator:
             for feature in features
         ]
         batch = self.base_collator(model_features)
-        if not isinstance(batch, dict):
+        if not isinstance(batch, MutableMapping):
             raise TRLContractError("PPO data collator must return a mapping")
         for field in ORDERED_EPISODE_FIELDS:
             batch[field] = [row[field] for row in metadata]
