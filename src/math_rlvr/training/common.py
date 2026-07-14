@@ -30,6 +30,15 @@ def parse_args(description: str, argv=None) -> argparse.Namespace:
 
 def preflight(config_path: Path, algorithm: str) -> dict[str, Any]:
     config = load_config(config_path)
+    if config.get("pilot", {}).get("family") == "matched_0p5b_v1":
+        from math_rlvr.training.pilot import (
+            enrich_pilot_config,
+            validate_pilot_config_file,
+        )
+
+        frozen, contract = validate_pilot_config_file(config_path, algorithm)
+        validate_training_config(frozen, algorithm)
+        return enrich_pilot_config(frozen, contract, config_path)
     validate_training_config(config, algorithm)
     return resolve_training_config(config)
 

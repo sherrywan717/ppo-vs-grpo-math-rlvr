@@ -1,0 +1,95 @@
+{
+  "date_utc": "2026-07-14",
+  "gates": {
+    "check_env": {
+      "cuda_initialized": false,
+      "generated_code_execution": false,
+      "model_or_tokenizer_loaded": false,
+      "passed": true
+    },
+    "compileall": {
+      "passed": true
+    },
+    "existing_smoke_dry_runs": {
+      "grpo": true,
+      "ppo": true
+    },
+    "full_pytest": {
+      "failed": 0,
+      "passed": 293
+    },
+    "manifest_validation": {
+      "passed": true
+    },
+    "pilot_grpo_dry_runs": {
+      "passed": 3,
+      "seeds": [
+        42,
+        123,
+        2026
+      ]
+    },
+    "pilot_ppo_dry_runs": {
+      "passed": 3,
+      "seeds": [
+        42,
+        123,
+        2026
+      ]
+    },
+    "ruff": {
+      "passed": true
+    },
+    "targeted_pilot_pytest": {
+      "failed": 0,
+      "passed": 16
+    }
+  },
+  "gpu_suite_blockers": [
+    "ppo_sequential_rollout",
+    "guarded_runtime_16_completion"
+  ],
+  "protected_evidence": {
+    "main_configs_modified": false,
+    "prompt_py_modified": false,
+    "smoke_configs_modified": false,
+    "stage_d_history_modified": false
+  },
+  "runtime_action_counts": {
+    "backward_calls": 0,
+    "completion_generations": 0,
+    "cuda_initializations": 0,
+    "gpu_runs": 0,
+    "optimizer_steps": 0,
+    "real_model_loads": 0,
+    "real_tokenizer_loads": 0,
+    "trainer_constructions": 0,
+    "trainer_train_calls": 0
+  },
+  "schema_version": 1,
+  "scope": "CPU-only configuration freeze and static validation",
+  "status": "passed_with_gpu_execution_blockers_recorded",
+  "title": "Matched 0.5B pilot - not the final benchmark",
+  "trl_config_probe": {
+    "cpu_only": true,
+    "grpo": {
+      "generation_batch_size": 16,
+      "gradient_accumulation_steps": 4,
+      "max_steps": 1,
+      "num_generations": 4,
+      "num_iterations": 1,
+      "per_device_train_batch_size": 4,
+      "steps_per_generation": 4
+    },
+    "ppo": {
+      "gradient_accumulation_steps": 4,
+      "local_rollout_forward_batch_size": 4,
+      "num_generations_attribute": false,
+      "num_mini_batches": 1,
+      "num_ppo_epochs": 1,
+      "per_device_train_batch_size": 4,
+      "rollout_batch_size": 16,
+      "total_episodes": 16
+    }
+  }
+}

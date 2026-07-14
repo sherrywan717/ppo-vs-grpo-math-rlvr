@@ -106,7 +106,12 @@ def ppo_config(config, output_dir, cpu_only=False):
     from trl import PPOConfig
 
     validate_training_config(config, "ppo")
-    resolve_ppo_smoke_contract(config)
+    if config.get("pilot", {}).get("family") == "matched_0p5b_v1":
+        from math_rlvr.training.pilot import resolve_ppo_pilot_contract
+
+        resolve_ppo_pilot_contract(config)
+    else:
+        resolve_ppo_smoke_contract(config)
     generation, training = config["generation"], config["training"]
     return PPOConfig(
         output_dir=str(output_dir),

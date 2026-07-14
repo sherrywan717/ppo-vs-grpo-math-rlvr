@@ -304,3 +304,40 @@ This file records operational history and pitfalls that should survive context c
   next matched 0.5B pilot should add that evidence, freeze one prompt allocation,
   match actual completion/token budgets, and predefine at least three seeds. The plan
   in `reports/stage_d/smoke_readiness_matrix.{json,md}` is not GPU authorization.
+
+
+## Matched 0.5B Pilot CPU Freeze
+
+- Baseline was clean `pivot/math-rlvr` at
+  `973a3ce1ad3439f19bc99f9764cce8dd47ac8bb3`. No historical run/report/checkpoint was
+  modified and no CUDA, model/tokenizer load, generation, Trainer, backward, optimizer
+  step, download, Stage D rerun, or 1.5B action occurred.
+- Stage D stays complete but algorithm-effect comparison is not established. Immutable
+  counterparts are PPO `ppo_single_update_qwen25_05b_20260714T051538Z` with nullable
+  ratio-variance warning and GRPO `grpo_single_update_qwen25_05b_20260713T122258Z`.
+- Pilot manifest SHA256 is
+  `0235210e038bc27ebf2e7218691f36f09c8e11f0bbc743f46a5318a279f6bc1f`; it selects
+  frozen Countdown train IDs 0–3 in source order. Problem contracts exclude
+  gold/construction, and rendered-prompt hashes cover canonical tokenizer-free chat
+  payloads plus the open assistant turn.
+- Parser contract is `strict_completion_parser_v1`, SHA256
+  `655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad`; Countdown
+  verifier is `countdown_ast_fraction_v1`, SHA256
+  `593fa4f1f12702411248b77d8059b4df84a182334a8f9923a2283d04a3fb0c74`. Hashes use
+  canonical semantic JSON and do not depend on Markdown/comments.
+- Six resolved configs cover PPO/GRPO × seeds 42, 123, 2026 and are accepted only by
+  exact repository path plus raw-file SHA256. Per run: four prompts × four responses,
+  16 completions, 2,048 tokens, one update/optimizer/global step, zero retries, and one
+  isolated checkpoint/full backup.
+- Real TRL 0.24.0 CPU config derivation confirms PPO local rollout batch 16 from batch4
+  × GA4, one epoch/minibatch, forward batch4, and no `num_generations`; GRPO confirms
+  generation batch16, four generations, batch4, GA4, and `steps_per_generation=4`.
+- Fixed order alternates: 42 PPO/GRPO, 123 GRPO/PPO, 2026 PPO/GRPO. Expected suite
+  cost is 0.04917 GPU-hours / ¥0.4366; 2× planning ceiling is 0.09833 GPU-hours /
+  ¥0.8732. Expected/hard peak VRAM is 7/14 GiB for PPO and 3.5/7 GiB for GRPO.
+- GPU suite is correctly blocked before model loading. TRL PPO uses a shuffled
+  DataLoader, so prompt-major repetitions require a reviewed sequential rollout and
+  pairing implementation. Existing guarded runtimes also retain historical 4/8
+  completion shapes and must be parameterized/fake-tested for 16 without weakening
+  Stage D. Do not execute the future commands until a separate CPU repair, clean gates,
+  and explicit GPU authorization.

@@ -5,6 +5,7 @@ from typing import Any
 
 import yaml
 
+from math_rlvr.contracts import parser_verifier_metadata
 from math_rlvr.prompt import (
     prompt_metadata,
     prompt_version_from_config,
@@ -45,19 +46,27 @@ def validate_training_config(config: dict[str, Any], algorithm: str) -> None:
         raise ValueError("gradient checkpointing required")
     if config.get("lora") != POLICY_LORA:
         raise ValueError("policy LoRA contract mismatch")
-    expected_prompt_metadata = prompt_metadata(prompt_version_from_config(config))
+    is_pilot = config.get("pilot", {}).get("family") == "matched_0p5b_v1"
+    selected_prompt = (
+        config.get("prompt", {}).get("version")
+        if is_pilot
+        else prompt_version_from_config(config)
+    )
+    expected_prompt_metadata = prompt_metadata(selected_prompt)
     for key in ("prompt_version", "prompt_sha256", "renderer_version"):
         if key in config and config[key] != expected_prompt_metadata[key]:
             raise ValueError(f"resolved prompt metadata mismatch: {key}")
     generation = config.get("generation", {})
-    completion_length = 128 if "smoke" in config["experiment"]["name"] else 384
+    is_smoke = "smoke" in config["experiment"]["name"]
+    completion_length = 128 if is_smoke or is_pilot else 384
     expected = {
         "max_prompt_length": 512,
         "max_completion_length": completion_length,
         "temperature": 0.8,
         "top_p": 0.95,
-        "num_generations": 4,
     }
+    if algorithm == "grpo" or not is_pilot:
+        expected["num_generations"] = 4
     if any(generation.get(key) != value for key, value in expected.items()):
         raise ValueError("generation contract mismatch")
     for section, key in (
@@ -73,16 +82,19 @@ def validate_training_config(config: dict[str, Any], algorithm: str) -> None:
         value = config.get(section, {}).get(key)
         if not isinstance(value, (int, float)) or value <= 0:
             raise ValueError(f"Missing positive limit: {section}.{key}")
-    is_smoke = "smoke" in config["experiment"]["name"]
     reward_selector = config.get("reward", {}).get("policy")
-    if is_smoke and reward_selector != STAGED_REWARD_VERSION:
-        raise ValueError("smoke reward policy must be shaped_v2_staged")
-    if not is_smoke and reward_selector == STAGED_REWARD_VERSION:
+    if (is_smoke or is_pilot) and reward_selector != STAGED_REWARD_VERSION:
+        raise ValueError("bounded 0.5B reward policy must be shaped_v2_staged")
+    if not (is_smoke or is_pilot) and reward_selector == STAGED_REWARD_VERSION:
         raise ValueError("staged smoke reward must not activate main/formal config")
     if algorithm == "grpo" and is_smoke:
         validate_grpo_smoke_budget(config)
     if algorithm == "ppo" and is_smoke:
         validate_ppo_smoke_budget(config)
+    if is_pilot:
+        from math_rlvr.training.pilot import validate_pilot_config_content
+
+        validate_pilot_config_content(config, algorithm)
     if algorithm == "ppo":
         value = config.get("value_model", {})
         required = {
@@ -286,8 +298,15 @@ def validate_ppo_smoke_budget(config: dict[str, Any]) -> None:
 def resolve_training_config(config: dict[str, Any]) -> dict[str, Any]:
     """Return a copy enriched with derived prompt identity metadata."""
     resolved = dict(config)
-    resolved.update(prompt_metadata(prompt_version_from_config(config)))
+    prompt_version = (
+        config.get("prompt", {}).get("version")
+        if config.get("pilot", {}).get("family") == "matched_0p5b_v1"
+        else prompt_version_from_config(config)
+    )
+    resolved.update(prompt_metadata(prompt_version))
     resolved.update(reward_metadata_from_config(config))
+    if config.get("pilot", {}).get("family") == "matched_0p5b_v1":
+        resolved.update(parser_verifier_metadata())
     return resolved
 
 

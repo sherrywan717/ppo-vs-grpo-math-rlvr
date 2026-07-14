@@ -34,14 +34,23 @@ class RealPPOLifecycle:
     def __init__(self, config):
         self.config = config
         stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+        is_pilot = config.get("pilot", {}).get("family") == "matched_0p5b_v1"
         self.manager = ArtifactManager(
-            "single_update",
+            "pilot_0p5b" if is_pilot else "single_update",
             "ppo",
             config["model"]["name_or_path"],
             config["experiment"]["seed"],
-            "guarded dual-confirmation PPO smoke",
+            (
+                "guarded dual-confirmation matched PPO pilot"
+                if is_pilot
+                else "guarded dual-confirmation PPO smoke"
+            ),
             config,
-            run_id=f"ppo_single_update_qwen25_05b_{stamp}",
+            run_id=(
+                f"ppo_matched_0p5b_seed{config['experiment']['seed']}_{stamp}"
+                if is_pilot
+                else f"ppo_single_update_qwen25_05b_{stamp}"
+            ),
         )
         self.manager.write_text("stdout.log", "")
         self.manager.write_text("stderr.log", "")
@@ -90,6 +99,10 @@ class RealPPOLifecycle:
             {
                 "status": summary["status"],
                 "counters": summary["counters"],
+                "model": self.config["model"]["name_or_path"],
+                "revision": self.config["model"].get("revision"),
+                "algorithm": self.config["experiment"]["algorithm"],
+                "seed": self.config["experiment"]["seed"],
                 "completion_evidence_count": summary.get("completion_evidence_count", 0),
                 "resolved_ppo_contract": summary.get("resolved_ppo_contract"),
                 "model_roles": summary.get("model_roles"),
@@ -99,6 +112,16 @@ class RealPPOLifecycle:
                 "reward_policy_version": self.config["reward_policy_version"],
                 "reward_component_weights": self.config["reward_component_weights"],
                 "reward_policy_sha256": self.config["reward_policy_sha256"],
+                "parser_contract": self.config.get("parser_contract"),
+                "verifier_contract": self.config.get("verifier_contract"),
+                "resolved_config_path": self.config.get("resolved_config_path"),
+                "resolved_config_sha256": self.config.get("resolved_config_sha256"),
+                "pilot_manifest_sha256": self.config.get("data", {}).get(
+                    "pilot_manifest_sha256"
+                ),
+                "report_disclaimer": self.config.get("reporting", {}).get(
+                    "disclaimer", "Smoke diagnostic only; not an experiment result."
+                ),
             }
         )
         self.manager.write_json("run_manifest.json", manifest)
@@ -112,11 +135,19 @@ class RealPPOLifecycle:
         if publish and not self.manager.report_dir.exists():
             if not (self.manager.run_dir / "environment.txt").exists():
                 self.manager.write_text("environment.txt", "offline local-only guarded PPO run\n")
+            disclaimer = self.config.get("reporting", {}).get(
+                "disclaimer", "Smoke diagnostic only; not an experiment result."
+            )
+            title = (
+                "PPO matched pilot run"
+                if self.config.get("pilot", {}).get("family") == "matched_0p5b_v1"
+                else "PPO single-update smoke"
+            )
             report = (
-                "# PPO single-update smoke\n\n"
+                f"# {title}\n\n"
                 f"- Status: {summary['status']}\n"
                 f"- Backed up: {summary.get('backed_up', False)}\n"
-                "- Smoke diagnostic only; not an experiment result.\n"
+                f"- {disclaimer}\n"
             )
             self.manager.publish_summary(report, summary, [])
             self._publish_evidence_files()

@@ -212,3 +212,29 @@ variance aggregation. A future 0.5B matched pilot must freeze common prompt allo
 actual completion/token budgets, explicit parser/verifier hashes, and multiple seeds,
 then receive new explicit GPU authorization. Do not execute it automatically, and do
 not enter 1.5B or formal training implicitly.
+
+
+### Matched 0.5B pilot configuration freeze
+
+The CPU-only matched pilot is frozen under `configs/pilot/`. Its manifest SHA256 is
+`0235210e038bc27ebf2e7218691f36f09c8e11f0bbc743f46a5318a279f6bc1f` and selects
+Countdown train IDs 0–3 in original order, without gold/construction fields or
+performance-based selection. Each algorithm/seed resolves to four prompts × four
+responses, 16 completions, a 2,048-token cap, and one outer/optimizer/global step.
+Approved seeds are 42, 123, and 2026; only the six committed resolved JSON files and
+their registry SHA256 values are accepted. Every report must say
+`Matched 0.5B pilot - not the final benchmark`.
+
+Parser `strict_completion_parser_v1` and verifier `countdown_ast_fraction_v1` hashes
+come from canonical semantic JSON. Resolved configs and future run manifests record
+both. PPOConfig never receives `num_generations`; its local batch is 4 × GA4 = 16 and
+rollout forward batch is 4. GRPOConfig resolves generation batch 16, four generations,
+per-device batch 4, GA4, and four steps per generation.
+
+GPU pilot execution remains blocked on two correctness items: TRL PPO 0.24.0 defaults
+to `DataLoader(shuffle=True)`, so prompt-major repetition/pair keys need a reviewed
+sequential evidence path; Stage D guarded runtimes still enforce historical 4/8
+completion shapes and need 16-completion parameterization with fake tests. The CLIs
+reuse only `--execute --confirm-single-update` but fail closed before model loading
+until these items are resolved. This is not authorization to run any of the six GPU
+jobs, rerun Stage D, download 1.5B, or start formal training.

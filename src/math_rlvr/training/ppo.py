@@ -32,11 +32,22 @@ def main(
         validate_ppo_authorization,
     )
 
-    validate_ppo_authorization(config, Path(args.config))
+    is_pilot = config.get("pilot", {}).get("family") == "matched_0p5b_v1"
+    if is_pilot:
+        from math_rlvr.training.pilot import validate_pilot_execution_authorization
+
+        validate_pilot_execution_authorization(config, Path(args.config), "ppo")
+    else:
+        validate_ppo_authorization(config, Path(args.config))
     (git_probe or require_clean_git)()
     (offline_probe or require_ppo_offline_environment)()
     (snapshot_probe or require_local_snapshot)()
     if execute_fn is None:
+        if is_pilot:
+            raise RuntimeError(
+                "matched PPO pilot execution remains disabled until the ordered "
+                "sequential rollout/evidence runtime is implemented and reviewed"
+            )
         from math_rlvr.training.ppo_runtime import execute_real_ppo_smoke
 
         execute_fn = execute_real_ppo_smoke

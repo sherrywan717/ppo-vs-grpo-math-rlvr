@@ -1,0 +1,35 @@
+# Template only. GPU runners accept only committed resolved JSON files.
+pilot:
+  family: matched_0p5b_v1
+  disclaimer: Matched 0.5B pilot - not the final benchmark
+  template_only: true
+  approved_seeds: [42, 123, 2026]
+resolution:
+  cli_seed_override: forbidden
+  manifest: configs/pilot/matched_0p5b_manifest.json
+  resolved_directory: configs/pilot/resolved
+identity:
+  model: Qwen/Qwen2.5-0.5B-Instruct
+  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  prompt_version: prompt_v1_strict_concise
+  prompt_sha256: 6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7
+  renderer_version: math_rlvr.prompt.chat_template.v1
+  reward_version: shaped_v2_staged
+  reward_sha256: 90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14
+  parser_contract: {"contract_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad", "contract_version": "strict_completion_parser_v1"}
+  verifier_contract: {"contract_sha256": "593fa4f1f12702411248b77d8059b4df84a182334a8f9923a2283d04a3fb0c74", "contract_version": "countdown_ast_fraction_v1"}
+matched_budget:
+  unique_prompts: 4
+  responses_per_prompt: 4
+  completions: 16
+  generated_token_cap: 2048
+  outer_updates: 1
+  optimizer_steps: 1
+  global_steps: 1
+algorithm: grpo
+grpo:
+  num_generations: 4
+  generation_batch_size: 16
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 4
+  num_iterations: 1

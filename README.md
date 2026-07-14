@@ -169,3 +169,26 @@ GRPO. The runs are not an algorithm-effect comparison because PPO used four prom
 with one response each while GRPO used two prompts with four responses each, and their
 completion/token budgets differ. See `reports/stage_d/smoke_readiness_matrix.md` for
 the evidence matrix and the planning-only matched 0.5B pilot proposal.
+
+
+## Matched 0.5B pilot freeze
+
+`Matched 0.5B pilot - not the final benchmark`
+
+The CPU-only pilot freeze selects the first four Countdown train records in original
+order and matches PPO/GRPO at four responses per prompt, 16 completions, a 2,048-token
+hard cap, one optimizer/global update, policy LoRA, sampling, and seeds 42/123/2026.
+The ordered manifest SHA256 is
+`0235210e038bc27ebf2e7218691f36f09c8e11f0bbc743f46a5318a279f6bc1f`.
+Six committed resolved JSON configs are authorized by exact path and SHA; temporary CLI
+seed overrides are forbidden. Parser and Countdown verifier identities are derived
+from canonical semantic JSON, not comments or Markdown.
+
+Real pilot execution is not yet authorized or enabled. TRL PPO's default shuffled
+DataLoader still needs a reviewed sequential prompt-major rollout/evidence path, and
+the historical guarded runners must be parameterized from 4/8 to 16 completions
+without changing Stage D behavior. Until both correctness blockers are resolved, the
+existing dual-confirmation CLIs fail closed before model loading. See
+`reports/pilot_0p5b/plan.md` for budgets, fixed run order, resource estimates, templates,
+and future command strings. A matched pilot is execution/aggregation evidence only;
+it cannot prove learning or PPO/GRPO superiority.

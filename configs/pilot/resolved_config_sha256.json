@@ -1,0 +1,12 @@
+{
+  "configs": {
+    "configs/pilot/resolved/grpo_seed_123.json": "edec9ce1265dfaec8c712b2c65046fe860cbd3e10aab52cf31b6d5e0350c2a28",
+    "configs/pilot/resolved/grpo_seed_2026.json": "1d558da6ea57cfa074fee30868f1772c76c617920e4e93a4897be2e2b48d6b00",
+    "configs/pilot/resolved/grpo_seed_42.json": "83992a9c312b3ea6ab87f33dce1d4e9572a9647bbdb72bd67a6e98e90c182ac8",
+    "configs/pilot/resolved/ppo_seed_123.json": "9da0ad35e943cdeda2da410c20eec73e6d105f0ef66f7f67b1be22950a0e43c5",
+    "configs/pilot/resolved/ppo_seed_2026.json": "d3255ddb849224a4d87a069d981fcacf85cb98a7afa986ff0a9fb284b7698044",
+    "configs/pilot/resolved/ppo_seed_42.json": "1daeba7e6cd5e0af43c7f7cb9db87b46d44608adf9fdf432dc7b2c34ea059fdd"
+  },
+  "hash_algorithm": "sha256_raw_file_bytes",
+  "schema_version": 1
+}

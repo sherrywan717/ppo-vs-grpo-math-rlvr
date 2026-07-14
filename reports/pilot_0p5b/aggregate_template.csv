@@ -1,0 +1,23 @@
+disclaimer,metric,unit,normalization,ppo_seed_42,ppo_seed_123,ppo_seed_2026,ppo_mean,ppo_std,grpo_seed_42,grpo_seed_123,grpo_seed_2026,grpo_mean,grpo_std,available,unavailable_reason,interpretation_warning
+Matched 0.5B pilot - not the final benchmark,reward_mean,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,reward_std,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,pass_at_1,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,pass_at_4,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,format_accuracy,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,valid_expression_rate,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,number_usage_accuracy,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,mean_group_reward_variance,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,zero_advantage_group_fraction,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,loss,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,policy_loss,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,value_loss,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,grad_norm,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,entropy,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,kl,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,generated_tokens,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,reward_per_100_generated_tokens,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,pass_at_1_per_100_generated_tokens,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,wall_time_seconds,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,peak_vram_mib,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,gpu_hours,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
+Matched 0.5B pilot - not the final benchmark,cost_cny,,completion_matched_and_actual_token_normalized,,,,,,,,,,,false,not populated before GPU suite,three seeds are descriptive; no significance claim
