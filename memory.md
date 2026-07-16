@@ -509,3 +509,16 @@ This file records operational history and pitfalls that should survive context c
   work is reported separately; Qwen/tokenizer/CUDA/generation and the real TRL PPO train
   loop remained unused. Frozen identities and four historical failure trees did not
   change. See `reports/pilot_0p5b/accelerate_microbatch_semantics.{md,json}`.
+
+## Matched PPO Pilot Seed 42 Success
+
+- `ppo_matched_0p5b_seed42_20260716T114710Z` succeeded once from `3c88fb1`: 16 completions/evidence, 574 tokens, backward
+  4 × batch4, sync `[false,false,false,true]`, and epoch/minibatch/bottom optimizer/
+  update/global `1/1/1/1/1`.
+- Reward mean/std were `0.078125/0.03940475`; all four group variances were nonzero,
+  but statuses were 14 format errors and 2 invalid expressions with pass@1/pass@4 zero.
+- Finite policy/value losses were `0.04062834/6.80511189`. The adapter/head-only
+  checkpoint passed. Peak nvidia-smi was 11,189 MiB; GPU-hours/cost were
+  `0.00497375/CNY 0.04417`; parent release returned to 0 MiB/no process.
+- Verified backup SHA256: `dd1833ea6fa75a6a8af1d7fba366b05e498b0524ee726a526eb7fa294f89b7f6`.
+  The four older failures remain immutable/excluded. Next authorized job is GRPO seed42.

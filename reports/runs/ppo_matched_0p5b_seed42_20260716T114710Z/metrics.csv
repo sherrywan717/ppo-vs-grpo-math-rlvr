@@ -1,0 +1,2 @@
+step,reward,policy_loss,value_loss,kl,entropy,correctness,format_accuracy,parse_success_rate,cumulative_generated_tokens,mean_completion_length
+1,0.078125,0.0406283400952816,6.805111885070801,0.5889581441879272,0.2690500020980835,0.0,0.125,0.125,574,35.875

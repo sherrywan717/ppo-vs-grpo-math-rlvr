@@ -1,0 +1,23 @@
+[
+  {
+    "eps": 1,
+    "objective/kl": 0.5889581441879272,
+    "objective/entropy": -79.14449310302734,
+    "objective/non_score_reward": -0.02944790944457054,
+    "objective/rlhf_reward": 0.04867709055542946,
+    "objective/scores": 0.078125,
+    "policy/approxkl_avg": 0.00042952707735821605,
+    "policy/clipfrac_avg": 0.010445695370435715,
+    "loss/policy_avg": 0.0406283400952816,
+    "loss/value_avg": 6.805111885070801,
+    "val/clipfrac_avg": 0.0,
+    "policy/entropy_avg": 0.2690500020980835,
+    "val/ratio": 0.995873212814331,
+    "val/ratio_var": 2.229446408819058e-06,
+    "val/num_eos_tokens": 15,
+    "lr": 1e-05,
+    "episode": 16,
+    "epoch": 1.0,
+    "step": 1
+  }
+]

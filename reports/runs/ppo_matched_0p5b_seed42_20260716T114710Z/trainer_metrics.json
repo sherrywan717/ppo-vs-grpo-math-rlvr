@@ -1,0 +1,90 @@
+{
+  "normalized": {
+    "policy_loss": {
+      "available": true,
+      "value": 0.0406283400952816,
+      "raw_key": "loss/policy_avg"
+    },
+    "value_loss": {
+      "available": true,
+      "value": 6.805111885070801,
+      "raw_key": "loss/value_avg"
+    },
+    "objective_kl": {
+      "available": true,
+      "value": 0.5889581441879272,
+      "raw_key": "objective/kl"
+    },
+    "approximate_kl": {
+      "available": true,
+      "value": 0.00042952707735821605,
+      "raw_key": "policy/approxkl_avg"
+    },
+    "entropy": {
+      "available": true,
+      "value": 0.2690500020980835,
+      "raw_key": "policy/entropy_avg"
+    },
+    "clip_fraction": {
+      "available": true,
+      "value": 0.010445695370435715,
+      "raw_key": "policy/clipfrac_avg"
+    },
+    "ratio": {
+      "available": true,
+      "value": 0.995873212814331,
+      "raw_key": "val/ratio"
+    },
+    "learning_rate": {
+      "available": true,
+      "value": 1e-05,
+      "raw_key": "lr"
+    },
+    "reward_mean": {
+      "available": true,
+      "value": 0.078125,
+      "raw_key": "objective/scores"
+    },
+    "ratio_variance": {
+      "available": true,
+      "value": 2.229446408819058e-06,
+      "raw_key": "val/ratio_var",
+      "classification": null,
+      "non_finite_kind": null,
+      "reason": null
+    }
+  },
+  "raw_log_history": [
+    {
+      "eps": 1,
+      "objective/kl": 0.5889581441879272,
+      "objective/entropy": -79.14449310302734,
+      "objective/non_score_reward": -0.02944790944457054,
+      "objective/rlhf_reward": 0.04867709055542946,
+      "objective/scores": 0.078125,
+      "policy/approxkl_avg": 0.00042952707735821605,
+      "policy/clipfrac_avg": 0.010445695370435715,
+      "loss/policy_avg": 0.0406283400952816,
+      "loss/value_avg": 6.805111885070801,
+      "val/clipfrac_avg": 0.0,
+      "policy/entropy_avg": 0.2690500020980835,
+      "val/ratio": 0.995873212814331,
+      "val/ratio_var": 2.229446408819058e-06,
+      "val/num_eos_tokens": 15,
+      "lr": 1e-05,
+      "episode": 16,
+      "epoch": 1.0,
+      "step": 1
+    }
+  ],
+  "nullable_telemetry": [],
+  "warnings": [],
+  "trainer_output": {},
+  "evidence_counters": {
+    "completions": 16,
+    "generated_tokens": 574,
+    "updates": 1,
+    "optimizer_steps": 1,
+    "global_step": 1
+  }
+}

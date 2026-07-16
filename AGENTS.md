@@ -346,3 +346,18 @@ bottom optimizer step. Epoch/minibatch/update/global caps remain 1. Frozen contr
 and four historical seed-42 failures are unchanged. A new real PPO seed-42 run is
 authorized only after this CPU repair commit, verified static backup and clean GPU
 preflight; any failure stops without retry or further repair.
+
+
+### Matched PPO pilot seed 42 success
+
+Run `ppo_matched_0p5b_seed42_20260716T114710Z` successfully completed the frozen matched PPO budget from commit
+`3c88fb1b19a5dcfcde2592ac9a17a4f37596fb73`: 16 completions, 574 tokens, four
+batch-4 backward events with sync false/false/false/true, and exactly one
+epoch/minibatch/bottom-optimizer/update/global step. Completion evidence and the safe
+policy/value-adapter plus scalar-head checkpoint are complete. All four reward groups
+had nonzero variance, while canonical accuracy remained zero; this is a valid pilot
+execution, not proof of learning or superiority. The verified backup SHA256 is
+`dd1833ea6fa75a6a8af1d7fba366b05e498b0524ee726a526eb7fa294f89b7f6`. Parent GPU
+release passed. Four historical PPO failures remain excluded. The active authorization
+allows the suite to continue next with frozen GRPO seed 42, once this report is
+committed and the worktree/GPU are clean.
