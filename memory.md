@@ -477,3 +477,18 @@ This file records operational history and pitfalls that should survive context c
   fake 16-completion finalization using an actually constructed CPU `PPOConfig`. CUDA,
   real model loading, generation, Trainer.train, backward and real optimizer counts
   remained zero. See `reports/pilot_0p5b/ppo_loop_budget_fix.{md,json}`.
+
+## PPO Pilot Sync-Boundary Failure
+
+- New run `ppo_matched_0p5b_seed42_20260716T111934Z` executed exactly once from Phase A commit
+  `3641ee74bb2fdc4145cee63bcaf2849496a03c3c`. Frozen identity/scope, sequential loader,
+  16 pair keys and model/optimizer roles passed.
+- It generated 16 completions / 574 tokens and 16 rewards, then failed with
+  `TRLContractError: unexpected PPO microbatch count at optimizer boundary: 1 != 4`.
+  Counters remained update/optimizer/global `0/0/0`; no completion rows, metrics or
+  checkpoint finalized. It is excluded from scientific aggregation.
+- Real Accelerate semantics contradicted the CPU hook assumption: `sync_gradients` was
+  true on the first optimizer-wrapper call. The run was not retried; remaining five
+  jobs were not executed; no further code repair occurred. GPU returned to 0 MiB/no
+  process. Verified failure backup SHA256:
+  `29a6e478a6692782700c23900b2c0836af5dd132961f835867834461490014e1`.

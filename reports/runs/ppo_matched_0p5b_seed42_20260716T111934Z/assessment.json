@@ -1,0 +1,82 @@
+{
+  "run_id": "ppo_matched_0p5b_seed42_20260716T111934Z",
+  "disclaimer": "Matched 0.5B pilot - not the final benchmark",
+  "suite_sequence": 1,
+  "algorithm": "ppo",
+  "seed": 42,
+  "status": "failure_during_update/microbatch_sync_contract",
+  "stop_category": "completion_update_alignment",
+  "launcher_exit_code": 1,
+  "reason": "TRLContractError: unexpected PPO microbatch count at optimizer boundary: 1 != 4",
+  "counters": {
+    "completions": 16,
+    "generated_tokens": 574,
+    "reward_count": 16,
+    "updates": 0,
+    "optimizer_steps": 0,
+    "global_steps": 0,
+    "ppo_epochs": 0,
+    "minibatches": 0,
+    "limits": {
+      "completions": 16,
+      "generated_tokens": 2048,
+      "updates": 1,
+      "optimizer_steps": 1,
+      "global_steps": 1,
+      "ppo_epochs": 1,
+      "minibatches": 1
+    }
+  },
+  "completion_evidence_count": 0,
+  "completion_texts_available": false,
+  "metrics_available": false,
+  "checkpoint": null,
+  "loader_contract": {
+    "prepared_loader_type": "DataLoaderShard",
+    "sampler": "SequentialSampler",
+    "batch_size": 16,
+    "drop_last": true,
+    "num_workers": 0,
+    "world_size": 1,
+    "prepared_batch_records": 16,
+    "pair_keys_verified": true
+  },
+  "model_roles": {
+    "policy_trainable_parameters": 2162688,
+    "value_trainable_parameters": 541568,
+    "reward_trainable_parameters": 0,
+    "reference_trainable_parameters": 0,
+    "optimizer_parameter_elements": 2704256,
+    "optimizer_exact_role_match": true
+  },
+  "resource_evidence": {
+    "guard_elapsed_seconds": 16.242839865386486,
+    "resource_window_seconds": 16.82423112168908,
+    "nvidia_smi_peak_vram_mib": 10881.0,
+    "pytorch_peak_allocated_mib": 9640.32177734375,
+    "pytorch_peak_reserved_mib": 10208.0,
+    "gpu_hours": 0.004673397533802522,
+    "estimated_cost_cny": 0.0414997701001664,
+    "post_process_vram_mib": 0,
+    "post_process_compute_processes": 0
+  },
+  "backup": {
+    "path": "/root/autodl-fs/math-rlvr-backups/ppo_matched_0p5b_seed42_20260716T111934Z.failure.tar.gz",
+    "sha256": "29a6e478a6692782700c23900b2c0836af5dd132961f835867834461490014e1",
+    "archive_listing_verified": true,
+    "checksum_verified": true
+  },
+  "frozen_identity_passed": true,
+  "prompt_scope_layers_matched": true,
+  "collator_mapping_contract_passed": true,
+  "cpu_loop_config_contract_passed": true,
+  "scientific_result": false,
+  "included_in_aggregate": false,
+  "automatic_retry": false,
+  "later_suite_runs_executed": false,
+  "historical_failures_preserved": [
+    "ppo_matched_0p5b_seed42_20260714T073357Z",
+    "ppo_matched_0p5b_seed42_20260714T082003Z",
+    "ppo_matched_0p5b_seed42_20260714T085240Z"
+  ]
+}

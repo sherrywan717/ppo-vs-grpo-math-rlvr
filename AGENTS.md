@@ -318,3 +318,17 @@ budgets are unchanged. Full CPU gates passed without CUDA, model loading, genera
 training, backward or a real optimizer step. The user's continuous authorization permits
 one new PPO seed-42 run only after this repair is committed, backed up and the worktree
 is clean; a failure stops the suite without retry.
+
+
+### PPO pilot sync-boundary failure
+
+After the CPU loop-budget repair, the newly authorized run `ppo_matched_0p5b_seed42_20260716T111934Z` executed once.
+It produced 16 completions, 574 generated tokens and 16 rewards, then failed before an
+optimizer/update/global step because the real Accelerator reported `sync_gradients=true`
+on the first optimizer-wrapper call; the shim expected four calls before that boundary.
+No completion rows, metrics or checkpoint were finalized, so this is not a scientific
+PPO result and must remain excluded from aggregation. The verified failure archive SHA256
+is `29a6e478a6692782700c23900b2c0836af5dd132961f835867834461490014e1`. GPU returned
+to 0 MiB with no compute process. The command was not retried and runs 2--6 were not
+executed. Preserve this run plus the three earlier PPO seed-42 failures unchanged. No
+further repair or GPU execution is authorized by this stopped suite.
