@@ -6,8 +6,9 @@ from types import SimpleNamespace
 import pytest
 import torch
 import trl
+from accelerate import Accelerator
 from torch import nn
-from torch.utils.data import Dataset
+from torch.utils.data import DataLoader, Dataset, TensorDataset
 
 from math_rlvr.config import load_config
 from math_rlvr.training.builders import ppo_config
@@ -15,9 +16,12 @@ from math_rlvr.training.execution_contract import expected_run_contract
 from math_rlvr.training.guarded_grpo import BudgetExceededError
 from math_rlvr.training.guarded_ppo import PPOBudgetGuard
 from math_rlvr.training.trl_compat import (
+    PPOBackwardEventGuard,
+    TRLContractError,
+    configure_ppo_gradient_accumulation,
+    ppo_guarded_trainer_class,
     ppo_loop_position,
     ppo_train_loop_contract,
-    record_ppo_optimizer_call,
 )
 
 
@@ -181,44 +185,284 @@ def test_real_ppo_trainer_constructor_derives_frozen_cpu_loop_args(tmp_path):
     assert torch.cuda.is_initialized() is False
 
 
-def test_one_epoch_one_minibatch_four_microbatches_records_one_optimizer_step(tmp_path):
+def test_real_accelerate_cpu_ga4_updates_only_on_fourth_microbatch():
+    events = []
+
+    class CountingSGD(torch.optim.SGD):
+        def step(self, closure=None):
+            events.append(bool(accelerator.sync_gradients))
+            return super().step(closure)
+
+    accelerator = Accelerator(gradient_accumulation_steps=4, cpu=True)
+    model = nn.Linear(2, 1, bias=False)
+    optimizer = CountingSGD(model.parameters(), lr=0.1)
+    model, optimizer = accelerator.prepare(model, optimizer)
+    initial = model.weight.detach().clone()
+    trace = []
+    for microbatch_index in range(4):
+        inputs = torch.ones(4, 2)
+        targets = torch.full((4, 1), float(microbatch_index + 1))
+        before = model.weight.detach().clone()
+        with accelerator.accumulate(model):
+            sync_gradients = bool(accelerator.sync_gradients)
+            accelerator.backward(((model(inputs) - targets) ** 2).mean())
+            optimizer.step()
+            optimizer.zero_grad()
+        trace.append(
+            {
+                "microbatch_index": microbatch_index,
+                "microbatch_size": len(inputs),
+                "sync_gradients": sync_gradients,
+                "underlying_steps": len(events),
+                "parameter_changed": not torch.equal(before, model.weight.detach()),
+            }
+        )
+    assert [row["sync_gradients"] for row in trace] == [False, False, False, True]
+    assert [row["parameter_changed"] for row in trace] == [False, False, False, True]
+    assert [row["microbatch_size"] for row in trace] == [4, 4, 4, 4]
+    assert len(events) == 1
+    assert events == [True]
+    assert not torch.equal(initial, model.weight.detach())
+    assert torch.cuda.is_initialized() is False
+
+
+def test_consumed_single_batch_disables_end_of_dataloader_early_sync():
+    events = []
+
+    class CountingSGD(torch.optim.SGD):
+        def step(self, closure=None):
+            events.append(bool(accelerator.sync_gradients))
+            return super().step(closure)
+
+    accelerator = Accelerator(gradient_accumulation_steps=4, cpu=True)
+    model = nn.Linear(2, 1, bias=False)
+    optimizer = CountingSGD(model.parameters(), lr=0.1)
+    dataloader = DataLoader(TensorDataset(torch.ones(16, 2), torch.ones(16, 1)), batch_size=16)
+    model, optimizer, dataloader = accelerator.prepare(model, optimizer, dataloader)
+    iterator = iter(dataloader)
+    inputs, targets = next(iterator)
+    assert accelerator.gradient_state.end_of_dataloader is True
+    loop_contract = {
+        "microbatches_per_minibatch": 4,
+        "per_device_train_batch_size": 4,
+        "local_mini_batch_size": 16,
+        "expected_optimizer_steps": 1,
+    }
+    accumulation = configure_ppo_gradient_accumulation(accelerator, loop_contract)
+    assert accumulation == {
+        "num_steps": 4,
+        "sync_with_dataloader_before": True,
+        "sync_with_dataloader": False,
+    }
+    backward_guard = PPOBackwardEventGuard(loop_contract, accumulation)
+    parameter_changes = []
+    for microbatch_index in range(4):
+        micro_inputs = inputs[microbatch_index * 4 : (microbatch_index + 1) * 4]
+        micro_targets = targets[microbatch_index * 4 : (microbatch_index + 1) * 4]
+        before = model.weight.detach().clone()
+        with accelerator.accumulate(model):
+            backward_guard.note_training_forward(len(micro_inputs))
+            event = backward_guard.prepare_backward(accelerator.sync_gradients)
+            accelerator.backward(((model(micro_inputs) - micro_targets) ** 2).mean())
+            backward_guard.commit_backward(event)
+            optimizer.step()
+            optimizer.zero_grad()
+        parameter_changes.append(not torch.equal(before, model.weight.detach()))
+    evidence = backward_guard.assert_complete(len(events))
+    assert evidence["backward_events"] == 4
+    assert evidence["microbatch_sizes"] == [4, 4, 4, 4]
+    assert evidence["processed_samples"] == 16
+    assert evidence["sync_gradients"] == [False, False, False, True]
+    assert evidence["underlying_optimizer_steps"] == 1
+    assert parameter_changes == [False, False, False, True]
+    assert events == [True]
+    assert torch.cuda.is_initialized() is False
+
+
+def test_guarded_trainer_shim_counts_real_backward_and_underlying_step(monkeypatch, tmp_path):
+    import trl.trainer.ppo_trainer as ppo_module
+
+    class TinyPolicy(nn.Module):
+        is_gradient_checkpointing = False
+
+        def __init__(self):
+            super().__init__()
+            self.proj = nn.Linear(2, 2)
+            self.config = SimpleNamespace()
+            self.generation_config = SimpleNamespace(eos_token_id=2)
+
+    class TinyValue(nn.Module):
+        base_model_prefix = "backbone"
+
+        def __init__(self):
+            super().__init__()
+            self.backbone = nn.Linear(2, 2)
+            self.score = nn.Linear(2, 1)
+
+    class TinyOther(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.proj = nn.Linear(2, 2)
+
+    class Rows(Dataset):
+        def __len__(self):
+            return 16
+
+        def __getitem__(self, index):
+            return {"input_ids": [index + 1]}
+
+    class Processing:
+        eos_token_id = 2
+        pad_token_id = 0
+
+    def collate(rows):
+        return {"input_ids": torch.tensor([row["input_ids"] for row in rows])}
+
+    def fake_forward(model, query_responses, pad_token_id):
+        return None
+
+    def fake_parent_train(self):
+        iterator = iter(self.dataloader)
+        next(iterator)
+        assert self.accelerator.gradient_state.end_of_dataloader is True
+        for _microbatch_index in range(4):
+            with self.accelerator.accumulate(self.model):
+                ppo_module.forward(self.model, torch.ones(4, 2), 0)
+                loss = sum(parameter.float().sum() for parameter in self.model.parameters())
+                self.accelerator.backward(loss)
+                self.optimizer.step()
+                self.optimizer.zero_grad()
+        self.state.global_step = 1
+        return SimpleNamespace(metrics={})
+
+    monkeypatch.setattr(ppo_module, "forward", fake_forward)
+    monkeypatch.setattr(trl.PPOTrainer, "train", fake_parent_train)
     config = load_config("configs/pilot/resolved/ppo_seed_42.json")
     args = ppo_config(config, tmp_path, cpu_only=True)
     contract = expected_run_contract(Path("configs/pilot/resolved/ppo_seed_42.json"), "ppo")
-    loop = ppo_train_loop_contract(args, contract, world_size=1)
     guard = budget_guard()
-    microbatch_calls = synchronized_steps = 0
-    trace = ["update:0:begin", "epoch:0:begin", "minibatch:0:begin"]
+    trainer_class = ppo_guarded_trainer_class(
+        guard,
+        evidence_recorder=SimpleNamespace(),
+        prompt_lookup={},
+        generation_contract={
+            "max_new_tokens": 128,
+            "temperature": 0.8,
+            "top_p": 0.95,
+        },
+        expected_contract=contract,
+    )
+    trainer = trainer_class(
+        args=args,
+        processing_class=Processing(),
+        model=TinyPolicy(),
+        ref_model=TinyPolicy(),
+        reward_model=TinyOther(),
+        train_dataset=Rows(),
+        value_model=TinyValue(),
+        data_collator=collate,
+        eval_dataset=Rows(),
+    )
+    trainer.train()
+    assert trainer.ppo_backward_evidence["backward_events"] == 4
+    assert trainer.ppo_backward_evidence["microbatch_sizes"] == [4, 4, 4, 4]
+    assert trainer.ppo_backward_evidence["processed_samples"] == 16
+    assert trainer.ppo_backward_evidence["sync_gradients"] == [False, False, False, True]
+    assert trainer.ppo_backward_evidence["underlying_optimizer_steps"] == 1
+    assert guard.optimizer_steps == guard.ppo_epochs == guard.minibatches == 1
+    assert torch.cuda.is_initialized() is False
+
+
+def test_backward_events_guard_one_epoch_one_minibatch_and_optimizer():
+    loop_contract = {
+        "microbatches_per_minibatch": 4,
+        "per_device_train_batch_size": 4,
+        "local_mini_batch_size": 16,
+        "expected_optimizer_steps": 1,
+    }
+    backward_guard = PPOBackwardEventGuard(
+        loop_contract, {"num_steps": 4, "sync_with_dataloader": False}
+    )
+    guard = budget_guard()
     for microbatch_index in range(4):
-        sync_gradients = microbatch_index == 3
-        microbatch_calls, synchronized_steps = record_ppo_optimizer_call(
-            guard,
-            args,
-            loop,
-            microbatch_calls=microbatch_calls,
-            synchronized_steps=synchronized_steps,
-            sync_gradients=sync_gradients,
-        )
-        trace.append(f"microbatch:{microbatch_index}:sync={str(sync_gradients).lower()}")
-    trace.extend(["optimizer_step:0", "minibatch:0:end", "epoch:0:end", "update:0:end"])
+        backward_guard.note_training_forward(4)
+        event = backward_guard.prepare_backward(microbatch_index == 3)
+        backward_guard.commit_backward(event)
+    backward_guard.assert_ready_for_optimizer()
+    guard.record_loop_position(0, 0, 0)
+    guard.record_optimizer_step()
+    evidence = backward_guard.assert_complete(guard.optimizer_steps)
     guard.record_update()
     guard.record_global_step(1)
     guard.assert_success()
-    assert trace == [
-        "update:0:begin",
-        "epoch:0:begin",
-        "minibatch:0:begin",
-        "microbatch:0:sync=false",
-        "microbatch:1:sync=false",
-        "microbatch:2:sync=false",
-        "microbatch:3:sync=true",
-        "optimizer_step:0",
-        "minibatch:0:end",
-        "epoch:0:end",
-        "update:0:end",
-    ]
-    assert (microbatch_calls, synchronized_steps) == (0, 1)
-    assert guard.snapshot()["optimizer_steps"] == 1
+    assert evidence["backward_events"] == 4
+    assert evidence["processed_samples"] == 16
+    assert evidence["underlying_optimizer_steps"] == 1
+
+
+@pytest.mark.parametrize("event_count", [1, 3])
+def test_incomplete_backward_event_counts_fail_closed(event_count):
+    loop_contract = {
+        "microbatches_per_minibatch": 4,
+        "per_device_train_batch_size": 4,
+        "local_mini_batch_size": 16,
+        "expected_optimizer_steps": 1,
+    }
+    backward_guard = PPOBackwardEventGuard(loop_contract, {})
+    for _microbatch_index in range(event_count):
+        backward_guard.note_training_forward(4)
+        event = backward_guard.prepare_backward(False)
+        backward_guard.commit_backward(event)
+    with pytest.raises(TRLContractError, match="before all expected backward events"):
+        backward_guard.assert_complete(1)
+
+
+def test_fifth_backward_event_and_wrong_sample_total_fail_closed():
+    loop_contract = {
+        "microbatches_per_minibatch": 4,
+        "per_device_train_batch_size": 4,
+        "local_mini_batch_size": 16,
+        "expected_optimizer_steps": 1,
+    }
+    backward_guard = PPOBackwardEventGuard(loop_contract, {})
+    for microbatch_index in range(4):
+        backward_guard.note_training_forward(4)
+        event = backward_guard.prepare_backward(microbatch_index == 3)
+        backward_guard.commit_backward(event)
+    backward_guard.note_training_forward(4)
+    with pytest.raises(TRLContractError, match="too many PPO backward"):
+        backward_guard.prepare_backward(True)
+
+    wrong_total = dict(loop_contract)
+    wrong_total["per_device_train_batch_size"] = 3
+    sample_guard = PPOBackwardEventGuard(wrong_total, {})
+    for microbatch_index in range(4):
+        sample_guard.note_training_forward(3)
+        event = sample_guard.prepare_backward(microbatch_index == 3)
+        sample_guard.commit_backward(event)
+    with pytest.raises(TRLContractError, match="sample total mismatch"):
+        sample_guard.assert_complete(1)
+
+
+def test_early_sync_and_first_underlying_sync_true_semantics():
+    loop_contract = {
+        "microbatches_per_minibatch": 4,
+        "per_device_train_batch_size": 4,
+        "local_mini_batch_size": 16,
+        "expected_optimizer_steps": 1,
+    }
+    early = PPOBackwardEventGuard(loop_contract, {})
+    early.note_training_forward(4)
+    with pytest.raises(TRLContractError, match="sync_gradients at microbatch 0"):
+        early.prepare_backward(True)
+
+    accepted = PPOBackwardEventGuard(loop_contract, {})
+    for microbatch_index in range(4):
+        accepted.note_training_forward(4)
+        event = accepted.prepare_backward(microbatch_index == 3)
+        accepted.commit_backward(event)
+    accepted.assert_ready_for_optimizer()
+    assert accepted.assert_complete(1)["underlying_optimizer_steps"] == 1
 
 
 def test_loop_key_is_idempotent_but_real_second_loop_positions_fail_closed():
@@ -268,6 +512,14 @@ def test_stage_d_ppo_loop_contract_remains_one_microbatch(tmp_path):
     assert derived["microbatches_per_minibatch"] == 1
     assert derived["num_ppo_epochs"] == derived["num_mini_batches"] == 1
     assert derived["expected_optimizer_steps"] == derived["expected_global_steps"] == 1
+    backward_guard = PPOBackwardEventGuard(derived, {"num_steps": 1, "sync_with_dataloader": False})
+    backward_guard.note_training_forward(4)
+    event = backward_guard.prepare_backward(True)
+    backward_guard.commit_backward(event)
+    evidence = backward_guard.assert_complete(1)
+    assert evidence["backward_events"] == 1
+    assert evidence["processed_samples"] == 4
+    assert evidence["sync_gradients"] == [True]
 
 
 def test_frozen_pilot_and_third_failure_hashes_are_unchanged():
@@ -308,3 +560,29 @@ def test_frozen_pilot_and_third_failure_hashes_are_unchanged():
     }
     for name, expected in expected_hashes.items():
         assert hashlib.sha256(Path(name).read_bytes()).hexdigest() == expected
+
+
+def test_four_historical_seed42_failure_trees_are_immutable():
+    expected = {
+        "ppo_matched_0p5b_seed42_20260714T073357Z": (
+            "e11a3660473f29586b9211a9a01f3f19ae053ff29e5b2231dea1d96c1fb0d687"
+        ),
+        "ppo_matched_0p5b_seed42_20260714T082003Z": (
+            "df8e9d9217d36042ba82fdc387e982c97754645190a1fb3dd68a4a22bd77c48a"
+        ),
+        "ppo_matched_0p5b_seed42_20260714T085240Z": (
+            "18266be5c66c20dd10c73e239c68be8f71cbc8f6c39a7f795593df4fef2129c5"
+        ),
+        "ppo_matched_0p5b_seed42_20260716T111934Z": (
+            "02142db5c449cca4af4f01d8ace585ee0813ef40e992aa66ec2e010649c289a7"
+        ),
+    }
+    for run_id, expected_hash in expected.items():
+        root = Path("reports/runs") / run_id
+        digest = hashlib.sha256()
+        for path in sorted(item for item in root.rglob("*") if item.is_file()):
+            digest.update(path.relative_to(root).as_posix().encode())
+            digest.update(b"\0")
+            digest.update(path.read_bytes())
+            digest.update(b"\0")
+        assert digest.hexdigest() == expected_hash

@@ -27,11 +27,12 @@ from math_rlvr.training.guarded_ppo import (
 )
 from math_rlvr.training.pilot import PILOT_SEEDS, pilot_episode_records, pilot_pair_keys
 from math_rlvr.training.trl_compat import (
+    PPOBackwardEventGuard,
     TRLContractError,
     extract_ordered_episode_batch,
     install_sequential_ppo_dataloader,
+    ppo_loop_position,
     ppo_train_loop_contract,
-    record_ppo_optimizer_call,
     require_sequential_sampler,
 )
 
@@ -273,19 +274,21 @@ class PilotPPOBackend:
             )
         args = ppo_config(self.config, self.checkpoint.parent / "fake-ppo-config", cpu_only=True)
         loop_contract = ppo_train_loop_contract(args, contract, world_size=1)
-        microbatch_calls = synchronized_steps = 0
-        for _ in range(self.optimizer_steps):
-            for microbatch_index in range(loop_contract["microbatches_per_minibatch"]):
-                microbatch_calls, synchronized_steps = record_ppo_optimizer_call(
-                    guard,
-                    args,
-                    loop_contract,
-                    microbatch_calls=microbatch_calls,
-                    synchronized_steps=synchronized_steps,
-                    sync_gradients=(
-                        microbatch_index == loop_contract["microbatches_per_minibatch"] - 1
-                    ),
-                )
+        backward_guard = PPOBackwardEventGuard(
+            loop_contract,
+            {"num_steps": 4, "sync_with_dataloader": False},
+        )
+        for microbatch_index in range(loop_contract["microbatches_per_minibatch"]):
+            backward_guard.note_training_forward(args.per_device_train_batch_size)
+            event = backward_guard.prepare_backward(
+                microbatch_index == loop_contract["microbatches_per_minibatch"] - 1
+            )
+            backward_guard.commit_backward(event)
+        for optimizer_step_index in range(self.optimizer_steps):
+            backward_guard.assert_ready_for_optimizer()
+            guard.record_loop_position(*ppo_loop_position(optimizer_step_index, args))
+            guard.record_optimizer_step()
+        backward_guard.assert_complete(self.optimizer_steps)
         guard.record_update()
         guard.record_global_step(self.global_step)
         lengths = [self.tokens // self.completions] * self.completions

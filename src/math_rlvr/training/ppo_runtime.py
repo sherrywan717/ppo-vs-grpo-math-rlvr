@@ -393,9 +393,7 @@ class RealPPOBackend:
         from math_rlvr.verifier import MathVerifier
 
         contract = expected_run_contract_for_config(self.config, "ppo")
-        scope = validate_runtime_prompt_preflight(
-            self.config, "ppo", self.prompt_preflight
-        )
+        scope = validate_runtime_prompt_preflight(self.config, "ppo", self.prompt_preflight)
         expected_problems, episode_records = ppo_execution_problems_and_episodes(
             self.config, contract
         )
@@ -483,6 +481,13 @@ class RealPPOBackend:
             )
             self.lifecycle.persist("model_roles.json", model_roles)
             output = trainer.train()
+            backward_evidence = getattr(trainer, "ppo_backward_evidence", None)
+            if backward_evidence is None:
+                raise RuntimeError("PPO backward-event evidence is missing")
+            if loader_contract is None:
+                loader_contract = {}
+            loader_contract["backward_event_guard"] = backward_evidence
+            self.lifecycle.persist("ppo_loader_contract.json", loader_contract)
             if int(trainer.state.global_step) != 1:
                 raise RuntimeError("PPO Trainer did not finish at global_step 1")
             log_history = [dict(row) for row in trainer.state.log_history]

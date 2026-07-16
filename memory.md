@@ -492,3 +492,20 @@ This file records operational history and pitfalls that should survive context c
   jobs were not executed; no further code repair occurred. GPU returned to 0 MiB/no
   process. Verified failure backup SHA256:
   `29a6e478a6692782700c23900b2c0836af5dd132961f835867834461490014e1`.
+
+## Accelerate Backward-event PPO Guard
+
+- Real Accelerate 1.14.0 CPU GA4 evidence showed four accumulate/backward and wrapper
+  step calls but one bottom optimizer update; its first and only call saw sync=true.
+- An exact consumed-one-batch reproduction found the missing TRL interaction: default
+  `sync_with_dataloader` forced all four inner contexts to sync and would update four
+  times. Setting it false yielded sync `[false,false,false,true]`, four batch-4
+  backwards, 16 samples and one bottom update.
+- The PPO shim now uses backward events and actual gradient-enabled forward batch sizes
+  as microbatch authority. The bottom optimizer hook only enforces the real-step cap;
+  it never infers microbatch count. The validated evidence is attached to the existing
+  loader contract after success.
+- 358 full tests and all CPU gates/dry-runs passed. Tiny reproduction backward/optimizer
+  work is reported separately; Qwen/tokenizer/CUDA/generation and the real TRL PPO train
+  loop remained unused. Frozen identities and four historical failure trees did not
+  change. See `reports/pilot_0p5b/accelerate_microbatch_semantics.{md,json}`.

@@ -332,3 +332,17 @@ is `29a6e478a6692782700c23900b2c0836af5dd132961f835867834461490014e1`. GPU retur
 to 0 MiB with no compute process. The command was not retried and runs 2--6 were not
 executed. Preserve this run plus the three earlier PPO seed-42 failures unchanged. No
 further repair or GPU execution is authorized by this stopped suite.
+
+
+### Accelerate backward-event PPO guard
+
+CPU reproduction with Accelerate 1.14.0 proved that the bottom optimizer is called
+once, first observed with `sync_gradients=true`, after four ordinary GA4 microbatches.
+It also reproduced TRL's consumed single-batch loader: default end-of-dataloader sync
+would make every inner microbatch a real update. The sole PPO compatibility shim now
+sets `sync_with_dataloader=false`, counts four actual `accelerator.backward` events
+with batch sizes 4 and sync trace false/false/false/true, and separately guards one
+bottom optimizer step. Epoch/minibatch/update/global caps remain 1. Frozen contracts
+and four historical seed-42 failures are unchanged. A new real PPO seed-42 run is
+authorized only after this CPU repair commit, verified static backup and clean GPU
+preflight; any failure stops without retry or further repair.

@@ -7,6 +7,7 @@ from collections import Counter
 from collections.abc import Iterator, Mapping, MutableMapping
 from typing import Any
 
+import torch
 import trl
 
 TRL_VERSION = "0.24.0"
@@ -712,29 +713,101 @@ def ppo_loop_position(optimizer_step_index: int, args) -> tuple[int, int, int]:
     return outer_update, epoch_index, minibatch_index
 
 
-def record_ppo_optimizer_call(
-    guard,
-    args,
-    loop_contract: Mapping[str, int],
-    *,
-    microbatch_calls: int,
-    synchronized_steps: int,
-    sync_gradients: bool,
-) -> tuple[int, int]:
-    """Count TRL microbatch calls but guard only a real synchronized optimizer boundary."""
-    microbatch_calls += 1
-    if not sync_gradients:
-        return microbatch_calls, synchronized_steps
-    expected_microbatches = loop_contract["microbatches_per_minibatch"]
-    if microbatch_calls != expected_microbatches:
+def configure_ppo_gradient_accumulation(
+    accelerator, loop_contract: Mapping[str, int]
+) -> dict[str, Any]:
+    """Prevent a consumed one-batch rollout loader from forcing every inner sync."""
+    state = accelerator.gradient_state
+    expected_steps = loop_contract["microbatches_per_minibatch"]
+    if state.num_steps != expected_steps:
         raise TRLContractError(
-            "unexpected PPO microbatch count at optimizer boundary: "
-            f"{microbatch_calls} != {expected_microbatches}"
+            f"Accelerate gradient accumulation mismatch: {state.num_steps} != {expected_steps}"
         )
-    loop_key = ppo_loop_position(synchronized_steps, args)
-    guard.record_loop_position(*loop_key)
-    guard.record_optimizer_step()
-    return 0, synchronized_steps + 1
+    before = bool(state.sync_with_dataloader)
+    state.plugin_kwargs["sync_with_dataloader"] = False
+    if state.sync_with_dataloader:
+        raise TRLContractError("PPO requires sync_with_dataloader=false for inner microbatches")
+    return {
+        "num_steps": state.num_steps,
+        "sync_with_dataloader_before": before,
+        "sync_with_dataloader": state.sync_with_dataloader,
+    }
+
+
+class PPOBackwardEventGuard:
+    """Authoritative PPO microbatch evidence from training forward/backward events."""
+
+    def __init__(self, loop_contract: Mapping[str, int], accumulation_evidence: Mapping[str, Any]):
+        self.loop_contract = dict(loop_contract)
+        self.accumulation_evidence = dict(accumulation_evidence)
+        self.expected_events = self.loop_contract["microbatches_per_minibatch"]
+        self.expected_batch_size = self.loop_contract["per_device_train_batch_size"]
+        self.expected_samples = self.loop_contract["local_mini_batch_size"]
+        self.events: list[dict[str, Any]] = []
+        self.pending_batch_size: int | None = None
+
+    def note_training_forward(self, batch_size: int) -> None:
+        if not isinstance(batch_size, int) or isinstance(batch_size, bool) or batch_size <= 0:
+            raise TRLContractError("invalid PPO training microbatch size")
+        if self.pending_batch_size is not None:
+            raise TRLContractError("multiple PPO training forwards before backward")
+        self.pending_batch_size = batch_size
+
+    def prepare_backward(self, sync_gradients: bool) -> dict[str, Any]:
+        index = len(self.events)
+        if index >= self.expected_events:
+            raise TRLContractError("too many PPO backward microbatch events")
+        if self.pending_batch_size is None:
+            raise TRLContractError("PPO backward event has no matching training forward")
+        if self.pending_batch_size != self.expected_batch_size:
+            raise TRLContractError(
+                "unexpected PPO backward microbatch size: "
+                f"{self.pending_batch_size} != {self.expected_batch_size}"
+            )
+        expected_sync = index == self.expected_events - 1
+        if bool(sync_gradients) != expected_sync:
+            raise TRLContractError(
+                f"unexpected PPO sync_gradients at microbatch {index}: "
+                f"{bool(sync_gradients)} != {expected_sync}"
+            )
+        return {
+            "microbatch_index": index,
+            "batch_size": self.pending_batch_size,
+            "sync_gradients": bool(sync_gradients),
+        }
+
+    def commit_backward(self, event: Mapping[str, Any]) -> None:
+        if event.get("microbatch_index") != len(self.events):
+            raise TRLContractError("PPO backward event commit order mismatch")
+        self.events.append(dict(event))
+        self.pending_batch_size = None
+
+    def assert_ready_for_optimizer(self) -> None:
+        if self.pending_batch_size is not None or len(self.events) != self.expected_events:
+            raise TRLContractError("PPO optimizer step before all expected backward events")
+        if sum(event["batch_size"] for event in self.events) != self.expected_samples:
+            raise TRLContractError("PPO backward sample total mismatch")
+        if not self.events[-1]["sync_gradients"]:
+            raise TRLContractError("PPO optimizer step without final synchronized backward")
+
+    def assert_complete(self, underlying_optimizer_steps: int) -> dict[str, Any]:
+        self.assert_ready_for_optimizer()
+        expected_optimizer_steps = self.loop_contract["expected_optimizer_steps"]
+        if underlying_optimizer_steps != expected_optimizer_steps:
+            raise TRLContractError(
+                "PPO underlying optimizer-step count mismatch: "
+                f"{underlying_optimizer_steps} != {expected_optimizer_steps}"
+            )
+        return {
+            "source": "accelerator.backward",
+            **self.accumulation_evidence,
+            "expected_backward_events": self.expected_events,
+            "backward_events": len(self.events),
+            "microbatch_sizes": [event["batch_size"] for event in self.events],
+            "processed_samples": sum(event["batch_size"] for event in self.events),
+            "sync_gradients": [event["sync_gradients"] for event in self.events],
+            "underlying_optimizer_steps": underlying_optimizer_steps,
+        }
 
 
 def ppo_guarded_trainer_class(
@@ -761,6 +834,10 @@ def ppo_guarded_trainer_class(
                 expected_contract,
                 world_size=self.accelerator.num_processes,
             )
+            self.ppo_accumulation_evidence = configure_ppo_gradient_accumulation(
+                self.accelerator, self.ppo_loop_contract
+            )
+            self.ppo_backward_evidence = None
             self.ordered_loader_evidence = None
             if ordered_episode_records is not None:
                 self.ordered_loader_evidence = install_sequential_ppo_dataloader(
@@ -780,9 +857,16 @@ def ppo_guarded_trainer_class(
         def train(self):
             original_generation = module.batch_generation
             original_get_reward = module.get_reward
-            original_step = self.optimizer.step
-            microbatch_calls = 0
-            synchronized_steps = 0
+            original_forward = module.forward
+            original_backward = self.accelerator.backward
+            underlying_optimizer = getattr(self.optimizer, "optimizer", None)
+            if underlying_optimizer is None:
+                raise TRLContractError("guarded PPO requires an AcceleratedOptimizer")
+            original_underlying_step = underlying_optimizer.step
+            backward_guard = PPOBackwardEventGuard(
+                self.ppo_loop_contract, self.ppo_accumulation_evidence
+            )
+            underlying_optimizer_steps = 0
 
             def guarded_generation(
                 policy, queries, forward_batch_size, pad_token_id, generation_config
@@ -810,25 +894,42 @@ def ppo_guarded_trainer_class(
                     raise TRLContractError("PPO terminal scalar score shape mismatch")
                 return payload
 
-            def guarded_step(*args, **kwargs):
-                nonlocal microbatch_calls, synchronized_steps
-                microbatch_calls, synchronized_steps = record_ppo_optimizer_call(
-                    guard,
-                    self.args,
-                    self.ppo_loop_contract,
-                    microbatch_calls=microbatch_calls,
-                    synchronized_steps=synchronized_steps,
-                    sync_gradients=self.accelerator.sync_gradients,
-                )
-                return original_step(*args, **kwargs)
+            def guarded_forward(model, query_responses, pad_token_id):
+                if torch.is_grad_enabled() and model is self.model:
+                    backward_guard.note_training_forward(int(query_responses.shape[0]))
+                return original_forward(model, query_responses, pad_token_id)
+
+            def guarded_backward(*args, **kwargs):
+                event = backward_guard.prepare_backward(self.accelerator.sync_gradients)
+                result = original_backward(*args, **kwargs)
+                backward_guard.commit_backward(event)
+                return result
+
+            def guarded_underlying_step(*args, **kwargs):
+                nonlocal underlying_optimizer_steps
+                backward_guard.assert_ready_for_optimizer()
+                loop_key = ppo_loop_position(underlying_optimizer_steps, self.args)
+                guard.record_loop_position(*loop_key)
+                guard.record_optimizer_step()
+                result = original_underlying_step(*args, **kwargs)
+                underlying_optimizer_steps += 1
+                return result
 
             module.batch_generation = guarded_generation
             module.get_reward = guarded_get_reward
-            self.optimizer.step = guarded_step
+            module.forward = guarded_forward
+            self.accelerator.backward = guarded_backward
+            underlying_optimizer.step = guarded_underlying_step
             try:
-                return super().train()
+                result = super().train()
+                self.ppo_backward_evidence = backward_guard.assert_complete(
+                    underlying_optimizer_steps
+                )
+                return result
             finally:
-                self.optimizer.step = original_step
+                underlying_optimizer.step = original_underlying_step
+                self.accelerator.backward = original_backward
+                module.forward = original_forward
                 module.get_reward = original_get_reward
                 module.batch_generation = original_generation
 
