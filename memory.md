@@ -522,3 +522,21 @@ This file records operational history and pitfalls that should survive context c
   `0.00497375/CNY 0.04417`; parent release returned to 0 MiB/no process.
 - Verified backup SHA256: `dd1833ea6fa75a6a8af1d7fba366b05e498b0524ee726a526eb7fa294f89b7f6`.
   The four older failures remain immutable/excluded. Next authorized job is GRPO seed42.
+
+## Matched GRPO Pilot Seed 42 Success
+
+- `grpo_matched_0p5b_seed42_20260716T115219Z` ran exactly once and succeeded with
+  16 completion/evidence rows, 545 generated tokens, four microsteps and optimizer /
+  update / global counters `1/1/1`.
+- Reward mean/population standard deviation were `0.078125 / 0.03940475066537028`;
+  all four groups had nonzero variance and zero-advantage groups were zero. Canonical
+  results remained 13 format errors, two invalid expressions and one invalid number
+  usage, with zero pass accuracy.
+- Loss, grad norm and entropy were finite. Frozen beta was zero, so KL is correctly
+  unavailable/null rather than fabricated as zero.
+- The 16 comparison keys were complete and unique; the sole adapter-only checkpoint
+  passed. Peak nvidia-smi memory was 3301 MiB, GPU-hours were 0.00315071, and cost was
+  CNY 0.02798. The verified backup SHA256 is
+  `6c31e369554cc4272235981722c96ff65de69614eb435b580673b061003322fb`.
+- Parent GPU release passed. Continue only with frozen GRPO seed 123 after committing
+  this report and restoring a clean worktree.

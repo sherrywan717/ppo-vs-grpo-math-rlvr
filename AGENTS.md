@@ -361,3 +361,13 @@ execution, not proof of learning or superiority. The verified backup SHA256 is
 release passed. Four historical PPO failures remain excluded. The active authorization
 allows the suite to continue next with frozen GRPO seed 42, once this report is
 committed and the worktree/GPU are clean.
+
+### Matched GRPO pilot seed 42 success
+
+Run `grpo_matched_0p5b_seed42_20260716T115219Z` executed its frozen command once and
+completed 16 comparison-keyed completions, 545 generated tokens, four microsteps and
+exactly one optimizer/update/global step. All four reward groups had nonzero variance;
+canonical accuracy remained zero. The adapter-only checkpoint, full/Git-safe checksums,
+verified independent backup and parent GPU release passed. This is a valid matched-pilot
+single update, not proof of learning or GRPO superiority. The suite may proceed only to
+the next frozen command, GRPO seed 123; the four historical PPO failures stay excluded.

@@ -1,0 +1,90 @@
+{
+  "run_id": "grpo_matched_0p5b_seed42_20260716T115219Z",
+  "files": [
+    {
+      "path": "checkpoint_inventory.json",
+      "size": 2576,
+      "sha256": "d0eee838db9db19fbac973ec7b90e806f9c684b478fa410645f52c18bb989486"
+    },
+    {
+      "path": "completions.jsonl",
+      "size": 39313,
+      "sha256": "cefc8eea61cbb2e65efd7bdd36f81f17ddf4656546d856ae39f3e73797990746"
+    },
+    {
+      "path": "environment.txt",
+      "size": 31,
+      "sha256": "5df1c8e12532b5c081861f18bcbad61f710a448835d3e210468bbfdc2751eed2"
+    },
+    {
+      "path": "expected_run_contract.json",
+      "size": 2404,
+      "sha256": "b49089d97d2816e66df401612fdb4a2c91809ab314c8ab7d3da10280f562d440"
+    },
+    {
+      "path": "final_summary.json",
+      "size": 22553,
+      "sha256": "466c20585e30c39912b5136c14255506067c2626b70eac63736ae1afa7195ba2"
+    },
+    {
+      "path": "gpu_metrics.csv",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "metrics.csv",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prompt_scope_preflight.json",
+      "size": 5126,
+      "sha256": "639527dc6174ab2d2aaad81bef1a6fe6150db5d4a6c8fdc9981eff6553da0b44"
+    },
+    {
+      "path": "pytorch_allocator.json",
+      "size": 767,
+      "sha256": "ca73d4b2aba1af83bec620bb84ebe2d0dd6239fd5a6d6b5b25f7d53f34ca1142"
+    },
+    {
+      "path": "report.md",
+      "size": 109,
+      "sha256": "a491bc88be5199d4100558b877b77838b56eced53e3fee1fa5419005b71dae80"
+    },
+    {
+      "path": "resolved_config.json",
+      "size": 6126,
+      "sha256": "4b3924641c83675c91c69fb933f787f503de649e9f090744d76067e9775d4cb8"
+    },
+    {
+      "path": "resolved_config.yaml",
+      "size": 5041,
+      "sha256": "289a67c46726770ceeb547e4d402610f430a700abe675ce437968a943769c20e"
+    },
+    {
+      "path": "run_manifest.json",
+      "size": 18674,
+      "sha256": "dc3c77292fb18485ec237161b66e6969190ffb978add1d7b9d2caac2d4a9c1c8"
+    },
+    {
+      "path": "samples.jsonl.gz",
+      "size": 20,
+      "sha256": "52d4c93da63206f1c2aed0eb692385b1009e9af1e07be424570b056356c023ca"
+    },
+    {
+      "path": "summary.json",
+      "size": 22480,
+      "sha256": "054637902e9f50a6713ca6d740fbb6f05fba48c77d4364e60d9d5e1d2fe7a982"
+    },
+    {
+      "path": "trainer_log_history.json",
+      "size": 1058,
+      "sha256": "0ae50ce1b96095e7ba3a5df505704dbadfcbb33d048cd8759d2481c79ca5ee4d"
+    },
+    {
+      "path": "trainer_metrics.json",
+      "size": 535,
+      "sha256": "7154fff40d0f6a83ca6d5c60c6464695996bf51f0e60000a9e6867ceb01d6677"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "trainer_output": {
+    "train_runtime": 5.5089,
+    "train_samples_per_second": 2.904,
+    "train_steps_per_second": 0.182,
+    "total_flos": 0.0,
+    "train_loss": 0.30371785163879395
+  },
+  "kl": {
+    "beta": 0.0,
+    "kl_available": false,
+    "kl": null,
+    "kl_raw_key": null,
+    "kl_unavailable_reason": "GRPO beta=0.0; TRL 0.24.0 does not compute reference-model KL"
+  },
+  "evidence_counters": {
+    "completions": 16,
+    "generated_tokens": 545,
+    "updates": 1,
+    "optimizer_steps": 1,
+    "global_step": 1
+  }
+}

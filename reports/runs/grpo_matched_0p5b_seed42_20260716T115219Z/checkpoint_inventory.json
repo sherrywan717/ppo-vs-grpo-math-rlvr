@@ -1,0 +1,79 @@
+{
+  "checkpoint_root": "checkpoint-1",
+  "files": [
+    {
+      "name": "README.md",
+      "size_bytes": 5417,
+      "sha256": "edd6a919864f6dcca89367b5c2b7a2d4059ad1e78a5bd834d9705af1c54e0ac3",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "name": "adapter_config.json",
+      "size_bytes": 1152,
+      "sha256": "a33ae1b299855d67ca94109b0579287ac1dacdcd36f3b0bdee0cade21017eee8",
+      "classification": "adapter_config"
+    },
+    {
+      "name": "adapter_model.safetensors",
+      "size_bytes": 8676008,
+      "sha256": "0113f6adb9a9cbf5ad071a212196f16dc4df1b1b687a9e757e10cfbec5b92bac",
+      "classification": "lora_adapter"
+    },
+    {
+      "name": "added_tokens.json",
+      "size_bytes": 605,
+      "sha256": "58b54bbe36fc752f79a24a271ef66a0a0830054b4dfad94bde757d851968060b",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "name": "chat_template.jinja",
+      "size_bytes": 2507,
+      "sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "name": "merges.txt",
+      "size_bytes": 1671853,
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "name": "special_tokens_map.json",
+      "size_bytes": 613,
+      "sha256": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "name": "tokenizer.json",
+      "size_bytes": 11422161,
+      "sha256": "eb1ea0ffbb9ce6886361fefe110952fa83e3bcac0231c7f24b68cfa6e06cf0c9",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "name": "tokenizer_config.json",
+      "size_bytes": 4686,
+      "sha256": "0a04a9d7d4a62b28482bdfe726c122756de85714fb64166ace92ae75b8f57614",
+      "classification": "tokenizer_or_metadata"
+    },
+    {
+      "name": "trainer_state.json",
+      "size_bytes": 1649,
+      "sha256": "6233a720a4b25a9afe0f6baedec14547d70340df0cf5954d373bb58891984845",
+      "classification": "trainer_state"
+    },
+    {
+      "name": "training_args.bin",
+      "size_bytes": 7441,
+      "sha256": "62813aed450f63f3b133423e554a2840d30e86864a0b44cc15df9d74f95680c5",
+      "classification": "trainer_metadata"
+    },
+    {
+      "name": "vocab.json",
+      "size_bytes": 2776833,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "classification": "tokenizer_or_metadata"
+    }
+  ],
+  "total_size_bytes": 24570925,
+  "duplicate_checkpoint_count": 0
+}
