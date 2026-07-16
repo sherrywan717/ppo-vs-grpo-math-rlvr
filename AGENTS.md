@@ -482,3 +482,33 @@ events, and append-only PPO/GRPO evidence without weakening Stage D profiles. Fo
 evaluation freezes two baseline seeds and four step-32 final checkpoints. CPU fakes
 may exercise the runtime; no model download, CUDA, generation, Trainer, backward, or
 optimizer is authorized by this implementation commit.
+
+### Current Stage E handoff
+
+`PROJECT_HANDOFF.md` is the concise current-state handoff and `docs/NEXT_TASK.md`
+contains the complete unexecuted Stage E.1 acceptance contract. The verified
+code/runtime baseline is `8ab031e567f877d48af75adb0ea5a6fba9e8bf55` on
+`pivot/math-rlvr`. The only current blocker is formal real-model PPO/GRPO/evaluation
+CLI wiring. Do not continue that implementation, download/load 1.5B, initialize CUDA,
+evaluate, or train without a new explicit request. Frozen configs and all historical
+runs, checkpoints, reports, checksums, and aggregates remain immutable.
+
+When sources conflict, use this order: Git commits plus actual configs/manifests and
+saved artifacts; `PROJECT_HANDOFF.md`; `docs/NEXT_TASK.md`; this file and `memory.md`;
+historical chat. Git and original artifacts always prevail.
+
+### Portfolio and GitHub delivery contract
+
+The authoritative portfolio checklist is `docs/PORTFOLIO_DELIVERABLES.md`. Formal
+work must preserve complete method/config identities, distinct greedy accuracy,
+sampled pass@1 and pass@4, domain/level results, per-update PPO/GRPO evidence,
+per-problem outputs, resource/cost data, reproducible figures, fixed-rule case studies,
+limitations and exact commands. Unavailable metrics are null with reasons, never zero.
+
+Prioritize scientific metrics, pass@k, time/VRAM/GPU-hours/CNY, per-problem evidence,
+figures, analysis, failures and reproducibility. Stop expanding noncritical guards,
+duplicate schemas, PTY details, SVG whitespace, CSV CRLF, optional telemetry and
+extreme fallbacks. Only correctness, fairness, safety, checkpoint recoverability or
+report truthfulness may block; everything else is a warning. The 0.5B matched pilot
+is complete. The only current next task is Stage E.1 formal 1.5B model-bound CLI
+wiring.

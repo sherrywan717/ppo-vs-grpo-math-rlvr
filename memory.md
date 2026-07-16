@@ -663,3 +663,17 @@ This file records operational history and pitfalls that should survive context c
 - Expected/ceiling full Stage E execution is 6.8767/14.0 GPU-hours and CNY
   61.06/124.32. The next stage still requires explicit 1.5B download authorization and
   then an independently authorized CUDA/model-load sanity.
+
+## Stage E handoff pause
+
+- Stage E.1 implementation is paused at verified code/runtime baseline
+  `8ab031e567f877d48af75adb0ea5a6fba9e8bf55` on `pivot/math-rlvr`.
+- `PROJECT_HANDOFF.md` is the concise current-state entry point.
+  `docs/NEXT_TASK.md` preserves the complete unexecuted CPU-only formal 1.5B
+  model-bound CLI wiring acceptance contract.
+- The sole current blocker is real-model formal PPO/GRPO/evaluation CLI wiring. The
+  generic 32-step CPU contract exists; no 1.5B download/load, CUDA, generation,
+  evaluation, or training is authorized.
+- Authority order is Git/configs/manifests/original artifacts, then
+  `PROJECT_HANDOFF.md`, `docs/NEXT_TASK.md`, `AGENTS.md`/`memory.md`, and historical
+  chat. Never alter historical evidence to match a derived handoff.
