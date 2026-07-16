@@ -637,6 +637,106 @@ def enforce_ppo_generation_contract(generation_config, contract) -> None:
     generation_config.top_p = contract["top_p"]
 
 
+def ppo_train_loop_contract(args, expected_contract, *, world_size: int) -> dict[str, int]:
+    """Validate the TRL 0.24.0 PPO loop derived from the frozen execution profile."""
+    if world_size != 1:
+        raise TRLContractError("protected PPO execution requires world_size=1")
+    local_batch_size = args.per_device_train_batch_size * args.gradient_accumulation_steps
+    micro_batch_size = args.per_device_train_batch_size * world_size
+    batch_size = local_batch_size * world_size
+    local_mini_batch_size = local_batch_size // args.num_mini_batches
+    mini_batch_size = batch_size // args.num_mini_batches
+    if local_batch_size % args.num_mini_batches:
+        raise TRLContractError("PPO local batch is not divisible by num_mini_batches")
+    if local_mini_batch_size % args.per_device_train_batch_size:
+        raise TRLContractError("PPO minibatch is not divisible into whole microbatches")
+    num_total_batches = math.ceil(args.total_episodes / batch_size)
+    contract = {
+        "total_episodes": args.total_episodes,
+        "per_device_train_batch_size": args.per_device_train_batch_size,
+        "gradient_accumulation_steps": args.gradient_accumulation_steps,
+        "local_batch_size": local_batch_size,
+        "micro_batch_size": micro_batch_size,
+        "batch_size": batch_size,
+        "local_mini_batch_size": local_mini_batch_size,
+        "mini_batch_size": mini_batch_size,
+        "local_rollout_forward_batch_size": args.local_rollout_forward_batch_size,
+        "num_ppo_epochs": args.num_ppo_epochs,
+        "num_mini_batches": args.num_mini_batches,
+        "microbatches_per_minibatch": (local_mini_batch_size // args.per_device_train_batch_size),
+        "num_total_batches": num_total_batches,
+        "outer_updates": num_total_batches,
+        "expected_optimizer_steps": (
+            num_total_batches * args.num_ppo_epochs * args.num_mini_batches
+        ),
+        "expected_global_steps": num_total_batches,
+    }
+    expected = {
+        "total_episodes": expected_contract.expected_completions,
+        "num_ppo_epochs": expected_contract.expected_ppo_epochs,
+        "num_mini_batches": expected_contract.expected_minibatches,
+        "outer_updates": expected_contract.expected_updates,
+        "expected_optimizer_steps": expected_contract.expected_optimizer_steps,
+        "expected_global_steps": expected_contract.expected_global_steps,
+    }
+    for name, value in expected.items():
+        if contract[name] != value:
+            raise TRLContractError(
+                f"PPO train loop contract mismatch for {name}: {contract[name]} != {value}"
+            )
+    for name in (
+        "local_batch_size",
+        "micro_batch_size",
+        "batch_size",
+        "local_mini_batch_size",
+        "mini_batch_size",
+        "num_total_batches",
+    ):
+        actual = getattr(args, name, None)
+        if actual is not None and actual != contract[name]:
+            raise TRLContractError(f"TRL-derived PPO {name} mismatch: {actual} != {contract[name]}")
+    return contract
+
+
+def ppo_loop_position(optimizer_step_index: int, args) -> tuple[int, int, int]:
+    """Map a zero-based synchronized optimizer step to TRL's loop indices."""
+    if (
+        not isinstance(optimizer_step_index, int)
+        or isinstance(optimizer_step_index, bool)
+        or optimizer_step_index < 0
+    ):
+        raise TRLContractError("invalid PPO optimizer-step index")
+    steps_per_update = args.num_ppo_epochs * args.num_mini_batches
+    outer_update, within_update = divmod(optimizer_step_index, steps_per_update)
+    epoch_index, minibatch_index = divmod(within_update, args.num_mini_batches)
+    return outer_update, epoch_index, minibatch_index
+
+
+def record_ppo_optimizer_call(
+    guard,
+    args,
+    loop_contract: Mapping[str, int],
+    *,
+    microbatch_calls: int,
+    synchronized_steps: int,
+    sync_gradients: bool,
+) -> tuple[int, int]:
+    """Count TRL microbatch calls but guard only a real synchronized optimizer boundary."""
+    microbatch_calls += 1
+    if not sync_gradients:
+        return microbatch_calls, synchronized_steps
+    expected_microbatches = loop_contract["microbatches_per_minibatch"]
+    if microbatch_calls != expected_microbatches:
+        raise TRLContractError(
+            "unexpected PPO microbatch count at optimizer boundary: "
+            f"{microbatch_calls} != {expected_microbatches}"
+        )
+    loop_key = ppo_loop_position(synchronized_steps, args)
+    guard.record_loop_position(*loop_key)
+    guard.record_optimizer_step()
+    return 0, synchronized_steps + 1
+
+
 def ppo_guarded_trainer_class(
     guard,
     evidence_recorder,
@@ -654,10 +754,15 @@ def ppo_guarded_trainer_class(
     class GuardedPPOTrainer(PPOTrainer):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
+            if expected_contract is None:
+                raise TRLContractError("guarded PPO trainer requires an execution profile")
+            self.ppo_loop_contract = ppo_train_loop_contract(
+                self.args,
+                expected_contract,
+                world_size=self.accelerator.num_processes,
+            )
             self.ordered_loader_evidence = None
             if ordered_episode_records is not None:
-                if expected_contract is None:
-                    raise TRLContractError("ordered PPO loader requires an execution profile")
                 self.ordered_loader_evidence = install_sequential_ppo_dataloader(
                     self, ordered_episode_records, expected_contract
                 )
@@ -676,6 +781,8 @@ def ppo_guarded_trainer_class(
             original_generation = module.batch_generation
             original_get_reward = module.get_reward
             original_step = self.optimizer.step
+            microbatch_calls = 0
+            synchronized_steps = 0
 
             def guarded_generation(
                 policy, queries, forward_batch_size, pad_token_id, generation_config
@@ -704,8 +811,15 @@ def ppo_guarded_trainer_class(
                 return payload
 
             def guarded_step(*args, **kwargs):
-                guard.record_epoch_minibatch()
-                guard.record_optimizer_step()
+                nonlocal microbatch_calls, synchronized_steps
+                microbatch_calls, synchronized_steps = record_ppo_optimizer_call(
+                    guard,
+                    self.args,
+                    self.ppo_loop_contract,
+                    microbatch_calls=microbatch_calls,
+                    synchronized_steps=synchronized_steps,
+                    sync_gradients=self.accelerator.sync_gradients,
+                )
                 return original_step(*args, **kwargs)
 
             module.batch_generation = guarded_generation

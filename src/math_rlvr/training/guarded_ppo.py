@@ -58,6 +58,8 @@ class PPOBudgetGuard:
     exceeded_reason: str | None = None
     started_at: float | None = None
     _last_time: float | None = field(default=None, init=False, repr=False)
+    _epoch_keys: set[tuple[int, int]] = field(default_factory=set, init=False, repr=False)
+    _minibatch_keys: set[tuple[int, int, int]] = field(default_factory=set, init=False, repr=False)
 
     def __post_init__(self):
         if self.started_at is None:
@@ -117,12 +119,34 @@ class PPOBudgetGuard:
             }
         )
 
-    def record_epoch_minibatch(self):
+    def record_loop_position(
+        self, outer_update: int, epoch_index: int, minibatch_index: int
+    ) -> bool:
+        """Record one logical PPO minibatch, idempotently by its real loop indices."""
         self._time()
-        self.ppo_epochs += 1
+        indices = (outer_update, epoch_index, minibatch_index)
+        if any(
+            not isinstance(value, int) or isinstance(value, bool) or value < 0 for value in indices
+        ):
+            self._fail(ValueError, "invalid PPO loop position")
+        if (
+            outer_update >= self.max_updates
+            or epoch_index >= self.max_epochs
+            or minibatch_index >= self.max_minibatches
+        ):
+            self._fail(BudgetExceededError, "PPO epoch/minibatch cap exceeded")
+        minibatch_key = indices
+        if minibatch_key in self._minibatch_keys:
+            return False
+        epoch_key = (outer_update, epoch_index)
+        if epoch_key not in self._epoch_keys:
+            self._epoch_keys.add(epoch_key)
+            self.ppo_epochs += 1
+        self._minibatch_keys.add(minibatch_key)
         self.minibatches += 1
         if self.ppo_epochs > self.max_epochs or self.minibatches > self.max_minibatches:
             self._fail(BudgetExceededError, "PPO epoch/minibatch cap exceeded")
+        return True
 
     def record_optimizer_step(self):
         self._time()

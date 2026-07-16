@@ -298,3 +298,23 @@ same `BatchEncoding`; token tensors, padding, dtypes and response boundaries are
 unchanged. Metadata stays outside model kwargs. Real local-tokenizer and CPU
 Accelerator tests verify the 16-row SequentialSampler order; full CPU gates passed.
 This repair by itself changes no frozen config, manifest, identity or budget.
+
+### PPO pilot epoch/minibatch guard repair
+
+The immutable third pilot failure `ppo_matched_0p5b_seed42_20260714T085240Z` completed
+16 rollouts and 574 tokens, then stopped when the old guard reported a second
+epoch/minibatch. CPU audit proved the frozen JSON, builder kwargs and actual TRL 0.24.0
+`PPOConfig` were all one epoch and one minibatch. TRL invoked the Accelerator optimizer
+wrapper once for each of four microbatches; the old hook incorrectly counted those calls
+as four logical loop entries. Preserve this run and the two earlier failed seed-42 runs
+unchanged and exclude all three from scientific aggregation.
+
+The sole TRL shim now records a logical `(outer_update, epoch_index, minibatch_index)`
+only at `accelerator.sync_gradients`, after exactly four microbatch calls. Duplicate loop
+keys are idempotent. Actual second epoch/minibatch/outer keys and a second optimizer step
+still fail closed before a second synchronized update. Runtime Trainer-derived batch
+fields are checked against the exact protected profile. Frozen configs, identities and
+budgets are unchanged. Full CPU gates passed without CUDA, model loading, generation,
+training, backward or a real optimizer step. The user's continuous authorization permits
+one new PPO seed-42 run only after this repair is committed, backed up and the worktree
+is clean; a failure stops the suite without retry.

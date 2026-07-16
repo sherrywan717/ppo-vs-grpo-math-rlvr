@@ -456,3 +456,24 @@ This file records operational history and pitfalls that should survive context c
   16-completion finalization. CUDA remained uninitialized; model load, generation,
   Trainer.train, backward and optimizer calls were zero. Both historical PPO pilot
   failures and all frozen hashes remain unchanged and excluded from aggregation.
+
+## PPO Pilot Loop Budget CPU Repair
+
+- Baseline: clean `pivot/math-rlvr` at
+  `ad21511416ea7cb8384dd42087cd782aee5ea167`. Third immutable failure
+  `ppo_matched_0p5b_seed42_20260714T085240Z` remains excluded with its original 16
+  completions, 574 tokens and partial-update evidence unchanged.
+- Four-layer audit proved seed-42 resolves and constructs TRL 0.24.0 with 16 episodes,
+  per-device batch 4, GA4, one PPO epoch and one minibatch. TRL derives one outer batch,
+  one 16-example minibatch, four microbatches and one synchronized optimizer/global step.
+- Root cause was guard duplication: the old optimizer wrapper counted every microbatch
+  call. The second call failed as `2/2` while `sync_gradients=false`; TRL had not entered
+  epoch or minibatch 2.
+- The guard now uses idempotent real loop keys and the compatibility shim records the
+  loop/optimizer event only at the fourth, synchronized microbatch. True second
+  epoch/minibatch/outer and optimizer step remain fail-closed.
+- Verification passed: targeted tests, 350 full tests, Ruff, compileall, check_env,
+  manifest validation, PPO pilot dry-runs for all three seeds, Stage D PPO dry-run and
+  fake 16-completion finalization using an actually constructed CPU `PPOConfig`. CUDA,
+  real model loading, generation, Trainer.train, backward and real optimizer counts
+  remained zero. See `reports/pilot_0p5b/ppo_loop_budget_fix.{md,json}`.

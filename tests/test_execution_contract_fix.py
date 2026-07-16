@@ -12,6 +12,7 @@ from torch.utils.data import DataLoader
 from math_rlvr.artifacts.plotting import generate
 from math_rlvr.rewards.result import RewardResult, RewardStatus
 from math_rlvr.rewards.staged import STAGED_REWARD_POLICY
+from math_rlvr.training.builders import ppo_config
 from math_rlvr.training.common import preflight
 from math_rlvr.training.execution_contract import (
     expected_run_contract,
@@ -29,6 +30,8 @@ from math_rlvr.training.trl_compat import (
     TRLContractError,
     extract_ordered_episode_batch,
     install_sequential_ppo_dataloader,
+    ppo_train_loop_contract,
+    record_ppo_optimizer_call,
     require_sequential_sampler,
 )
 
@@ -268,9 +271,21 @@ class PilotPPOBackend:
             guard.record_reward(
                 evaluation.canonical_result, evaluation.scalar_reward, evaluation.to_dict()
             )
-        guard.record_epoch_minibatch()
+        args = ppo_config(self.config, self.checkpoint.parent / "fake-ppo-config", cpu_only=True)
+        loop_contract = ppo_train_loop_contract(args, contract, world_size=1)
+        microbatch_calls = synchronized_steps = 0
         for _ in range(self.optimizer_steps):
-            guard.record_optimizer_step()
+            for microbatch_index in range(loop_contract["microbatches_per_minibatch"]):
+                microbatch_calls, synchronized_steps = record_ppo_optimizer_call(
+                    guard,
+                    args,
+                    loop_contract,
+                    microbatch_calls=microbatch_calls,
+                    synchronized_steps=synchronized_steps,
+                    sync_gradients=(
+                        microbatch_index == loop_contract["microbatches_per_minibatch"] - 1
+                    ),
+                )
         guard.record_update()
         guard.record_global_step(self.global_step)
         lengths = [self.tokens // self.completions] * self.completions

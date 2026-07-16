@@ -125,8 +125,8 @@ class Backend:
                 self.overrides.get("reward", evaluation.scalar_reward),
                 evaluation.to_dict(),
             )
-        for _ in range(self.overrides.get("minibatches", 1)):
-            guard.record_epoch_minibatch()
+        for minibatch_index in range(self.overrides.get("minibatches", 1)):
+            guard.record_loop_position(0, 0, minibatch_index)
         for _ in range(self.overrides.get("optimizer_steps", 1)):
             guard.record_optimizer_step()
         for _ in range(self.overrides.get("updates", 1)):
