@@ -411,3 +411,12 @@ Run `grpo_matched_0p5b_seed2026_20260716T123716Z` passed with 16 completions,
 703 tokens, four microsteps and one optimizer/update/global step. Required metrics,
 group evidence, adapter checkpoint, backup and GPU release passed. This remains a
 matched pilot result, not a final benchmark or superiority claim.
+
+### Matched 0.5B pilot aggregate complete
+
+All six frozen PPO/GRPO runs are scientific execution successes and are aggregated
+in `reports/pilot_0p5b/final_report.md`. Historical engineering failures remain
+excluded. Total measured usage was 0.023131886 GPU-hours and CNY 0.205411. Every
+run had zero canonical pass@1/pass@4; the pilot validates execution and evidence,
+not learning or algorithm superiority. The next appropriate action is CPU-only 1.5B
+GSM8K+MATH configuration freezing, not automatic training.

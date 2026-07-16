@@ -198,3 +198,11 @@ GPU suite; it does not authorize or execute them. The existing `--execute
 retry policy remain. See `reports/pilot_0p5b/execution_contract_fix.md` and
 `reports/pilot_0p5b/plan.md`. A matched pilot is execution/aggregation evidence only;
 it cannot prove learning or PPO/GRPO superiority.
+
+### Matched 0.5B pilot result
+
+The six-run matched PPO/GRPO pilot is complete. It validates matched execution,
+single-update budgets, checkpoint safety, and aggregatable artifacts; it is not the
+final benchmark and does not establish learning or algorithm superiority. All six
+runs had zero canonical pass@1/pass@4. See
+`reports/pilot_0p5b/final_report.md` for the three-seed results and limitations.

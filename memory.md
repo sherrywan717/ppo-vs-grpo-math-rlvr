@@ -591,3 +591,15 @@ This file records operational history and pitfalls that should survive context c
   were nonzero. Loss/grad norm/entropy were `0.4634579420 / 2.6247079372 /
   0.4789166301`; KL is unavailable because beta=0.
 - Backup SHA256: `124818a2f9951b4927f3c0411cf5f2fdb37c1eaf3714f54b87c1d856db52eed0`.
+
+## Matched 0.5B Pilot Aggregate
+
+- Six valid runs completed: PPO/GRPO for seeds 42, 123, and 2026; each had 16
+  completions and one optimizer/global step.
+- Total measured resource window was 83.274789 seconds, 0.023131886 GPU-hours,
+  and CNY 0.205411. All pass@1/pass@4 values were zero.
+- The pilot supports execution/artifact comparability only. It does not establish
+  learning, statistical significance, or PPO/GRPO superiority.
+- Historical engineering failures `073357Z`, `082003Z`, `085240Z`, and
+  `111934Z` are excluded. Recommended next step: CPU-only 1.5B GSM8K+MATH
+  configuration freezing.
