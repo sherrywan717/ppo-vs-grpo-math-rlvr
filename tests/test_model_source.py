@@ -98,7 +98,7 @@ def test_builder_receives_validated_local_path_not_repo_id(tmp_path):
 @pytest.mark.parametrize(
     ("repo_id", "revision", "message"),
     [
-        ("Qwen/Qwen2.5-1.5B-Instruct", PINNED_REVISION, "repository"),
+        ("Qwen/Qwen2.5-3B-Instruct", PINNED_REVISION, "repository"),
         (PINNED_REPO_ID, "bad-revision", "revision"),
     ],
 )
@@ -165,3 +165,50 @@ def test_wrong_config_identity_is_rejected(tmp_path):
     )
     with pytest.raises(SnapshotValidationError, match="identity"):
         resolve(cache)
+
+
+def test_formal_1p5b_sharded_snapshot_is_exact_and_offline(tmp_path):
+    from math_rlvr.training.model_source import FORMAL_REPO_ID, FORMAL_REVISION
+
+    cache = tmp_path / "cache"
+    snapshot = (
+        cache
+        / "hub"
+        / "models--Qwen--Qwen2.5-1.5B-Instruct"
+        / "snapshots"
+        / FORMAL_REVISION
+    )
+    snapshot.mkdir(parents=True)
+    (snapshot / "config.json").write_text(
+        '{"model_type":"qwen2","architectures":["Qwen2ForCausalLM"]}\n'
+    )
+    (snapshot / "tokenizer.json").write_text("{}\n")
+    (snapshot / "tokenizer_config.json").write_text("{}\n")
+    (snapshot / "model-00001-of-00002.safetensors").write_bytes(b"first")
+    (snapshot / "model-00002-of-00002.safetensors").write_bytes(b"second")
+    (snapshot / "model.safetensors.index.json").write_text(
+        '{"weight_map":{"a":"model-00001-of-00002.safetensors",'
+        '"b":"model-00002-of-00002.safetensors"}}\n'
+    )
+    calls = []
+
+    def resolver(**kwargs):
+        calls.append(kwargs)
+        return str(snapshot)
+
+    source = ValidatedModelSource.resolve(
+        FORMAL_REPO_ID,
+        FORMAL_REVISION,
+        cache_root=cache,
+        snapshot_resolver=resolver,
+    )
+    assert source.snapshot_path == snapshot
+    assert source.local_files_only is True
+    assert calls == [
+        {
+            "repo_id": FORMAL_REPO_ID,
+            "revision": FORMAL_REVISION,
+            "cache_dir": str(cache.resolve() / "hub"),
+            "local_files_only": True,
+        }
+    ]

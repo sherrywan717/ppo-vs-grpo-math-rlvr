@@ -188,3 +188,33 @@ It does not itself show that PPO or GRPO learns, generalizes, or outperforms the
 
 Each descriptor binds its seed, algorithm, template hash, schedule SHA, and ordered-ID
 SHA. No runtime CLI seed override is accepted. The CPU-validated multi-update runtime is implemented in this amendment stage, but model download, CUDA sanity, evaluation, and training each remain separately unauthorized.
+
+## CPU-validated formal runtime
+
+`math_rlvr.training.formal_runtime` is the single formal multi-update contract. It
+accepts only the four config path/SHA identities in the active-suite allowlist,
+validates 16 ordered completion keys per update and exactly 512 per run, fails online
+on the 131,072-token cap, requires optimizer/global/update 32/32/32, and inventories
+only checkpoints 8/16/24/32. Same-run resume manifests bind run ID, algorithm, seed,
+config SHA, suite SHA, exact counter prefix, comparison-key prefix, and checkpoint/
+validation prefix; cross-run and step-32 resume are rejected.
+
+The isolated TRL compatibility layer now supports 32 sequential PPO rollout batches,
+128 GA4 backward events, 32 optimizer boundaries, and append-only PPO/GRPO completion
+evidence. Historical one-update profiles retain their previous one-batch behavior.
+`CompletedTrainerBackend` is the delayed bridge from one real Trainer call to the
+formal observer; importing and dry-running the contract loads no model or CUDA.
+
+`math_rlvr.evaluation.formal_runtime` freezes two untrained baseline seeds (1,600
+completions total), 16 checkpoint validations (1,024 completions), and four step-32
+final evaluations (3,200 completions). It validates every key/token/status row and
+writes the required per-problem, aggregate, verifier-status, resource, report, and
+figure-source artifacts. Test results remain barred from tuning or checkpoint choice.
+
+The pinned BF16 weights are approximately 2.8754 GiB before filesystem/cache overhead;
+at least 6 GiB free cache is required before a separately authorized download. Full
+stage planning is: sanity 0.0833/0.1667 GPU-h (CNY 0.74/1.48), two baselines
+0.8333/1.6667 (7.40/14.80), PPO×2 1.7566/3.6666 (15.60/32.56), GRPO×2
+1.2034/2.5000 (10.68/22.20), 16 validations 1.3333/2.6667 (11.84/23.68), and four
+final evaluations 1.6667/3.3333 (14.80/29.60). The complete expected/ceiling totals
+are 6.8767/14.0 GPU-hours and CNY 61.06/124.32.

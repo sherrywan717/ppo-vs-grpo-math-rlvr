@@ -14,9 +14,9 @@ from math_rlvr.training.formal import (
     formal_reserved_configs,
     formal_run_order,
     formal_training_schedule,
+    validate_active_suite,
     validate_formal_config_content,
     validate_formal_config_file,
-    validate_active_suite,
 )
 from math_rlvr.training.formal_model import derive_static_parameter_contract
 
@@ -146,9 +146,7 @@ def test_fixed_four_run_formal_order_has_no_seed_override():
     assert all(row["automatic_retries"] == 0 for row in formal_run_order())
     assert {row["seed"] for row in formal_run_order()} == set(FORMAL_ACTIVE_SEEDS)
     assert {row["seed"] for row in formal_reserved_configs()} == {2026}
-    assert all(
-        row["status"] == "reserved_not_scheduled" for row in formal_reserved_configs()
-    )
+    assert all(row["status"] == "reserved_not_scheduled" for row in formal_reserved_configs())
 
 
 def test_static_model_roles_and_parameter_counts_need_no_model_load():

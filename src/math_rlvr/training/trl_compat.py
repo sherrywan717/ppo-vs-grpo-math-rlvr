@@ -105,14 +105,17 @@ class VerifiedSequentialDataLoader:
         return len(self.prepared_loader)
 
     def __iter__(self) -> Iterator[dict[str, Any]]:
-        iterator = iter(self.prepared_loader)
-        try:
-            first = next(iterator)
-        except StopIteration as exc:
-            raise TRLContractError("prepared PPO rollout loader is empty") from exc
-        validate_ordered_episode_batch(first, self.expected_records)
-        yield first
-        yield from iterator
+        consumed = 0
+        for batch in self.prepared_loader:
+            size = len(_batch_values(batch["pair_key"]))
+            expected = self.expected_records[consumed : consumed + size]
+            if len(expected) != size:
+                raise TRLContractError("prepared PPO loader produced excess episode rows")
+            validate_ordered_episode_batch(batch, expected)
+            consumed += size
+            yield batch
+        if consumed != len(self.expected_records):
+            raise TRLContractError("prepared PPO loader did not consume every ordered episode")
 
 
 def _sampler_name(loader) -> str:
@@ -137,8 +140,9 @@ def install_sequential_ppo_dataloader(trainer, expected_records, expected_contra
     assert_trl_version()
     from torch.utils.data import DataLoader, SequentialSampler
 
-    if expected_contract.algorithm != "ppo" or expected_contract.profile != "ppo_matched_pilot":
-        raise TRLContractError("sequential loader is restricted to the matched PPO pilot")
+    allowed_profiles = {"ppo_matched_pilot", "ppo_formal_1p5b"}
+    if expected_contract.algorithm != "ppo" or expected_contract.profile not in allowed_profiles:
+        raise TRLContractError("sequential loader requires a protected PPO pilot/formal profile")
     records = [dict(row) for row in expected_records]
     if len(records) != expected_contract.expected_completions:
         raise TRLContractError("ordered PPO record count differs from protected profile")
@@ -150,8 +154,13 @@ def install_sequential_ppo_dataloader(trainer, expected_records, expected_contra
     if int(getattr(accelerator, "num_processes", 1)) != 1:
         raise TRLContractError("ordered PPO pilot supports world_size=1 only")
     batch_size = int(trainer.local_dataloader_batch_size)
-    if batch_size != expected_contract.expected_completions:
-        raise TRLContractError("PPO rollout batch must equal the protected completion count")
+    expected_batch_size = (
+        expected_contract.expected_completions
+        if expected_contract.profile == "ppo_matched_pilot"
+        else expected_contract.completions_per_update
+    )
+    if batch_size != expected_batch_size:
+        raise TRLContractError("PPO rollout batch differs from the protected profile")
     original_sampler = _sampler_name(trainer.dataloader)
     sampler = SequentialSampler(trainer.train_dataset)
     loader = DataLoader(
@@ -167,7 +176,7 @@ def install_sequential_ppo_dataloader(trainer, expected_records, expected_contra
     preview = next(iter(prepared), None)
     if preview is None:
         raise TRLContractError("prepared PPO rollout loader is empty")
-    actual = validate_ordered_episode_batch(preview, records)
+    actual = validate_ordered_episode_batch(preview, records[:batch_size])
     guarded = VerifiedSequentialDataLoader(prepared, loader, records)
     trainer.dataloader = guarded
     return {
@@ -202,15 +211,16 @@ def exact_completion_counts(payload: dict[str, Any]) -> tuple[int, int]:
 
 
 class CompletionEvidenceRecorder:
-    """Bind TRL GRPO token tensors to a protected ordered reward contract."""
+    """Bind TRL GRPO token tensors to ordered reward evidence, batch by batch."""
 
     def __init__(self, expected_contract):
         if expected_contract.algorithm != "grpo":
             raise TRLContractError("GRPO evidence requires a GRPO execution profile")
         self.contract = expected_contract
         self.expected_completions = expected_contract.expected_completions
+        self.multi_batch = expected_contract.profile == "grpo_formal_1p5b"
         self._reward_records: list[dict[str, Any]] = []
-        self._completion_records: list[dict[str, Any]] | None = None
+        self._completion_records: list[dict[str, Any]] = []
 
     def record_reward(
         self,
@@ -220,8 +230,6 @@ class CompletionEvidenceRecorder:
         scalar_reward: float,
         reward_evidence: dict[str, Any] | None = None,
     ) -> None:
-        if self._completion_records is not None:
-            raise TRLContractError("reward arrived after completion evidence finalization")
         if len(self._reward_records) >= self.expected_completions:
             raise TRLContractError("too many ordered reward records")
         if not isinstance(completion_text, str):
@@ -247,12 +255,14 @@ class CompletionEvidenceRecorder:
         self._reward_records.append(row)
 
     def capture_generation(self, inputs, payload, tokenizer) -> None:
-        if self._completion_records is not None:
+        if self._completion_records and not self.multi_batch:
             raise TRLContractError("completion evidence captured more than once")
         completion_count, token_count = exact_completion_counts(payload)
-        if completion_count != self.expected_completions:
+        offset = len(self._completion_records)
+        end = offset + completion_count
+        if end > self.expected_completions:
             raise TRLContractError("unexpected completion evidence count")
-        if len(inputs) != completion_count or len(self._reward_records) != completion_count:
+        if len(inputs) != completion_count or len(self._reward_records) != end:
             raise TRLContractError("generation/reward evidence count mismatch")
 
         ids_tensor = payload["completion_ids"].detach().cpu()
@@ -263,11 +273,12 @@ class CompletionEvidenceRecorder:
         if len(decoded) != completion_count:
             raise TRLContractError("tokenizer decode count mismatch")
 
-        per_problem = Counter()
+        per_problem = Counter(row["problem_id"] for row in self._completion_records)
         records = []
         exact_total = 0
-        for index, (item, ids, mask, text, reward) in enumerate(
-            zip(inputs, ids_rows, mask_rows, decoded, self._reward_records, strict=True)
+        rewards = self._reward_records[offset:end]
+        for local_index, (item, ids, mask, text, reward) in enumerate(
+            zip(inputs, ids_rows, mask_rows, decoded, rewards, strict=True)
         ):
             problem_id = str(item.get("problem_id"))
             prompt_hash = item.get("prompt_hash")
@@ -290,7 +301,7 @@ class CompletionEvidenceRecorder:
                     "prompt_hash": prompt_hash,
                     "generation_index": generation_index,
                     "pair_key": pair_key,
-                    "completion_index": index,
+                    "completion_index": offset + local_index,
                     "completion_ids": ids,
                     "completion_mask": mask,
                     "exact_token_count": exact_count,
@@ -300,19 +311,28 @@ class CompletionEvidenceRecorder:
             )
         if exact_total != token_count:
             raise TRLContractError("serialized completion token total mismatch")
-        actual_keys = [row["pair_key"] for row in records]
-        if len(set(actual_keys)) != self.expected_completions or set(actual_keys) != set(
-            self.contract.pair_keys
-        ):
+        expected_keys = tuple(self.contract.pair_keys[offset:end])
+        actual_keys = tuple(row["pair_key"] for row in records)
+        if self.multi_batch:
+            valid_keys = actual_keys == expected_keys
+        else:
+            valid_keys = len(set(actual_keys)) == len(actual_keys) and set(actual_keys) == set(
+                expected_keys
+            )
+        if not valid_keys:
             raise TRLContractError("GRPO completions differ from protected pair keys")
-        self._completion_records = records
+        self._completion_records.extend(records)
+
+    def partial_records(self) -> list[dict[str, Any]]:
+        return [dict(record) for record in self._completion_records]
 
     def records(self) -> list[dict[str, Any]]:
-        if self._completion_records is None:
-            raise TRLContractError("completion evidence was not captured")
-        if len(self._completion_records) != self.expected_completions:
+        if (
+            len(self._completion_records) != self.expected_completions
+            or len(self._reward_records) != self.expected_completions
+        ):
             raise TRLContractError("completion evidence is incomplete")
-        return [dict(record) for record in self._completion_records]
+        return self.partial_records()
 
 
 def extract_kl_metric(log_history: list[dict[str, Any]], beta: float) -> dict[str, Any]:
@@ -351,12 +371,19 @@ def extract_kl_metric(log_history: list[dict[str, Any]], beta: float) -> dict[st
     }
 
 
-def guarded_trainer_class(guard, evidence_recorder: CompletionEvidenceRecorder):
+def guarded_trainer_class(
+    guard, evidence_recorder: CompletionEvidenceRecorder, checkpoint_callback=None
+):
     """Create the sole private-API subclass; importing this does not construct a model."""
     assert_trl_version()
     from trl import GRPOTrainer
 
     class GuardedGRPOTrainer(GRPOTrainer):
+        def _save_checkpoint(self, model, trial):
+            if checkpoint_callback is None:
+                return super()._save_checkpoint(model, trial)
+            return checkpoint_callback(self, int(self.state.global_step))
+
         def _generate_and_score_completions(self, inputs):
             payload = super()._generate_and_score_completions(inputs)
             completions, tokens = exact_completion_counts(payload)
@@ -393,6 +420,7 @@ class PPOCompletionEvidenceRecorder:
             raise TRLContractError("PPO evidence requires a PPO execution profile")
         self.contract = expected_contract
         self.expected_completions = expected_contract.expected_completions
+        self.multi_batch = expected_contract.profile == "ppo_formal_1p5b"
         self.episode_records = [dict(row) for row in episode_records]
         if (
             len(self.episode_records) != self.expected_completions
@@ -400,32 +428,34 @@ class PPOCompletionEvidenceRecorder:
             != expected_contract.pair_keys
         ):
             raise TRLContractError("PPO episode records differ from protected pair keys")
-        self._generation: list[dict[str, Any]] | None = None
+        self._generation: list[dict[str, Any]] = []
         self._rewards: list[dict[str, Any]] = []
 
     def capture_generation(self, queries, query_responses, tokenizer, prompt_lookup, pad_token_id):
         assert_trl_version()
-        if self._generation is not None:
+        if self._generation and not self.multi_batch:
             raise TRLContractError("PPO generation evidence captured more than once")
         if queries.ndim != 2 or query_responses.ndim != 2:
             raise TRLContractError("PPO query/response tensors must be rank two")
-        if (
-            queries.shape[0] != self.expected_completions
-            or query_responses.shape[0] != queries.shape[0]
-        ):
+        batch_size = int(queries.shape[0])
+        if query_responses.shape[0] != batch_size:
+            raise TRLContractError("unexpected PPO response count")
+        offset = len(self._generation)
+        end = offset + batch_size
+        if end > self.expected_completions:
             raise TRLContractError("unexpected PPO response count")
         context_length = int(queries.shape[1])
         response_ids = query_responses[:, context_length:].detach().cpu()
         rows = []
-        for index, episode in enumerate(self.episode_records):
-            query_row = [int(v) for v in queries[index].detach().cpu().tolist()]
+        for local_index, episode in enumerate(self.episode_records[offset:end]):
+            query_row = [int(v) for v in queries[local_index].detach().cpu().tolist()]
             prompt_ids = [v for v in query_row if v != pad_token_id]
             metadata = prompt_lookup.get(tuple(prompt_ids))
             if metadata is None:
                 raise TRLContractError("PPO prompt tokens not found in fixed lookup")
             if metadata["problem_id"] != episode["problem_id"]:
                 raise TRLContractError("PPO generated query differs from ordered episode")
-            ids = [int(v) for v in response_ids[index].tolist()]
+            ids = [int(v) for v in response_ids[local_index].tolist()]
             mask = [int(v != pad_token_id) for v in ids]
             valid_ids = [v for v, keep in zip(ids, mask, strict=True) if keep]
             text = tokenizer.decode(valid_ids, skip_special_tokens=True)
@@ -433,7 +463,7 @@ class PPOCompletionEvidenceRecorder:
                 {
                     **episode,
                     "prompt_hash": episode["rendered_prompt_hash"],
-                    "completion_index": index,
+                    "completion_index": offset + local_index,
                     "prompt_token_ids": prompt_ids,
                     "response_token_ids": ids,
                     "response_mask": mask,
@@ -441,7 +471,7 @@ class PPOCompletionEvidenceRecorder:
                     "decoded_completion": text,
                 }
             )
-        self._generation = rows
+        self._generation.extend(rows)
         return len(rows), sum(row["exact_token_count"] for row in rows)
 
     def record_reward(self, completion: str, evaluation, guard) -> None:
@@ -461,20 +491,27 @@ class PPOCompletionEvidenceRecorder:
             }
         )
 
-    def records(self) -> list[dict[str, Any]]:
-        if self._generation is None or len(self._rewards) != self.expected_completions:
-            raise TRLContractError("incomplete PPO completion/reward evidence")
+    def partial_records(self) -> list[dict[str, Any]]:
         records = []
-        for generated, reward in zip(self._generation, self._rewards, strict=True):
+        for generated, reward in zip(self._generation, self._rewards, strict=False):
             if generated["decoded_completion"] != reward["reward_callback_text"]:
                 raise TRLContractError("PPO decoded completion differs from reward input")
             row = {**generated, **reward}
             if row["reward_callback_text"] != row["verifier_input"]:
                 raise TRLContractError("PPO verifier input mismatch")
             records.append(row)
-        if tuple(row["pair_key"] for row in records) != self.contract.pair_keys:
+        expected_prefix = self.contract.pair_keys[: len(records)]
+        if tuple(row["pair_key"] for row in records) != tuple(expected_prefix):
             raise TRLContractError("PPO completion order differs from protected pair keys")
         return records
+
+    def records(self) -> list[dict[str, Any]]:
+        if (
+            len(self._generation) != self.expected_completions
+            or len(self._rewards) != self.expected_completions
+        ):
+            raise TRLContractError("incomplete PPO completion/reward evidence")
+        return self.partial_records()
 
 
 def validate_ppo_value_shape(values, batch_size: int, sequence_length: int) -> None:
@@ -740,11 +777,15 @@ class PPOBackwardEventGuard:
     def __init__(self, loop_contract: Mapping[str, int], accumulation_evidence: Mapping[str, Any]):
         self.loop_contract = dict(loop_contract)
         self.accumulation_evidence = dict(accumulation_evidence)
-        self.expected_events = self.loop_contract["microbatches_per_minibatch"]
+        self.events_per_optimizer = self.loop_contract["microbatches_per_minibatch"]
+        self.expected_optimizer_steps = self.loop_contract["expected_optimizer_steps"]
+        self.expected_events = self.events_per_optimizer * self.expected_optimizer_steps
         self.expected_batch_size = self.loop_contract["per_device_train_batch_size"]
-        self.expected_samples = self.loop_contract["local_mini_batch_size"]
+        self.expected_samples_per_optimizer = self.loop_contract["local_mini_batch_size"]
+        self.expected_samples = self.expected_samples_per_optimizer * self.expected_optimizer_steps
         self.events: list[dict[str, Any]] = []
         self.pending_batch_size: int | None = None
+        self.optimizer_boundaries = 0
 
     def note_training_forward(self, batch_size: int) -> None:
         if not isinstance(batch_size, int) or isinstance(batch_size, bool) or batch_size <= 0:
@@ -764,7 +805,7 @@ class PPOBackwardEventGuard:
                 "unexpected PPO backward microbatch size: "
                 f"{self.pending_batch_size} != {self.expected_batch_size}"
             )
-        expected_sync = index == self.expected_events - 1
+        expected_sync = (index + 1) % self.events_per_optimizer == 0
         if bool(sync_gradients) != expected_sync:
             raise TRLContractError(
                 f"unexpected PPO sync_gradients at microbatch {index}: "
@@ -772,6 +813,7 @@ class PPOBackwardEventGuard:
             )
         return {
             "microbatch_index": index,
+            "optimizer_step_index": index // self.events_per_optimizer,
             "batch_size": self.pending_batch_size,
             "sync_gradients": bool(sync_gradients),
         }
@@ -783,15 +825,26 @@ class PPOBackwardEventGuard:
         self.pending_batch_size = None
 
     def assert_ready_for_optimizer(self) -> None:
+        expected_count = (self.optimizer_boundaries + 1) * self.events_per_optimizer
+        if self.pending_batch_size is not None or len(self.events) != expected_count:
+            raise TRLContractError("PPO optimizer step before all expected backward events")
+        group = self.events[-self.events_per_optimizer :]
+        if sum(event["batch_size"] for event in group) != self.expected_samples_per_optimizer:
+            raise TRLContractError("PPO backward sample total mismatch")
+        if not group[-1]["sync_gradients"]:
+            raise TRLContractError("PPO optimizer step without final synchronized backward")
+
+    def commit_optimizer_step(self) -> None:
+        self.assert_ready_for_optimizer()
+        self.optimizer_boundaries += 1
+        if self.optimizer_boundaries > self.expected_optimizer_steps:
+            raise TRLContractError("too many PPO optimizer boundaries")
+
+    def assert_complete(self, underlying_optimizer_steps: int) -> dict[str, Any]:
         if self.pending_batch_size is not None or len(self.events) != self.expected_events:
             raise TRLContractError("PPO optimizer step before all expected backward events")
         if sum(event["batch_size"] for event in self.events) != self.expected_samples:
             raise TRLContractError("PPO backward sample total mismatch")
-        if not self.events[-1]["sync_gradients"]:
-            raise TRLContractError("PPO optimizer step without final synchronized backward")
-
-    def assert_complete(self, underlying_optimizer_steps: int) -> dict[str, Any]:
-        self.assert_ready_for_optimizer()
         expected_optimizer_steps = self.loop_contract["expected_optimizer_steps"]
         if underlying_optimizer_steps != expected_optimizer_steps:
             raise TRLContractError(
@@ -801,6 +854,7 @@ class PPOBackwardEventGuard:
         return {
             "source": "accelerator.backward",
             **self.accumulation_evidence,
+            "events_per_optimizer_step": self.events_per_optimizer,
             "expected_backward_events": self.expected_events,
             "backward_events": len(self.events),
             "microbatch_sizes": [event["batch_size"] for event in self.events],
@@ -818,6 +872,7 @@ def ppo_guarded_trainer_class(
     *,
     ordered_episode_records=None,
     expected_contract=None,
+    checkpoint_callback=None,
 ):
     """The sole TRL 0.24.0 PPO private compatibility shim."""
     assert_trl_version()
@@ -845,8 +900,10 @@ def ppo_guarded_trainer_class(
                 )
 
         def _save_checkpoint(self, model, trial):
-            # The runner writes one role-separated authoritative checkpoint after success.
-            return None
+            if checkpoint_callback is None:
+                # Single-update runners write one role-separated checkpoint after success.
+                return None
+            return checkpoint_callback(self, int(self.state.global_step))
 
         def log(self, logs, start_time=None):
             if "loss/policy_avg" in logs:
@@ -913,6 +970,7 @@ def ppo_guarded_trainer_class(
                 guard.record_optimizer_step()
                 result = original_underlying_step(*args, **kwargs)
                 underlying_optimizer_steps += 1
+                backward_guard.commit_optimizer_step()
                 return result
 
             module.batch_generation = guarded_generation

@@ -471,3 +471,14 @@ Two-seed results may report raw values, mean, sample SD, paired deltas, and
 problem-level bootstrap intervals, but not statistical significance or general PPO/
 GRPO superiority. This CPU amendment authorizes no model download, CUDA, evaluation,
 or training.
+
+### Formal multi-update CPU runtime
+
+The formal runtime accepts only the four active config path/SHA pairs. It requires 32
+updates, 512 ordered completion keys, the 131,072-token cap, and checkpoints plus
+validation at 8/16/24/32. Resume is same-run only and binds the exact identity/counter/
+pair-key prefix. The TRL shim supports 32 PPO sequential batches, 128 GA4 backward
+events, and append-only PPO/GRPO evidence without weakening Stage D profiles. Formal
+evaluation freezes two baseline seeds and four step-32 final checkpoints. CPU fakes
+may exercise the runtime; no model download, CUDA, generation, Trainer, backward, or
+optimizer is authorized by this implementation commit.

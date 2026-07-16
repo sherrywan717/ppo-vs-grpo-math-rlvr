@@ -22,7 +22,7 @@ Git receives only small reports, CSV/JSON/JSONL evidence, plot scripts, and figu
 
 - `completions.jsonl`: prompt/problem/generation key, raw text, token IDs/mask/count,
   truncation flag, canonical status/detail, reward scalar/components, checkpoint/update.
-- `training_metrics.csv` and JSONL: update, reward mean/std/variance, zero-advantage
+- `metrics.csv` and `metrics.jsonl`: update, reward mean/std/variance, zero-advantage
   fraction, loss, policy loss, PPO value loss, KL availability/value, entropy, grad
   norm, learning rate, response length, format/valid-answer/canonical pass rates, and
   verifier-status counts.

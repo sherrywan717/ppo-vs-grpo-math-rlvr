@@ -648,3 +648,18 @@ This file records operational history and pitfalls that should survive context c
 - Four training runs retain 32 updates, 512 completions, 131,072-token cap, and
   checkpoints/validation at 8/16/24/32. Two seeds do not support statistical-
   significance or general-superiority claims.
+
+## Formal 1.5B multi-update runtime freeze
+
+- The CPU-safe formal guard accepts only four active config path/SHA identities and
+  enforces 32 updates, 512 exact comparison keys, 131,072 generated tokens, and
+  checkpoints/validation at steps 8/16/24/32.
+- Same-run resume binds run/config/suite identity and exact counter/key prefixes;
+  cross-run, non-checkpoint, and completed-step resume fail closed.
+- Fake PPO/GRPO 32-step execution, overflow failure backup, and baseline/final
+  evaluation finalization pass without model/tokenizer/CUDA/Trainer activity.
+- Formal evaluation quantity is two baseline seeds (1,600 completions), 16 validation
+  passes (1,024), and four final checkpoint evaluations (3,200).
+- Expected/ceiling full Stage E execution is 6.8767/14.0 GPU-hours and CNY
+  61.06/124.32. The next stage still requires explicit 1.5B download authorization and
+  then an independently authorized CUDA/model-load sanity.

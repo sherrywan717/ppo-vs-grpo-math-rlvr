@@ -1,18 +1,28 @@
-# Stage E CPU validation
+# Formal 1.5B CPU validation
 
-All 389 tests passed, together with Ruff, compileall, environment validation, formal
-manifest validation, six formal training dry-runs, baseline/final evaluation dry-runs,
-reward-domain tests, TRL budget derivation, and fake ArtifactManager finalization.
-The two warnings are TRL's existing PPO deprecation notice.
+Validation date: 2026-07-16 UTC. No 1.5B weights/tokenizer were downloaded or loaded;
+CUDA remained uninitialized; no generation or real PPO/GRPO Trainer ran.
 
-Task-specific Stage E paths loaded no model or tokenizer, initialized no CUDA, and
-called no generation, Trainer, backward, or optimizer path. No model weights were
-downloaded. `check_env` reported `cuda_initialized=false` and
-`model_or_tokenizer_loaded=false`.
+- `compileall`: passed.
+- Ruff: passed.
+- Pytest: 400 tests passed with three pre-existing real tiny-CPU backward/optimizer
+  tests deselected to honor this turn's stricter no-backward rule. The same guard's
+  fake 128-event/32-optimizer-group path passed.
+- `check_env`: passed; `cuda_initialized=false`, `model_or_tokenizer_loaded=false`.
+- Manifest validation: passed; 128 train, 64 validation, 400 test, zero frozen-contract
+  drift.
+- Active formal dry-runs: PPO42, GRPO42, GRPO123, PPO123 all passed without model load.
+- Evaluation dry-runs: baseline seeds 42/123 and final PPO42/GRPO123 passed.
+- Fake formal PPO/GRPO: 32 updates, 512 completions, checkpoint and validation steps
+  8/16/24/32, final artifacts, same-run resume continuity, overflow failure, and
+  failure backup passed.
+- Six resolved descriptor files retain their Stage E SHA256 values; seed 2026 remains
+  `reserved_not_scheduled` and cannot resolve to an active runtime contract.
+- `git diff --check`: passed.
 
-Disclosure: the user-requested full historical pytest suite contains two pre-existing
-regressions that load the fixed cached Qwen 0.5B tokenizer locally
-(`test_ppo_collator_contract` and `test_prompt_forensics`). Those two tests therefore
-performed a local 0.5B tokenizer load inside their test processes. They did not load a
-model or 1.5B tokenizer, initialize CUDA, generate, train, download, or alter any run.
-This is recorded for report truthfulness rather than hidden or turned into a new gate.
+The three deselected tests are
+`test_real_accelerate_cpu_ga4_updates_only_on_fourth_microbatch`,
+`test_consumed_single_batch_disables_end_of_dataloader_early_sync`, and
+`test_guarded_trainer_shim_counts_real_backward_and_underlying_step`. They are not
+failures; they intentionally execute tiny CPU optimization, which this authorization
+forbids.

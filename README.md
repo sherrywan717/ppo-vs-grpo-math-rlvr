@@ -238,3 +238,9 @@ seed-2026 descriptors remain frozen as `reserved_not_scheduled` and are excluded
 the active queue, costs, and statistics. Two seeds support transparent raw results,
 mean, sample SD, paired deltas, and problem-level bootstrap intervals—not a claim of
 statistical significance or general algorithm superiority.
+
+The formal CPU runtime is frozen in `math_rlvr.training.formal_runtime` and
+`math_rlvr.evaluation.formal_runtime`. Fake PPO and GRPO runs exercise all 32 updates,
+512 ordered completions, four checkpoints/validations, same-run resume continuity,
+overflow failure, backup, and baseline/final artifact finalization. This does not
+authorize or claim a 1.5B model load or training result.

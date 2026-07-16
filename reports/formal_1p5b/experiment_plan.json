@@ -291,5 +291,73 @@
     "reserved_seed_2026": "reserved_not_scheduled",
     "independent_seed_count": 2,
     "statistical_significance_claims_forbidden": true
+  },
+  "runtime_implementation": {
+    "training_orchestrator": "math_rlvr.training.formal_runtime",
+    "evaluation_orchestrator": "math_rlvr.evaluation.formal_runtime",
+    "trl_bridge": "CompletedTrainerBackend",
+    "active_configs": 4,
+    "updates_per_run": 32,
+    "checkpoints_and_validations": [
+      8,
+      16,
+      24,
+      32
+    ],
+    "same_run_resume_only": true,
+    "full_base_weights_forbidden": true,
+    "cpu_fake_finalization_passed": true,
+    "gpu_execution_authorized": false
+  },
+  "stage_cost_breakdown": {
+    "download_space": {
+      "bf16_weight_gib_estimate": 2.8754,
+      "minimum_free_cache_gib": 6
+    },
+    "model_load_sanity": {
+      "expected_gpu_hours": 0.0833,
+      "ceiling_gpu_hours": 0.1667,
+      "expected_cost_cny": 0.74,
+      "ceiling_cost_cny": 1.48
+    },
+    "two_baseline_seed_evaluations": {
+      "expected_gpu_hours": 0.8333,
+      "ceiling_gpu_hours": 1.6667,
+      "expected_cost_cny": 7.4,
+      "ceiling_cost_cny": 14.8,
+      "completions": 1600
+    },
+    "ppo_two_runs": {
+      "expected_gpu_hours": 1.7566,
+      "ceiling_gpu_hours": 3.6666,
+      "expected_cost_cny": 15.6,
+      "ceiling_cost_cny": 32.56
+    },
+    "grpo_two_runs": {
+      "expected_gpu_hours": 1.2034,
+      "ceiling_gpu_hours": 2.5,
+      "expected_cost_cny": 10.68,
+      "ceiling_cost_cny": 22.2
+    },
+    "sixteen_checkpoint_validations": {
+      "expected_gpu_hours": 1.3333,
+      "ceiling_gpu_hours": 2.6667,
+      "expected_cost_cny": 11.84,
+      "ceiling_cost_cny": 23.68,
+      "completions": 1024
+    },
+    "four_final_checkpoint_evaluations": {
+      "expected_gpu_hours": 1.6667,
+      "ceiling_gpu_hours": 3.3333,
+      "expected_cost_cny": 14.8,
+      "ceiling_cost_cny": 29.6,
+      "completions": 3200
+    },
+    "full_stage": {
+      "expected_gpu_hours": 6.8767,
+      "ceiling_gpu_hours": 14.0,
+      "expected_cost_cny": 61.06,
+      "ceiling_cost_cny": 124.32
+    }
   }
 }
