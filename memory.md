@@ -540,3 +540,15 @@ This file records operational history and pitfalls that should survive context c
   `6c31e369554cc4272235981722c96ff65de69614eb435b580673b061003322fb`.
 - Parent GPU release passed. Continue only with frozen GRPO seed 123 after committing
   this report and restoring a clean worktree.
+
+## Matched GRPO Pilot Seed 123 Success
+
+- Run `grpo_matched_0p5b_seed123_20260716T115714Z` executed once: 16 completions,
+  724 generated tokens, four microsteps and optimizer/update/global `1/1/1`.
+- Reward mean/population std were `0.084375 / 0.03840064289826409`; four groups had
+  nonzero variance, while the 12 format errors and four invalid expressions yielded
+  zero pass accuracy. Loss/grad/entropy were finite; KL is null because beta is zero.
+- The 16 comparison keys, frozen identities, adapter-only checkpoint and GPU release
+  passed. Wall/GPU-hours/cost were `11.0505 s / 0.00306958 / CNY 0.02726`. Backup
+  SHA256: `63d4e598169ec655a5d2c52e023606e1fb8b6b6915345d8a948d3273b45bf6f3`.
+- Proceed only to frozen PPO seed 123 after committing and returning clean.

@@ -1,0 +1,88 @@
+{
+  "run_id": "grpo_matched_0p5b_seed123_20260716T115714Z",
+  "disclaimer": "Matched 0.5B pilot - not the final benchmark",
+  "suite_sequence": 3,
+  "algorithm": "grpo",
+  "seed": 123,
+  "status": "execution_success/learning_signal_present",
+  "scientific_result": true,
+  "single_update_not_learning_claim": true,
+  "counters": {
+    "completions": 16,
+    "generated_tokens": 724,
+    "reward_count": 16,
+    "evidence_rows": 16,
+    "microsteps": 4,
+    "optimizer_steps": 1,
+    "updates": 1,
+    "global_steps": 1
+  },
+  "reward": {
+    "mean": 0.084375,
+    "population_std": 0.03840064289826409,
+    "group_population_variances": [
+      0.0018750000000000001,
+      0.0012499999999999998,
+      0.0012499999999999998,
+      0.00046875000000000004
+    ],
+    "zero_advantage_groups": 0,
+    "canonical_statuses": {
+      "format_error": 12,
+      "invalid_expression": 4
+    },
+    "pass_at_1": 0.0,
+    "pass_at_4": 0.0
+  },
+  "metrics": {
+    "loss": 0.21626996994018555,
+    "grad_norm": 1.620953917503357,
+    "entropy": 0.42529723793268204,
+    "kl": null,
+    "kl_reason": "Frozen GRPO beta=0.0; TRL 0.24.0 does not compute reference-model KL"
+  },
+  "model_roles": {
+    "policy_trainable_parameters": 2162688,
+    "reward_trainable_parameters": 0,
+    "reference_model": "not constructed because beta=0.0",
+    "optimizer_parameter_elements": 2162688,
+    "optimizer_exact_role_match": true
+  },
+  "checkpoint": {
+    "path": "/root/autodl-tmp/runs/math_rlvr/grpo_matched_0p5b_seed123_20260716T115714Z/checkpoint-1",
+    "files": 12,
+    "total_size_bytes": 24570948,
+    "full_base_model_weights": false,
+    "duplicate_adapter_count": 0,
+    "inventory_sha256": "713a2d73ca722414ef00b712c8be3897901d4e7430da891582bad24445b69d04"
+  },
+  "resource_evidence": {
+    "resource_window_seconds": 11.050494410097599,
+    "nvidia_smi_peak_vram_mib": 3301.0,
+    "pytorch_peak_allocated_mib": 1973.265625,
+    "pytorch_peak_reserved_mib": 2628.0,
+    "worker_pre_exit_allocated_mib": 64.0,
+    "worker_pre_exit_reserved_mib": 330.0,
+    "gpu_hours": 0.0030695817805826663,
+    "estimated_cost_cny": 0.02725788621157408,
+    "post_process_vram_mib": 0,
+    "post_process_compute_processes": 0
+  },
+  "backup": {
+    "path": "/root/autodl-fs/math-rlvr-backups/grpo_matched_0p5b_seed123_20260716T115714Z.tar.gz",
+    "sha256": "63d4e598169ec655a5d2c52e023606e1fb8b6b6915345d8a948d3273b45bf6f3",
+    "archive_listing_verified": true,
+    "checksum_verified": true
+  },
+  "frozen_identity_passed": true,
+  "comparison_keys_verified": true,
+  "checkpoint_safety_passed": true,
+  "automatic_retry": false,
+  "included_in_aggregate": true,
+  "historical_failures_excluded": [
+    "ppo_matched_0p5b_seed42_20260714T073357Z",
+    "ppo_matched_0p5b_seed42_20260714T082003Z",
+    "ppo_matched_0p5b_seed42_20260714T085240Z",
+    "ppo_matched_0p5b_seed42_20260716T111934Z"
+  ]
+}

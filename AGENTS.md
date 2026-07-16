@@ -371,3 +371,12 @@ canonical accuracy remained zero. The adapter-only checkpoint, full/Git-safe che
 verified independent backup and parent GPU release passed. This is a valid matched-pilot
 single update, not proof of learning or GRPO superiority. The suite may proceed only to
 the next frozen command, GRPO seed 123; the four historical PPO failures stay excluded.
+
+### Matched GRPO pilot seed 123 success
+
+Run `grpo_matched_0p5b_seed123_20260716T115714Z` executed once and passed with 16
+completion/evidence rows, 724 generated tokens, four microsteps and one optimizer /
+update / global step. All 16 comparison keys and four nonzero-variance groups passed;
+canonical pass accuracy remained zero. The adapter-only checkpoint, checksums, backup
+and GPU release passed. It is a pilot single update, not a learning or superiority
+claim. Continue only with the next frozen command, PPO seed 123.
