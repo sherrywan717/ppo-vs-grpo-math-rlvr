@@ -1,0 +1,11 @@
+{
+  "disclaimer": "Matched 0.5B pilot - not the final benchmark",
+  "decision": "positions_1_through_4_scientific_success",
+  "positions": [
+    {"position": 1, "algorithm": "ppo", "seed": 42, "run_id": "ppo_matched_0p5b_seed42_20260716T114710Z", "status": "execution_success/learning_signal_present", "completions": 16, "optimizer_steps": 1, "global_steps": 1, "checkpoint_safe": true, "backup_sha256": "dd1833ea6fa75a6a8af1d7fba366b05e498b0524ee726a526eb7fa294f89b7f6", "commit": "8db7ce6"},
+    {"position": 2, "algorithm": "grpo", "seed": 42, "run_id": "grpo_matched_0p5b_seed42_20260716T115219Z", "status": "execution_success/learning_signal_present", "completions": 16, "optimizer_steps": 1, "global_steps": 1, "checkpoint_safe": true, "backup_sha256": "6c31e369554cc4272235981722c96ff65de69614eb435b580673b061003322fb", "backup_warning": "pre-existing_sidecar_stale", "commit": "c048802"},
+    {"position": 3, "algorithm": "grpo", "seed": 123, "run_id": "grpo_matched_0p5b_seed123_20260716T115714Z", "status": "execution_success/learning_signal_present", "completions": 16, "optimizer_steps": 1, "global_steps": 1, "checkpoint_safe": true, "backup_sha256": "63d4e598169ec655a5d2c52e023606e1fb8b6b6915345d8a948d3273b45bf6f3", "backup_warning": "pre-existing_sidecar_stale", "commit": "463881f"},
+    {"position": 4, "algorithm": "ppo", "seed": 123, "run_id": "ppo_matched_0p5b_seed123_20260716T120000Z", "status": "execution_success/learning_signal_present", "completions": 16, "optimizer_steps": 1, "global_steps": 1, "checkpoint_safe": true, "backup_sha256": "2ac5a29a453e8e71bda7aea2d498e798b0f6d29393c20286bd0e585fe7f326f9", "backup_warning": "pre-existing_sidecar_stale", "commit": "5489154"}
+  ],
+  "historical_engineering_failures": ["ppo_matched_0p5b_seed42_20260714T073357Z", "ppo_matched_0p5b_seed42_20260714T082003Z", "ppo_matched_0p5b_seed42_20260714T085240Z", "ppo_matched_0p5b_seed42_20260716T111934Z"]
+}

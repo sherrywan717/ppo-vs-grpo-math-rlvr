@@ -564,3 +564,12 @@ This file records operational history and pitfalls that should survive context c
 - Peak VRAM/wall/GPU-hours/cost were `10015 MiB / 15.2371 s / 0.00423253 / CNY 0.03758`.
   Backup SHA256: `2ac5a29a453e8e71bda7aea2d498e798b0f6d29393c20286bd0e585fe7f326f9`.
 - Parent GPU release passed. Continue only to frozen PPO seed 2026 after commit/clean.
+
+## Matched Suite Recovery Reconciliation
+
+- Raw run evidence, checkpoint hashes, persistent archives and Git-safe checksums
+  establish `ppo_matched_0p5b_seed42_20260716T114710Z` as position-1 success:
+  16 completions, 574 tokens, four batch-4 backward events and exact one-step
+  counters. The derived recovery row was corrected; no original run changed.
+- Historical PPO seed-42 failures remain `073357Z`, `082003Z`, `085240Z`, and
+  `111934Z`.

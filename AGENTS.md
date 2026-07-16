@@ -390,3 +390,10 @@ the other three did not, and zero canonical accuracy remains an experimental out
 Finite losses, exact model-role optimizer union, safe checkpoint, verified backup and
 GPU release passed. This is not proof of learning or PPO superiority. Proceed only to
 the next frozen command, PPO seed 2026.
+
+### Matched suite recovery reconciliation
+
+Primary evidence establishes `ppo_matched_0p5b_seed42_20260716T114710Z` as the
+valid suite-position-1 scientific success. A derived recovery row incorrectly called
+it a historical failure and was corrected without modifying the run. Real historical
+failures remain `073357Z`, `082003Z`, `085240Z`, and `111934Z`.
