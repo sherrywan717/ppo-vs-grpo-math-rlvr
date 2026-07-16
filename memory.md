@@ -582,3 +582,12 @@ This file records operational history and pitfalls that should survive context c
 - Reward mean/std `0.09375 / 0.04284784125250652`; all four groups had nonzero
   variance, while all canonical statuses were FORMAT_ERROR.
 - Backup SHA256: `2fb70aacae8bcf8cfdb5bba359b2ce8b95e62dd1505f15f7d0af31d28e1ee03e`.
+
+## Matched GRPO Pilot Seed 2026 Success
+
+- `grpo_matched_0p5b_seed2026_20260716T123716Z`: 16 completions/rewards,
+  703 tokens, four microsteps and optimizer/update/global `1/1/1`.
+- Reward mean/std `0.078125 / 0.04990224819584785`; all four group variances
+  were nonzero. Loss/grad norm/entropy were `0.4634579420 / 2.6247079372 /
+  0.4789166301`; KL is unavailable because beta=0.
+- Backup SHA256: `124818a2f9951b4927f3c0411cf5f2fdb37c1eaf3714f54b87c1d856db52eed0`.

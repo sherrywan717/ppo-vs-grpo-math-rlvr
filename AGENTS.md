@@ -404,3 +404,10 @@ Run `ppo_matched_0p5b_seed2026_20260716T122924Z` passed with 16 completions,
 512 tokens, four batch-4 backward events and exact one-step counters. Required
 metrics, adapter/head checkpoint, backup and GPU release passed. All completions were
 FORMAT_ERROR; this is a scientific outcome, not proof of learning or superiority.
+
+### Matched GRPO pilot seed 2026 success
+
+Run `grpo_matched_0p5b_seed2026_20260716T123716Z` passed with 16 completions,
+703 tokens, four microsteps and one optimizer/update/global step. Required metrics,
+group evidence, adapter checkpoint, backup and GPU release passed. This remains a
+matched pilot result, not a final benchmark or superiority claim.

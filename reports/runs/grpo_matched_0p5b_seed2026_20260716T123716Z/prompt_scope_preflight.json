@@ -1,0 +1,98 @@
+{
+  "algorithm": "grpo",
+  "validated_scope": {
+    "scope": "matched_0p5b_pilot",
+    "algorithm": "grpo",
+    "config_path": "configs/pilot/resolved/grpo_seed_2026.json",
+    "config_sha256": "1d558da6ea57cfa074fee30868f1772c76c617920e4e93a4897be2e2b48d6b00",
+    "expected_run_profile": "grpo_matched_pilot"
+  },
+  "cpu_resolved_scope": "matched_0p5b_pilot",
+  "expected_run_contract_scope": "matched_0p5b_pilot",
+  "delayed_runtime_scope": "matched_0p5b_pilot",
+  "prompt_selector_scope": "matched_0p5b_pilot",
+  "expected_run_profile": "grpo_matched_pilot",
+  "prompt_version": "prompt_v1_strict_concise",
+  "prompt_sha256": "6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7",
+  "rendered_row_count": 4,
+  "comparison_keys": [
+    "countdown:train:0::generation:0",
+    "countdown:train:0::generation:1",
+    "countdown:train:0::generation:2",
+    "countdown:train:0::generation:3",
+    "countdown:train:1::generation:0",
+    "countdown:train:1::generation:1",
+    "countdown:train:1::generation:2",
+    "countdown:train:1::generation:3",
+    "countdown:train:2::generation:0",
+    "countdown:train:2::generation:1",
+    "countdown:train:2::generation:2",
+    "countdown:train:2::generation:3",
+    "countdown:train:3::generation:0",
+    "countdown:train:3::generation:1",
+    "countdown:train:3::generation:2",
+    "countdown:train:3::generation:3"
+  ],
+  "rows": [
+    {
+      "prompt_position": 0,
+      "problem_id": "countdown:train:0",
+      "rendered_prompt_hash": "7fda8e89682e4bf20afa30a2637430ae2975b83412ba12560dbc509978828f61",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Solve the math problem concisely. Follow the output protocol at the end of the user message exactly."
+        },
+        {
+          "role": "user",
+          "content": "Use each of [5, 9, 13, 6] exactly once with +, -, *, / to make 15/26.\n\nOUTPUT PROTOCOL — follow exactly:\n<reasoning>...</reasoning>\n<answer>...</answer>\nReturn exactly those two closed blocks, in that order, with no text outside them.\nKeep reasoning to at most two short sentences.\nInside <answer>, write one arithmetic expression only.\nDo not include prose, an equals sign, or the target value.\nUse every input number exactly once. Use only +, -, *, /, and parentheses."
+        }
+      ]
+    },
+    {
+      "prompt_position": 1,
+      "problem_id": "countdown:train:1",
+      "rendered_prompt_hash": "e325f3cc16f257408be6497e46d9bee64107dd63c9f1ce3af501d8d8a5be4cea",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Solve the math problem concisely. Follow the output protocol at the end of the user message exactly."
+        },
+        {
+          "role": "user",
+          "content": "Use each of [16, 4, 11, 13] exactly once with +, -, *, / to make -4.\n\nOUTPUT PROTOCOL — follow exactly:\n<reasoning>...</reasoning>\n<answer>...</answer>\nReturn exactly those two closed blocks, in that order, with no text outside them.\nKeep reasoning to at most two short sentences.\nInside <answer>, write one arithmetic expression only.\nDo not include prose, an equals sign, or the target value.\nUse every input number exactly once. Use only +, -, *, /, and parentheses."
+        }
+      ]
+    },
+    {
+      "prompt_position": 2,
+      "problem_id": "countdown:train:2",
+      "rendered_prompt_hash": "83977d8fc40c62ffd6c2b27b40ee824cb77af06576f5c6dbcb003727faf7a8c4",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Solve the math problem concisely. Follow the output protocol at the end of the user message exactly."
+        },
+        {
+          "role": "user",
+          "content": "Use each of [16, 15, 10, 11] exactly once with +, -, *, / to make -299/15.\n\nOUTPUT PROTOCOL — follow exactly:\n<reasoning>...</reasoning>\n<answer>...</answer>\nReturn exactly those two closed blocks, in that order, with no text outside them.\nKeep reasoning to at most two short sentences.\nInside <answer>, write one arithmetic expression only.\nDo not include prose, an equals sign, or the target value.\nUse every input number exactly once. Use only +, -, *, /, and parentheses."
+        }
+      ]
+    },
+    {
+      "prompt_position": 3,
+      "problem_id": "countdown:train:3",
+      "rendered_prompt_hash": "7b4dec01d6e50be7f84b469e934e875649ceec6a56b467403d9dc3fd49ffce12",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Solve the math problem concisely. Follow the output protocol at the end of the user message exactly."
+        },
+        {
+          "role": "user",
+          "content": "Use each of [13, 14, 11, 6] exactly once with +, -, *, / to make 1001/3.\n\nOUTPUT PROTOCOL — follow exactly:\n<reasoning>...</reasoning>\n<answer>...</answer>\nReturn exactly those two closed blocks, in that order, with no text outside them.\nKeep reasoning to at most two short sentences.\nInside <answer>, write one arithmetic expression only.\nDo not include prose, an equals sign, or the target value.\nUse every input number exactly once. Use only +, -, *, /, and parentheses."
+        }
+      ]
+    }
+  ]
+}
