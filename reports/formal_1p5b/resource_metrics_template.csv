@@ -1,0 +1,1 @@
+run_id,algorithm,seed,series_index,elapsed_seconds,gpu_utilization_pct,pytorch_allocated_mib,pytorch_reserved_mib,pytorch_peak_allocated_mib,pytorch_peak_reserved_mib,nvidia_smi_memory_mib,wall_time_seconds,gpu_hours,cost_cny

@@ -1,0 +1,83 @@
+{
+  "config_sha256": "b3d859c408db7e2fc3832edf01cbe5bfb93a2ac68d4fb400b68430ef42d2f66a",
+  "label": "Formal 1.5B evaluation - frozen before model execution",
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "local_files_only": true,
+    "dtype": "bfloat16"
+  },
+  "prompt": {
+    "version": "prompt_v2_formal_math",
+    "sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "renderer": "math_rlvr.prompt.chat_template.v1"
+  },
+  "reward": {
+    "version": "shaped_v3_domain",
+    "sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463",
+    "canonical_metrics_ignore_scalar_shaping": true
+  },
+  "parser": {
+    "version": "strict_completion_parser_v1",
+    "sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad"
+  },
+  "verifier_bundle": {
+    "version": "gsm8k_math_domain_router_v1",
+    "sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd",
+    "gsm8k_sha256": "91f9de474df89f63cd208a5621fbb7a678dadbe73e4a3f3426afb5f59fbe4b50",
+    "math_sha256": "0a4fb547959d1edc3c157392fb49f209a140981757f39a0c25c454868e8aefa7"
+  },
+  "data_registry_sha256": "d7c53f6180187711da780a3a1f81f8b45e6164ddc9f115eac2fb6ae3e1fe7393",
+  "seeds": [42, 123, 2026],
+  "sampling": {
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_prompt_length": 512,
+    "max_completion_length": 256
+  },
+  "protocol": {
+    "validation": {
+      "unique_problems": 64,
+      "responses_per_problem": 1,
+      "completions": 64
+    },
+    "baseline": {
+      "unique_problems": 400,
+      "pass1_completions": 400,
+      "pass4_subset_problems": 100,
+      "pass4_completions": 400,
+      "completions_per_seed": 800
+    },
+    "final": {
+      "unique_problems": 400,
+      "pass1_completions": 400,
+      "pass4_subset_problems": 100,
+      "pass4_completions": 400,
+      "completions_per_checkpoint_seed": 800
+    }
+  },
+  "selection_policy": {
+    "test_use": "baseline_and_final_only",
+    "checkpoint_selection": "fixed_step_32_no_test_tuning",
+    "validation_steps": [8, 16, 24, 32],
+    "test_driven_tuning_forbidden": true
+  },
+  "statistics": {
+    "paired_unit": "problem_id",
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20260712,
+    "confidence_level": 0.95,
+    "cross_seed_summary": ["raw_values", "mean", "sample_standard_deviation"],
+    "significance_claims_from_three_seeds": false
+  },
+  "required_outputs": [
+    "completions.jsonl",
+    "per_problem_metrics.csv",
+    "aggregate_metrics.csv",
+    "aggregate_metrics.json",
+    "verifier_status.csv",
+    "resource_metrics.csv",
+    "report.md",
+    "figures"
+  ]
+}

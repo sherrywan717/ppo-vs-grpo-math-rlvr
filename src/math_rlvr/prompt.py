@@ -9,6 +9,7 @@ from math_rlvr.dataset import MathProblem
 
 PROMPT_V0_GRPO_SMOKE = "prompt_v0_grpo_smoke"
 PROMPT_V1_STRICT_CONCISE = "prompt_v1_strict_concise"
+PROMPT_V2_FORMAL_MATH = "prompt_v2_formal_math"
 PROMPT_RENDERER_VERSION = "math_rlvr.prompt.chat_template.v1"
 
 
@@ -18,6 +19,7 @@ class ExperimentScope(StrEnum):
     STAGE_D_SMOKE = "stage_d_smoke"
     MATCHED_0P5B_PILOT = "matched_0p5b_pilot"
     MAIN_FORMAL = "main_formal"
+
 
 SYSTEM_PROMPT = (
     "Solve the math problem. Output exactly one <reasoning>...</reasoning> block "
@@ -48,10 +50,21 @@ def _prompt_spec(version: str) -> dict[str, Any]:
     if version == PROMPT_V0_GRPO_SMOKE:
         system, protocols = SYSTEM_PROMPT, {}
     elif version == PROMPT_V1_STRICT_CONCISE:
-        system, protocols = SYSTEM_PROMPT_V1, {
-            "countdown": _COUNTDOWN_V1_PROTOCOL,
-            "default": _GENERAL_V1_PROTOCOL,
-        }
+        system, protocols = (
+            SYSTEM_PROMPT_V1,
+            {
+                "countdown": _COUNTDOWN_V1_PROTOCOL,
+                "default": _GENERAL_V1_PROTOCOL,
+            },
+        )
+    elif version == PROMPT_V2_FORMAL_MATH:
+        system, protocols = (
+            SYSTEM_PROMPT_V1,
+            {
+                "gsm8k": _GENERAL_V1_PROTOCOL,
+                "math": _GENERAL_V1_PROTOCOL,
+            },
+        )
     else:
         raise ValueError(f"unknown prompt version: {version}")
     return {
@@ -73,6 +86,7 @@ def prompt_spec_sha256(version: str) -> str:
 
 PROMPT_V0_SHA256 = prompt_spec_sha256(PROMPT_V0_GRPO_SMOKE)
 PROMPT_V1_SHA256 = prompt_spec_sha256(PROMPT_V1_STRICT_CONCISE)
+PROMPT_V2_SHA256 = prompt_spec_sha256(PROMPT_V2_FORMAL_MATH)
 PROMPT_APPROVAL_STATUS = {
     PROMPT_V0_GRPO_SMOKE: {
         "candidate_status": "historical_baseline",
@@ -81,6 +95,10 @@ PROMPT_APPROVAL_STATUS = {
     PROMPT_V1_STRICT_CONCISE: {
         "candidate_status": "approved_for_smoke",
         "production_status": "not_approved",
+    },
+    PROMPT_V2_FORMAL_MATH: {
+        "candidate_status": "formal_frozen",
+        "production_status": "approved_for_formal",
     },
 }
 
@@ -94,9 +112,7 @@ def prompt_metadata(version: str) -> dict[str, str]:
     }
 
 
-def prompt_version_from_config(
-    config: dict[str, Any] | None, scope: ExperimentScope
-) -> str:
+def prompt_version_from_config(config: dict[str, Any] | None, scope: ExperimentScope) -> str:
     """Select a prompt only from a path/SHA-validated experiment scope."""
     if not isinstance(scope, ExperimentScope):
         raise ValueError("prompt selection requires a validated experiment scope")
@@ -109,9 +125,11 @@ def prompt_version_from_config(
             raise ValueError("bounded 0.5B scope requires approved strict-concise prompt")
         return selected
     if scope is ExperimentScope.MAIN_FORMAL:
-        if selected is not None:
+        if selected is None:
+            return PROMPT_V0_GRPO_SMOKE
+        if selected != PROMPT_V2_FORMAL_MATH:
             raise ValueError("main/formal configs must not activate a smoke prompt")
-        return PROMPT_V0_GRPO_SMOKE
+        return selected
     raise ValueError("unknown validated experiment scope")
 
 
@@ -130,11 +148,22 @@ def format_problem_v1(problem: MathProblem) -> list[dict[str, str]]:
     ]
 
 
+def format_problem_v2(problem: MathProblem) -> list[dict[str, str]]:
+    if problem.source not in {"gsm8k", "math"}:
+        raise ValueError("formal math prompt only supports GSM8K and MATH")
+    return [
+        {"role": "system", "content": SYSTEM_PROMPT_V1},
+        {"role": "user", "content": f"{problem.prompt}\n\n{_GENERAL_V1_PROTOCOL}"},
+    ]
+
+
 def format_problem_version(problem: MathProblem, version: str) -> list[dict[str, str]]:
     if version == PROMPT_V0_GRPO_SMOKE:
         return format_problem_v0(problem)
     if version == PROMPT_V1_STRICT_CONCISE:
         return format_problem_v1(problem)
+    if version == PROMPT_V2_FORMAL_MATH:
+        return format_problem_v2(problem)
     raise ValueError(f"unknown prompt version: {version}")
 
 

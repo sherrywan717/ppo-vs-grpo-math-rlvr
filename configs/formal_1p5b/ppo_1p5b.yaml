@@ -1,0 +1,86 @@
+schema_version: 1
+experiment: {name: template-only, algorithm: ppo, seed: null}
+formal:
+  family: formal_1p5b_v1
+  template_only: true
+  approved_seeds: [42, 123, 2026]
+  automatic_retries: 0
+  execution_order: deterministic_domain_interleave_2_gsm8k_2_math
+  checkpoint_steps: [8, 16, 24, 32]
+  validation_steps: [8, 16, 24, 32]
+  final_test_checkpoint_step: 32
+model:
+  name_or_path: Qwen/Qwen2.5-1.5B-Instruct
+  revision: 989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+  local_files_only: true
+  dtype: bfloat16
+  use_qlora: false
+  gradient_checkpointing: true
+data:
+  manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/train_core_128.json
+  manifest_sha256: 553939ce40ef20af86f5eabe987bff42814f07e9d40ddf1c4cde1208dcc96dd0
+  validation_manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/validation_64.json
+  validation_manifest_sha256: 83eee5f6191f003c3c5d8f273adb2a5631c848d1f196bfe34891efeca658e70d
+  max_train_samples: 128
+  validation_samples: 64
+  unique_prompts: 128
+  responses_per_prompt: 4
+  ordering: deterministic_domain_interleave_2_gsm8k_2_math
+  schedule_sha256: a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee
+  ordered_problem_ids_sha256: fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454
+  data_registry: configs/formal_1p5b/data_registry.json
+  data_registry_sha256: d7c53f6180187711da780a3a1f81f8b45e6164ddc9f115eac2fb6ae3e1fe7393
+prompt: {version: prompt_v2_formal_math}
+reward: {policy: shaped_v3_domain}
+lora: {rank: 16, alpha: 32, dropout: 0, target_modules: [q_proj, k_proj, v_proj, o_proj]}
+value_model:
+  base_checkpoint: Qwen/Qwen2.5-1.5B-Instruct
+  architecture: AutoModelForSequenceClassification
+  num_labels: 1
+  lora_rank: 8
+  lora_alpha: 16
+  lora_target_modules: [q_proj, v_proj]
+  trainable_score_head: true
+generation:
+  max_prompt_length: 512
+  max_completion_length: 256
+  max_new_tokens: 256
+  temperature: 0.8
+  top_p: 0.95
+training:
+  max_steps: 32
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 1.0e-5
+  logging_steps: 1
+  total_episodes: 512
+  num_ppo_epochs: 1
+  num_mini_batches: 1
+  local_rollout_forward_batch_size: 4
+  save_total_limit: 4
+  save_strategy: steps
+  save_steps: 8
+  save_only_model: true
+  push_to_hub: false
+  report_to: []
+budget:
+  max_completions: 512
+  max_generated_tokens: 131072
+  max_outer_updates: 32
+  max_optimizer_steps: 32
+  max_global_steps: 32
+  max_ppo_epochs: 1
+  max_minibatches: 1
+  max_checkpoints: 4
+  max_wall_time_seconds: 6600
+  max_vram_gib: 55
+  max_gpu_hours: 1.8333333333
+  max_estimated_cost_cny: 16.28
+  gpu_hour_price_cny: 8.88
+artifacts:
+  checkpoint_count: 4
+  independent_run_id: true
+  independent_checkpoint: true
+  inherit_checkpoint: false
+  independent_full_backup: true
+

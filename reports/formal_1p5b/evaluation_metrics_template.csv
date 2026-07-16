@@ -1,0 +1,1 @@
+run_id,phase,algorithm,seed,checkpoint_step,series_index,domain,math500_level,problem_count,completion_count,pass_at_1,pass_at_4,format_accuracy,valid_answer_rate,canonical_correctness,reward_mean,reward_std,mean_completion_length,truncation_rate,paired_delta,bootstrap_ci_low,bootstrap_ci_high

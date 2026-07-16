@@ -29,10 +29,17 @@ def parse_args(description: str, argv=None) -> argparse.Namespace:
 
 
 def preflight(config_path: Path, algorithm: str) -> dict[str, Any]:
+    raw_config = load_config(config_path)
+    if raw_config.get("family") == "formal_1p5b_v1":
+        from math_rlvr.training.formal import validate_formal_config_file
+
+        config, _ = validate_formal_config_file(config_path, algorithm)
+        validate_training_config(config, algorithm)
+        return config
     from math_rlvr.training.execution_contract import validated_experiment_scope
 
     scope = validated_experiment_scope(config_path, algorithm)
-    config = load_config(config_path)
+    config = raw_config
     if config.get("pilot", {}).get("family") == "matched_0p5b_v1":
         from math_rlvr.training.pilot import (
             enrich_pilot_config,

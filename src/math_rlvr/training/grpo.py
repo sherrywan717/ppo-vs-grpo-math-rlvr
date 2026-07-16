@@ -18,6 +18,10 @@ def main(argv=None, execute_fn=None, git_probe=None, snapshot_probe=None) -> int
     if not args.execute:
         print(f"Preflight passed for {config['experiment']['name']}; no training started.")
         return 0
+    if config.get("formal", {}).get("family") == "formal_1p5b_v1":
+        raise RuntimeError(
+            "formal GRPO execution requires a later explicit GPU-stage implementation"
+        )
     if not args.confirm_single_update:
         raise RuntimeError("--execute alone is insufficient; add --confirm-single-update")
     from math_rlvr.training.guarded_grpo import (

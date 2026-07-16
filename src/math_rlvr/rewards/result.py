@@ -56,6 +56,7 @@ class RewardEvaluation:
             "answer_block_component": float(self.components.get("answer_block", 0.0)),
             "strict_protocol_component": float(self.components.get("strict_protocol", 0.0)),
             "valid_expression_component": float(self.components.get("valid_expression", 0.0)),
+            "valid_answer_component": float(self.components.get("valid_answer", 0.0)),
             "exact_number_usage_component": float(
                 self.components.get("exact_number_usage", 0.0)
             ),

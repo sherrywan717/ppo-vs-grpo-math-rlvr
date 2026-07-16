@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "stage": "E",
+  "status": "cpu_only_configuration_frozen",
+  "claim_boundary": "The 0.5B pilot validated engineering and cost only; formal algorithm effects are not yet established.",
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "local_files_only": true,
+    "dtype": "bfloat16",
+    "metadata_only_in_stage_e": true,
+    "weights_downloaded": false
+  },
+  "identities": {
+    "prompt_version": "prompt_v2_formal_math",
+    "prompt_sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "renderer": "math_rlvr.prompt.chat_template.v1",
+    "reward_version": "shaped_v3_domain",
+    "reward_sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463",
+    "reward_component_weights_sha256": "a5e7d4a5f2db49121501b3d19c25b1fe3dd68b257fb60833c93f03c474402128",
+    "parser_version": "strict_completion_parser_v1",
+    "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+    "verifier_bundle_version": "gsm8k_math_domain_router_v1",
+    "verifier_bundle_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd",
+    "gsm8k_verifier_sha256": "91f9de474df89f63cd208a5621fbb7a678dadbe73e4a3f3426afb5f59fbe4b50",
+    "math_verifier_sha256": "0a4fb547959d1edc3c157392fb49f209a140981757f39a0c25c454868e8aefa7"
+  },
+  "reward": {
+    "components": {
+      "answer_block": 0.05,
+      "strict_protocol": 0.05,
+      "domain_valid_answer": 0.1,
+      "canonical_correctness": 0.8
+    },
+    "countdown_exact_number_usage": "not_applicable",
+    "formal_correctness": "canonical VERIFIED_PASS only",
+    "infra_error": "fail_closed"
+  },
+  "data": {
+    "registry_sha256": "d7c53f6180187711da780a3a1f81f8b45e6164ddc9f115eac2fb6ae3e1fe7393",
+    "registry_file_sha256": "f70fcf0b8f2362d8aca1cfcc2d04cb87d06b05b5bc9af973cbd64b2164b5f8eb",
+    "train": {"gsm8k": 64, "math": 64, "total": 128},
+    "validation": {"gsm8k": 32, "math": 32, "total": 64},
+    "final_test": {"gsm8k": 200, "math500": 200, "total": 400},
+    "pass4_subset": {"gsm8k": 50, "math500": 50, "total": 100},
+    "cross_split_hash_overlap": 0,
+    "train_validation_overlap_with_all_math500": 0,
+    "training_schedule": "2 GSM8K then 2 MATH per update, preserving within-domain manifest order",
+    "schedule_sha256": "a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee",
+    "ordered_problem_ids_sha256": "fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454",
+    "validation_provenance_disclosure": "Historical records say source_split=validation; source rows physically come from train and selection_split remains validation. Historical manifests are unchanged.",
+    "test_use": "baseline and fixed step-32 final evaluation only"
+  },
+  "policy_lora": {
+    "rank": 16,
+    "alpha": 32,
+    "dropout": 0,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+    "static_trainable_parameters": 4358144,
+    "percent_of_published_base": 0.2823154510330948
+  },
+  "ppo_value_role": {
+    "separate_base_snapshot": true,
+    "value_lora_rank": 8,
+    "value_lora_alpha": 16,
+    "value_lora_targets": ["q_proj", "v_proj"],
+    "value_lora_parameters": 1089536,
+    "scalar_head_parameters": 1537,
+    "total_value_trainable_parameters": 1091073,
+    "policy_value_trainable_overlap": 0,
+    "checkpoint": "role-separated value adapter and scalar head; no base weights"
+  },
+  "shared_training_budget_per_run": {
+    "unique_prompts": 128,
+    "responses_per_prompt": 4,
+    "updates": 32,
+    "completions": 512,
+    "max_completion_length": 256,
+    "generated_token_cap": 131072,
+    "optimizer_steps": 32,
+    "global_steps": 32,
+    "checkpoint_steps": [8, 16, 24, 32],
+    "checkpoint_count": 4,
+    "automatic_retries": 0,
+    "temperature": 0.8,
+    "top_p": 0.95
+  },
+  "ppo_contract": {
+    "total_episodes": 512,
+    "rollout_batch": 16,
+    "per_device_microbatch": 4,
+    "gradient_accumulation": 4,
+    "ppo_epochs": 1,
+    "minibatches": 1,
+    "microbatches_per_minibatch": 4,
+    "outer_updates": 32,
+    "optimizer_steps": 32,
+    "global_steps": 32,
+    "num_generations_passed_to_ppo": false
+  },
+  "grpo_contract": {
+    "unique_dataset_rows": 128,
+    "generation_batch": 16,
+    "num_generations": 4,
+    "per_device_microbatch": 4,
+    "gradient_accumulation": 4,
+    "steps_per_generation": 4,
+    "num_iterations": 1,
+    "training_microsteps": 128,
+    "optimizer_steps": 32,
+    "global_steps": 32,
+    "shuffle_dataset": false
+  },
+  "evaluation": {
+    "seeds": [42, 123, 2026],
+    "baseline_completions_per_seed": 800,
+    "validation_completions_per_checkpoint": 64,
+    "validation_checkpoint_steps": [8, 16, 24, 32],
+    "final_completions_per_algorithm_seed": 800,
+    "final_checkpoint": 32,
+    "bootstrap_resamples": 10000,
+    "bootstrap_confidence": 0.95,
+    "paired_unit": "problem_id",
+    "statistics": ["raw seed values", "mean", "sample SD", "paired bootstrap CI"],
+    "test_driven_tuning": false
+  },
+  "future_phase_order": [
+    "1.5B CUDA/model-load sanity",
+    "shared untrained 1.5B baseline evaluation",
+    "PPO seed 42 training",
+    "GRPO seed 42 training",
+    "seed 42 validation and learning-signal review",
+    "GRPO seed 123 training",
+    "PPO seed 123 training",
+    "PPO seed 2026 training",
+    "GRPO seed 2026 training",
+    "fixed final test for six step-32 checkpoints",
+    "CPU-only aggregate and report"
+  ],
+  "resolved_config_sha256": {
+    "ppo_seed_42": "717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b",
+    "ppo_seed_123": "a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3",
+    "ppo_seed_2026": "b270b594fb8463fb7a0f62875840ea4a574e9359c986e5b51c26aafae07428db",
+    "grpo_seed_42": "6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf",
+    "grpo_seed_123": "4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa",
+    "grpo_seed_2026": "02479719cce9409cef89d162f36bedc20ca352c216804168d8fe7ae52545f5df"
+  },
+  "training_estimates": {
+    "gpu_hour_price_cny": 8.88,
+    "ppo_per_run": {"expected_minutes": 52.7, "ceiling_minutes": 110, "expected_vram_gib": 34, "ceiling_vram_gib": 55, "expected_gpu_hours": 0.8783, "ceiling_gpu_hours": 1.8333, "expected_cost_cny": 7.8, "ceiling_cost_cny": 16.28},
+    "grpo_per_run": {"expected_minutes": 36.1, "ceiling_minutes": 75, "expected_vram_gib": 11, "ceiling_vram_gib": 24, "expected_gpu_hours": 0.6017, "ceiling_gpu_hours": 1.25, "expected_cost_cny": 5.34, "ceiling_cost_cny": 11.1},
+    "six_training_runs": {"expected_gpu_hours": 4.44, "ceiling_gpu_hours": 9.25, "expected_cost_cny": 39.43, "ceiling_cost_cny": 82.14},
+    "estimate_basis": "0.5B measured pilot scaled by static 1.5B policy/value memory and 32 matched updates; revise resource-only ceilings after sanity without changing scientific budgets"
+  },
+  "evaluation_estimates": {
+    "model_load_sanity": {"expected_minutes": 5, "ceiling_minutes": 10, "expected_vram_gib": 8, "ceiling_vram_gib": 16},
+    "baseline_per_seed": {"expected_minutes": 25, "ceiling_minutes": 50, "expected_vram_gib": 8, "ceiling_vram_gib": 16, "completions": 800},
+    "validation_per_checkpoint": {"expected_minutes": 5, "ceiling_minutes": 10, "expected_vram_gib": 8, "ceiling_vram_gib": 16, "completions": 64},
+    "final_per_algorithm_seed": {"expected_minutes": 25, "ceiling_minutes": 50, "expected_vram_gib": 8, "ceiling_vram_gib": 16, "completions": 800},
+    "all_stage_total": {"expected_gpu_hours": 10.3, "ceiling_gpu_hours": 20.6, "expected_cost_cny": 91.46, "ceiling_cost_cny": 182.93}
+  },
+  "true_blockers_before_model_download": [
+    "A new explicit authorization for metadata-pinned 1.5B weight download",
+    "Enough cache and persistent-backup capacity for the pinned snapshot and future adapters",
+    "The staged CUDA/model-load sanity must pass before baseline authorization"
+  ],
+  "not_executed_in_stage_e": ["CUDA", "model load", "tokenizer load", "downloaded weights", "generation", "Trainer", "backward", "optimizer step"]
+}

@@ -1,0 +1,260 @@
+{
+  "manifests": {
+    "gsm8k_pass4": {
+      "count": 50,
+      "distributions": {
+        "category": {
+          "word_problem": 50
+        },
+        "difficulty": {
+          "gsm8k": 50
+        },
+        "source": {
+          "gsm8k": 50
+        }
+      },
+      "file_sha256": "51bc4189d4b039787310ad4c200aeb5f8b7f8dd7179c75d8d58eecb362ae4c8c",
+      "ordered_content_hashes_sha256": "bb61ea98bd7062e487e0fb7e3dd360fcb9a09d7921f90c89b6d82d0bbd157a69",
+      "ordered_problem_ids_sha256": "2facac2c3248a57884e96e8d6d51d900f6b695394b65d3c2a5c3c7c5f5823e23",
+      "path": "/root/autodl-tmp/datasets/math_rlvr/manifests/gsm8k_pass4_50.json",
+      "source_contracts": {
+        "gsm8k": {
+          "dataset_id": "openai/gsm8k",
+          "revision": "740312add88f781978c0658806c59bc2815b9866"
+        }
+      }
+    },
+    "gsm8k_test": {
+      "count": 200,
+      "distributions": {
+        "category": {
+          "word_problem": 200
+        },
+        "difficulty": {
+          "gsm8k": 200
+        },
+        "source": {
+          "gsm8k": 200
+        }
+      },
+      "file_sha256": "2b84fe8130a93310dfe3cda206a09daa012defd3fab2d9f12dc86d592788e5b8",
+      "ordered_content_hashes_sha256": "c86291a7551225e1e8a52bcb50d95fa0b9aa8f0b75e75cc00a17ed2b90662fbc",
+      "ordered_problem_ids_sha256": "8c6adb72e47e1a3b360b8663978810493b6637ba89efab4636887a1183c8a9eb",
+      "path": "/root/autodl-tmp/datasets/math_rlvr/manifests/gsm8k_test_200.json",
+      "source_contracts": {
+        "gsm8k": {
+          "dataset_id": "openai/gsm8k",
+          "revision": "740312add88f781978c0658806c59bc2815b9866"
+        }
+      }
+    },
+    "math500_pass4": {
+      "count": 50,
+      "distributions": {
+        "category": {
+          "Algebra": 20,
+          "Counting & Probability": 1,
+          "Geometry": 3,
+          "Intermediate Algebra": 5,
+          "Number Theory": 5,
+          "Prealgebra": 10,
+          "Precalculus": 6
+        },
+        "difficulty": {
+          "1": 10,
+          "2": 10,
+          "3": 10,
+          "4": 10,
+          "5": 10
+        },
+        "source": {
+          "math": 50
+        }
+      },
+      "file_sha256": "2b2afd7e862231bbb5b2906e4280c8ffefca741683a60d70cb05d99c2065f99c",
+      "ordered_content_hashes_sha256": "1c2eba7d2a84b6490a2f2a32352807366c80fd1c1f36e6ef9e6f8551ffd22a41",
+      "ordered_problem_ids_sha256": "ebf07f331e723bf1b8ad64505ecf18411d7020523d2af9071c2c9102fc8e6856",
+      "path": "/root/autodl-tmp/datasets/math_rlvr/manifests/math500_pass4_50.json",
+      "source_contracts": {
+        "math": {
+          "dataset_id": "HuggingFaceH4/MATH-500",
+          "revision": "6e4ed1a2a79af7d8630a6b768ec859cb5af4d3be"
+        }
+      }
+    },
+    "math500_test": {
+      "count": 200,
+      "distributions": {
+        "category": {
+          "Algebra": 54,
+          "Counting & Probability": 13,
+          "Geometry": 9,
+          "Intermediate Algebra": 35,
+          "Number Theory": 27,
+          "Prealgebra": 36,
+          "Precalculus": 26
+        },
+        "difficulty": {
+          "1": 40,
+          "2": 40,
+          "3": 40,
+          "4": 40,
+          "5": 40
+        },
+        "source": {
+          "math": 200
+        }
+      },
+      "file_sha256": "34a407fad90ef229f5ce5e1c24d1c964b140ec1a14c9fa5f1ecf4559435b5c4f",
+      "ordered_content_hashes_sha256": "b749effa84fabf0b2e0d76f7400f2371fbc3a4e0ea9d80bc126d40abbf574101",
+      "ordered_problem_ids_sha256": "87a6e6cbcc48e61555dd082025814dd0d722c1757b1cd00fc265e21c09945c4f",
+      "path": "/root/autodl-tmp/datasets/math_rlvr/manifests/math500_test_200.json",
+      "source_contracts": {
+        "math": {
+          "dataset_id": "HuggingFaceH4/MATH-500",
+          "revision": "6e4ed1a2a79af7d8630a6b768ec859cb5af4d3be"
+        }
+      }
+    },
+    "train": {
+      "count": 128,
+      "distributions": {
+        "category": {
+          "Algebra": 20,
+          "Counting & Probability": 3,
+          "Geometry": 5,
+          "Intermediate Algebra": 7,
+          "Number Theory": 8,
+          "Prealgebra": 16,
+          "Precalculus": 5,
+          "word_problem": 64
+        },
+        "difficulty": {
+          "Level 1": 16,
+          "Level 2": 24,
+          "Level 3": 24,
+          "gsm8k": 64
+        },
+        "source": {
+          "gsm8k": 64,
+          "math": 64
+        }
+      },
+      "file_sha256": "553939ce40ef20af86f5eabe987bff42814f07e9d40ddf1c4cde1208dcc96dd0",
+      "ordered_content_hashes_sha256": "748e884a405a9c750d3a3a9664bc8202e559a13469c20183540d1724f62162a6",
+      "ordered_problem_ids_sha256": "e4333582b582f018d8e28f6449fecfe5c824950d6dc9f91b9e24379c2dc305f4",
+      "path": "/root/autodl-tmp/datasets/math_rlvr/manifests/train_core_128.json",
+      "source_contracts": {
+        "gsm8k": {
+          "dataset_id": "openai/gsm8k",
+          "revision": "740312add88f781978c0658806c59bc2815b9866"
+        },
+        "math": {
+          "dataset_id": "DigitalLearningGmbH/MATH-lighteval",
+          "revision": "0530c78699ea5e8eb5530600900e1f328b48acad"
+        }
+      }
+    },
+    "validation": {
+      "count": 64,
+      "distributions": {
+        "category": {
+          "Algebra": 12,
+          "Counting & Probability": 2,
+          "Geometry": 3,
+          "Intermediate Algebra": 3,
+          "Number Theory": 6,
+          "Prealgebra": 4,
+          "Precalculus": 2,
+          "word_problem": 32
+        },
+        "difficulty": {
+          "Level 1": 3,
+          "Level 2": 8,
+          "Level 3": 13,
+          "Level 4": 5,
+          "Level 5": 3,
+          "gsm8k": 32
+        },
+        "source": {
+          "gsm8k": 32,
+          "math": 32
+        }
+      },
+      "file_sha256": "83eee5f6191f003c3c5d8f273adb2a5631c848d1f196bfe34891efeca658e70d",
+      "ordered_content_hashes_sha256": "1473d43df669051a2a1a727be756eb63e960857f9ea36b20d5a2ec51fdd761b8",
+      "ordered_problem_ids_sha256": "8532aa7905f6eadf66a863d03c9aa3ae4344ac4e0ba47aca1bd559d014092ba1",
+      "path": "/root/autodl-tmp/datasets/math_rlvr/manifests/validation_64.json",
+      "source_contracts": {
+        "gsm8k": {
+          "dataset_id": "openai/gsm8k",
+          "revision": "740312add88f781978c0658806c59bc2815b9866"
+        },
+        "math": {
+          "dataset_id": "DigitalLearningGmbH/MATH-lighteval",
+          "revision": "0530c78699ea5e8eb5530600900e1f328b48acad"
+        }
+      }
+    }
+  },
+  "provenance_corrections": {
+    "validation": {
+      "historical_metadata_source_split": "validation",
+      "physical_source_split": "train",
+      "row_count": 64,
+      "selection_split": "validation"
+    }
+  },
+  "registry_sha256": "d7c53f6180187711da780a3a1f81f8b45e6164ddc9f115eac2fb6ae3e1fe7393",
+  "schema_version": "formal_1p5b_data_registry_v1",
+  "selection_seed": 20260712,
+  "sources": {
+    "gsm8k": {
+      "dataset_id": "openai/gsm8k",
+      "local_arrow_artifacts": {
+        "test": {
+          "path": "/root/autodl-tmp/cache/huggingface/datasets/openai___gsm8k/main/0.0.0/740312add88f781978c0658806c59bc2815b9866/gsm8k-test.arrow",
+          "row_count": 1319,
+          "sha256": "45965b000311d1550e5619b60b5bf31cf76edebfd8b8eddc62a876fbf8c9be95"
+        },
+        "train": {
+          "path": "/root/autodl-tmp/cache/huggingface/datasets/openai___gsm8k/main/0.0.0/740312add88f781978c0658806c59bc2815b9866/gsm8k-train.arrow",
+          "row_count": 7473,
+          "sha256": "6146bca074f4c6c5e07de7e96cc968adab3833dbdafeda21830f27558eea3d9b"
+        }
+      },
+      "revision": "740312add88f781978c0658806c59bc2815b9866"
+    },
+    "math": {
+      "dataset_id": "DigitalLearningGmbH/MATH-lighteval",
+      "local_arrow_artifacts": {
+        "train": {
+          "path": "/root/autodl-tmp/cache/huggingface/datasets/DigitalLearningGmbH___math-lighteval/default/0.0.0/0530c78699ea5e8eb5530600900e1f328b48acad/math-lighteval-train.arrow",
+          "row_count": 7500,
+          "sha256": "b98718a059d1f2750b03bf1db5841445e5a06236375e2789e3a09852bd286507"
+        }
+      },
+      "revision": "0530c78699ea5e8eb5530600900e1f328b48acad"
+    },
+    "math500": {
+      "dataset_id": "HuggingFaceH4/MATH-500",
+      "local_arrow_artifacts": {
+        "test": {
+          "path": "/root/autodl-tmp/cache/huggingface/datasets/HuggingFaceH4___math-500/default/0.0.0/6e4ed1a2a79af7d8630a6b768ec859cb5af4d3be/math-500-test.arrow",
+          "row_count": 500,
+          "sha256": "ff2663846092b986df3026f53904030cbaf8e061c9f978d319a7bd86b3a04ea4"
+        }
+      },
+      "revision": "6e4ed1a2a79af7d8630a6b768ec859cb5af4d3be"
+    }
+  },
+  "training_schedule": {
+    "gsm8k_prompts_per_update": 2,
+    "math_prompts_per_update": 2,
+    "ordered_problem_ids_sha256": "fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454",
+    "schedule_sha256": "a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee",
+    "strategy": "deterministic_domain_interleave_2_gsm8k_2_math",
+    "unique_prompts_per_update": 4,
+    "updates": 32
+  }
+}

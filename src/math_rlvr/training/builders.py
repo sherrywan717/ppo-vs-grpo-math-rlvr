@@ -80,8 +80,8 @@ def grpo_config(config, output_dir, cpu_only=False):
         max_steps=training["max_steps"],
         per_device_train_batch_size=training["per_device_train_batch_size"],
         gradient_accumulation_steps=training["gradient_accumulation_steps"],
-        learning_rate=1e-5,
-        logging_steps=1,
+        learning_rate=training.get("learning_rate", 1e-5),
+        logging_steps=training.get("logging_steps", 1),
         save_strategy=training["save_strategy"],
         save_steps=training["save_steps"],
         save_total_limit=training["save_total_limit"],
@@ -98,6 +98,9 @@ def grpo_config(config, output_dir, cpu_only=False):
         use_vllm=False,
         gradient_checkpointing=config["model"]["gradient_checkpointing"],
         model_init_kwargs=model_init_kwargs,
+        shuffle_dataset=training.get("shuffle_dataset", True),
+        dataloader_drop_last=training.get("dataloader_drop_last", False),
+        dataloader_num_workers=training.get("dataloader_num_workers", 0),
     )
 
 
@@ -106,7 +109,11 @@ def ppo_config(config, output_dir, cpu_only=False):
     from trl import PPOConfig
 
     validate_training_config(config, "ppo")
-    if config.get("pilot", {}).get("family") == "matched_0p5b_v1":
+    if config.get("formal", {}).get("family") == "formal_1p5b_v1":
+        from math_rlvr.training.formal import resolve_ppo_formal_contract
+
+        resolve_ppo_formal_contract(config)
+    elif config.get("pilot", {}).get("family") == "matched_0p5b_v1":
         from math_rlvr.training.pilot import resolve_ppo_pilot_contract
 
         resolve_ppo_pilot_contract(config)
@@ -121,8 +128,8 @@ def ppo_config(config, output_dir, cpu_only=False):
         max_steps=training["max_steps"],
         per_device_train_batch_size=training["per_device_train_batch_size"],
         gradient_accumulation_steps=training["gradient_accumulation_steps"],
-        learning_rate=1e-5,
-        logging_steps=1,
+        learning_rate=training.get("learning_rate", 1e-5),
+        logging_steps=training.get("logging_steps", 1),
         save_strategy=training["save_strategy"],
         save_steps=training["save_steps"],
         save_total_limit=training["save_total_limit"],

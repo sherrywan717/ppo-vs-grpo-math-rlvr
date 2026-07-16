@@ -73,6 +73,64 @@ COUNTDOWN_VERIFIER_CONTRACT_SHA256 = contract_sha256(
     COUNTDOWN_VERIFIER_CONTRACT_DESCRIPTOR
 )
 
+GSM8K_VERIFIER_CONTRACT_VERSION = "gsm8k_exact_numeric_v1"
+GSM8K_VERIFIER_CONTRACT_DESCRIPTOR = {
+    "contract_version": GSM8K_VERIFIER_CONTRACT_VERSION,
+    "parser_contract_version": PARSER_CONTRACT_VERSION,
+    "parser_contract_sha256": PARSER_CONTRACT_SHA256,
+    "answer_normalization": "strip_whitespace_and_remove_commas",
+    "accepted_forms": ["signed_integer", "decimal", "fraction", "percent"],
+    "multiple_candidates": "parse_error",
+    "arithmetic": "fractions.Fraction_exact",
+    "comparison": "exact_fraction_equality",
+    "statuses": {
+        "unparseable_prediction": "parse_error",
+        "gold_equal": "verified_pass",
+        "gold_unequal": "wrong_answer",
+    },
+}
+GSM8K_VERIFIER_CONTRACT_SHA256 = contract_sha256(GSM8K_VERIFIER_CONTRACT_DESCRIPTOR)
+
+MATH_VERIFIER_CONTRACT_VERSION = "math_verify_equivalence_v1"
+MATH_VERIFIER_CONTRACT_DESCRIPTOR = {
+    "contract_version": MATH_VERIFIER_CONTRACT_VERSION,
+    "parser_contract_version": PARSER_CONTRACT_VERSION,
+    "parser_contract_sha256": PARSER_CONTRACT_SHA256,
+    "dependency": "math-verify==0.9.0",
+    "gold_parser": "math_verify.parse",
+    "prediction_parser": "math_verify.parse",
+    "equivalence": "math_verify.verify",
+    "generated_code_execution": False,
+    "statuses": {
+        "empty_prediction_parse": "parse_error",
+        "equivalent": "verified_pass",
+        "not_equivalent": "wrong_answer",
+        "parser_or_verifier_runtime_failure": "infra_error",
+    },
+}
+MATH_VERIFIER_CONTRACT_SHA256 = contract_sha256(MATH_VERIFIER_CONTRACT_DESCRIPTOR)
+
+FORMAL_VERIFIER_BUNDLE_CONTRACT_VERSION = "gsm8k_math_domain_router_v1"
+FORMAL_VERIFIER_BUNDLE_CONTRACT_DESCRIPTOR = {
+    "contract_version": FORMAL_VERIFIER_BUNDLE_CONTRACT_VERSION,
+    "parser_contract_version": PARSER_CONTRACT_VERSION,
+    "parser_contract_sha256": PARSER_CONTRACT_SHA256,
+    "source_router": {
+        "gsm8k": {
+            "contract_version": GSM8K_VERIFIER_CONTRACT_VERSION,
+            "contract_sha256": GSM8K_VERIFIER_CONTRACT_SHA256,
+        },
+        "math": {
+            "contract_version": MATH_VERIFIER_CONTRACT_VERSION,
+            "contract_sha256": MATH_VERIFIER_CONTRACT_SHA256,
+        },
+    },
+    "unknown_source": "infra_error_fail_closed",
+}
+FORMAL_VERIFIER_BUNDLE_CONTRACT_SHA256 = contract_sha256(
+    FORMAL_VERIFIER_BUNDLE_CONTRACT_DESCRIPTOR
+)
+
 
 def parser_verifier_metadata() -> dict[str, dict[str, str]]:
     return {
@@ -83,5 +141,29 @@ def parser_verifier_metadata() -> dict[str, dict[str, str]]:
         "verifier_contract": {
             "contract_version": COUNTDOWN_VERIFIER_CONTRACT_VERSION,
             "contract_sha256": COUNTDOWN_VERIFIER_CONTRACT_SHA256,
+        },
+    }
+
+
+def formal_parser_verifier_metadata() -> dict[str, Any]:
+    """Return stable formal parser and per-domain verifier identities."""
+    return {
+        "parser_contract": {
+            "contract_version": PARSER_CONTRACT_VERSION,
+            "contract_sha256": PARSER_CONTRACT_SHA256,
+        },
+        "verifier_contract": {
+            "contract_version": FORMAL_VERIFIER_BUNDLE_CONTRACT_VERSION,
+            "contract_sha256": FORMAL_VERIFIER_BUNDLE_CONTRACT_SHA256,
+        },
+        "domain_verifier_contracts": {
+            "gsm8k": {
+                "contract_version": GSM8K_VERIFIER_CONTRACT_VERSION,
+                "contract_sha256": GSM8K_VERIFIER_CONTRACT_SHA256,
+            },
+            "math": {
+                "contract_version": MATH_VERIFIER_CONTRACT_VERSION,
+                "contract_sha256": MATH_VERIFIER_CONTRACT_SHA256,
+            },
         },
     }

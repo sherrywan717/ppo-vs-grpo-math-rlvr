@@ -420,3 +420,40 @@ excluded. Total measured usage was 0.023131886 GPU-hours and CNY 0.205411. Every
 run had zero canonical pass@1/pass@4; the pilot validates execution and evidence,
 not learning or algorithm superiority. The next appropriate action is CPU-only 1.5B
 GSM8K+MATH configuration freezing, not automatic training.
+
+### Stage E formal 1.5B configuration freeze
+
+The CPU-only formal design is frozen under `configs/formal_1p5b/` for exact model
+`Qwen/Qwen2.5-1.5B-Instruct` revision
+`989aa7980e4cf806f80c7fef2b1adb7bc71aa306`. Stage E queried metadata only; it did not
+download weights or load a model/tokenizer, initialize CUDA, generate, instantiate a
+Trainer, run backward, or step an optimizer. Future execution must use a separately
+authorized exact local snapshot with both offline variables and `local_files_only=true`.
+
+Formal PPO/GRPO share `prompt_v2_formal_math`, `shaped_v3_domain`, policy LoRA r16/
+alpha32/dropout0 on q/k/v/o, temperature 0.8, top-p 0.95, 256 completion tokens, and
+seeds 42/123/2026. The reward is answer-block 0.05, strict protocol 0.05, domain-valid
+answer 0.10, and canonical correctness 0.80. Countdown exact-number-usage is forbidden
+for GSM8K/MATH. Canonical pass metrics ignore scalar shaping; `INFRA_ERROR` fails closed.
+
+The formal data registry selects 64 GSM8K + 64 MATH train, 32+32 validation, 200 GSM8K
++ 200 MATH500 test, and fixed 50+50 pass@4 subsets. There is zero content-hash overlap
+across core splits and zero train/validation overlap with all MATH500. The deterministic
+32-update schedule is two GSM8K followed by two MATH records per update, preserving
+within-domain manifest order. Preserve the disclosed historical validation provenance:
+manifest `source_split=validation`, physical source split `train`, selection split
+`validation`; never rewrite historical manifests to hide it.
+
+Each algorithm/seed is frozen to 32 updates, 512 completions, a 131,072-token cap,
+32 optimizer/global steps, and checkpoints at 8/16/24/32. PPO uses 512 prompt-major
+episodes, rollout 16, batch4/GA4, one epoch, one minibatch, and never receives
+`num_generations`. GRPO uses 128 prompts, generation batch16, four generations,
+batch4/GA4, one iteration, no shuffle, drop-last, and zero workers. PPO's separate
+value base, q/v r8 adapter and scalar head are an explicit cost/architecture difference;
+checkpoints remain role-separated adapter/head-only.
+
+Future order is separately authorized stages: pinned CUDA/model-load sanity; shared
+untrained baseline; PPO42; GRPO42; seed-42 validation review; then GRPO123, PPO123,
+PPO2026, GRPO2026; fixed step-32 final test; CPU aggregate. Test data cannot tune the
+prompt, reward, hyperparameters, or checkpoint. Formal `--execute` currently fails
+before model/CUDA by design. A successful stage never authorizes the next one.

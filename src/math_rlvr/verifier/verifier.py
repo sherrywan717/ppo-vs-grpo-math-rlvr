@@ -139,13 +139,20 @@ class MathExpressionVerifier:
 
 class MathVerifier:
     def __call__(self, problem: MathProblem, completion: str):
-        if problem.source == "gsm8k":
-            verifier = GSM8KVerifier(problem.gold_answer)
-        elif problem.source == "math":
-            verifier = MathExpressionVerifier(problem.gold_answer)
-        else:
-            verifier = CountdownVerifier(problem.metadata["numbers"], problem.metadata["target"])
         try:
+            if problem.source == "gsm8k":
+                verifier = GSM8KVerifier(problem.gold_answer)
+            elif problem.source == "math":
+                verifier = MathExpressionVerifier(problem.gold_answer)
+            elif problem.source == "countdown":
+                verifier = CountdownVerifier(
+                    problem.metadata["numbers"], problem.metadata["target"]
+                )
+            else:
+                return RewardResult(
+                    RewardStatus.INFRA_ERROR,
+                    f"unsupported problem source: {problem.source}",
+                )
             return verifier(completion)
-        except RuntimeError as e:
+        except Exception as e:
             return RewardResult(RewardStatus.INFRA_ERROR, str(e))

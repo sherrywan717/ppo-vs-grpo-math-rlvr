@@ -603,3 +603,35 @@ This file records operational history and pitfalls that should survive context c
 - Historical engineering failures `073357Z`, `082003Z`, `085240Z`, and
   `111934Z` are excluded. Recommended next step: CPU-only 1.5B GSM8K+MATH
   configuration freezing.
+
+## Stage E: Formal 1.5B CPU-only freeze
+
+- Exact model: `Qwen/Qwen2.5-1.5B-Instruct` revision
+  `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`. Official API/config metadata only was
+  queried; no weights or tokenizer were downloaded or loaded.
+- Formal prompt: `prompt_v2_formal_math`, SHA
+  `89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994`.
+- Formal reward: `shaped_v3_domain`, SHA
+  `b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463`;
+  answer block/strict protocol/domain-valid/canonical-correct weights are
+  0.05/0.05/0.10/0.80. Countdown number usage is absent.
+- Parser SHA remains `655c30f2...ba0ad`; formal verifier router SHA is
+  `ac360315...886fd`, with GSM8K `91f9de47...4b50` and MATH `0a4fb547...efa7`.
+- Formal data registry identity is `d7c53f61...e7393`; 128 train, 64 validation, 400
+  final-test records and fixed 100-problem pass@4 subsets have zero prohibited overlap.
+  Schedule SHA `a4b3745e...8b6ee` freezes 32 updates of 2 GSM8K + 2 MATH.
+- Historical validation manifest provenance is disclosed, not rewritten:
+  `source_split=validation`, physical source `train`, derived selection split
+  `validation`.
+- Per algorithm/seed: seeds 42/123/2026, 32 updates, 512 completions, 131,072-token
+  cap, 32 optimizer/global steps, checkpoints 8/16/24/32. PPO rollout16, batch4/GA4,
+  epoch/minibatch1/1; GRPO generation16, num_generations4, batch4/GA4, no shuffle.
+- Static parameter contract from pinned metadata: policy LoRA 4,358,144; PPO value
+  LoRA 1,089,536; scalar head 1,537; PPO optimizer union 5,449,217; GRPO optimizer
+  4,358,144. Policy/value overlap, reference trainables, and reward trainables are zero.
+- Test is baseline/final-only; step32 is fixed before execution. Evaluation stores all
+  completions, per-problem metrics, seed raw/mean/sample SD, and paired problem bootstrap
+  95% intervals. Three seeds do not support exaggerated significance claims.
+- Planned future stages require separate authorization: model download; CUDA/load
+  sanity; baseline; PPO42; GRPO42; seed42 review; remaining four balanced runs; final
+  test; CPU aggregation. Stage E authorizes none of them.

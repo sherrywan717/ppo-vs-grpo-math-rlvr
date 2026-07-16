@@ -4,9 +4,9 @@ A reproducible comparison of PPO and GRPO sample efficiency, stability, and gene
 
 ## Frozen design
 
-Both algorithms use seed `20260712`, the same frozen manifests, prompt envelope, BF16 policy LoRA (`r=16`, alpha 32, dropout 0; q/k/v/o projections), four completions, temperature 0.8, top-p 0.95, prompt length 512, completion length 384, and the same verifier/reward policy. Comparisons align actual completions and generated tokens, not trainer steps.
+Both algorithms use seeds `42`, `123`, and `2026`, the same frozen manifests and 2-GSM8K/2-MATH update order, `prompt_v2_formal_math`, BF16 policy LoRA (`r=16`, alpha 32, dropout 0; q/k/v/o projections), four responses per prompt, temperature 0.8, top-p 0.95, prompt length 512, completion length 256, and one domain-aware reward policy. Comparisons align actual completions and generated tokens, not trainer steps.
 
-Formal reward is fixed: format 0.10, parse/semantic validity 0.10, correctness 0.80. Thus correct is 1.00, parseable wrong is 0.20, format-correct parse failure is 0.10, and format error is 0.00. Infrastructure errors abort.
+Formal reward `shaped_v3_domain` is fixed: answer block 0.05, strict protocol 0.05, domain-valid answer 0.10, and canonical correctness 0.80. Countdown exact-number-usage is not applied to GSM8K or MATH. Formal pass metrics use only canonical verifier status; infrastructure errors abort.
 
 PPO uses a separate sequence-classification value model from the policy checkpoint,
 value LoRA `r=8`, alpha 16 on q/v projections, and a trainable scalar head. The
@@ -206,3 +206,25 @@ single-update budgets, checkpoint safety, and aggregatable artifacts; it is not 
 final benchmark and does not establish learning or algorithm superiority. All six
 runs had zero canonical pass@1/pass@4. See
 `reports/pilot_0p5b/final_report.md` for the three-seed results and limitations.
+
+## Stage E formal 1.5B freeze
+
+Stage E freezes the CPU-only formal experiment at
+`Qwen/Qwen2.5-1.5B-Instruct` revision
+`989aa7980e4cf806f80c7fef2b1adb7bc71aa306`. No weights or tokenizer were downloaded or
+loaded, CUDA was not initialized, and no generation or training occurred. The six
+resolved descriptors under `configs/formal_1p5b/resolved/` bind seeds 42/123/2026,
+the same prompt/reward/parser/verifier/data identities, 32 updates, 512 completions,
+a 131,072-token cap, and checkpoints at steps 8/16/24/32.
+
+PPO derives rollout batch 16 from microbatch 4 and GA4, with one PPO epoch and one
+minibatch per update. GRPO uses generation batch 16, four generations, microbatch 4,
+GA4, and no dataset shuffle. Both have exactly 32 optimizer/global steps. PPO's
+separate value base, rank-8 q/v adapter, and scalar head are an explicit algorithmic
+cost difference; they are never presented as a matched model architecture.
+
+The frozen baseline/final protocol uses GSM8K test 200 and MATH500 200 for pass@1 plus
+fixed 50+50 subsets for pass@4. Test data is used only for the shared base baseline and
+fixed step-32 final evaluation, never for prompt, reward, hyperparameter, or checkpoint
+selection. See `reports/formal_1p5b/experiment_plan.md`. Model download, CUDA sanity,
+baseline evaluation, and training remain separately authorized future stages.

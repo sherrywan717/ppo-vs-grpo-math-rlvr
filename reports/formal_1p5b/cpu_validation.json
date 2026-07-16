@@ -1,0 +1,20 @@
+{
+  "status": "passed_with_disclosed_existing_test_warning",
+  "compileall": "passed",
+  "ruff": "passed",
+  "pytest": {"collected": 389, "passed": 389, "failed": 0, "warnings": 2},
+  "check_env": {"passed": true, "cuda_initialized": false, "model_or_tokenizer_loaded": false},
+  "manifest_validation": "passed",
+  "formal_training_dry_runs": {"ppo": 3, "grpo": 3, "all_passed": true},
+  "evaluation_dry_runs": {"baseline": "passed", "final": "passed"},
+  "fake_artifact_finalization": "passed",
+  "formal_task_model_loads": 0,
+  "formal_task_tokenizer_loads": 0,
+  "model_weight_downloads": 0,
+  "cuda_initializations": 0,
+  "generation_calls": 0,
+  "trainer_train_calls": 0,
+  "project_backward_calls": 0,
+  "project_optimizer_steps": 0,
+  "warning": "The requested full historical regression suite contains two pre-existing local-only Qwen 0.5B tokenizer tests. They loaded that cached tokenizer during pytest; no 1.5B tokenizer, model, CUDA, generation, or training path was used."
+}

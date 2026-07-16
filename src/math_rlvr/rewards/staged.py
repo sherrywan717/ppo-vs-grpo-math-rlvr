@@ -156,6 +156,10 @@ STAGED_REWARD_POLICY = StagedRewardPolicy()
 def reward_policy_from_selector(selector: str):
     if selector == STAGED_REWARD_VERSION:
         return STAGED_REWARD_POLICY
+    if selector == "shaped_v3_domain":
+        from math_rlvr.rewards.formal import FORMAL_REWARD_POLICY
+
+        return FORMAL_REWARD_POLICY
     if selector in {"shaped_v1_legacy", "shaped"}:
         return DEFAULT_REWARD_POLICY
     raise RewardPolicyError(f"unknown reward policy selector: {selector}")

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from math_rlvr.dataset import load_manifest, validate_manifests
+from math_rlvr.training.formal_data import validate_formal_data_registry
 
 ROOT = Path("/root/autodl-tmp/datasets/math_rlvr/manifests")
 
@@ -33,7 +34,7 @@ def main() -> int:
         if len(subset) != 50 or not {x.problem_id for x in subset} <= parent_ids:
             raise ValueError(f"invalid subset: {subset_name}")
     counts = {path.stem: len(load_manifest(path)) for path in sorted(ROOT.glob("*.json"))}
-    print(json.dumps(counts, sort_keys=True))
+    print(json.dumps({"counts": counts, "formal": validate_formal_data_registry()}, sort_keys=True))
     return 0
 
 

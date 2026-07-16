@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "configs": {
+    "configs/formal_1p5b/grpo_1p5b.yaml": "1dfe64273dc31e8085945632dc68af1ffeb988d700b8c62b7d4559a38fddf4a2",
+    "configs/formal_1p5b/ppo_1p5b.yaml": "463e227bf54560a2cf6ddb07866ddf7b90d75fa3a2067eae055d3c77024fba0e",
+    "configs/formal_1p5b/resolved/grpo_seed_42.json": "6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf",
+    "configs/formal_1p5b/resolved/grpo_seed_123.json": "4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa",
+    "configs/formal_1p5b/resolved/grpo_seed_2026.json": "02479719cce9409cef89d162f36bedc20ca352c216804168d8fe7ae52545f5df",
+    "configs/formal_1p5b/resolved/ppo_seed_42.json": "717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b",
+    "configs/formal_1p5b/resolved/ppo_seed_123.json": "a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3",
+    "configs/formal_1p5b/resolved/ppo_seed_2026.json": "b270b594fb8463fb7a0f62875840ea4a574e9359c986e5b51c26aafae07428db"
+  }
+}
