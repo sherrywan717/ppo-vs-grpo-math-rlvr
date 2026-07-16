@@ -573,3 +573,12 @@ This file records operational history and pitfalls that should survive context c
   counters. The derived recovery row was corrected; no original run changed.
 - Historical PPO seed-42 failures remain `073357Z`, `082003Z`, `085240Z`, and
   `111934Z`.
+
+## Matched PPO Pilot Seed 2026 Success
+
+- `ppo_matched_0p5b_seed2026_20260716T122924Z`: 16 completions, 512 tokens,
+  four batch-4 backward events, sync false/false/false/true, and exact
+  epoch/minibatch/optimizer/update/global `1/1/1/1/1`.
+- Reward mean/std `0.09375 / 0.04284784125250652`; all four groups had nonzero
+  variance, while all canonical statuses were FORMAT_ERROR.
+- Backup SHA256: `2fb70aacae8bcf8cfdb5bba359b2ce8b95e62dd1505f15f7d0af31d28e1ee03e`.

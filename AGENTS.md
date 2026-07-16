@@ -397,3 +397,10 @@ Primary evidence establishes `ppo_matched_0p5b_seed42_20260716T114710Z` as the
 valid suite-position-1 scientific success. A derived recovery row incorrectly called
 it a historical failure and was corrected without modifying the run. Real historical
 failures remain `073357Z`, `082003Z`, `085240Z`, and `111934Z`.
+
+### Matched PPO pilot seed 2026 success
+
+Run `ppo_matched_0p5b_seed2026_20260716T122924Z` passed with 16 completions,
+512 tokens, four batch-4 backward events and exact one-step counters. Required
+metrics, adapter/head checkpoint, backup and GPU release passed. All completions were
+FORMAT_ERROR; this is a scientific outcome, not proof of learning or superiority.

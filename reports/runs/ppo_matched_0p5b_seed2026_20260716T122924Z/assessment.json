@@ -1,0 +1,83 @@
+{
+  "run_id": "ppo_matched_0p5b_seed2026_20260716T122924Z",
+  "disclaimer": "Matched 0.5B pilot - not the final benchmark",
+  "suite_sequence": 5,
+  "algorithm": "ppo",
+  "seed": 2026,
+  "status": "execution_success/learning_signal_present",
+  "scientific_result": true,
+  "single_update_not_learning_claim": true,
+  "counters": {
+    "completions": 16,
+    "generated_tokens": 512,
+    "reward_count": 16,
+    "evidence_rows": 16,
+    "backward_events": 4,
+    "microbatch_sizes": [4, 4, 4, 4],
+    "processed_samples": 16,
+    "sync_gradients": [false, false, false, true],
+    "ppo_epochs": 1,
+    "minibatches": 1,
+    "underlying_optimizer_steps": 1,
+    "updates": 1,
+    "global_steps": 1
+  },
+  "reward": {
+    "mean": 0.09375,
+    "population_std": 0.04284784125250652,
+    "group_population_variances": [0.00046874999999999977, 0.0017187500000000002, 0.0017187499999999996, 0.0017187499999999998],
+    "zero_advantage_groups": 0,
+    "canonical_statuses": {"format_error": 16},
+    "pass_at_1": 0.0,
+    "pass_at_4": 0.0
+  },
+  "metrics": {
+    "policy_loss": -0.019591178745031357,
+    "value_loss": 11.300457000732422,
+    "objective_kl": 0.4064469337463379,
+    "approximate_kl": 0.000347066146787256,
+    "entropy": 0.14682693779468536,
+    "ratio": 0.9970644116401672,
+    "ratio_variance": 8.912425073503982e-07,
+    "grad_norm": null,
+    "grad_norm_reason": "TRL PPO 0.24.0 did not emit a grad-norm metric"
+  },
+  "model_roles": {
+    "policy_trainable_parameters": 2162688,
+    "value_trainable_parameters": 541568,
+    "reward_trainable_parameters": 0,
+    "reference_trainable_parameters": 0,
+    "optimizer_parameter_elements": 2704256,
+    "optimizer_exact_role_match": true
+  },
+  "checkpoint": {
+    "path": "/root/autodl-tmp/runs/math_rlvr/ppo_matched_0p5b_seed2026_20260716T122924Z/checkpoint-1",
+    "files": 8,
+    "total_size_bytes": 10880009,
+    "full_base_model_weights": false,
+    "inventory_sha256": "6bdeb30570fb7cc3193b073bec59d427950454236f87800577e8ff9aac6701a3"
+  },
+  "resource_evidence": {
+    "resource_window_seconds": 16.28056151419878,
+    "nvidia_smi_peak_vram_mib": 11189.0,
+    "pytorch_peak_allocated_mib": 9976.716796875,
+    "pytorch_peak_reserved_mib": 10516.0,
+    "worker_pre_exit_allocated_mib": 64.0,
+    "worker_pre_exit_reserved_mib": 108.0,
+    "gpu_hours": 0.00452237819838855,
+    "estimated_cost_cny": 0.04015871840169033,
+    "post_process_vram_mib": 0,
+    "post_process_compute_processes": 0
+  },
+  "backup": {
+    "path": "/root/autodl-fs/math-rlvr-backups/ppo_matched_0p5b_seed2026_20260716T122924Z.tar.gz",
+    "sha256": "2fb70aacae8bcf8cfdb5bba359b2ce8b95e62dd1505f15f7d0af31d28e1ee03e",
+    "archive_listing_verified": true,
+    "checksum_verified": true
+  },
+  "frozen_identity_passed": true,
+  "comparison_keys_verified": true,
+  "checkpoint_safety_passed": true,
+  "automatic_retry": false,
+  "included_in_aggregate": true
+}

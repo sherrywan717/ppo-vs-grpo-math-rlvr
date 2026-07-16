@@ -1,0 +1,55 @@
+{
+  "checkpoint_root": "checkpoint-1",
+  "files": [
+    {
+      "name": "policy_adapter/adapter_config.json",
+      "size_bytes": 1153,
+      "sha256": "9b42b4eb79c6b7d1a0b05017f1e2db1cff9944da0cfd97792b690a0e653c0172",
+      "classification": "policy_adapter_config"
+    },
+    {
+      "name": "policy_adapter/adapter_model.safetensors",
+      "size_bytes": 8675976,
+      "sha256": "16491b5f8523baeff46df6d53874e0d28212b5fb216af3f34ce141286f999221",
+      "classification": "policy_adapter"
+    },
+    {
+      "name": "resume_manifest.json",
+      "size_bytes": 24541,
+      "sha256": "d37936b4c1da62f5ce928f2b7ac5864558e75586075931996e20a100a075e98c",
+      "classification": "resume_manifest"
+    },
+    {
+      "name": "trainer_state.json",
+      "size_bytes": 80,
+      "sha256": "6386ac73af38e9433478430460652c8b48155a0d9504c4e174640f019128b27f",
+      "classification": "trainer_state"
+    },
+    {
+      "name": "value_adapter/adapter_config.json",
+      "size_bytes": 1166,
+      "sha256": "a05dee8750e0058647f0d46ccc965030dd9dc764496cd37eed2221deb9a698bb",
+      "classification": "value_adapter_config"
+    },
+    {
+      "name": "value_adapter/adapter_model.safetensors",
+      "size_bytes": 2175136,
+      "sha256": "3b40f6e0ba0e135d402345e75e418ba7e72331cae80665641d349ced460f2203",
+      "classification": "value_adapter"
+    },
+    {
+      "name": "value_head/config.json",
+      "size_bytes": 61,
+      "sha256": "a2da2bbae07e81e17e31c40548822bca804de62f2327008ae62f4eb575ed388b",
+      "classification": "value_head_config"
+    },
+    {
+      "name": "value_head/value_head.safetensors",
+      "size_bytes": 1896,
+      "sha256": "06cf00bd5e843d5c329adedbccf26e507132fb13706e227708d75f07c1051c6a",
+      "classification": "value_head"
+    }
+  ],
+  "total_size_bytes": 10880009,
+  "duplicate_adapter_count": 0
+}

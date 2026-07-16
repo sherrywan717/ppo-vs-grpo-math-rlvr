@@ -1,0 +1,198 @@
+artifacts:
+  checkpoint_count: 1
+  independent_checkpoint: true
+  independent_full_backup: true
+  independent_run_id: true
+  inherit_checkpoint: false
+budget:
+  gpu_hour_price_cny: 8.88
+  max_checkpoints: 1
+  max_completions: 16
+  max_estimated_cost_cny: 0.1924
+  max_generated_tokens: 2048
+  max_global_steps: 1
+  max_gpu_hours: 0.0216666667
+  max_minibatches: 1
+  max_optimizer_steps: 1
+  max_outer_updates: 1
+  max_ppo_epochs: 1
+  max_update_steps: 1
+  max_vram_gib: 14
+  max_wall_time_seconds: 78
+candidate_status: approved_for_smoke
+data:
+  max_train_samples: 16
+  ordered_problem_ids:
+  - countdown:train:0
+  - countdown:train:1
+  - countdown:train:2
+  - countdown:train:3
+  pilot_manifest: configs/pilot/matched_0p5b_manifest.json
+  pilot_manifest_sha256: 0235210e038bc27ebf2e7218691f36f09c8e11f0bbc743f46a5318a279f6bc1f
+  responses_per_prompt: 4
+  source_manifest: /root/autodl-tmp/datasets/math_rlvr/manifests/countdown_train.json
+  source_manifest_sha256: f7b3138c4fd29063ee05b568462c9cc5c2f8697ee63b8b208949b1b3998ce196
+  unique_prompts: 4
+experiment:
+  algorithm: ppo
+  name: pilot-ppo-qwen-0.5b-matched-seed-2026
+  seed: 2026
+generation:
+  max_completion_length: 128
+  max_new_tokens: 128
+  max_prompt_length: 512
+  temperature: 0.8
+  top_p: 0.95
+lora:
+  alpha: 32
+  dropout: 0
+  rank: 16
+  target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+model:
+  dtype: bfloat16
+  gradient_checkpointing: true
+  local_files_only: true
+  name_or_path: Qwen/Qwen2.5-0.5B-Instruct
+  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  use_qlora: false
+parser_contract:
+  contract_sha256: 655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad
+  contract_version: strict_completion_parser_v1
+pilot:
+  approved_seeds:
+  - 42
+  - 123
+  - 2026
+  automatic_retries: 0
+  disclaimer: Matched 0.5B pilot - not the final benchmark
+  execution_order: prompt_major_then_generation_index
+  family: matched_0p5b_v1
+  pairing_key: problem_id::generation:{0..3}
+  template_only: false
+production_status: not_approved
+prompt:
+  version: prompt_v1_strict_concise
+prompt_sha256: 6842002e4591630a4105a4ca8fdf4cab91676b3902708ec0cb7f7b458864ecd7
+prompt_version: prompt_v1_strict_concise
+renderer_version: math_rlvr.prompt.chat_template.v1
+reporting:
+  aggregate_seeds:
+  - 42
+  - 123
+  - 2026
+  completion_matched_metrics: true
+  disclaimer: Matched 0.5B pilot - not the final benchmark
+  generated_token_normalized_metrics: true
+  required_metrics:
+  - canonical_reward_status
+  - staged_reward_components
+  - group_reward_variance
+  - zero_advantage_groups
+  - pass_at_1
+  - pass_at_4
+  - format_accuracy
+  - valid_expression_rate
+  - number_usage_accuracy
+  - reward_mean
+  - reward_std
+  - loss
+  - policy_loss
+  - value_loss
+  - grad_norm
+  - entropy
+  - kl_availability
+  - kl_value
+  - generated_tokens
+  - wall_time_seconds
+  - peak_vram_mib
+  - gpu_hours
+  - cost_cny
+  - checkpoint_inventory_sha256
+  significance_claims: forbidden_for_three_seed_pilot
+resolved_config_path: configs/pilot/resolved/ppo_seed_2026.json
+resolved_config_sha256: d3255ddb849224a4d87a069d981fcacf85cb98a7afa986ff0a9fb284b7698044
+resolved_pilot_contract:
+  authoritative_checkpoints: 1
+  episode_pair_keys:
+  - countdown:train:0::generation:0
+  - countdown:train:0::generation:1
+  - countdown:train:0::generation:2
+  - countdown:train:0::generation:3
+  - countdown:train:1::generation:0
+  - countdown:train:1::generation:1
+  - countdown:train:1::generation:2
+  - countdown:train:1::generation:3
+  - countdown:train:2::generation:0
+  - countdown:train:2::generation:1
+  - countdown:train:2::generation:2
+  - countdown:train:2::generation:3
+  - countdown:train:3::generation:0
+  - countdown:train:3::generation:1
+  - countdown:train:3::generation:2
+  - countdown:train:3::generation:3
+  global_steps: 1
+  gradient_accumulation_steps: 4
+  local_rollout_forward_batch_size: 4
+  max_completion_length: 128
+  micro_batch_size: 4
+  microbatches_per_minibatch: 4
+  num_generations_in_ppo_config: false
+  num_mini_batches: 1
+  num_ppo_epochs: 1
+  optimizer_steps: 1
+  outer_updates: 1
+  responses_per_prompt: 4
+  rollout_batch_size: 16
+  selected_dataset_records: 16
+  total_completions: 16
+  total_episodes: 16
+  total_generated_tokens: 2048
+  unique_prompts: 4
+reward:
+  policy: shaped_v2_staged
+reward_component_weights:
+  answer_block: 0.05
+  correctness: 0.8
+  exact_number_usage: 0.05
+  strict_protocol: 0.05
+  valid_expression: 0.05
+reward_policy_sha256: 90af0614676279eb8a47636acfdbeaded6d92237d3b16f027d79557057ca0e14
+reward_policy_version: shaped_v2_staged
+schema_version: 1
+training:
+  gradient_accumulation_steps: 4
+  local_rollout_forward_batch_size: 4
+  max_steps: 1
+  num_mini_batches: 1
+  num_ppo_epochs: 1
+  per_device_train_batch_size: 4
+  push_to_hub: false
+  report_to: []
+  save_only_model: true
+  save_steps: 1
+  save_strategy: steps
+  save_total_limit: 1
+  total_episodes: 16
+validated_experiment_scope:
+  algorithm: ppo
+  config_path: configs/pilot/resolved/ppo_seed_2026.json
+  config_sha256: d3255ddb849224a4d87a069d981fcacf85cb98a7afa986ff0a9fb284b7698044
+  expected_run_profile: ppo_matched_pilot
+  scope: matched_0p5b_pilot
+value_model:
+  architecture: AutoModelForSequenceClassification
+  base_checkpoint: Qwen/Qwen2.5-0.5B-Instruct
+  lora_alpha: 16
+  lora_rank: 8
+  lora_target_modules:
+  - q_proj
+  - v_proj
+  num_labels: 1
+  trainable_score_head: true
+verifier_contract:
+  contract_sha256: 593fa4f1f12702411248b77d8059b4df84a182334a8f9923a2283d04a3fb0c74
+  contract_version: countdown_ast_fraction_v1
