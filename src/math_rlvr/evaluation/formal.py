@@ -11,7 +11,7 @@ from typing import Any
 from math_rlvr.contracts import formal_parser_verifier_metadata
 from math_rlvr.prompt import PROMPT_V2_FORMAL_MATH, PROMPT_V2_SHA256
 from math_rlvr.rewards.formal import FORMAL_REWARD_SHA256, FORMAL_REWARD_VERSION
-from math_rlvr.training.formal import FORMAL_MODEL, FORMAL_REVISION, FORMAL_SEEDS
+from math_rlvr.training.formal import FORMAL_ACTIVE_SEEDS, FORMAL_MODEL, FORMAL_REVISION
 from math_rlvr.training.formal_data import validate_formal_data_registry
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
@@ -84,9 +84,9 @@ def validate_evaluation_config(
         "max_completion_length": 256,
     }:
         raise ValueError("formal evaluation sampling mismatch")
-    if tuple(config.get("seeds", ())) != FORMAL_SEEDS:
+    if tuple(config.get("seeds", ())) != FORMAL_ACTIVE_SEEDS:
         raise ValueError("formal evaluation seed mismatch")
-    if seed is not None and seed not in FORMAL_SEEDS:
+    if seed is not None and seed not in FORMAL_ACTIVE_SEEDS:
         raise ValueError("unapproved formal evaluation seed")
     if phase == "baseline" and algorithm is not None:
         raise ValueError("baseline is shared and algorithm-neutral")

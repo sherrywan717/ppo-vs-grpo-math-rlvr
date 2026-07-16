@@ -228,3 +228,13 @@ fixed 50+50 subsets for pass@4. Test data is used only for the shared base basel
 fixed step-32 final evaluation, never for prompt, reward, hyperparameter, or checkpoint
 selection. See `reports/formal_1p5b/experiment_plan.md`. Model download, CUDA sanity,
 baseline evaluation, and training remain separately authorized future stages.
+
+### Formal 1.5B four-run amendment
+
+The original six-run Stage E decision remains preserved at commit `499fea9f`. The
+active portfolio-scale comparison now uses PPO/GRPO for seeds 42 and 123 only, with a
+seed-42 review before seed 123 and four fixed step-32 final evaluations. The two
+seed-2026 descriptors remain frozen as `reserved_not_scheduled` and are excluded from
+the active queue, costs, and statistics. Two seeds support transparent raw results,
+mean, sample SD, paired deltas, and problem-level bootstrap intervals—not a claim of
+statistical significance or general algorithm superiority.

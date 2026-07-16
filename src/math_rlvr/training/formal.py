@@ -16,6 +16,8 @@ FORMAL_REVISION = "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
 FORMAL_PROMPT = "prompt_v2_formal_math"
 FORMAL_REWARD = "shaped_v3_domain"
 FORMAL_SEEDS = (42, 123, 2026)
+FORMAL_ACTIVE_SEEDS = (42, 123)
+FORMAL_RESERVED_SEEDS = (2026,)
 FORMAL_UPDATES = 32
 FORMAL_UNIQUE_PROMPTS = 128
 FORMAL_RESPONSES_PER_PROMPT = 4
@@ -31,6 +33,7 @@ FORMAL_DATA_REGISTRY_SHA256 = "d7c53f6180187711da780a3a1f81f8b45e6164ddc9f115eac
 FORMAL_CHECKPOINT_STEPS = (8, 16, 24, 32)
 FORMAL_CONFIG_ROOT = Path("configs/formal_1p5b")
 FORMAL_REGISTRY_PATH = FORMAL_CONFIG_ROOT / "resolved_config_sha256.json"
+FORMAL_ACTIVE_SUITE_PATH = FORMAL_CONFIG_ROOT / "active_suite.json"
 TRAIN_MANIFEST = Path("/root/autodl-tmp/datasets/math_rlvr/manifests/train_core_128.json")
 VALIDATION_MANIFEST = Path("/root/autodl-tmp/datasets/math_rlvr/manifests/validation_64.json")
 TRAIN_MANIFEST_SHA256 = "553939ce40ef20af86f5eabe987bff42814f07e9d40ddf1c4cde1208dcc96dd0"
@@ -46,8 +49,6 @@ RUN_ORDER = (
     (42, "grpo"),
     (123, "grpo"),
     (123, "ppo"),
-    (2026, "ppo"),
-    (2026, "grpo"),
 )
 
 
@@ -397,14 +398,74 @@ def validate_formal_config_file(
     return config, contract
 
 
+def validate_active_suite(path: Path = FORMAL_ACTIVE_SUITE_PATH) -> dict[str, Any]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    expected_sha256 = payload.get("active_suite_sha256")
+    body = dict(payload)
+    body.pop("active_suite_sha256", None)
+    actual_sha256 = hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
+    if actual_sha256 != expected_sha256:
+        raise ValueError("formal active-suite SHA256 mismatch")
+    active = payload.get("active_training_runs")
+    expected = [
+        {
+            "position": index,
+            "algorithm": algorithm,
+            "seed": seed,
+            "config": f"configs/formal_1p5b/resolved/{algorithm}_seed_{seed}.json",
+            "config_sha256": _registry()[
+                f"configs/formal_1p5b/resolved/{algorithm}_seed_{seed}.json"
+            ],
+        }
+        for index, (seed, algorithm) in enumerate(RUN_ORDER, start=1)
+    ]
+    if active != expected or payload.get("active_seeds") != list(FORMAL_ACTIVE_SEEDS):
+        raise ValueError("formal active-suite run order mismatch")
+    reserved = payload.get("reserved_configs")
+    expected_reserved = [
+        {
+            "algorithm": algorithm,
+            "seed": seed,
+            "config": f"configs/formal_1p5b/resolved/{algorithm}_seed_{seed}.json",
+            "config_sha256": _registry()[
+                f"configs/formal_1p5b/resolved/{algorithm}_seed_{seed}.json"
+            ],
+            "status": "reserved_not_scheduled",
+        }
+        for seed in FORMAL_RESERVED_SEEDS
+        for algorithm in ("ppo", "grpo")
+    ]
+    if reserved != expected_reserved:
+        raise ValueError("formal reserved config status mismatch")
+    return payload
+
+
 def formal_run_order() -> list[dict[str, Any]]:
+    suite = validate_active_suite()
     return [
         {
-            "sequence": index,
+            "sequence": row["position"],
+            "seed": row["seed"],
+            "algorithm": row["algorithm"],
+            "config": row["config"],
+            "config_sha256": row["config_sha256"],
+            "automatic_retries": suite["automatic_retries"],
+        }
+        for row in suite["active_training_runs"]
+    ]
+
+
+def formal_reserved_configs() -> list[dict[str, Any]]:
+    return [
+        {
             "seed": seed,
             "algorithm": algorithm,
             "config": f"configs/formal_1p5b/resolved/{algorithm}_seed_{seed}.json",
+            "status": "reserved_not_scheduled",
             "automatic_retries": 0,
         }
-        for index, (seed, algorithm) in enumerate(RUN_ORDER, start=1)
+        for seed in FORMAL_RESERVED_SEEDS
+        for algorithm in ("ppo", "grpo")
     ]

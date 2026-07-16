@@ -1,5 +1,5 @@
 {
-  "config_sha256": "b3d859c408db7e2fc3832edf01cbe5bfb93a2ac68d4fb400b68430ef42d2f66a",
+  "config_sha256": "b87ea305d4253f41f337fde3a0850ceb7e6925c87f6a9b8e0e6ac452e730ab50",
   "label": "Formal 1.5B evaluation - frozen before model execution",
   "model": {
     "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
@@ -28,7 +28,7 @@
     "math_sha256": "0a4fb547959d1edc3c157392fb49f209a140981757f39a0c25c454868e8aefa7"
   },
   "data_registry_sha256": "d7c53f6180187711da780a3a1f81f8b45e6164ddc9f115eac2fb6ae3e1fe7393",
-  "seeds": [42, 123, 2026],
+  "seeds": [42, 123],
   "sampling": {
     "temperature": 0.8,
     "top_p": 0.95,
@@ -68,7 +68,7 @@
     "bootstrap_seed": 20260712,
     "confidence_level": 0.95,
     "cross_seed_summary": ["raw_values", "mean", "sample_standard_deviation"],
-    "significance_claims_from_three_seeds": false
+    "significance_claims_from_two_seeds": false
   },
   "required_outputs": [
     "completions.jsonl",

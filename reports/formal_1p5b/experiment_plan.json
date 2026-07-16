@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "E",
-  "status": "cpu_only_configuration_frozen",
+  "status": "cpu_only_four_run_configuration_frozen",
   "claim_boundary": "The 0.5B pilot validated engineering and cost only; formal algorithm effects are not yet established.",
   "model": {
     "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
@@ -9,7 +9,14 @@
     "local_files_only": true,
     "dtype": "bfloat16",
     "metadata_only_in_stage_e": true,
-    "weights_downloaded": false
+    "weights_downloaded": false,
+    "download_storage_plan": {
+      "published_parameters": 1543714304,
+      "bf16_weight_bytes_estimate": 3087428608,
+      "bf16_weight_gib_estimate": 2.8754,
+      "minimum_free_cache_gib_before_download": 6,
+      "weights_not_downloaded_in_this_stage": true
+    }
   },
   "identities": {
     "prompt_version": "prompt_v2_formal_math",
@@ -39,10 +46,26 @@
   "data": {
     "registry_sha256": "d7c53f6180187711da780a3a1f81f8b45e6164ddc9f115eac2fb6ae3e1fe7393",
     "registry_file_sha256": "f70fcf0b8f2362d8aca1cfcc2d04cb87d06b05b5bc9af973cbd64b2164b5f8eb",
-    "train": {"gsm8k": 64, "math": 64, "total": 128},
-    "validation": {"gsm8k": 32, "math": 32, "total": 64},
-    "final_test": {"gsm8k": 200, "math500": 200, "total": 400},
-    "pass4_subset": {"gsm8k": 50, "math500": 50, "total": 100},
+    "train": {
+      "gsm8k": 64,
+      "math": 64,
+      "total": 128
+    },
+    "validation": {
+      "gsm8k": 32,
+      "math": 32,
+      "total": 64
+    },
+    "final_test": {
+      "gsm8k": 200,
+      "math500": 200,
+      "total": 400
+    },
+    "pass4_subset": {
+      "gsm8k": 50,
+      "math500": 50,
+      "total": 100
+    },
     "cross_split_hash_overlap": 0,
     "train_validation_overlap_with_all_math500": 0,
     "training_schedule": "2 GSM8K then 2 MATH per update, preserving within-domain manifest order",
@@ -55,7 +78,12 @@
     "rank": 16,
     "alpha": 32,
     "dropout": 0,
-    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
     "static_trainable_parameters": 4358144,
     "percent_of_published_base": 0.2823154510330948
   },
@@ -63,7 +91,10 @@
     "separate_base_snapshot": true,
     "value_lora_rank": 8,
     "value_lora_alpha": 16,
-    "value_lora_targets": ["q_proj", "v_proj"],
+    "value_lora_targets": [
+      "q_proj",
+      "v_proj"
+    ],
     "value_lora_parameters": 1089536,
     "scalar_head_parameters": 1537,
     "total_value_trainable_parameters": 1091073,
@@ -79,7 +110,12 @@
     "generated_token_cap": 131072,
     "optimizer_steps": 32,
     "global_steps": 32,
-    "checkpoint_steps": [8, 16, 24, 32],
+    "checkpoint_steps": [
+      8,
+      16,
+      24,
+      32
+    ],
     "checkpoint_count": 4,
     "automatic_retries": 0,
     "temperature": 0.8,
@@ -112,29 +148,42 @@
     "shuffle_dataset": false
   },
   "evaluation": {
-    "seeds": [42, 123, 2026],
+    "seeds": [
+      42,
+      123
+    ],
     "baseline_completions_per_seed": 800,
     "validation_completions_per_checkpoint": 64,
-    "validation_checkpoint_steps": [8, 16, 24, 32],
+    "validation_checkpoint_steps": [
+      8,
+      16,
+      24,
+      32
+    ],
     "final_completions_per_algorithm_seed": 800,
     "final_checkpoint": 32,
     "bootstrap_resamples": 10000,
     "bootstrap_confidence": 0.95,
     "paired_unit": "problem_id",
-    "statistics": ["raw seed values", "mean", "sample SD", "paired bootstrap CI"],
-    "test_driven_tuning": false
+    "statistics": [
+      "raw seed values",
+      "mean",
+      "sample SD",
+      "paired delta",
+      "problem-level bootstrap CI"
+    ],
+    "test_driven_tuning": false,
+    "seed_count": 2
   },
   "future_phase_order": [
     "1.5B CUDA/model-load sanity",
-    "shared untrained 1.5B baseline evaluation",
+    "shared untrained 1.5B baseline evaluation for seeds 42 and 123",
     "PPO seed 42 training",
     "GRPO seed 42 training",
     "seed 42 validation and learning-signal review",
     "GRPO seed 123 training",
     "PPO seed 123 training",
-    "PPO seed 2026 training",
-    "GRPO seed 2026 training",
-    "fixed final test for six step-32 checkpoints",
+    "fixed final test for four step-32 checkpoints",
     "CPU-only aggregate and report"
   ],
   "resolved_config_sha256": {
@@ -147,22 +196,100 @@
   },
   "training_estimates": {
     "gpu_hour_price_cny": 8.88,
-    "ppo_per_run": {"expected_minutes": 52.7, "ceiling_minutes": 110, "expected_vram_gib": 34, "ceiling_vram_gib": 55, "expected_gpu_hours": 0.8783, "ceiling_gpu_hours": 1.8333, "expected_cost_cny": 7.8, "ceiling_cost_cny": 16.28},
-    "grpo_per_run": {"expected_minutes": 36.1, "ceiling_minutes": 75, "expected_vram_gib": 11, "ceiling_vram_gib": 24, "expected_gpu_hours": 0.6017, "ceiling_gpu_hours": 1.25, "expected_cost_cny": 5.34, "ceiling_cost_cny": 11.1},
-    "six_training_runs": {"expected_gpu_hours": 4.44, "ceiling_gpu_hours": 9.25, "expected_cost_cny": 39.43, "ceiling_cost_cny": 82.14},
-    "estimate_basis": "0.5B measured pilot scaled by static 1.5B policy/value memory and 32 matched updates; revise resource-only ceilings after sanity without changing scientific budgets"
+    "ppo_per_run": {
+      "expected_minutes": 52.7,
+      "ceiling_minutes": 110,
+      "expected_vram_gib": 34,
+      "ceiling_vram_gib": 55,
+      "expected_gpu_hours": 0.8783,
+      "ceiling_gpu_hours": 1.8333,
+      "expected_cost_cny": 7.8,
+      "ceiling_cost_cny": 16.28
+    },
+    "grpo_per_run": {
+      "expected_minutes": 36.1,
+      "ceiling_minutes": 75,
+      "expected_vram_gib": 11,
+      "ceiling_vram_gib": 24,
+      "expected_gpu_hours": 0.6017,
+      "ceiling_gpu_hours": 1.25,
+      "expected_cost_cny": 5.34,
+      "ceiling_cost_cny": 11.1
+    },
+    "estimate_basis": "0.5B measured pilot scaled by static 1.5B policy/value memory and 32 matched updates; revise resource-only ceilings after sanity without changing scientific budgets",
+    "four_training_runs": {
+      "expected_gpu_hours": 2.96,
+      "ceiling_gpu_hours": 6.1667,
+      "expected_cost_cny": 26.28,
+      "ceiling_cost_cny": 54.76
+    }
   },
   "evaluation_estimates": {
-    "model_load_sanity": {"expected_minutes": 5, "ceiling_minutes": 10, "expected_vram_gib": 8, "ceiling_vram_gib": 16},
-    "baseline_per_seed": {"expected_minutes": 25, "ceiling_minutes": 50, "expected_vram_gib": 8, "ceiling_vram_gib": 16, "completions": 800},
-    "validation_per_checkpoint": {"expected_minutes": 5, "ceiling_minutes": 10, "expected_vram_gib": 8, "ceiling_vram_gib": 16, "completions": 64},
-    "final_per_algorithm_seed": {"expected_minutes": 25, "ceiling_minutes": 50, "expected_vram_gib": 8, "ceiling_vram_gib": 16, "completions": 800},
-    "all_stage_total": {"expected_gpu_hours": 10.3, "ceiling_gpu_hours": 20.6, "expected_cost_cny": 91.46, "ceiling_cost_cny": 182.93}
+    "model_load_sanity": {
+      "expected_minutes": 5,
+      "ceiling_minutes": 10,
+      "expected_vram_gib": 8,
+      "ceiling_vram_gib": 16
+    },
+    "baseline_per_seed": {
+      "expected_minutes": 25,
+      "ceiling_minutes": 50,
+      "expected_vram_gib": 8,
+      "ceiling_vram_gib": 16,
+      "completions": 800
+    },
+    "validation_per_checkpoint": {
+      "expected_minutes": 5,
+      "ceiling_minutes": 10,
+      "expected_vram_gib": 8,
+      "ceiling_vram_gib": 16,
+      "completions": 64
+    },
+    "final_per_algorithm_seed": {
+      "expected_minutes": 25,
+      "ceiling_minutes": 50,
+      "expected_vram_gib": 8,
+      "ceiling_vram_gib": 16,
+      "completions": 800
+    },
+    "all_stage_total": {
+      "expected_gpu_hours": 6.8767,
+      "ceiling_gpu_hours": 14.0,
+      "expected_cost_cny": 61.06,
+      "ceiling_cost_cny": 124.32
+    },
+    "stage_quantities": {
+      "model_load_sanity": 1,
+      "baseline_seed_evaluations": 2,
+      "checkpoint_validations": 16,
+      "final_checkpoint_evaluations": 4
+    }
   },
   "true_blockers_before_model_download": [
     "A new explicit authorization for metadata-pinned 1.5B weight download",
     "Enough cache and persistent-backup capacity for the pinned snapshot and future adapters",
     "The staged CUDA/model-load sanity must pass before baseline authorization"
   ],
-  "not_executed_in_stage_e": ["CUDA", "model load", "tokenizer load", "downloaded weights", "generation", "Trainer", "backward", "optimizer step"]
+  "not_executed_in_stage_e": [
+    "CUDA",
+    "model load",
+    "tokenizer load",
+    "downloaded weights",
+    "generation",
+    "Trainer",
+    "backward",
+    "optimizer step"
+  ],
+  "suite_amendment": {
+    "historical_six_run_commit": "499fea9f6de6f991229f15b949e23e63c496e6cc",
+    "active_suite_path": "configs/formal_1p5b/active_suite.json",
+    "active_suite_sha256": "f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd",
+    "active_seeds": [
+      42,
+      123
+    ],
+    "reserved_seed_2026": "reserved_not_scheduled",
+    "independent_seed_count": 2,
+    "statistical_significance_claims_forbidden": true
+  }
 }

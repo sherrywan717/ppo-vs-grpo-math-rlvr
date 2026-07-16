@@ -8,12 +8,15 @@ from math_rlvr.rewards.result import RewardPolicyError
 from math_rlvr.training.builders import grpo_config, ppo_config
 from math_rlvr.training.common import preflight
 from math_rlvr.training.formal import (
+    FORMAL_ACTIVE_SEEDS,
     FORMAL_SEEDS,
     formal_pair_keys,
+    formal_reserved_configs,
     formal_run_order,
     formal_training_schedule,
     validate_formal_config_content,
     validate_formal_config_file,
+    validate_active_suite,
 )
 from math_rlvr.training.formal_model import derive_static_parameter_contract
 
@@ -119,16 +122,33 @@ def test_formal_mutations_fail_closed():
             validate_formal_config_content(mutated, "ppo")
 
 
-def test_fixed_formal_run_order_has_no_seed_override():
+def test_active_suite_hashes_four_configs_and_preserves_reserved_descriptors():
+    suite = validate_active_suite()
+    assert suite["active_suite_sha256"] == (
+        "f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd"
+    )
+    assert len(suite["active_training_runs"]) == 4
+    assert all(row["seed"] in FORMAL_ACTIVE_SEEDS for row in suite["active_training_runs"])
+    assert [row["status"] for row in suite["reserved_configs"]] == [
+        "reserved_not_scheduled",
+        "reserved_not_scheduled",
+    ]
+    assert {row["seed"] for row in suite["reserved_configs"]} == {2026}
+
+
+def test_fixed_four_run_formal_order_has_no_seed_override():
     assert [(row["seed"], row["algorithm"]) for row in formal_run_order()] == [
         (42, "ppo"),
         (42, "grpo"),
         (123, "grpo"),
         (123, "ppo"),
-        (2026, "ppo"),
-        (2026, "grpo"),
     ]
     assert all(row["automatic_retries"] == 0 for row in formal_run_order())
+    assert {row["seed"] for row in formal_run_order()} == set(FORMAL_ACTIVE_SEEDS)
+    assert {row["seed"] for row in formal_reserved_configs()} == {2026}
+    assert all(
+        row["status"] == "reserved_not_scheduled" for row in formal_reserved_configs()
+    )
 
 
 def test_static_model_roles_and_parameter_counts_need_no_model_load():

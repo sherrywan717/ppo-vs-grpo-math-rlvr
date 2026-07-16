@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "title": "Formal 1.5B four-run budget amendment",
+  "status": "approved_cpu_only",
+  "amends_commit": "499fea9f6de6f991229f15b949e23e63c496e6cc",
+  "original_decision": "six matched training runs across seeds 42, 123, and 2026",
+  "active_suite_sha256": "f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd",
+  "active_seeds": [42, 123],
+  "active_training_runs": 4,
+  "active_order": ["ppo_seed_42", "grpo_seed_42", "seed_42_validation_review", "grpo_seed_123", "ppo_seed_123"],
+  "final_evaluations": ["ppo_seed_42_step_32", "grpo_seed_42_step_32", "grpo_seed_123_step_32", "ppo_seed_123_step_32"],
+  "reserved": [
+    {"algorithm": "ppo", "seed": 2026, "status": "reserved_not_scheduled"},
+    {"algorithm": "grpo", "seed": 2026, "status": "reserved_not_scheduled"}
+  ],
+  "unchanged_scientific_contract": {
+    "updates_per_run": 32,
+    "completions_per_run": 512,
+    "generated_token_cap_per_run": 131072,
+    "checkpoint_and_validation_steps": [8, 16, 24, 32]
+  },
+  "claim_boundary": {
+    "scale": "job-portfolio matched comparison",
+    "independent_seeds": 2,
+    "reportable": ["seed mean", "sample SD", "paired delta", "problem-level bootstrap 95% CI"],
+    "forbidden": ["statistical significance", "general proof of PPO or GRPO superiority"]
+  },
+  "cost_cny_at_8_88_per_gpu_hour": {
+    "training_expected": 26.28,
+    "training_ceiling": 54.76,
+    "full_stage_expected": 61.06,
+    "full_stage_ceiling": 124.32
+  }
+}

@@ -457,3 +457,17 @@ untrained baseline; PPO42; GRPO42; seed-42 validation review; then GRPO123, PPO1
 PPO2026, GRPO2026; fixed step-32 final test; CPU aggregate. Test data cannot tune the
 prompt, reward, hyperparameters, or checkpoint. Formal `--execute` currently fails
 before model/CUDA by design. A successful stage never authorizes the next one.
+
+### Formal 1.5B four-run amendment
+
+The six-run Stage E plan at commit `499fea9f6de6f991229f15b949e23e63c496e6cc`
+remains historical evidence. The approved active suite is PPO42, GRPO42, a seed-42
+learning-signal review, GRPO123, PPO123, four fixed step-32 final evaluations, and CPU
+aggregation. The exact active-suite hash is
+`f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd`.
+Seed-2026 descriptors remain byte-identical and `reserved_not_scheduled`; never place
+them in the active registry, queue, costs, or aggregate without a new amendment.
+Two-seed results may report raw values, mean, sample SD, paired deltas, and
+problem-level bootstrap intervals, but not statistical significance or general PPO/
+GRPO superiority. This CPU amendment authorizes no model download, CUDA, evaluation,
+or training.

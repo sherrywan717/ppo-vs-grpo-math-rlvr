@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "family": "formal_1p5b_v1_four_run_amendment",
+  "amends_commit": "499fea9f6de6f991229f15b949e23e63c496e6cc",
+  "active_suite_sha256": "f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd",
+  "active_seeds": [42, 123],
+  "active_training_runs": [
+    {"position": 1, "algorithm": "ppo", "seed": 42, "config": "configs/formal_1p5b/resolved/ppo_seed_42.json", "config_sha256": "717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b"},
+    {"position": 2, "algorithm": "grpo", "seed": 42, "config": "configs/formal_1p5b/resolved/grpo_seed_42.json", "config_sha256": "6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf"},
+    {"position": 3, "algorithm": "grpo", "seed": 123, "config": "configs/formal_1p5b/resolved/grpo_seed_123.json", "config_sha256": "4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa"},
+    {"position": 4, "algorithm": "ppo", "seed": 123, "config": "configs/formal_1p5b/resolved/ppo_seed_123.json", "config_sha256": "a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3"}
+  ],
+  "reserved_configs": [
+    {"algorithm": "ppo", "seed": 2026, "config": "configs/formal_1p5b/resolved/ppo_seed_2026.json", "config_sha256": "b270b594fb8463fb7a0f62875840ea4a574e9359c986e5b51c26aafae07428db", "status": "reserved_not_scheduled"},
+    {"algorithm": "grpo", "seed": 2026, "config": "configs/formal_1p5b/resolved/grpo_seed_2026.json", "config_sha256": "02479719cce9409cef89d162f36bedc20ca352c216804168d8fe7ae52545f5df", "status": "reserved_not_scheduled"}
+  ],
+  "seed_42_review_after_positions": [1, 2],
+  "final_evaluation_checkpoint_step": 32,
+  "final_evaluation_checkpoints": 4,
+  "automatic_retries": 0,
+  "claims": {
+    "scope": "job_portfolio_matched_comparison",
+    "independent_seeds": 2,
+    "allowed": ["seed_mean", "sample_standard_deviation", "paired_delta", "problem_level_bootstrap_95_ci"],
+    "forbidden": ["statistical_significance", "general_algorithm_superiority"]
+  }
+}

@@ -7,6 +7,10 @@ The completed 0.5B matched pilot validates execution, checkpoint safety, evidenc
 alignment, and rough resource cost. It is not the final benchmark and supplies no
 algorithm-effect conclusion.
 
+## Approved four-run amendment
+
+The original six-run decision remains preserved at commit `499fea9f6de6f991229f15b949e23e63c496e6cc`. The approved amendment activates only seeds 42 and 123: PPO42, GRPO42, seed-42 review, GRPO123, PPO123, four fixed step-32 final evaluations, then CPU aggregation. Seed-2026 descriptors remain byte-identical and are `reserved_not_scheduled`; they are excluded from the active queue, costs, and statistics. The active-suite canonical SHA256 is `f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd`. Two seeds permit raw values, mean, sample SD, paired delta, and problem-level bootstrap intervals, but not statistical-significance or general-superiority claims.
+
 ## Frozen identities
 
 The formal model is `Qwen/Qwen2.5-1.5B-Instruct` at exact revision
@@ -86,7 +90,7 @@ fail-closed; missing nonessential telemetry remains nullable with a reason.
 
 ## Matched 32-update training contract
 
-Every algorithm/seed run uses seeds 42, 123, or 2026; 128 unique prompts; four
+Every active algorithm/seed run uses seed 42 or 123; 128 unique prompts; four
 responses per prompt; 512 completions; maximum completion length 256; 131,072 generated
 tokens; temperature 0.8; top-p 0.95; 32 optimizer/global steps; and checkpoints at
 steps 8, 16, 24, and 32. Automatic retries are zero.
@@ -117,15 +121,13 @@ the frozen 100-problem subset, for 800 completions. Each step-32 PPO/GRPO checkp
 uses the identical prompt, temperature, top-p, seed, max length, and manifests.
 
 Validation evaluates all 64 validation problems at steps 8, 16, 24, and 32. It is a
-learning-signal diagnostic and cannot switch the final checkpoint. The final test is
-run only after all six training runs and always evaluates step 32.
+learning-signal diagnostic and cannot switch the final checkpoint. The final test is run only after all four active training runs and always evaluates step 32.
 
 Saved evaluation metrics include pass@1/pass@4, format and valid-answer rates,
 canonical correctness, status distribution, per-domain results, MATH500 Levels 1–5,
 completion length, truncation, reward distribution, each problem/seed result, and
 paired pre/post deltas. Aggregation reports every seed, mean, sample SD, and a paired
-problem-level 10,000-resample bootstrap 95% interval. Three seeds do not justify an
-inflated significance claim.
+problem-level 10,000-resample bootstrap 95% interval. Two seeds are deliberately modest and do not justify a statistical-significance claim.
 
 ## Staged future execution order
 
@@ -136,9 +138,8 @@ Each numbered GPU stage requires a new explicit authorization and stops afterwar
 3. PPO seed 42 training.
 4. GRPO seed 42 training.
 5. CPU/validation review of seed 42 learning signal and checkpoint validity.
-6. GRPO seed 123, PPO seed 123, PPO seed 2026, GRPO seed 2026, in that balanced order,
-   only if both seed-42 paths produced valid updates and checkpoints.
-7. Frozen step-32 final test for all six checkpoints.
+6. GRPO seed 123 then PPO seed 123, only if both seed-42 paths produced valid updates and checkpoints.
+7. Frozen step-32 final test for all four active checkpoints.
 8. CPU-only aggregation, error analysis, case studies, and final report.
 
 No stage inherits another run's checkpoint. A run has one attempt, independent run ID,
@@ -155,16 +156,14 @@ and updates may not.
 |---|---:|---:|---:|---:|---:|---:|
 | Each PPO seed | 52.7 min | 110 min | 34 GiB | 55 GiB | 0.8783 / 7.80 | 1.8333 / 16.28 |
 | Each GRPO seed | 36.1 min | 75 min | 11 GiB | 24 GiB | 0.6017 / 5.34 | 1.2500 / 11.10 |
-| Six training runs | 4.44 h | 9.25 h | — | — | 4.44 / 39.43 | 9.25 / 82.14 |
+| Four active training runs | 2.96 h | 6.1667 h | — | — | 2.96 / 26.28 | 6.1667 / 54.76 |
 
 Evaluation planning uses 8 GiB expected / 16 GiB ceiling because it loads one model
 without training state. A conservative initial plan is 25/50 minutes per 800-completion
 baseline or final-evaluation seed, and 5/10 minutes per 64-problem validation pass.
-Across one sanity, three baseline seeds, 24 checkpoint-validation passes, and six final
-evaluations, the all-stage expected total is approximately 10.3 GPU-hours / CNY 91;
-the 2× planning ceiling is approximately 20.6 GPU-hours / CNY 183 at CNY 8.88/GPU-hour.
+Across one sanity, two baseline seeds, 16 checkpoint-validation passes, and four final evaluations, the all-stage expected total is approximately 6.8767 GPU-hours / CNY 61.06; the planning ceiling is 14.0 GPU-hours / CNY 124.32 at CNY 8.88/GPU-hour.
 These evaluation estimates must be replaced by measured sanity/baseline throughput
-before authorizing the six-run training suite.
+before authorizing the four-run training suite.
 
 ## Evidence and claim boundary
 
@@ -182,12 +181,10 @@ It does not itself show that PPO or GRPO learns, generalizes, or outperforms the
 |---|---|
 | PPO seed 42 | `717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b` |
 | PPO seed 123 | `a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3` |
-| PPO seed 2026 | `b270b594fb8463fb7a0f62875840ea4a574e9359c986e5b51c26aafae07428db` |
+| PPO seed 2026 (reserved_not_scheduled) | `b270b594fb8463fb7a0f62875840ea4a574e9359c986e5b51c26aafae07428db` |
 | GRPO seed 42 | `6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf` |
 | GRPO seed 123 | `4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa` |
-| GRPO seed 2026 | `02479719cce9409cef89d162f36bedc20ca352c216804168d8fe7ae52545f5df` |
+| GRPO seed 2026 (reserved_not_scheduled) | `02479719cce9409cef89d162f36bedc20ca352c216804168d8fe7ae52545f5df` |
 
 Each descriptor binds its seed, algorithm, template hash, schedule SHA, and ordered-ID
-SHA. No runtime CLI seed override is accepted. Formal `--execute` remains deliberately
-disabled before model/CUDA until a later stage implements and reviews the multi-update
-runtime under new authorization.
+SHA. No runtime CLI seed override is accepted. The CPU-validated multi-update runtime is implemented in this amendment stage, but model download, CUDA sanity, evaluation, and training each remain separately unauthorized.

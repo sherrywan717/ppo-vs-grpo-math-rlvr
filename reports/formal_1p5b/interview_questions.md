@@ -34,7 +34,7 @@
 ## Statistics and claims
 
 16. Why report raw seed values, sample SD, and paired problem bootstrap intervals?
-17. What can and cannot be inferred from three seeds?
+17. What can and cannot be inferred from two seeds?
 18. Why is pass@4 evaluated on a frozen subset, and how is it paired pre/post?
 19. How would zero reward variance or zero canonical accuracy be reported without
     silently changing the experiment?

@@ -16,7 +16,7 @@ def test_formal_evaluation_phases_are_cpu_only_and_matched() -> None:
     baseline = validate_evaluation_config(config, "baseline", seed=42)
     final = validate_evaluation_config(config, "final", algorithm="ppo", seed=42)
     validation = validate_evaluation_config(
-        config, "validation", algorithm="grpo", seed=2026
+        config, "validation", algorithm="grpo", seed=123
     )
     assert baseline["completion_contract"]["completions_per_seed"] == 800
     assert final["completion_contract"]["completions_per_checkpoint_seed"] == 800
@@ -26,6 +26,12 @@ def test_formal_evaluation_phases_are_cpu_only_and_matched() -> None:
         assert result["model_or_tokenizer_loads"] == 0
         assert result["generation_calls"] == 0
         assert result["trainer_calls"] == 0
+
+
+def test_reserved_seed_2026_is_not_an_active_evaluation_seed() -> None:
+    config = load_evaluation_config()
+    with pytest.raises(ValueError, match="unapproved formal evaluation seed"):
+        validate_evaluation_config(config, "final", algorithm="ppo", seed=2026)
 
 
 def test_formal_evaluation_rejects_test_tuning_and_identity_drift() -> None:

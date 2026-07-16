@@ -2,18 +2,13 @@ sequence,stage,algorithm,seed,config,status,run_id,checkpoint_step,attempts_allo
 1,cuda_model_load_sanity,base,,configs/formal_1p5b/model_identity.json,not_authorized,,,1,pinned-revision local snapshot sanity only
 2,baseline_evaluation,base,42,configs/formal_1p5b/evaluation.json,not_authorized,,,1,shared untrained baseline
 3,baseline_evaluation,base,123,configs/formal_1p5b/evaluation.json,not_authorized,,,1,shared untrained baseline
-4,baseline_evaluation,base,2026,configs/formal_1p5b/evaluation.json,not_authorized,,,1,shared untrained baseline
-5,training,ppo,42,configs/formal_1p5b/resolved/ppo_seed_42.json,not_authorized,,,1,first formal training run
-6,training,grpo,42,configs/formal_1p5b/resolved/grpo_seed_42.json,not_authorized,,,1,requires PPO seed 42 evidence
-7,validation_review,paired,42,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,gate only on valid execution and checkpoint evidence
-8,training,grpo,123,configs/formal_1p5b/resolved/grpo_seed_123.json,not_authorized,,,1,balanced algorithm order
-9,training,ppo,123,configs/formal_1p5b/resolved/ppo_seed_123.json,not_authorized,,,1,balanced algorithm order
-10,training,ppo,2026,configs/formal_1p5b/resolved/ppo_seed_2026.json,not_authorized,,,1,balanced algorithm order
-11,training,grpo,2026,configs/formal_1p5b/resolved/grpo_seed_2026.json,not_authorized,,,1,balanced algorithm order
-12,final_evaluation,ppo,42,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,fixed final checkpoint
-13,final_evaluation,grpo,42,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,fixed final checkpoint
-14,final_evaluation,ppo,123,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,fixed final checkpoint
-15,final_evaluation,grpo,123,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,fixed final checkpoint
-16,final_evaluation,ppo,2026,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,fixed final checkpoint
-17,final_evaluation,grpo,2026,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,fixed final checkpoint
-18,cpu_aggregation,paired,,reports/formal_1p5b/experiment_plan.json,planned,,,0,test is never used for tuning
+4,training,ppo,42,configs/formal_1p5b/resolved/ppo_seed_42.json,not_authorized,,,1,first formal training run
+5,training,grpo,42,configs/formal_1p5b/resolved/grpo_seed_42.json,not_authorized,,,1,requires PPO seed 42 evidence
+6,validation_review,paired,42,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,gate only on valid execution and checkpoint evidence
+7,training,grpo,123,configs/formal_1p5b/resolved/grpo_seed_123.json,not_authorized,,,1,balanced algorithm order
+8,training,ppo,123,configs/formal_1p5b/resolved/ppo_seed_123.json,not_authorized,,,1,balanced algorithm order
+9,final_evaluation,ppo,42,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,fixed final checkpoint
+10,final_evaluation,grpo,42,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,fixed final checkpoint
+11,final_evaluation,grpo,123,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,fixed final checkpoint
+12,final_evaluation,ppo,123,configs/formal_1p5b/evaluation.json,not_authorized,,32,1,fixed final checkpoint
+13,cpu_aggregation,paired,,reports/formal_1p5b/experiment_plan.json,planned,,,0,test is never used for tuning

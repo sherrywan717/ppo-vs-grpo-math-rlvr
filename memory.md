@@ -635,3 +635,16 @@ This file records operational history and pitfalls that should survive context c
 - Planned future stages require separate authorization: model download; CUDA/load
   sanity; baseline; PPO42; GRPO42; seed42 review; remaining four balanced runs; final
   test; CPU aggregation. Stage E authorizes none of them.
+
+## Formal 1.5B four-run amendment
+
+- The original six-run Stage E plan remains preserved at `499fea9f`; the active suite
+  now contains PPO/GRPO seeds 42 and 123 only.
+- Active order: PPO42, GRPO42, seed-42 review, GRPO123, PPO123, four step-32 final
+  evaluations, then CPU aggregation. Active-suite SHA256:
+  `f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd`.
+- Seed-2026 descriptors were not deleted or changed; their status is
+  `reserved_not_scheduled`, outside the active registry, costs, queue, and statistics.
+- Four training runs retain 32 updates, 512 completions, 131,072-token cap, and
+  checkpoints/validation at 8/16/24/32. Two seeds do not support statistical-
+  significance or general-superiority claims.

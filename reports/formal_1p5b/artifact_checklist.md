@@ -40,7 +40,7 @@ Git receives only small reports, CSV/JSON/JSONL evidence, plot scripts, and figu
 - Per-domain GSM8K/MATH500 results; MATH500 Level 1–5; format/valid-answer/canonical
   correctness; completion length/truncation; shaped reward distribution.
 - Every seed's raw value, mean, sample SD, paired pre/post deltas, and problem-level
-  bootstrap 95% interval. Three seeds never trigger an unsupported significance claim.
+  bootstrap 95% interval. Two seeds never support a statistical-significance claim.
 
 ## Resource and checkpoint evidence
 
