@@ -1,0 +1,205 @@
+{
+  "run_id": "ppo_matched_0p5b_seed123_20260716T120000Z",
+  "files": [
+    {
+      "path": "checkpoint_inventory.json",
+      "size": 1830,
+      "sha256": "1e5f5ce0c38512641bbcbf012b16b756d099f09ebc42022fe99d0f6d85716636"
+    },
+    {
+      "path": "completions.jsonl",
+      "size": 51142,
+      "sha256": "9dc637c7da8d43f34e676091a78981ec85ecc10997b5ff8d8b767fd6ce89db53"
+    },
+    {
+      "path": "environment.txt",
+      "size": 35,
+      "sha256": "6a5535bbd64d33d8423086b8d3eb910840e0649ecdd53912346713e8ff35ea46"
+    },
+    {
+      "path": "expected_run_contract.json",
+      "size": 2402,
+      "sha256": "69033770232ff6c7763de333a66dc80b400edb401de0d863e992d1d923142cde"
+    },
+    {
+      "path": "figures/completion_length.png",
+      "size": 53494,
+      "sha256": "850be5625dd3caf336636e3b38e2473d92ad3afc91551507eada4de0d44b5944"
+    },
+    {
+      "path": "figures/completion_length.svg",
+      "size": 36840,
+      "sha256": "3904d75e7ab976603b08e1aa684aa72634a0403f7ac11a45ae28894cd59c10c3"
+    },
+    {
+      "path": "figures/correctness_and_validity.png",
+      "size": 68581,
+      "sha256": "99ff4e5cdf8805e79ebe6b769bc740bf20d0d96e8a2ad1b9c97cd84708850c55"
+    },
+    {
+      "path": "figures/correctness_and_validity.svg",
+      "size": 45114,
+      "sha256": "4b304e995c974d36a8d3ab4cd557ce3e4e7a0ff50f9f1bd424da47233858b6e1"
+    },
+    {
+      "path": "figures/entropy_curve.png",
+      "size": 57381,
+      "sha256": "e0775519b77c4c6f9b143de3c3295fb7141b62b4cbb780adaf73f916a30706ec"
+    },
+    {
+      "path": "figures/entropy_curve.svg",
+      "size": 38663,
+      "sha256": "413e8cd4bc400f577b54f5bde43f2883a7df75d9601245438101524d217fadbe"
+    },
+    {
+      "path": "figures/generated_tokens.png",
+      "size": 50322,
+      "sha256": "f146305e8696710ef14a05bc0526625ef39675bcc68bed9c16b1233d27a11baa"
+    },
+    {
+      "path": "figures/generated_tokens.svg",
+      "size": 34707,
+      "sha256": "0d093db78e6b1c454b734416b6d713bc6f1848540e993c600c20a33e678e0c02"
+    },
+    {
+      "path": "figures/gpu_memory.png",
+      "size": 66895,
+      "sha256": "720f8dce4f807daba45788d7b73203af6d105d5a843d2ef3e30b87b1d7aec6a6"
+    },
+    {
+      "path": "figures/gpu_memory.svg",
+      "size": 41920,
+      "sha256": "283905950e8b56541fc8b4880079c4ebc7cdddcd57ad8c9da679915bdf8fbc53"
+    },
+    {
+      "path": "figures/gpu_utilization.png",
+      "size": 75860,
+      "sha256": "dbbded0ea4b69e9512382e404c9124c33362579cf5cffcfedd3fe1410d0a573b"
+    },
+    {
+      "path": "figures/gpu_utilization.svg",
+      "size": 43663,
+      "sha256": "9651b906452c0fddcee81c7158386182b2a1cdb4b6c6f873ad63dc4a4aeed690"
+    },
+    {
+      "path": "figures/kl_curve.png",
+      "size": 51106,
+      "sha256": "e06e448103e08bdb585c7b6a8aeaf128f2005056790edcd0cafd607b6bbe0b98"
+    },
+    {
+      "path": "figures/kl_curve.svg",
+      "size": 36087,
+      "sha256": "99f9756afe803a92f0a9f2dea83739d6549c593ac9845ab073d9350a70014361"
+    },
+    {
+      "path": "figures/policy_loss.png",
+      "size": 55146,
+      "sha256": "96992b987dd44cb5963de07472746db0793f3bdf58e18d770628febe4f79060b"
+    },
+    {
+      "path": "figures/policy_loss.svg",
+      "size": 37066,
+      "sha256": "79dbafadf594fbc579cc27b575f10a73b46891676dfb977fcd6ad96d903037ce"
+    },
+    {
+      "path": "figures/ppo_value_loss.png",
+      "size": 53584,
+      "sha256": "1488a1ca9060708deb0663621f6c290013bb0ecb3b0bf2b25937f01b2bc49ed2"
+    },
+    {
+      "path": "figures/ppo_value_loss.svg",
+      "size": 37612,
+      "sha256": "d9c8155dbdb20a43ea95bda69d2b3340b32e78aaf52e072e73f0f6068a59ff6d"
+    },
+    {
+      "path": "figures/reward_curve.png",
+      "size": 52841,
+      "sha256": "3f8cb7b7d256c28933364af93caf3b994890849aed9cb56d21a2f80c0424cf8e"
+    },
+    {
+      "path": "figures/reward_curve.svg",
+      "size": 35429,
+      "sha256": "267a369494bdd2e76a318f4215151ddfce1cbdd531b8ef082c6233ca684c6e06"
+    },
+    {
+      "path": "final_summary.json",
+      "size": 41889,
+      "sha256": "f2b9fdb4c9932d7738439882f772d9f683af99cbf8f94681b395d28291f2a569"
+    },
+    {
+      "path": "gpu_metrics.csv",
+      "size": 4189,
+      "sha256": "413d9299d505e3e90b2f5afc70639bfbf252ce341a0d6bc68a35b74bf99f12bd"
+    },
+    {
+      "path": "metrics.csv",
+      "size": 265,
+      "sha256": "2cd8f682f6d1a28d3902efebb9c074fee6ad4f0fc4cc567a5be2aba98b76e43c"
+    },
+    {
+      "path": "model_roles.json",
+      "size": 23499,
+      "sha256": "54799ca53ba40d832b8cda31fe0196d459e750e28c4a90c7c3abe1ff3268a596"
+    },
+    {
+      "path": "ppo_episode_order.json",
+      "size": 6041,
+      "sha256": "94fd81047a910beaefa57d83dc80b1395670e24d9f87a0cb18a41325f62a116e"
+    },
+    {
+      "path": "ppo_loader_contract.json",
+      "size": 7737,
+      "sha256": "cc4fa2c17e95c5efabeeca3437b333c5683aa7d565b53dcc9d72f229759515f1"
+    },
+    {
+      "path": "prompt_scope_preflight.json",
+      "size": 19102,
+      "sha256": "1e1959953e1a0cbe60fb43ae5a683d975ff2763c9d9255acafc7d14f0927fa53"
+    },
+    {
+      "path": "pytorch_allocator.json",
+      "size": 769,
+      "sha256": "0b6a13d5ba4518808abd06e37c946b83e378ee230b504e95f44e942076aaffd7"
+    },
+    {
+      "path": "report.md",
+      "size": 108,
+      "sha256": "8df64fa49b3442d779db469b1886bc4044fc24bc662c600d18c59a556047d11a"
+    },
+    {
+      "path": "resolved_config.json",
+      "size": 6701,
+      "sha256": "6d5d8b176a75d6bb4b8bb869f825674cb67c39c18678aafffe46e640f0a3e726"
+    },
+    {
+      "path": "resolved_config.yaml",
+      "size": 5505,
+      "sha256": "9611ffcac30237fc48b2594e108a414f1673f58dc387b4c7392ee2a5a2aa194a"
+    },
+    {
+      "path": "run_manifest.json",
+      "size": 30688,
+      "sha256": "cd8c53c02c5f87a96af32a747d4ffecd37ba258dc307ebf2c87c3e882a3d7c62"
+    },
+    {
+      "path": "samples.jsonl.gz",
+      "size": 20,
+      "sha256": "1e271fe36427fb9cd5d1677ffe3969cabd1510911ad9355695d01ba6ba1255b7"
+    },
+    {
+      "path": "summary.json",
+      "size": 41816,
+      "sha256": "c2fa2b75a9aa39ac44fafcaf03930c7bd90515032e3b8911cd69cc6efccf5da5"
+    },
+    {
+      "path": "trainer_log_history.json",
+      "size": 692,
+      "sha256": "1a52794e8444fc4ba2b00b8c939a49a7f0e7d34c2cfb306257e435e6e2e7f122"
+    },
+    {
+      "path": "trainer_metrics.json",
+      "size": 2287,
+      "sha256": "248ec20e709000ce19a636b55cba830c3b16a51c6f91cab46bef41a10aaadcfb"
+    }
+  ]
+}

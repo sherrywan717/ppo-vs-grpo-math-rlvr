@@ -552,3 +552,15 @@ This file records operational history and pitfalls that should survive context c
   passed. Wall/GPU-hours/cost were `11.0505 s / 0.00306958 / CNY 0.02726`. Backup
   SHA256: `63d4e598169ec655a5d2c52e023606e1fb8b6b6915345d8a948d3273b45bf6f3`.
 - Proceed only to frozen PPO seed 123 after committing and returning clean.
+
+## Matched PPO Pilot Seed 123 Success
+
+- `ppo_matched_0p5b_seed123_20260716T120000Z` ran once: 16 completions/evidence rows,
+  565 tokens, four batch-4 backward events, sync false/false/false/true and exact
+  epoch/minibatch/optimizer/update/global `1/1/1/1/1`.
+- Reward mean/std were `0.09375 / 0.03903123748998998`; one of four groups had zero
+  variance. Canonical accuracy was zero; policy/value losses and required metrics were
+  finite. The role-separated adapter/head checkpoint and 16 keys passed.
+- Peak VRAM/wall/GPU-hours/cost were `10015 MiB / 15.2371 s / 0.00423253 / CNY 0.03758`.
+  Backup SHA256: `2ac5a29a453e8e71bda7aea2d498e798b0f6d29393c20286bd0e585fe7f326f9`.
+- Parent GPU release passed. Continue only to frozen PPO seed 2026 after commit/clean.
