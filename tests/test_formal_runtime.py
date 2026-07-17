@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import pytest
+from formal_checkpoint_helpers import write_fake_trusted_checkpoint
 
 from math_rlvr.evaluation.formal import load_evaluation_config
 from math_rlvr.evaluation.formal_runtime import execute_formal_evaluation
@@ -22,6 +23,20 @@ class FakeFormalBackend:
         self.token_width = token_width
 
     def execute(self, contract, observer, *, start_update):
+        if start_update > 1:
+            for step in contract.validation_steps:
+                if step >= start_update:
+                    break
+                rows = [
+                    {
+                        "checkpoint_step": step,
+                        "problem_id": f"validation:{index}",
+                        "canonical_correct": False,
+                    }
+                    for index in range(64)
+                ]
+                observer.guard.record_restored_validation(step, rows)
+                observer.validation_metrics.extend(rows)
         for update in range(start_update, self.stop_after + 1):
             rows = []
             for pair_key in contract.pair_keys_for_update(update):
@@ -35,6 +50,8 @@ class FakeFormalBackend:
                         "completion_ids": [7] * self.token_width,
                         "completion_mask": [1] * self.token_width,
                         "exact_token_count": self.token_width,
+                        "eos_reached": False,
+                        "truncated": self.token_width == contract.max_completion_length,
                         "raw_completion": "<reasoning>fake</reasoning><answer>0</answer>",
                         "scalar_reward": 0.1,
                         "canonical_status": "wrong_answer",
@@ -45,16 +62,55 @@ class FakeFormalBackend:
                 "reward_std": 0.0,
                 "reward_variance": 0.0,
                 "loss": 0.25,
+                "total_loss": 0.25,
                 "grad_norm": 1.0,
                 "entropy": 0.5,
+                "policy_entropy_mean": 0.5,
+                "policy_entropy_mean_available": True,
+                "policy_entropy_std": None,
+                "policy_entropy_std_available": False,
+                "policy_entropy_std_reason": "fake backend exposes mean only",
+                "response_token_entropy_mean": None,
+                "response_token_entropy_mean_available": False,
+                "response_token_entropy_mean_reason": "fake backend has no logits",
+                "policy_grad_norm": None,
+                "policy_grad_norm_available": False,
+                "policy_grad_norm_reason": "fake backend exposes aggregate grad norm only",
+                "value_grad_norm": None,
+                "value_grad_norm_available": False,
+                "value_grad_norm_reason": "fake backend exposes aggregate grad norm only",
                 "learning_rate": 1e-5,
                 "mean_completion_length": float(self.token_width),
+                "completion_length_std": 0.0,
+                "completion_duplicate_rate": 0.75,
+                "unique_completion_rate": 0.25,
+                "eos_rate": 0.0,
+                "eos_rate_available": True,
+                "truncation_rate": float(self.token_width == contract.max_completion_length),
+                "truncation_rate_available": True,
                 "zero_advantage_fraction": 1.0,
                 "format_accuracy": 1.0,
                 "valid_answer_rate": 1.0,
                 "canonical_pass_rate": 0.0,
+                "generated_tokens": 16 * self.token_width,
+                "cumulative_generated_tokens": update * 16 * self.token_width,
                 "kl": None,
                 "kl_unavailable_reason": "fake backend does not compute KL",
+                "clip_fraction": None,
+                "clip_fraction_available": False,
+                "clip_fraction_reason": "fake backend does not compute clip fraction",
+                "ratio_mean": None,
+                "ratio_available": False,
+                "ratio_reason": "fake backend does not compute ratio",
+                "ratio_variance": None,
+                "ratio_variance_available": False,
+                "ratio_variance_reason": "fake backend does not compute ratio variance",
+                "advantage_mean": None,
+                "advantage_available": False,
+                "advantage_reason": "fake backend does not expose advantage",
+                "return_mean": None,
+                "return_available": False,
+                "return_reason": "fake backend does not expose return",
             }
             if contract.algorithm == "ppo":
                 metrics.update({"policy_loss": 0.1, "value_loss": 0.15})
@@ -78,40 +134,16 @@ class FakeFormalBackend:
                     ],
                 )
                 checkpoint = self.root / f"checkpoint-{update}"
-                self._write_checkpoint(checkpoint, contract, observer.guard.snapshot())
+                write_fake_trusted_checkpoint(
+                    checkpoint,
+                    contract,
+                    update,
+                    completion_prefix=observer.completions,
+                    metric_prefix=observer.metrics,
+                )
                 observer.checkpoint(update, checkpoint)
         if self.stop_after < contract.updates:
             raise RuntimeError("intentional interruption")
-
-    @staticmethod
-    def _write_checkpoint(root, contract, snapshot):
-        root.mkdir(parents=True)
-        role_files = [
-            "policy_adapter/adapter_model.safetensors",
-            "policy_adapter/adapter_config.json",
-        ]
-        if contract.algorithm == "ppo":
-            role_files += [
-                "value_adapter/adapter_model.safetensors",
-                "value_adapter/adapter_config.json",
-                "value_head/value_head.safetensors",
-                "value_head/config.json",
-            ]
-        for relative in role_files:
-            path = root / relative
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text("fake adapter evidence\n")
-        (root / "trainer_state.json").write_text(
-            json.dumps({"global_step": snapshot["global_steps"]}) + "\n"
-        )
-        resume = {**snapshot, "base_weights_included": False}
-        resume["checkpoints"] = [
-            step for step in contract.checkpoint_steps if step <= snapshot["updates"]
-        ]
-        resume["validations"] = [
-            step for step in contract.validation_steps if step <= snapshot["updates"]
-        ]
-        (root / "resume_manifest.json").write_text(json.dumps(resume, indent=2) + "\n")
 
 
 class FakeEvaluationBackend:
@@ -164,6 +196,9 @@ def test_fake_formal_32_step_finalization(algorithm, seed, tmp_path):
     for required in (
         "resolved_config.json",
         "run_manifest.json",
+        "expected_run_contract.json",
+        "prompt_scope_preflight.json",
+        "model_roles.json",
         "metrics.csv",
         "metrics.jsonl",
         "completions.jsonl",
@@ -203,14 +238,14 @@ def test_resume_requires_same_run_and_continues_exact_counters(tmp_path):
             config,
             FakeFormalBackend(run_dir, stop_after=8),
             run_dir=run_dir,
-            run_id="same-run",
+            run_id=run_dir.name,
         )
     checkpoint = run_dir / "checkpoint-8"
     result = execute_formal_training(
         config,
         FakeFormalBackend(run_dir),
         run_dir=run_dir,
-        run_id="same-run",
+        run_id=run_dir.name,
         resume_checkpoint=checkpoint,
     )
     assert result["counters"]["updates"] == 32
@@ -218,7 +253,7 @@ def test_resume_requires_same_run_and_continues_exact_counters(tmp_path):
     alien = dict(json.loads((checkpoint / "resume_manifest.json").read_text()))
     alien["run_id"] = "other-run"
     (checkpoint / "resume_manifest.json").write_text(json.dumps(alien) + "\n")
-    with pytest.raises(FormalRuntimeError, match="run_id mismatch"):
+    with pytest.raises(FormalRuntimeError, match="SHA256 inventory mismatch"):
         execute_formal_training(
             config,
             FakeFormalBackend(run_dir),
@@ -276,6 +311,32 @@ def test_fake_baseline_and_final_evaluation_artifacts(phase, tmp_path):
     assert result["unique_problem_count"] == 400
     assert (tmp_path / phase / "figures").is_dir()
     assert len((tmp_path / phase / "completions.jsonl").read_text().splitlines()) == 800
+
+
+def test_fake_checkpoint_validation_finalizes_64_rows_with_nullable_pass_metrics(tmp_path):
+    result = execute_formal_evaluation(
+        FakeEvaluationBackend(),
+        phase="validation",
+        seed=42,
+        run_dir=tmp_path / "validation",
+        algorithm="grpo",
+        checkpoint_step=8,
+        config=load_evaluation_config(),
+    )
+    assert result["completion_count"] == 64
+    assert result["sampled_pass_at_1"] is None
+    assert result["pass_at_4"] is None
+    assert result["greedy_accuracy"] is None
+    aggregate = json.loads((tmp_path / "validation" / "aggregate_metrics.json").read_text())[
+        "aggregate"
+    ]
+    assert aggregate["greedy_accuracy_available"] is False
+    resource = (tmp_path / "validation" / "resource_metrics.csv").read_text()
+    assert "unavailable" in resource
+    summary = json.loads((tmp_path / "validation" / "resource_summary.json").read_text())
+    allocator = json.loads((tmp_path / "validation" / "pytorch_allocator.json").read_text())
+    assert summary["available"] is False
+    assert allocator["available"] is False
 
 
 def test_formal_evaluation_rejects_reserved_seed(tmp_path):
