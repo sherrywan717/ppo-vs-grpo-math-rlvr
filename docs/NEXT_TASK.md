@@ -1,7 +1,25 @@
 # Next task: CPU-only formal 1.5B model-bound CLI wiring
 
-Status: approved but not implemented. This is Stage E.1 only. Do not download/load a
-model, initialize CUDA, generate, train, run backward, or step an optimizer.
+Status: CPU-only implementation complete; final repository verification, commits, and
+static backup are in progress. Do not download/load a model, initialize CUDA,
+generate, train, run backward, or step an optimizer.
+
+## Exact same-run resume decision
+
+Git-safe/final exports remain policy/value adapters plus the PPO scalar head only.
+Training-recovery checkpoints in the full run and AutoDL backup additionally contain
+trusted optimizer, scheduler, Trainer/global-step, Python/PyTorch CPU/CUDA RNG,
+sampler/comparison-key prefix, runtime counters, generated-token total, and exact file
+size/SHA256 inventory. GRPO omits the value adapter/head. Neither form contains full
+Qwen base weights, and training state never enters Git.
+
+Before any torch/pickle state load, resume validates a canonical direct-child path in
+the same project run, exact filename allowlist and size ceilings, artifact-manifest
+SHA256 inventory, run/algorithm/seed/checkpoint step, and suite/config/model/data/
+prompt/reward/parser/verifier identities. Only steps 8/16/24 continue training; step
+32 remains a final/evaluation checkpoint. CPU fake tests establish counter, key, and
+token continuity plus bit-identical float64 final fake parameters for continuous 32
+steps versus save at 16 and resume to 32.
 
 ## Goal
 
@@ -104,7 +122,8 @@ actual trainer-consumed mapping/keys. PPO never receives `num_generations`.
 - Reward: the exact same parameter-free domain-aware reward/parser/verifiers.
 - No value model or scalar head.
 - Optimizer: policy LoRA parameters only.
-- Adapter-only checkpoints; no full base model or optimizer dump.
+- Git-safe export is adapter-only; the non-Git same-run recovery checkpoint contains
+  only trusted continuation state, never base weights.
 - Exact ordered four-generation grouping for every prompt and stable
   `problem_id::generation_index` keys.
 - Same-run-only resume with exact identity and counter continuity.

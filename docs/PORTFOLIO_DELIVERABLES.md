@@ -119,6 +119,38 @@ GRPO 每个 update 至少保存：
 任何缺失、不适用或不可靠指标必须保存标准 JSON `null`/CSV 空值、
 `available=false` 和明确原因。禁止将不可用指标伪造为 0；真实 0 必须有原始证据。
 
+### Entropy 与策略坍缩证据
+
+PPO 和 GRPO 正式训练必须尝试保存每个 update 的 policy entropy mean、可靠可得时
+的 std、checkpoint 8/16/24/32 的 entropy、entropy 对 cumulative generated tokens、
+reward/pass rate 的联合变化，以及 completion duplicate/unique rate、completion
+length mean/std、EOS rate 和 truncation rate。
+
+每个 entropy 观察必须同时记录：metric source、原始 metric key、使用 logits 还是
+log-probabilities、是否只覆盖 response 轴、是否排除 prompt/PAD/EOS、token mask、
+token/sequence/batch aggregation、dtype，以及 TRL/Transformers 版本。优先字段为
+`response_token_entropy_mean`，其统一定义只允许复用当前 forward 已存在的 policy
+logits，以 detached/no-grad 方式对真实 response token 求 Shannon entropy token
+mean；排除 prompt/PAD，PPO/GRPO 使用相同公式和 mask，不增加模型 forward，也不
+保存完整 logits。
+
+若统一计算需要额外 forward、明显显存开销或侵入式修改 pinned TRL，则：
+
+- 保留 trainer 原生 entropy mean 和精确定义/原始 key；
+- `response_token_entropy_mean` 保存 `null`、`available=false` 和原因；
+- 不把定义或 aggregation 不同的 PPO/GRPO entropy 做横向数值优劣比较；
+- 原生 std 不可得时同样保存 `null`/unavailable，绝不写成 0。
+
+Completion diversity 使用每个问题四次采样内的 raw-completion 精确字节相等定义，
+先计算每组 unique/duplicate rate，再对本 update 的四组取均值。最终分析必须回答：
+
+- entropy 是否持续下降；
+- reward 提高是否伴随 entropy 过快下降；
+- 是否出现大量重复 completion；
+- PPO 是否因 KL/clip 约束保持更稳定；
+- GRPO 是否同时出现低 entropy 与 zero-advantage；
+- pass 率变化更符合数学能力提升还是输出模式收缩。
+
 ## 5. 时间、资源与成本
 
 每个 baseline、training、validation 和 final-evaluation run 必须保存：
@@ -151,6 +183,9 @@ GRPO 每个 update 至少保存：
 - Reward mean/std、group variance 和学习信号。
 - PPO value model/value loss/explained variance 的稳定性。
 - GRPO zero-advantage group/rate 的影响。
+- Entropy、reward/pass rate、generated tokens 和 completion diversity 的联合变化。
+- PPO/GRPO entropy 定义不同时只比较各自趋势，不比较原始绝对值。
+- Pass 率变化是否伴随模式收缩、EOS/截断或重复率异常。
 - 高 shaped reward 但 canonical 错误等 reward hacking 迹象。
 - 可复现的 error taxonomy 和类别分布。
 - 两种算法可能更适合的条件与工程权衡。
@@ -217,6 +252,12 @@ reports/formal_1p5b/
 - 使用 GitHub 可直接显示的 PNG 或 SVG。
 - 具有清晰标题、坐标轴名称、单位、图例和 caption。
 - Caption 说明数据范围、聚合方式、误差条或缺失指标语义。
+
+策略坍缩分析固定增加以下可重建 PNG：
+
+- `reports/formal_1p5b/figures/entropy_vs_tokens.png`
+- `reports/formal_1p5b/figures/entropy_vs_reward.png`
+- `reports/formal_1p5b/figures/completion_diversity.png`
 
 禁止从终端输出手抄数字画图，禁止手动修改图片以改变结果，禁止让图与源 CSV/JSON
 不一致。

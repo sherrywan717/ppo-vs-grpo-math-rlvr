@@ -120,22 +120,23 @@ Evaluation quantities:
 
 ## Current blocker and next stages
 
-The only current blocker is incomplete formal real-model PPO, GRPO, and evaluation
-CLI wiring. The CPU runtime contracts exist, but the exact model-bound execute paths
-must still be connected and tested. The complete approved task is in
-`docs/NEXT_TASK.md`.
+Stage E.1 CPU wiring is complete: exact active-config routing, dual confirmations,
+pinned local-only snapshot validation, delayed PPO/GRPO/evaluation assembly, 32-step
+runtime connection, portfolio metric availability, and trusted same-run resume are
+implemented. Recovery state remains only in the full run and persistent backup;
+Git-safe/final exports remain adapter/head-only and full Qwen weights are forbidden.
+Final CPU gates, commits, and static backup are the remaining administration work.
 
 Future stages, each separately authorized:
 
-1. Finish CPU-only formal CLI wiring.
-2. Download the pinned 1.5B snapshot.
-3. Run CUDA/model-load sanity.
-4. Run the two-seed untrained baseline.
-5. Run PPO seed 42, then GRPO seed 42.
-6. Review seed-42 validation and learning signal.
-7. Run GRPO seed 123, then PPO seed 123.
-8. Run frozen final evaluation for four checkpoints.
-9. Aggregate CPU-only and write the final report.
+1. Download the pinned 1.5B snapshot.
+2. Run CUDA/model-load sanity.
+3. Run the two-seed untrained baseline.
+4. Run PPO seed 42, then GRPO seed 42.
+5. Review seed-42 validation and learning signal.
+6. Run GRPO seed 123, then PPO seed 123.
+7. Run frozen final evaluation for four checkpoints.
+8. Aggregate CPU-only and write the final report.
 
 ## Storage and cost
 

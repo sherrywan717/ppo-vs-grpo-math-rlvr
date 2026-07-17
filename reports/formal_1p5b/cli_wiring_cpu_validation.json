@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "stage": "E.1",
+  "label": "CPU-only formal 1.5B model-bound CLI wiring",
+  "date_utc": "2026-07-17",
+  "baseline_head": "87cf38fb3859737203890a6a8ebabf522cbd2c3c",
+  "branch": "pivot/math-rlvr",
+  "active_suite_sha256": "f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd",
+  "active_config_sha256": {
+    "configs/formal_1p5b/resolved/ppo_seed_42.json": "717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b",
+    "configs/formal_1p5b/resolved/grpo_seed_42.json": "6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf",
+    "configs/formal_1p5b/resolved/grpo_seed_123.json": "4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa",
+    "configs/formal_1p5b/resolved/ppo_seed_123.json": "a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3"
+  },
+  "acceptance": {
+    "compileall": "passed",
+    "ruff": "passed",
+    "pytest": {
+      "status": "passed",
+      "passed": 436,
+      "deselected": 0,
+      "deselected_reason": null
+    },
+    "check_env": "passed",
+    "manifest_validation": "passed",
+    "formal_training_dry_runs": 4,
+    "baseline_dry_runs": 1,
+    "final_evaluation_dry_runs": 1,
+    "fake_formal_training_algorithms": ["ppo", "grpo"],
+    "fake_formal_training_updates": 32,
+    "fake_formal_training_completions": 512,
+    "fake_checkpoint_steps": [8, 16, 24, 32],
+    "fake_validation_steps": [8, 16, 24, 32],
+    "fake_evaluation_phases": ["baseline", "validation", "final"],
+    "git_diff_check": "passed"
+  },
+  "expensive_boundary_evidence": {
+    "fresh_training_dry_run_imported_torch": false,
+    "fresh_training_dry_run_imported_transformers": false,
+    "fresh_training_dry_run_imported_trl": false,
+    "fresh_training_dry_run_imported_peft": false,
+    "fresh_evaluation_dry_run_imported_torch": false,
+    "fresh_evaluation_dry_run_imported_transformers": false,
+    "cuda_initialized": false,
+    "real_qwen_model_or_tokenizer_loads": 0,
+    "generation_calls": 0,
+    "real_qwen_trainer_calls": 0,
+    "stage_e1_fake_acceptance_backward_calls": 1,
+    "stage_e1_fake_acceptance_optimizer_steps": 1
+  },
+  "disclosed_session_warning": {
+    "category": "pre_existing_tiny_cpu_test_executed_during_regression_and_full_pytest",
+    "test": "test_guarded_trainer_shim_counts_real_backward_and_underlying_step",
+    "effect": "synthetic tiny CPU backward and underlying optimizer step occurred during an intermediate regression selection and the final full pytest",
+    "qwen_model_load": false,
+    "tokenizer_load": false,
+    "cuda": false,
+    "generation": false,
+    "scientific_run_artifact": false
+  },
+  "frozen_inputs_modified": false,
+  "historical_0p5b_artifacts_modified": false,
+  "model_downloaded": false,
+  "scientific_metrics_created": false
+}
