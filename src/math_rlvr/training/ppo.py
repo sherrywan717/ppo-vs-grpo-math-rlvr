@@ -25,9 +25,54 @@ def main(
         print(f"Preflight passed for {config['experiment']['name']}; no training started.")
         return 0
     if config.get("formal", {}).get("family") == "formal_1p5b_v1":
-        raise RuntimeError(
-            "formal PPO execution requires a later explicit GPU-stage implementation"
+        if (
+            not args.confirm_formal_ppo
+            or args.confirm_formal_grpo
+            or args.confirm_single_update
+        ):
+            raise RuntimeError(
+                "formal PPO requires --execute --confirm-formal-ppo only"
+            )
+        from math_rlvr.training.formal_cli import (
+            require_formal_local_snapshot,
+            require_formal_offline_environment,
+            validate_formal_resume_authorization,
+            validate_formal_training_authorization,
         )
+        from math_rlvr.training.formal_runtime import (
+            prepare_formal_runtime_prompt_preflight,
+        )
+        from math_rlvr.training.guarded_grpo import require_clean_git
+
+        authorization = validate_formal_training_authorization(config, args.config, "ppo")
+        validated_resume = (
+            validate_formal_resume_authorization(
+                config, args.resume_checkpoint, "ppo"
+            )
+            if args.resume_checkpoint is not None
+            else None
+        )
+        (git_probe or require_clean_git)()
+        (offline_probe or require_formal_offline_environment)()
+        model_source = (snapshot_probe or require_formal_local_snapshot)()
+        prompt_preflight = prepare_formal_runtime_prompt_preflight(config, "ppo")
+        if execute_fn is None:
+            from math_rlvr.training.formal_model_runtime import execute_real_formal_ppo
+
+            execute_fn = execute_real_formal_ppo
+        result = execute_fn(
+            config,
+            model_source=model_source,
+            prompt_preflight=prompt_preflight,
+            authorization=authorization,
+            resume_checkpoint=args.resume_checkpoint,
+            validated_resume=validated_resume,
+        )
+        if result.get("status") != "success":
+            raise RuntimeError(result.get("reason", "formal PPO execution failed"))
+        return 0
+    if args.confirm_formal_ppo or args.confirm_formal_grpo or args.resume_checkpoint:
+        raise RuntimeError("formal-only flags cannot authorize smoke or pilot PPO")
     if not args.confirm_single_update:
         raise RuntimeError("--execute alone is insufficient; add --confirm-single-update")
     from math_rlvr.training.guarded_grpo import require_clean_git, require_local_snapshot

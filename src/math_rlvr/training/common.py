@@ -25,6 +25,21 @@ def parse_args(description: str, argv=None) -> argparse.Namespace:
         action="store_true",
         help="Second confirmation required for a frozen single-update smoke",
     )
+    parser.add_argument(
+        "--confirm-formal-ppo",
+        action="store_true",
+        help="Second confirmation required for one frozen formal PPO run",
+    )
+    parser.add_argument(
+        "--confirm-formal-grpo",
+        action="store_true",
+        help="Second confirmation required for one frozen formal GRPO run",
+    )
+    parser.add_argument(
+        "--resume-checkpoint",
+        type=Path,
+        help="Same-run formal checkpoint-8/16/24 to resume",
+    )
     return parser.parse_args(argv)
 
 

@@ -12,8 +12,11 @@ from math_rlvr.prompt import (
     PROMPT_RENDERER_VERSION,
     PROMPT_V1_SHA256,
     PROMPT_V1_STRICT_CONCISE,
+    PROMPT_V2_FORMAL_MATH,
+    PROMPT_V2_SHA256,
     ExperimentScope,
 )
+from math_rlvr.rewards.formal import FORMAL_REWARD_SHA256, FORMAL_REWARD_VERSION
 from math_rlvr.rewards.staged import STAGED_REWARD_SHA256, STAGED_REWARD_VERSION
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -51,6 +54,27 @@ _CONFIG_SHA256 = {
     ),
     "configs/pilot/resolved/grpo_seed_2026.json": (
         "1d558da6ea57cfa074fee30868f1772c76c617920e4e93a4897be2e2b48d6b00"
+    ),
+}
+
+_FORMAL_CONFIG_SHA256 = {
+    "configs/formal_1p5b/resolved/ppo_seed_42.json": (
+        "ppo", 42, "717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b"
+    ),
+    "configs/formal_1p5b/resolved/grpo_seed_42.json": (
+        "grpo", 42, "6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf"
+    ),
+    "configs/formal_1p5b/resolved/grpo_seed_123.json": (
+        "grpo", 123, "4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa"
+    ),
+    "configs/formal_1p5b/resolved/ppo_seed_123.json": (
+        "ppo", 123, "a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3"
+    ),
+    "configs/formal_1p5b/resolved/ppo_seed_2026.json": (
+        "ppo", 2026, "b270b594fb8463fb7a0f62875840ea4a574e9359c986e5b51c26aafae07428db"
+    ),
+    "configs/formal_1p5b/resolved/grpo_seed_2026.json": (
+        "grpo", 2026, "02479719cce9409cef89d162f36bedc20ca352c216804168d8fe7ae52545f5df"
     ),
 }
 
@@ -155,6 +179,10 @@ def _profile_shape(relative: str) -> tuple[str, str, int, int, int, int, int, in
         return "ppo_matched_pilot", "ppo", 4, 4, 16, 2048, 0, 1, 1
     if relative.startswith("configs/pilot/resolved/grpo_seed_"):
         return "grpo_matched_pilot", "grpo", 4, 4, 16, 2048, 4, 0, 0
+    if relative.startswith("configs/formal_1p5b/resolved/ppo_seed_"):
+        return "ppo_formal_1p5b", "ppo", 128, 4, 512, 131_072, 0, 1, 1
+    if relative.startswith("configs/formal_1p5b/resolved/grpo_seed_"):
+        return "grpo_formal_1p5b", "grpo", 128, 4, 512, 131_072, 128, 0, 0
     raise ValueError("config path has no protected execution evidence profile")
 
 
@@ -163,15 +191,23 @@ def _scope_for_profile(profile: str) -> ExperimentScope:
         return ExperimentScope.STAGE_D_SMOKE
     if profile.endswith("_matched_pilot"):
         return ExperimentScope.MATCHED_0P5B_PILOT
+    if profile.endswith("_formal_1p5b"):
+        return ExperimentScope.MAIN_FORMAL
     raise ValueError("execution profile has no validated experiment scope")
 
 
 def expected_run_contract(config_path: Path, algorithm: str) -> ExpectedRunContract:
     """Resolve an exact profile; caller-provided numeric limits are never accepted."""
     relative = _relative_config_path(config_path)
-    expected_sha = _CONFIG_SHA256.get(relative)
-    if expected_sha is None:
-        raise ValueError("config path has no protected execution evidence profile")
+    formal_entry = _FORMAL_CONFIG_SHA256.get(relative)
+    if formal_entry is not None:
+        _, formal_seed, expected_sha = formal_entry
+        if formal_seed == 2026:
+            raise ValueError("formal seed 2026 is reserved_not_scheduled")
+    else:
+        expected_sha = _CONFIG_SHA256.get(relative)
+        if expected_sha is None:
+            raise ValueError("config path has no protected execution evidence profile")
     actual_sha = _file_sha256(config_path.resolve())
     if actual_sha != expected_sha:
         raise ValueError("protected execution config SHA256 mismatch")
@@ -188,21 +224,51 @@ def expected_run_contract(config_path: Path, algorithm: str) -> ExpectedRunContr
     ) = _profile_shape(relative)
     if algorithm != expected_algorithm:
         raise ValueError("execution profile algorithm mismatch")
-    metadata = parser_verifier_metadata()
+    is_formal = profile.endswith("_formal_1p5b")
+    if is_formal:
+        from math_rlvr.contracts import formal_parser_verifier_metadata
+        from math_rlvr.training.formal import (
+            FORMAL_MODEL,
+            FORMAL_REVISION,
+            formal_training_schedule,
+        )
+
+        metadata = formal_parser_verifier_metadata()
+        problem_ids = tuple(formal_training_schedule()["ordered_problem_ids"])
+        manifest_sha = "553939ce40ef20af86f5eabe987bff42814f07e9d40ddf1c4cde1208dcc96dd0"
+        model_repo = FORMAL_MODEL
+        model_revision = FORMAL_REVISION
+        max_completion_length = 256
+        prompt_version = PROMPT_V2_FORMAL_MATH
+        prompt_sha = PROMPT_V2_SHA256
+        reward_version = FORMAL_REWARD_VERSION
+        reward_sha = FORMAL_REWARD_SHA256
+        updates = 32
+    else:
+        metadata = parser_verifier_metadata()
+        problem_ids = tuple(f"countdown:train:{index}" for index in range(prompts))
+        manifest_sha = (
+            PILOT_MANIFEST_SHA256 if "matched_pilot" in profile else SOURCE_MANIFEST_SHA256
+        )
+        model_repo = MODEL_REPO
+        model_revision = MODEL_REVISION
+        max_completion_length = 128
+        prompt_version = PROMPT_V1_STRICT_CONCISE
+        prompt_sha = PROMPT_V1_SHA256
+        reward_version = STAGED_REWARD_VERSION
+        reward_sha = STAGED_REWARD_SHA256
+        updates = 1
     parser = metadata["parser_contract"]
     verifier = metadata["verifier_contract"]
-    problem_ids = tuple(f"countdown:train:{index}" for index in range(prompts))
     return ExpectedRunContract(
         profile=profile,
         experiment_scope=_scope_for_profile(profile),
         algorithm=algorithm,
         config_path=relative,
         config_sha256=expected_sha,
-        manifest_sha256=(
-            PILOT_MANIFEST_SHA256 if "matched_pilot" in profile else SOURCE_MANIFEST_SHA256
-        ),
-        model_repo=MODEL_REPO,
-        model_revision=MODEL_REVISION,
+        manifest_sha256=manifest_sha,
+        model_repo=model_repo,
+        model_revision=model_revision,
         local_files_only=True,
         dtype="bfloat16",
         policy_lora_rank=16,
@@ -211,12 +277,12 @@ def expected_run_contract(config_path: Path, algorithm: str) -> ExpectedRunContr
         policy_lora_targets=("q_proj", "k_proj", "v_proj", "o_proj"),
         temperature=0.8,
         top_p=0.95,
-        max_completion_length=128,
-        prompt_version=PROMPT_V1_STRICT_CONCISE,
-        prompt_sha256=PROMPT_V1_SHA256,
+        max_completion_length=max_completion_length,
+        prompt_version=prompt_version,
+        prompt_sha256=prompt_sha,
         renderer_version=PROMPT_RENDERER_VERSION,
-        reward_version=STAGED_REWARD_VERSION,
-        reward_sha256=STAGED_REWARD_SHA256,
+        reward_version=reward_version,
+        reward_sha256=reward_sha,
         parser_version=parser["contract_version"],
         parser_sha256=parser["contract_sha256"],
         verifier_version=verifier["contract_version"],
@@ -225,9 +291,9 @@ def expected_run_contract(config_path: Path, algorithm: str) -> ExpectedRunContr
         responses_per_prompt=responses,
         expected_completions=completions,
         generated_token_cap=token_cap,
-        expected_updates=1,
-        expected_optimizer_steps=1,
-        expected_global_steps=1,
+        expected_updates=updates,
+        expected_optimizer_steps=updates,
+        expected_global_steps=updates,
         expected_microsteps=microsteps,
         expected_ppo_epochs=ppo_epochs,
         expected_minibatches=minibatches,
@@ -248,6 +314,23 @@ def validated_experiment_scope(
             config_path=relative,
             config_sha256=contract.config_sha256,
             expected_run_profile=contract.profile,
+        )
+    formal = _FORMAL_CONFIG_SHA256.get(relative)
+    if formal is not None:
+        expected_algorithm, seed, expected_sha = formal
+        if algorithm != expected_algorithm:
+            raise ValueError("validated formal scope algorithm mismatch")
+        if _file_sha256(config_path.resolve()) != expected_sha:
+            raise ValueError("validated formal scope config SHA256 mismatch")
+        profile = None
+        if seed != 2026:
+            profile = f"{algorithm}_formal_1p5b"
+        return ValidatedExperimentScope(
+            scope=ExperimentScope.MAIN_FORMAL,
+            algorithm=algorithm,
+            config_path=relative,
+            config_sha256=expected_sha,
+            expected_run_profile=profile,
         )
     main = _MAIN_FORMAL_CONFIG_SHA256.get(relative)
     if main is None:
@@ -347,7 +430,7 @@ def expected_run_contract_for_config(config: dict[str, Any], algorithm: str) -> 
     }
     if identity != expected:
         raise ValueError("resolved config identity differs from protected execution profile")
-    if "matched_pilot" in contract.profile:
+    if "matched_pilot" in contract.profile or "formal_1p5b" in contract.profile:
         expected_parser = {
             "contract_version": contract.parser_version,
             "contract_sha256": contract.parser_sha256,

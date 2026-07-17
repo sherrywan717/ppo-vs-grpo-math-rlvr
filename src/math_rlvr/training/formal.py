@@ -395,6 +395,10 @@ def validate_formal_config_file(
     config.update(formal_parser_verifier_metadata())
     config["model_identity_path"] = "configs/formal_1p5b/model_identity.json"
     config["data_registry_path"] = "configs/formal_1p5b/data_registry.json"
+    from math_rlvr.training.execution_contract import validated_experiment_scope
+
+    scope = validated_experiment_scope(Path(relative), algorithm)
+    config["validated_experiment_scope"] = scope.to_dict()
     return config, contract
 
 

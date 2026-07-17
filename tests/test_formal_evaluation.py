@@ -68,6 +68,25 @@ def test_fake_artifact_finalization_uses_existing_manager(
         summary={"optimizer_steps": 32, "global_steps": 32},
     )
     persisted = json.loads((manager.run_dir / "final_summary.json").read_text())
+    assert (manager.run_dir / "checksums.sha256").is_file()
     assert persisted == summary
     assert persisted["counters"] == {"completions": 512, "generated_tokens": 131072}
-    assert (manager.run_dir / "checksums.sha256").is_file()
+
+
+def test_evaluation_artifact_manager_omits_empty_checkpoint_directory(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(artifact_manager, "RUN_ROOT", tmp_path / "runs")
+    monkeypatch.setattr(artifact_manager, "REPORT_ROOT", tmp_path / "reports")
+    manager = ArtifactManager(
+        stage="formal_1p5b_evaluation_fake",
+        algorithm="base",
+        model="Qwen/Qwen2.5-1.5B-Instruct",
+        seed=42,
+        command="cpu-only fake evaluation",
+        config={"dry_run": True},
+        run_id="formal_fake_evaluation",
+        create_checkpoints=False,
+    )
+    assert (manager.run_dir / "figures").is_dir()
+    assert not (manager.run_dir / "checkpoints").exists()

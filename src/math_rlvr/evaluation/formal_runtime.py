@@ -27,6 +27,8 @@ REQUIRED_EVALUATION_FILES = (
     "aggregate_metrics.json",
     "verifier_status.csv",
     "resource_metrics.csv",
+    "resource_summary.json",
+    "pytorch_allocator.json",
     "report.md",
 )
 
@@ -177,8 +179,8 @@ def _aggregate(
                 "problem_id": problem_id,
                 "domain": problem_rows[0]["domain"],
                 "difficulty": problem_rows[0]["difficulty"],
-                "pass1": int(canonical),
-                "pass4": int(any(row["canonical_correct"] for row in pass4)) if pass4 else "",
+                "sampled_pass_at_1": int(canonical),
+                "pass_at_4": int(any(row["canonical_correct"] for row in pass4)) if pass4 else "",
                 "format_valid": int(bool(pass1 and pass1["format_valid"])),
                 "valid_answer": int(bool(pass1 and pass1["valid_answer"])),
                 "canonical_correct": int(canonical),
@@ -220,6 +222,17 @@ def _aggregate(
         "reward_mean": sum(float(row["scalar_reward"]) for row in rows) / len(rows),
         "test_driven_tuning": False,
     }
+    aggregate.update(
+        {
+            "sampled_pass_at_1": aggregate["pass1"],
+            "pass_at_4": aggregate["pass4"],
+            "greedy_accuracy": None,
+            "greedy_accuracy_available": False,
+            "greedy_accuracy_unavailable_reason": (
+                "frozen protocol has no separate greedy completion"
+            ),
+        }
+    )
     domain_rows = []
     for domain in sorted({row["domain"] for row in rows}):
         selected = [row for row in pass1_rows if row["domain"] == domain]
@@ -227,7 +240,11 @@ def _aggregate(
             {
                 "slice": domain,
                 "problems": len(selected),
-                "pass1": sum(row["canonical_correct"] for row in selected) / len(selected),
+                "sampled_pass_at_1": (
+                    sum(row["canonical_correct"] for row in selected) / len(selected)
+                    if selected
+                    else None
+                ),
             }
         )
     math_rows = [row for row in pass1_rows if row["domain"] == "math500"]
@@ -237,7 +254,7 @@ def _aggregate(
             {
                 "slice": f"math500_level_{level}",
                 "problems": len(selected),
-                "pass1": (
+                "sampled_pass_at_1": (
                     sum(row["canonical_correct"] for row in selected) / len(selected)
                     if selected
                     else None
@@ -270,6 +287,7 @@ def execute_formal_evaluation(
     checkpoint_step: int | None = None,
     baseline_rows: list[dict[str, Any]] | None = None,
     config: dict[str, Any] | None = None,
+    precreated_run_dir: bool = False,
 ) -> dict[str, Any]:
     config = config or load_evaluation_config()
     plan = formal_evaluation_plan(
@@ -277,8 +295,13 @@ def execute_formal_evaluation(
     )
     rows = _validate_completion_rows(plan, backend.generate(plan))
     per_problem, aggregate, slices = _aggregate(plan, rows, baseline_rows)
-    run_dir.mkdir(parents=True, exist_ok=False)
-    (run_dir / "figures").mkdir()
+    if precreated_run_dir:
+        if not run_dir.is_dir():
+            raise FormalRuntimeError("precreated evaluation run directory is missing")
+        (run_dir / "figures").mkdir(exist_ok=True)
+    else:
+        run_dir.mkdir(parents=True, exist_ok=False)
+        (run_dir / "figures").mkdir()
     (run_dir / "completions.jsonl").write_text(
         "".join(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n" for row in rows),
         encoding="utf-8",
@@ -295,7 +318,31 @@ def execute_formal_evaluation(
         run_dir / "verifier_status.csv",
         [{"status": status, "count": count} for status, count in sorted(statuses.items())],
     )
-    _write_csv(run_dir / "resource_metrics.csv", [])
+    resource_probe = getattr(backend, "resource_metrics", None)
+    resource_rows = resource_probe() if callable(resource_probe) else []
+    if not resource_rows:
+        resource_rows = [{"available": False, "reason": "resource telemetry unavailable"}]
+    _write_csv(run_dir / "resource_metrics.csv", resource_rows)
+    resource_summary = getattr(
+        backend,
+        "resource_summary",
+        {"available": False, "reason": "resource summary unavailable"},
+    )
+    allocator = getattr(
+        backend,
+        "pytorch_allocator",
+        {"available": False, "reason": "CUDA allocator telemetry unavailable"},
+    )
+    _standard_json(resource_summary)
+    _standard_json(allocator)
+    (run_dir / "resource_summary.json").write_text(
+        json.dumps(resource_summary, indent=2, allow_nan=False) + "\n",
+        encoding="utf-8",
+    )
+    (run_dir / "pytorch_allocator.json").write_text(
+        json.dumps(allocator, indent=2, allow_nan=False) + "\n",
+        encoding="utf-8",
+    )
     (run_dir / "report.md").write_text(
         "# Formal 1.5B evaluation\n\n"
         f"- Phase: {phase}\n- Algorithm: {algorithm}\n- Seed: {seed}\n"

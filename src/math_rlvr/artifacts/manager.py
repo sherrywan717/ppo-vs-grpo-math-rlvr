@@ -48,11 +48,23 @@ def make_run_id(stage, algorithm, model, seed, now=None):
 
 
 class ArtifactManager:
-    def __init__(self, stage, algorithm, model, seed, command, config, run_id=None):
+    def __init__(
+        self,
+        stage,
+        algorithm,
+        model,
+        seed,
+        command,
+        config,
+        run_id=None,
+        *,
+        create_checkpoints=True,
+    ):
         self.run_id = run_id or make_run_id(stage, algorithm, model, seed)
         self.run_dir = RUN_ROOT / self.run_id
         self.report_dir = REPORT_ROOT / self.run_id
-        for name in ("checkpoints", "figures"):
+        directories = ("checkpoints", "figures") if create_checkpoints else ("figures",)
+        for name in directories:
             (self.run_dir / name).mkdir(
                 parents=True, exist_ok=False if name == "checkpoints" else True
             )

@@ -133,17 +133,68 @@ def validate_evaluation_config(
     }
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(
+    argv: list[str] | None = None,
+    *,
+    execute_fn=None,
+    snapshot_probe=None,
+    offline_probe=None,
+    git_probe=None,
+) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG_PATH)
+    parser.add_argument("--config", type=Path, default=Path("configs/formal_1p5b/evaluation.json"))
     parser.add_argument("--phase", choices=("baseline", "validation", "final"), required=True)
     parser.add_argument("--algorithm", choices=("ppo", "grpo"))
-    parser.add_argument("--seed", type=int)
+    parser.add_argument("--seed", type=int, required=True)
+    parser.add_argument("--mode", choices=("base", "ppo", "grpo"))
+    parser.add_argument("--checkpoint-step", type=int)
+    parser.add_argument("--checkpoint", type=Path)
+    parser.add_argument("--run-dir", type=Path)
+    parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--confirm-formal-evaluation", action="store_true")
     args = parser.parse_args(argv)
-    result = validate_evaluation_config(
-        load_evaluation_config(args.config), args.phase, algorithm=args.algorithm, seed=args.seed
+    config = load_evaluation_config(args.config)
+    if args.mode in {"ppo", "grpo"} and args.algorithm not in {None, args.mode}:
+        raise RuntimeError("formal evaluation --algorithm cannot differ from explicit --mode")
+    algorithm = args.algorithm or (None if args.mode == "base" else args.mode)
+    result = validate_evaluation_config(config, args.phase, algorithm=algorithm, seed=args.seed)
+    if not args.execute:
+        print(json.dumps(result, sort_keys=True))
+        return 0
+    if not args.confirm_formal_evaluation:
+        raise RuntimeError("formal evaluation requires --execute --confirm-formal-evaluation")
+    if args.mode is None:
+        raise RuntimeError("formal evaluation execute requires explicit --mode")
+    from math_rlvr.evaluation.formal_cli import validate_formal_evaluation_selection
+    from math_rlvr.training.formal_cli import (
+        require_formal_local_snapshot,
+        require_formal_offline_environment,
     )
-    print(json.dumps(result, sort_keys=True))
+    from math_rlvr.training.guarded_grpo import require_clean_git
+
+    selection = validate_formal_evaluation_selection(
+        config_path=args.config,
+        mode=args.mode,
+        phase=args.phase,
+        seed=args.seed,
+        checkpoint_step=args.checkpoint_step,
+        checkpoint=args.checkpoint,
+    )
+    (offline_probe or require_formal_offline_environment)()
+    (git_probe or require_clean_git)()
+    model_source = (snapshot_probe or require_formal_local_snapshot)()
+    if execute_fn is None:
+        from math_rlvr.evaluation.formal_model_runtime import execute_real_formal_evaluation
+
+        execute_fn = execute_real_formal_evaluation
+    outcome = execute_fn(
+        config=config,
+        selection=selection,
+        model_source=model_source,
+        run_dir=args.run_dir,
+    )
+    if outcome.get("status", "success") != "success":
+        raise RuntimeError(outcome.get("reason", "formal evaluation failed"))
     return 0
 
 
