@@ -13,7 +13,7 @@ from math_rlvr.training.formal import validate_formal_config_file
 from math_rlvr.training.formal_cli import FormalAuthorizationError
 from math_rlvr.training.formal_runtime import formal_checkpoint_inventory, formal_run_contract
 
-EVALUATION_RAW_SHA256 = "3b1a682b9ecebb51d8cd3de65aa57a201049e8efa5ab4536081598450605821f"
+EVALUATION_RAW_SHA256 = "85100dd0f613f295a7219a45a42a03e3ad4a45e24893c7f296e1d8da9a1f4a35"
 
 
 @dataclass(frozen=True)

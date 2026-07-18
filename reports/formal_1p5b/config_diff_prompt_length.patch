@@ -1,0 +1,143 @@
+diff --git a/configs/formal_1p5b/active_suite.json b/configs/formal_1p5b/active_suite.json
+index 60c5703..c51c0ac 100644
+--- a/configs/formal_1p5b/active_suite.json
++++ b/configs/formal_1p5b/active_suite.json
+@@ -2,17 +2,17 @@
+   "schema_version": 1,
+   "family": "formal_1p5b_v1_four_run_amendment",
+   "amends_commit": "499fea9f6de6f991229f15b949e23e63c496e6cc",
+-  "active_suite_sha256": "f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd",
++  "active_suite_sha256": "1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600",
+   "active_seeds": [42, 123],
+   "active_training_runs": [
+-    {"position": 1, "algorithm": "ppo", "seed": 42, "config": "configs/formal_1p5b/resolved/ppo_seed_42.json", "config_sha256": "717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b"},
+-    {"position": 2, "algorithm": "grpo", "seed": 42, "config": "configs/formal_1p5b/resolved/grpo_seed_42.json", "config_sha256": "6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf"},
+-    {"position": 3, "algorithm": "grpo", "seed": 123, "config": "configs/formal_1p5b/resolved/grpo_seed_123.json", "config_sha256": "4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa"},
+-    {"position": 4, "algorithm": "ppo", "seed": 123, "config": "configs/formal_1p5b/resolved/ppo_seed_123.json", "config_sha256": "a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3"}
++    {"position": 1, "algorithm": "ppo", "seed": 42, "config": "configs/formal_1p5b/resolved/ppo_seed_42.json", "config_sha256": "1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43"},
++    {"position": 2, "algorithm": "grpo", "seed": 42, "config": "configs/formal_1p5b/resolved/grpo_seed_42.json", "config_sha256": "3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199"},
++    {"position": 3, "algorithm": "grpo", "seed": 123, "config": "configs/formal_1p5b/resolved/grpo_seed_123.json", "config_sha256": "cc95138f50f37fafa76766d3a08b0995ffd5e0bf87cd7b9050acedb5e0bbc75e"},
++    {"position": 4, "algorithm": "ppo", "seed": 123, "config": "configs/formal_1p5b/resolved/ppo_seed_123.json", "config_sha256": "3d6cc1f30f7b72bfadb5191613298ac3f64a1ba3c699cc8d1e30ce147218c15e"}
+   ],
+   "reserved_configs": [
+-    {"algorithm": "ppo", "seed": 2026, "config": "configs/formal_1p5b/resolved/ppo_seed_2026.json", "config_sha256": "b270b594fb8463fb7a0f62875840ea4a574e9359c986e5b51c26aafae07428db", "status": "reserved_not_scheduled"},
+-    {"algorithm": "grpo", "seed": 2026, "config": "configs/formal_1p5b/resolved/grpo_seed_2026.json", "config_sha256": "02479719cce9409cef89d162f36bedc20ca352c216804168d8fe7ae52545f5df", "status": "reserved_not_scheduled"}
++    {"algorithm": "ppo", "seed": 2026, "config": "configs/formal_1p5b/resolved/ppo_seed_2026.json", "config_sha256": "6d041a4bd14be7ca3f5024c0415f56ea5e5b8c20f81d0b40d59323835389f25b", "status": "reserved_not_scheduled"},
++    {"algorithm": "grpo", "seed": 2026, "config": "configs/formal_1p5b/resolved/grpo_seed_2026.json", "config_sha256": "168044574b2ef6b293d214560dd4032bb603ac0c25b2efe8589af423d75178f4", "status": "reserved_not_scheduled"}
+   ],
+   "seed_42_review_after_positions": [1, 2],
+   "final_evaluation_checkpoint_step": 32,
+diff --git a/configs/formal_1p5b/evaluation.json b/configs/formal_1p5b/evaluation.json
+index 3330f60..c7a6a75 100644
+--- a/configs/formal_1p5b/evaluation.json
++++ b/configs/formal_1p5b/evaluation.json
+@@ -1,5 +1,5 @@
+ {
+-  "config_sha256": "b87ea305d4253f41f337fde3a0850ceb7e6925c87f6a9b8e0e6ac452e730ab50",
++  "config_sha256": "d8ba5ab80ab0553d2ec7246fb4876956dcbc5dd0bcf8642fd33c4ec19da6fe44",
+   "label": "Formal 1.5B evaluation - frozen before model execution",
+   "model": {
+     "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+@@ -32,7 +32,7 @@
+   "sampling": {
+     "temperature": 0.8,
+     "top_p": 0.95,
+-    "max_prompt_length": 512,
++    "max_prompt_length": 832,
+     "max_completion_length": 256
+   },
+   "protocol": {
+diff --git a/configs/formal_1p5b/grpo_1p5b.yaml b/configs/formal_1p5b/grpo_1p5b.yaml
+index 3e47b43..e17191b 100644
+--- a/configs/formal_1p5b/grpo_1p5b.yaml
++++ b/configs/formal_1p5b/grpo_1p5b.yaml
+@@ -34,7 +34,7 @@ prompt: {version: prompt_v2_formal_math}
+ reward: {policy: shaped_v3_domain}
+ lora: {rank: 16, alpha: 32, dropout: 0, target_modules: [q_proj, k_proj, v_proj, o_proj]}
+ generation:
+-  max_prompt_length: 512
++  max_prompt_length: 832
+   max_completion_length: 256
+   temperature: 0.8
+   top_p: 0.95
+diff --git a/configs/formal_1p5b/ppo_1p5b.yaml b/configs/formal_1p5b/ppo_1p5b.yaml
+index 44669de..b94b804 100644
+--- a/configs/formal_1p5b/ppo_1p5b.yaml
++++ b/configs/formal_1p5b/ppo_1p5b.yaml
+@@ -42,7 +42,7 @@ value_model:
+   lora_target_modules: [q_proj, v_proj]
+   trainable_score_head: true
+ generation:
+-  max_prompt_length: 512
++  max_prompt_length: 832
+   max_completion_length: 256
+   max_new_tokens: 256
+   temperature: 0.8
+diff --git a/configs/formal_1p5b/resolved/grpo_seed_123.json b/configs/formal_1p5b/resolved/grpo_seed_123.json
+index 429bf37..b6a7a7a 100644
+--- a/configs/formal_1p5b/resolved/grpo_seed_123.json
++++ b/configs/formal_1p5b/resolved/grpo_seed_123.json
+@@ -1 +1 @@
+-{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"grpo","seed":123,"template":"configs/formal_1p5b/grpo_1p5b.yaml","template_sha256":"1dfe64273dc31e8085945632dc68af1ffeb988d700b8c62b7d4559a38fddf4a2","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
++{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"grpo","seed":123,"template":"configs/formal_1p5b/grpo_1p5b.yaml","template_sha256":"3150c75adeb5b3b598467ca1a535d1f32c700c73225272a865df01ef145a3585","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
+diff --git a/configs/formal_1p5b/resolved/grpo_seed_2026.json b/configs/formal_1p5b/resolved/grpo_seed_2026.json
+index cfbf74c..084fe88 100644
+--- a/configs/formal_1p5b/resolved/grpo_seed_2026.json
++++ b/configs/formal_1p5b/resolved/grpo_seed_2026.json
+@@ -1 +1 @@
+-{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"grpo","seed":2026,"template":"configs/formal_1p5b/grpo_1p5b.yaml","template_sha256":"1dfe64273dc31e8085945632dc68af1ffeb988d700b8c62b7d4559a38fddf4a2","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
++{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"grpo","seed":2026,"template":"configs/formal_1p5b/grpo_1p5b.yaml","template_sha256":"3150c75adeb5b3b598467ca1a535d1f32c700c73225272a865df01ef145a3585","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
+diff --git a/configs/formal_1p5b/resolved/grpo_seed_42.json b/configs/formal_1p5b/resolved/grpo_seed_42.json
+index 8732b49..94104f1 100644
+--- a/configs/formal_1p5b/resolved/grpo_seed_42.json
++++ b/configs/formal_1p5b/resolved/grpo_seed_42.json
+@@ -1 +1 @@
+-{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"grpo","seed":42,"template":"configs/formal_1p5b/grpo_1p5b.yaml","template_sha256":"1dfe64273dc31e8085945632dc68af1ffeb988d700b8c62b7d4559a38fddf4a2","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
++{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"grpo","seed":42,"template":"configs/formal_1p5b/grpo_1p5b.yaml","template_sha256":"3150c75adeb5b3b598467ca1a535d1f32c700c73225272a865df01ef145a3585","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
+diff --git a/configs/formal_1p5b/resolved/ppo_seed_123.json b/configs/formal_1p5b/resolved/ppo_seed_123.json
+index ad1acf4..db947ef 100644
+--- a/configs/formal_1p5b/resolved/ppo_seed_123.json
++++ b/configs/formal_1p5b/resolved/ppo_seed_123.json
+@@ -1 +1 @@
+-{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"ppo","seed":123,"template":"configs/formal_1p5b/ppo_1p5b.yaml","template_sha256":"463e227bf54560a2cf6ddb07866ddf7b90d75fa3a2067eae055d3c77024fba0e","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
++{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"ppo","seed":123,"template":"configs/formal_1p5b/ppo_1p5b.yaml","template_sha256":"0da0953745345b9514a9ff520422130cd44b63271a7d116a89c91eca9cc7c717","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
+diff --git a/configs/formal_1p5b/resolved/ppo_seed_2026.json b/configs/formal_1p5b/resolved/ppo_seed_2026.json
+index 7875eb4..2ae9303 100644
+--- a/configs/formal_1p5b/resolved/ppo_seed_2026.json
++++ b/configs/formal_1p5b/resolved/ppo_seed_2026.json
+@@ -1 +1 @@
+-{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"ppo","seed":2026,"template":"configs/formal_1p5b/ppo_1p5b.yaml","template_sha256":"463e227bf54560a2cf6ddb07866ddf7b90d75fa3a2067eae055d3c77024fba0e","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
++{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"ppo","seed":2026,"template":"configs/formal_1p5b/ppo_1p5b.yaml","template_sha256":"0da0953745345b9514a9ff520422130cd44b63271a7d116a89c91eca9cc7c717","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
+diff --git a/configs/formal_1p5b/resolved/ppo_seed_42.json b/configs/formal_1p5b/resolved/ppo_seed_42.json
+index 1b58c76..da497e9 100644
+--- a/configs/formal_1p5b/resolved/ppo_seed_42.json
++++ b/configs/formal_1p5b/resolved/ppo_seed_42.json
+@@ -1 +1 @@
+-{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"ppo","seed":42,"template":"configs/formal_1p5b/ppo_1p5b.yaml","template_sha256":"463e227bf54560a2cf6ddb07866ddf7b90d75fa3a2067eae055d3c77024fba0e","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
++{"schema_version":1,"family":"formal_1p5b_v1","algorithm":"ppo","seed":42,"template":"configs/formal_1p5b/ppo_1p5b.yaml","template_sha256":"0da0953745345b9514a9ff520422130cd44b63271a7d116a89c91eca9cc7c717","training_schedule":{"strategy":"deterministic_domain_interleave_2_gsm8k_2_math","schedule_sha256":"a4b3745e0359757df8441dffa1250c89397457cb5aaf77165d26701e9488b6ee","ordered_problem_ids_sha256":"fc15d338287a6212b71608f1e066991c162698a9c9196055a3eace9e46123454"}}
+diff --git a/configs/formal_1p5b/resolved_config_sha256.json b/configs/formal_1p5b/resolved_config_sha256.json
+index 8fe87b3..6ad474e 100644
+--- a/configs/formal_1p5b/resolved_config_sha256.json
++++ b/configs/formal_1p5b/resolved_config_sha256.json
+@@ -1,13 +1,13 @@
+ {
+   "schema_version": 1,
+   "configs": {
+-    "configs/formal_1p5b/grpo_1p5b.yaml": "1dfe64273dc31e8085945632dc68af1ffeb988d700b8c62b7d4559a38fddf4a2",
+-    "configs/formal_1p5b/ppo_1p5b.yaml": "463e227bf54560a2cf6ddb07866ddf7b90d75fa3a2067eae055d3c77024fba0e",
+-    "configs/formal_1p5b/resolved/grpo_seed_42.json": "6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf",
+-    "configs/formal_1p5b/resolved/grpo_seed_123.json": "4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa",
+-    "configs/formal_1p5b/resolved/grpo_seed_2026.json": "02479719cce9409cef89d162f36bedc20ca352c216804168d8fe7ae52545f5df",
+-    "configs/formal_1p5b/resolved/ppo_seed_42.json": "717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b",
+-    "configs/formal_1p5b/resolved/ppo_seed_123.json": "a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3",
+-    "configs/formal_1p5b/resolved/ppo_seed_2026.json": "b270b594fb8463fb7a0f62875840ea4a574e9359c986e5b51c26aafae07428db"
++    "configs/formal_1p5b/grpo_1p5b.yaml": "3150c75adeb5b3b598467ca1a535d1f32c700c73225272a865df01ef145a3585",
++    "configs/formal_1p5b/ppo_1p5b.yaml": "0da0953745345b9514a9ff520422130cd44b63271a7d116a89c91eca9cc7c717",
++    "configs/formal_1p5b/resolved/grpo_seed_42.json": "3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199",
++    "configs/formal_1p5b/resolved/grpo_seed_123.json": "cc95138f50f37fafa76766d3a08b0995ffd5e0bf87cd7b9050acedb5e0bbc75e",
++    "configs/formal_1p5b/resolved/grpo_seed_2026.json": "168044574b2ef6b293d214560dd4032bb603ac0c25b2efe8589af423d75178f4",
++    "configs/formal_1p5b/resolved/ppo_seed_42.json": "1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43",
++    "configs/formal_1p5b/resolved/ppo_seed_123.json": "3d6cc1f30f7b72bfadb5191613298ac3f64a1ba3c699cc8d1e30ce147218c15e",
++    "configs/formal_1p5b/resolved/ppo_seed_2026.json": "6d041a4bd14be7ca3f5024c0415f56ea5e5b8c20f81d0b40d59323835389f25b"
+   }
+ }

@@ -47,16 +47,16 @@ wiring. Implement only the boundaries needed to preserve future real evidence.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Active suite SHA256:
-  `f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd`
+  `1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600`
 - Four active config path/SHA pairs:
   - `configs/formal_1p5b/resolved/ppo_seed_42.json` —
-    `717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b`
+    `1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43`
   - `configs/formal_1p5b/resolved/grpo_seed_42.json` —
-    `6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf`
+    `3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199`
   - `configs/formal_1p5b/resolved/grpo_seed_123.json` —
-    `4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa`
+    `cc95138f50f37fafa76766d3a08b0995ffd5e0bf87cd7b9050acedb5e0bbc75e`
   - `configs/formal_1p5b/resolved/ppo_seed_123.json` —
-    `a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3`
+    `3d6cc1f30f7b72bfadb5191613298ac3f64a1ba3c699cc8d1e30ce147218c15e`
 
 Seed 2026 is `reserved_not_scheduled`. Both 2026 configs must be rejected by an
 execute path even if a caller supplies a plausible experiment name or seed override.

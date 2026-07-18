@@ -76,27 +76,37 @@ algorithm-required difference.
 ## Active four-run suite
 
 - Canonical active-suite SHA256:
-  `f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd`
+  `1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600`
 - Active-suite file: `configs/formal_1p5b/active_suite.json`
 - Active-suite file SHA256:
-  `a78df532c2d31a11a63790993d9ce2b1425844c46d5013fec6820a3609dffc49`
+  `11869c63f4365aee5d4bf8e13fe263c9d0397164a18a88b419da07218f6a2017`
 
 Frozen execution order:
 
 1. PPO seed 42 — `configs/formal_1p5b/resolved/ppo_seed_42.json` —
-   `717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b`
+   `1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43`
 2. GRPO seed 42 — `configs/formal_1p5b/resolved/grpo_seed_42.json` —
-   `6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf`
+   `3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199`
 3. Seed-42 validation and learning-signal review
 4. GRPO seed 123 — `configs/formal_1p5b/resolved/grpo_seed_123.json` —
-   `4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa`
+   `cc95138f50f37fafa76766d3a08b0995ffd5e0bf87cd7b9050acedb5e0bbc75e`
 5. PPO seed 123 — `configs/formal_1p5b/resolved/ppo_seed_123.json` —
-   `a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3`
+   `3d6cc1f30f7b72bfadb5191613298ac3f64a1ba3c699cc8d1e30ce147218c15e`
 6. Frozen final evaluation of all four step-32 checkpoints
 7. CPU-only aggregation
 
-Seed 2026 configs remain byte-preserved as `reserved_not_scheduled`. They are not in
-the active registry, execution queue, costs, evaluations, or final statistics.
+Seed 2026 configs remain `reserved_not_scheduled`; only their shared-template identity was
+mechanically amended for the 832-token capacity. They remain outside the active queue,
+costs, evaluations, and final statistics.
+
+## Post-freeze prompt-length capacity amendment
+
+- Pinned-tokenizer audit maximum: 800 tokens; failed sample `math:HuggingFaceH4/MATH-500:test:219`.
+- Shared evaluation/PPO/GRPO `max_prompt_length`: 512 -> 832.
+- 832 + unchanged 256-token completion = 1,088 < model context 32,768.
+- This is capacity-only: prompt text/token IDs, sampling, rewards, parser/verifier, data, budgets, and optimizer semantics are unchanged.
+- Both failed baseline runs remain immutable and excluded; no partial evidence is reused.
+- Audit/amendment: `reports/formal_1p5b/prompt_length_audit.md` and `prompt_length_amendment.md`.
 
 ## Training and evaluation contracts
 

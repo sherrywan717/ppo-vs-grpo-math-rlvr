@@ -168,3 +168,67 @@ def test_formal_reward_record_is_flat_json_and_immediately_persisted(
     assert len(record["reward_policy_sha256"]) == 64
     assert isinstance(record["reward_component_weights"], dict)
     assert isinstance(record["verifier_detail"], str)
+
+
+def test_all_frozen_formal_prompts_fit_pinned_tokenizer_capacity() -> None:
+    import torch
+    from transformers import AutoTokenizer
+
+    from math_rlvr.dataset import load_manifest
+    from math_rlvr.prompt import PROMPT_V2_FORMAL_MATH, render_prompt_version
+    from math_rlvr.training.formal import validate_formal_config_file
+    from math_rlvr.training.formal_data import load_formal_data_registry
+
+    snapshot = Path(
+        "/root/autodl-tmp/cache/huggingface/hub/"
+        "models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/"
+        "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+    )
+    tokenizer = AutoTokenizer.from_pretrained(snapshot, local_files_only=True)
+    model_config = json.loads((snapshot / "config.json").read_text(encoding="utf-8"))
+    model_context = int(model_config["max_position_embeddings"])
+    evaluation = load_evaluation_config()
+    evaluation_cap = int(evaluation["sampling"]["max_prompt_length"])
+    completion_cap = int(evaluation["sampling"]["max_completion_length"])
+    ppo = validate_formal_config_file(
+        Path("configs/formal_1p5b/resolved/ppo_seed_42.json"), "ppo"
+    )[0]
+    grpo = validate_formal_config_file(
+        Path("configs/formal_1p5b/resolved/grpo_seed_42.json"), "grpo"
+    )[0]
+    training_cap = int(ppo["generation"]["max_prompt_length"])
+    assert training_cap == grpo["generation"]["max_prompt_length"] == evaluation_cap == 832
+
+    registry = load_formal_data_registry()
+    cases = (
+        ("train", training_cap),
+        ("validation", evaluation_cap),
+        ("gsm8k_test", evaluation_cap),
+        ("math500_test", evaluation_cap),
+        ("gsm8k_pass4", evaluation_cap),
+        ("math500_pass4", evaluation_cap),
+    )
+    maximum = 0
+    failed_sample_length = None
+    for name, cap in cases:
+        for problem in load_manifest(Path(registry["manifests"][name]["path"])):
+            rendered = render_prompt_version(tokenizer, problem, PROMPT_V2_FORMAL_MATH)
+            full_ids = tokenizer(
+                rendered, add_special_tokens=False, truncation=False
+            )["input_ids"]
+            capped_ids = tokenizer(
+                rendered,
+                add_special_tokens=False,
+                truncation=True,
+                max_length=cap,
+            )["input_ids"]
+            assert full_ids == capped_ids
+            assert len(full_ids) <= cap
+            assert len(full_ids) + completion_cap <= model_context
+            maximum = max(maximum, len(full_ids))
+            if problem.problem_id == "math:HuggingFaceH4/MATH-500:test:219":
+                failed_sample_length = len(full_ids)
+
+    assert maximum == 800
+    assert failed_sample_length == 800
+    assert torch.cuda.is_initialized() is False

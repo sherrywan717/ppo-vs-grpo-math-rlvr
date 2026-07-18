@@ -9,7 +9,7 @@ algorithm-effect conclusion.
 
 ## Approved four-run amendment
 
-The original six-run decision remains preserved at commit `499fea9f6de6f991229f15b949e23e63c496e6cc`. The approved amendment activates only seeds 42 and 123: PPO42, GRPO42, seed-42 review, GRPO123, PPO123, four fixed step-32 final evaluations, then CPU aggregation. Seed-2026 descriptors remain byte-identical and are `reserved_not_scheduled`; they are excluded from the active queue, costs, and statistics. The active-suite canonical SHA256 is `f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd`. Two seeds permit raw values, mean, sample SD, paired delta, and problem-level bootstrap intervals, but not statistical-significance or general-superiority claims.
+The original six-run decision remains preserved at commit `499fea9f6de6f991229f15b949e23e63c496e6cc`. The approved amendment activates only seeds 42 and 123: PPO42, GRPO42, seed-42 review, GRPO123, PPO123, four fixed step-32 final evaluations, then CPU aggregation. Seed-2026 descriptors remain `reserved_not_scheduled`; their identities are mechanically amended only to bind the shared 832-token templates; they are excluded from the active queue, costs, and statistics. The active-suite canonical SHA256 is `1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600`. Two seeds permit raw values, mean, sample SD, paired delta, and problem-level bootstrap intervals, but not statistical-significance or general-superiority claims.
 
 ## Frozen identities
 
@@ -175,16 +175,20 @@ in `artifact_checklist.md`; plot regeneration is in `scripts/plot_formal_results
 Stage E freezes a fair, auditable experiment capable of supporting a portfolio result.
 It does not itself show that PPO or GRPO learns, generalizes, or outperforms the other.
 
+## Post-freeze prompt-length capacity amendment
+
+The pinned Qwen 1.5B tokenizer audit found a maximum 800-token frozen prompt and a 713-token training prompt above the original 512 cap. The shared evaluation/PPO/GRPO cap is therefore amended to 832, the next 64-token boundary. With the unchanged 256-token completion limit, the 1,088-token maximum remains below the model context of 32,768. No prompt text, token IDs, sampling, reward, parser/verifier, dataset, budget, LoRA, or optimizer semantics change. See `prompt_length_amendment.md`.
+
 ## Resolved training descriptors
 
 | Run | SHA256 |
 |---|---|
-| PPO seed 42 | `717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b` |
-| PPO seed 123 | `a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3` |
-| PPO seed 2026 (reserved_not_scheduled) | `b270b594fb8463fb7a0f62875840ea4a574e9359c986e5b51c26aafae07428db` |
-| GRPO seed 42 | `6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf` |
-| GRPO seed 123 | `4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa` |
-| GRPO seed 2026 (reserved_not_scheduled) | `02479719cce9409cef89d162f36bedc20ca352c216804168d8fe7ae52545f5df` |
+| PPO seed 42 | `1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43` |
+| PPO seed 123 | `3d6cc1f30f7b72bfadb5191613298ac3f64a1ba3c699cc8d1e30ce147218c15e` |
+| PPO seed 2026 (reserved_not_scheduled) | `6d041a4bd14be7ca3f5024c0415f56ea5e5b8c20f81d0b40d59323835389f25b` |
+| GRPO seed 42 | `3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199` |
+| GRPO seed 123 | `cc95138f50f37fafa76766d3a08b0995ffd5e0bf87cd7b9050acedb5e0bbc75e` |
+| GRPO seed 2026 (reserved_not_scheduled) | `168044574b2ef6b293d214560dd4032bb603ac0c25b2efe8589af423d75178f4` |
 
 Each descriptor binds its seed, algorithm, template hash, schedule SHA, and ordered-ID
 SHA. No runtime CLI seed override is accepted. The CPU-validated multi-update runtime is implemented in this amendment stage, but model download, CUDA sanity, evaluation, and training each remain separately unauthorized.

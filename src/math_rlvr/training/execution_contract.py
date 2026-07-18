@@ -59,22 +59,22 @@ _CONFIG_SHA256 = {
 
 _FORMAL_CONFIG_SHA256 = {
     "configs/formal_1p5b/resolved/ppo_seed_42.json": (
-        "ppo", 42, "717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b"
+        "ppo", 42, "1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43"
     ),
     "configs/formal_1p5b/resolved/grpo_seed_42.json": (
-        "grpo", 42, "6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf"
+        "grpo", 42, "3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199"
     ),
     "configs/formal_1p5b/resolved/grpo_seed_123.json": (
-        "grpo", 123, "4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa"
+        "grpo", 123, "cc95138f50f37fafa76766d3a08b0995ffd5e0bf87cd7b9050acedb5e0bbc75e"
     ),
     "configs/formal_1p5b/resolved/ppo_seed_123.json": (
-        "ppo", 123, "a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3"
+        "ppo", 123, "3d6cc1f30f7b72bfadb5191613298ac3f64a1ba3c699cc8d1e30ce147218c15e"
     ),
     "configs/formal_1p5b/resolved/ppo_seed_2026.json": (
-        "ppo", 2026, "b270b594fb8463fb7a0f62875840ea4a574e9359c986e5b51c26aafae07428db"
+        "ppo", 2026, "6d041a4bd14be7ca3f5024c0415f56ea5e5b8c20f81d0b40d59323835389f25b"
     ),
     "configs/formal_1p5b/resolved/grpo_seed_2026.json": (
-        "grpo", 2026, "02479719cce9409cef89d162f36bedc20ca352c216804168d8fe7ae52545f5df"
+        "grpo", 2026, "168044574b2ef6b293d214560dd4032bb603ac0c25b2efe8589af423d75178f4"
     ),
 }
 

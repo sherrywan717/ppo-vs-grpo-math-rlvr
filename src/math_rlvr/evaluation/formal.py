@@ -80,7 +80,7 @@ def validate_evaluation_config(
     if sampling != {
         "temperature": 0.8,
         "top_p": 0.95,
-        "max_prompt_length": 512,
+        "max_prompt_length": 832,
         "max_completion_length": 256,
     }:
         raise ValueError("formal evaluation sampling mismatch")

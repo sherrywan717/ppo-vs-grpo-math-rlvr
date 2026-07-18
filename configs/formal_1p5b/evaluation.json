@@ -1,5 +1,5 @@
 {
-  "config_sha256": "b87ea305d4253f41f337fde3a0850ceb7e6925c87f6a9b8e0e6ac452e730ab50",
+  "config_sha256": "d8ba5ab80ab0553d2ec7246fb4876956dcbc5dd0bcf8642fd33c4ec19da6fe44",
   "label": "Formal 1.5B evaluation - frozen before model execution",
   "model": {
     "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
@@ -32,7 +32,7 @@
   "sampling": {
     "temperature": 0.8,
     "top_p": 0.95,
-    "max_prompt_length": 512,
+    "max_prompt_length": 832,
     "max_completion_length": 256
   },
   "protocol": {

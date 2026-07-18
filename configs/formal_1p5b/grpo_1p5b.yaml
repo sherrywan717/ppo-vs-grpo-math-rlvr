@@ -34,7 +34,7 @@ prompt: {version: prompt_v2_formal_math}
 reward: {policy: shaped_v3_domain}
 lora: {rank: 16, alpha: 32, dropout: 0, target_modules: [q_proj, k_proj, v_proj, o_proj]}
 generation:
-  max_prompt_length: 512
+  max_prompt_length: 832
   max_completion_length: 256
   temperature: 0.8
   top_p: 0.95

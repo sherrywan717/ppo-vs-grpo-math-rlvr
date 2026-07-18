@@ -245,7 +245,7 @@ def validate_formal_config_content(config: dict[str, Any], algorithm: str) -> di
         raise ValueError("formal data identity mismatch")
     generation = config.get("generation", {})
     common_generation = {
-        "max_prompt_length": 512,
+        "max_prompt_length": 832,
         "max_completion_length": 256,
         "temperature": 0.8,
         "top_p": 0.95,

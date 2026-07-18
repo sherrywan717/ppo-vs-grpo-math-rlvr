@@ -125,7 +125,7 @@ def test_formal_mutations_fail_closed():
 def test_active_suite_hashes_four_configs_and_preserves_reserved_descriptors():
     suite = validate_active_suite()
     assert suite["active_suite_sha256"] == (
-        "f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd"
+        "1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600"
     )
     assert len(suite["active_training_runs"]) == 4
     assert all(row["seed"] in FORMAL_ACTIVE_SEEDS for row in suite["active_training_runs"])
