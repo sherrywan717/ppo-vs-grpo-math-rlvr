@@ -1,0 +1,8 @@
+{
+  "run_id": "baseline_formal_1p5b_seed42_20260718T125833Z",
+  "stage": "formal_1p5b_evaluation",
+  "algorithm": "base",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "seed": 42,
+  "created_at": "2026-07-18T12:58:45.550124+00:00"
+}

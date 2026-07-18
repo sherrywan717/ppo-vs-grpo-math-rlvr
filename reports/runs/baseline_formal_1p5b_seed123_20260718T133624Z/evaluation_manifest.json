@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "selection": {
+    "mode": "base",
+    "phase": "baseline",
+    "seed": 123,
+    "algorithm": null,
+    "checkpoint_step": null,
+    "checkpoint": null,
+    "policy_adapter": null,
+    "config_sha256": "85100dd0f613f295a7219a45a42a03e3ad4a45e24893c7f296e1d8da9a1f4a35",
+    "value_adapter_loaded_for_generation": false,
+    "value_head_loaded_for_generation": false
+  },
+  "model_repo": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "local_files_only": true,
+  "prompt": {
+    "version": "prompt_v2_formal_math",
+    "sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "renderer": "math_rlvr.prompt.chat_template.v1"
+  },
+  "reward": {
+    "version": "shaped_v3_domain",
+    "sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463",
+    "canonical_metrics_ignore_scalar_shaping": true
+  },
+  "parser": {
+    "version": "strict_completion_parser_v1",
+    "sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad"
+  },
+  "verifier_bundle": {
+    "version": "gsm8k_math_domain_router_v1",
+    "sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd",
+    "gsm8k_sha256": "91f9de474df89f63cd208a5621fbb7a678dadbe73e4a3f3426afb5f59fbe4b50",
+    "math_sha256": "0a4fb547959d1edc3c157392fb49f209a140981757f39a0c25c454868e8aefa7"
+  },
+  "resource_summary": {
+    "available": true,
+    "peak_vram_mb": 3915.0,
+    "mean_gpu_utilization": 36.7769902752596,
+    "gpu_hours": 0.5693229435994808,
+    "estimated_cost_cny": 5.05558773916339
+  },
+  "pytorch_allocator": {
+    "available": true,
+    "state": "finalized",
+    "device_index": 0,
+    "device_label": "cuda:0",
+    "device_name": "NVIDIA H800 PCIe",
+    "requested_device": {
+      "type": "builtins.str",
+      "safe_repr": "'cuda:0'",
+      "callable": false,
+      "is_function": false,
+      "is_bool": false,
+      "is_int": false,
+      "is_string": true,
+      "is_torch_device": false
+    },
+    "max_memory_allocated": {
+      "bytes": 3240140288,
+      "mib": 3090.03857421875
+    },
+    "max_memory_reserved": {
+      "bytes": 3466592256,
+      "mib": 3306.0
+    },
+    "memory_allocated": {
+      "bytes": 33554432,
+      "mib": 32.0
+    },
+    "memory_reserved": {
+      "bytes": 3466592256,
+      "mib": 3306.0
+    },
+    "failure_phase": null,
+    "exception_type": null,
+    "exception_message": null,
+    "unavailable_reason": null
+  },
+  "test_driven_tuning": false
+}

@@ -1,0 +1,77 @@
+config_sha256: d8ba5ab80ab0553d2ec7246fb4876956dcbc5dd0bcf8642fd33c4ec19da6fe44
+data_registry_sha256: d7c53f6180187711da780a3a1f81f8b45e6164ddc9f115eac2fb6ae3e1fe7393
+label: Formal 1.5B evaluation - frozen before model execution
+model:
+  dtype: bfloat16
+  local_files_only: true
+  repo_id: Qwen/Qwen2.5-1.5B-Instruct
+  revision: 989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+parser:
+  sha256: 655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad
+  version: strict_completion_parser_v1
+prompt:
+  renderer: math_rlvr.prompt.chat_template.v1
+  sha256: 89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994
+  version: prompt_v2_formal_math
+protocol:
+  baseline:
+    completions_per_seed: 800
+    pass1_completions: 400
+    pass4_completions: 400
+    pass4_subset_problems: 100
+    unique_problems: 400
+  final:
+    completions_per_checkpoint_seed: 800
+    pass1_completions: 400
+    pass4_completions: 400
+    pass4_subset_problems: 100
+    unique_problems: 400
+  validation:
+    completions: 64
+    responses_per_problem: 1
+    unique_problems: 64
+required_outputs:
+- completions.jsonl
+- per_problem_metrics.csv
+- aggregate_metrics.csv
+- aggregate_metrics.json
+- verifier_status.csv
+- resource_metrics.csv
+- report.md
+- figures
+reward:
+  canonical_metrics_ignore_scalar_shaping: true
+  sha256: b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463
+  version: shaped_v3_domain
+sampling:
+  max_completion_length: 256
+  max_prompt_length: 832
+  temperature: 0.8
+  top_p: 0.95
+seeds:
+- 42
+- 123
+selection_policy:
+  checkpoint_selection: fixed_step_32_no_test_tuning
+  test_driven_tuning_forbidden: true
+  test_use: baseline_and_final_only
+  validation_steps:
+  - 8
+  - 16
+  - 24
+  - 32
+statistics:
+  bootstrap_resamples: 10000
+  bootstrap_seed: 20260712
+  confidence_level: 0.95
+  cross_seed_summary:
+  - raw_values
+  - mean
+  - sample_standard_deviation
+  paired_unit: problem_id
+  significance_claims_from_two_seeds: false
+verifier_bundle:
+  gsm8k_sha256: 91f9de474df89f63cd208a5621fbb7a678dadbe73e4a3f3426afb5f59fbe4b50
+  math_sha256: 0a4fb547959d1edc3c157392fb49f209a140981757f39a0c25c454868e8aefa7
+  sha256: ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd
+  version: gsm8k_math_domain_router_v1
