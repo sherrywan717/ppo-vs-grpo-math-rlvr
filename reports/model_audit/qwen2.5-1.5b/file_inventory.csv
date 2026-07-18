@@ -1,0 +1,11 @@
+filename,size_bytes,kind
+.gitattributes,1519,symlink_to_blob
+LICENSE,11343,symlink_to_blob
+README.md,4917,symlink_to_blob
+config.json,660,symlink_to_blob
+generation_config.json,242,symlink_to_blob
+merges.txt,1671839,symlink_to_blob
+model.safetensors,3087467144,symlink_to_blob
+tokenizer.json,7031645,symlink_to_blob
+tokenizer_config.json,7305,symlink_to_blob
+vocab.json,2776833,symlink_to_blob

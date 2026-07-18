@@ -1,0 +1,73 @@
+{
+  "status": "passed",
+  "generated_at_utc": "2026-07-18T11:31:43Z",
+  "stage": "Stage F Phase A",
+  "git": {
+    "branch": "pivot/math-rlvr",
+    "head": "e3cf482b395e49ee3fe7cb2241e54b77d7edc831",
+    "worktree_clean_before_download": true
+  },
+  "identity": {
+    "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "revision_source": "four active resolved configs and their frozen templates",
+    "revision_is_40_lower_hex": true,
+    "revision_prefix_ok": true,
+    "revision_suffix_ok": true,
+    "four_active_configs_match": true,
+    "model_identity_registry_match": true,
+    "active_suite_sha256": "f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd",
+    "active_suite_raw_file_sha256": "a78df532c2d31a11a63790993d9ce2b1425844c46d5013fec6820a3609dffc49",
+    "active_config_sha256": {
+      "configs/formal_1p5b/resolved/ppo_seed_42.json": "717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b",
+      "configs/formal_1p5b/resolved/grpo_seed_42.json": "6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf",
+      "configs/formal_1p5b/resolved/grpo_seed_123.json": "4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa",
+      "configs/formal_1p5b/resolved/ppo_seed_123.json": "a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3"
+    }
+  },
+  "download": {
+    "cache_root": "/root/autodl-tmp/cache/huggingface",
+    "snapshot_path": "/root/autodl-tmp/cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "huggingface_hub_version": "0.36.2",
+    "max_workers": 1,
+    "attempts": 1,
+    "retries": 0,
+    "elapsed_seconds": 797.2488144300878,
+    "snapshot_logical_size_bytes": 3098973447,
+    "repo_cache_physical_size_bytes": 3098973447,
+    "remaining_disk_bytes": 220973981696
+  },
+  "offline_validation": {
+    "hf_hub_offline": true,
+    "transformers_offline": true,
+    "local_files_only_resolution": true,
+    "canonical_snapshot_match": true,
+    "config_exists": true,
+    "tokenizer_config_exists": true,
+    "tokenizer_files_exist": true,
+    "tokenizer_class": "Qwen2Tokenizer",
+    "chat_template_present": true,
+    "model_type": "qwen2",
+    "architectures": [
+      "Qwen2ForCausalLM"
+    ],
+    "safetensors_files": [
+      "model.safetensors"
+    ],
+    "safetensors_index_files": [],
+    "indexed_shards": [],
+    "all_indexed_shards_present": true,
+    "incomplete_files": [],
+    "orphan_download_processes": [],
+    "offline_reresolution_exact": true
+  },
+  "scope_counters": {
+    "cuda_initialized": false,
+    "model_or_tokenizer_loads": 0,
+    "generation_calls": 0,
+    "trainer_calls": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0,
+    "checkpoints": 0
+  }
+}
