@@ -1,0 +1,67 @@
+{
+  "algorithm": "ppo",
+  "automatic_retry_count": 0,
+  "backup": {
+    "path": "/root/autodl-fs/math-rlvr-backups/ppo_formal_1p5b_seed42_20260718T150510Z.failure.tar.gz",
+    "sha256": "76896c5b3db3ee4439566b8b68c0cad798af5b5610f393138aa23eba6c40debb",
+    "verified": true
+  },
+  "checkpoint_8": {
+    "adapter_head_files": 6,
+    "full_base_model_weights": false,
+    "inventory_manifest_entry": false,
+    "optimizer_state": false,
+    "rng_state": false,
+    "runtime_state": false,
+    "scheduler_state": false,
+    "status": "partial_not_resume_capable"
+  },
+  "failure_reason": "formal Trainer did not expose required grad norm",
+  "included_in_scientific_aggregate": false,
+  "live_stdout_observation": {
+    "note": "Observed in launcher PTY only; finalized artifacts do not support completion or token claims.",
+    "primary_evidence": false,
+    "trainer_episode": 128,
+    "trainer_progress_update": 8,
+    "use_for_scientific_metrics": false
+  },
+  "next_blocker": "CPU-only minimal repair: optional grad_norm must serialize as unavailable, and per-update completion/metric evidence must persist before checkpoint serialization failure can discard it.",
+  "persisted_primary_evidence": {
+    "completion_rows": 0,
+    "generated_tokens": {
+      "available": false,
+      "reason": "completion and metric evidence was not persisted before checkpoint callback failure",
+      "value": null
+    },
+    "global_steps": 0,
+    "metric_rows": 0,
+    "optimizer_steps": 0,
+    "updates": 0,
+    "verifier_rows": 0
+  },
+  "post_process_gpu_release": {
+    "compute_process_count": 0,
+    "memory_used_mib": 0,
+    "released": true
+  },
+  "resources": {
+    "cost_cny": 0.44881362654839957,
+    "gpu_hours": 0.0505420750617567,
+    "mean_gpu_utilization_pct": 36.058510638297875,
+    "peak_nvidia_smi_vram_mb": 28655.0,
+    "peak_pytorch_allocated_mib": 25277.70166015625,
+    "peak_pytorch_reserved_mib": 27978.0,
+    "wall_time_seconds": 181.95147022232413
+  },
+  "run_id": "ppo_formal_1p5b_seed42_20260718T150510Z",
+  "schema_version": 1,
+  "scientific_status": "excluded_engineering_failure",
+  "seed": 42,
+  "status": "failure",
+  "validation": {
+    "completion_count": 0,
+    "generated_tokens": 0,
+    "reason": "failure occurred before checkpoint-8 validation",
+    "runs": 0
+  }
+}

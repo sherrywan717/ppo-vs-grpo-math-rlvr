@@ -1,0 +1,37 @@
+{
+  "available": true,
+  "state": "finalized",
+  "device_index": 0,
+  "device_label": "cuda:0",
+  "device_name": "NVIDIA H800 PCIe",
+  "requested_device": {
+    "type": "builtins.str",
+    "safe_repr": "'cuda:0'",
+    "callable": false,
+    "is_function": false,
+    "is_bool": false,
+    "is_int": false,
+    "is_string": true,
+    "is_torch_device": false
+  },
+  "max_memory_allocated": {
+    "bytes": 26505591296,
+    "mib": 25277.70166015625
+  },
+  "max_memory_reserved": {
+    "bytes": 29337059328,
+    "mib": 27978.0
+  },
+  "memory_allocated": {
+    "bytes": 8799194624,
+    "mib": 8391.56591796875
+  },
+  "memory_reserved": {
+    "bytes": 9317646336,
+    "mib": 8886.0
+  },
+  "failure_phase": null,
+  "exception_type": null,
+  "exception_message": null,
+  "unavailable_reason": null
+}

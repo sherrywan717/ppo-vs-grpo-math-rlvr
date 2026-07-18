@@ -260,3 +260,24 @@ stage planning is: sanity 0.0833/0.1667 GPU-h (CNY 0.74/1.48), two baselines
 1.2034/2.5000 (10.68/22.20), 16 validations 1.3333/2.6667 (11.84/23.68), and four
 final evaluations 1.6667/3.3333 (14.80/29.60). The complete expected/ceiling totals
 are 6.8767/14.0 GPU-hours and CNY 61.06/124.32.
+
+## Stage H execution record: PPO seed 42 engineering failure
+
+The first formal PPO seed-42 command ran once from authorized HEAD
+`176f738cf949c06b305e2c80a7c84d0082e6eed1` as `ppo_formal_1p5b_seed42_20260718T150510Z`. Frozen model,
+config, suite, data, prompt, reward, parser/verifier, LoRA, sampling, length, and budget
+identities passed preflight and did not change.
+
+Live trainer output reached the displayed step-8 checkpoint boundary, after which the
+checkpoint adapter raised because TRL did not expose `grad_norm`. The authorization
+classified grad norm as optional telemetry, so this is an execution-chain defect, not
+a scientific training outcome. Finalized completion, metric, and verifier evidence is
+empty; generated tokens and training metrics are unavailable, and no validation ran.
+The run is excluded from all scientific analysis.
+
+The partial checkpoint has policy/value adapters and scalar head but lacks the trusted
+optimizer/scheduler/RNG/runtime/prefix recovery state and is not resume-capable. No
+base-model weights were saved. The immutable failure backup SHA256 is
+`76896c5b3db3ee4439566b8b68c0cad798af5b5610f393138aa23eba6c40debb`. No automatic retry, GRPO, seed-123 run, or final test occurred.
+The frozen experiment design remains unchanged; a separately authorized new attempt
+may occur only after the bounded CPU-only blocker in `docs/NEXT_TASK.md` is repaired.

@@ -772,3 +772,33 @@ This file records operational history and pitfalls that should survive context c
 - With baseline and GPU release verified, there is no technical training blocker. The
   unique next task is Stage H formal PPO seed 42, requiring a new explicit GPU
   authorization. PPO success will not authorize GRPO automatically.
+
+## Stage H: First Formal PPO Seed-42 Attempt Failed
+
+- Authorized execution HEAD was `176f738cf949c06b305e2c80a7c84d0082e6eed1`; the
+  difference from baseline commit `287f7d3` was documentation-only. Frozen PPO42 config
+  raw SHA `1093e87a...ec43` and suite raw/canonical SHA `11869c63...2017` /
+  `1d7c29f7...9d600` passed preflight. The local pinned snapshot, baseline checksums,
+  idle H800, offline mode, and writable storage also passed.
+- The sole authorized command created `ppo_formal_1p5b_seed42_20260718T150510Z` and was not retried. Live TRL
+  stdout reached the displayed 8/32 checkpoint boundary with `episode=128`, then
+  `_normal_metrics` raised `FormalRuntimeError: formal Trainer did not expose required
+  grad norm`. This violates the Stage H policy that missing optional grad norm is
+  null/unavailable and nonblocking.
+- Finalized `completions.jsonl`, `metrics.jsonl`, and `verification_results.jsonl` are
+  empty and formal counters are zero. The transient display is not primary evidence;
+  generated-token count and scientific reward/loss/entropy/completion metrics are
+  unavailable. No checkpoint validation or final test ran. The attempt is an immutable
+  engineering failure, excluded from scientific aggregation.
+- Partial `checkpoint-8` holds policy/value adapters and scalar head only. It lacks
+  optimizer, scheduler, RNG, runtime/counter, comparison-key prefix, and trusted
+  inventory state; it is not resume-capable and contains no full base weights.
+- Measured wall/GPU-hours/cost: 181.951470 s / 0.050542075 / CNY 0.448814. Peak
+  nvidia-smi VRAM was 28,655 MiB and mean utilization 36.0585%. After worker exit the
+  GPU was 0 MiB with no compute process.
+- Verified failure backup:
+  `/root/autodl-fs/math-rlvr-backups/ppo_formal_1p5b_seed42_20260718T150510Z.failure.tar.gz`, SHA256
+  `76896c5b3db3ee4439566b8b68c0cad798af5b5610f393138aa23eba6c40debb`. Git-safe evidence is under `reports/runs/ppo_formal_1p5b_seed42_20260718T150510Z/`.
+- Next decision: bounded CPU-only repair of optional grad-norm availability and
+  per-update evidence persistence. No new PPO attempt, GRPO, seed 123, validation, or
+  final test is authorized.

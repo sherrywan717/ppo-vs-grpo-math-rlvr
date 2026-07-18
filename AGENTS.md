@@ -526,3 +526,24 @@ When sources conflict, use this order: Git commits plus actual configs/manifests
 saved artifacts; `PROJECT_HANDOFF.md`; `docs/PORTFOLIO_DELIVERABLES.md`;
 `docs/NEXT_TASK.md`; this file and `memory.md`; historical chat. Git and original
 artifacts always prevail.
+
+### First formal PPO seed-42 failure
+
+The single authorized Stage H attempt `ppo_formal_1p5b_seed42_20260718T150510Z` is an immutable engineering
+failure and is excluded from scientific aggregation. The real PPO loop reached the
+live step-8 checkpoint boundary, then checkpoint serialization raised because TRL did
+not expose `grad_norm` and the formal adapter incorrectly treated that optional metric
+as required. Automatic retries were zero; GRPO and all later stages were not started.
+
+Finalized completion, metric, and verifier JSONL files are empty and formal counters
+are zero, so generated tokens, reward/loss/entropy histories, and completion counts are
+unavailable rather than inferred from transient console output. The partial
+`checkpoint-8` contains policy/value adapters and the scalar head only; it lacks
+optimizer/scheduler/RNG/runtime/prefix inventory state and is not resume-capable. It
+contains no full base-model weights. The verified failure backup SHA256 is
+`76896c5b3db3ee4439566b8b68c0cad798af5b5610f393138aa23eba6c40debb`; post-process GPU release was 0 MiB/no compute process.
+
+The unique next task is a bounded CPU-only repair: missing optional `grad_norm` must
+serialize as null/unavailable with a reason, and append-only per-update primary evidence
+must be persisted before checkpoint serialization can discard it. Preserve the failed
+run and partial checkpoint unchanged. No new PPO attempt or GRPO run is authorized.

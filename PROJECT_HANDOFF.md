@@ -11,10 +11,8 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Scientific/result HEAD before this documentation synchronization:
-  `287f7d313c5ad8ac1500eb416eeacd605c3298f3`
-- Worktree: clean at handoff verification before this documentation-only update; it
-  must be clean again after the synchronization commit.
+- Authorized execution HEAD: `176f738cf949c06b305e2c80a7c84d0082e6eed1`
+- Worktree: clean before the single Stage H attempt and before this failure-documentation update; it must be clean again after commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -98,14 +96,36 @@ Greedy accuracy is `null/unavailable` because the frozen protocol has no separat
 greedy completion. Aggregate report: `reports/formal_1p5b/01_baseline_results.md`.
 Commit: `287f7d313c5ad8ac1500eb416eeacd605c3298f3`.
 
+## Stage H PPO seed-42 failed attempt
+
+The one authorized command ran exactly once as `ppo_formal_1p5b_seed42_20260718T150510Z` and failed at the
+step-8 checkpoint callback: `FormalRuntimeError: formal Trainer did not expose required
+grad norm`. The missing TRL field was optional under the authorization contract and
+should have been persisted as null/unavailable, not treated as a training blocker.
+
+The finalized completion/metric/verifier JSONL files are empty and formal counters are
+zero. Live stdout reached the displayed 8/32 boundary and `episode=128`, but those are
+not persisted primary evidence; generated tokens and scientific training metrics are
+therefore unavailable. No validation ran. The run is an immutable engineering failure
+and `included_in_scientific_aggregate=false`.
+
+The partial `checkpoint-8` contains policy/value adapters plus scalar head, but no
+optimizer, scheduler, RNG, runtime/counter, comparison-prefix, or trusted inventory
+state. It is not resume-capable and must not be evaluated. No full base-model weights
+were saved. The verified failure archive is
+`/root/autodl-fs/math-rlvr-backups/ppo_formal_1p5b_seed42_20260718T150510Z.failure.tar.gz`, SHA256
+`76896c5b3db3ee4439566b8b68c0cad798af5b5610f393138aa23eba6c40debb`. Measured usage was 181.951470 seconds, 0.050542075 GPU-hours,
+CNY 0.448814, peak 28,655 MiB nvidia-smi VRAM; post-process GPU state was 0 MiB and no
+compute process.
+
 ## Unique next task
 
-The only next task is **Stage H: execute formal PPO seed 42** with the exact active
-config and dual confirmation in `docs/NEXT_TASK.md`. There is no current technical
-blocker. This documentation update does not authorize the GPU run; a new explicit
-Stage H authorization is still required. Do not start GRPO, validation, final test, or
-another stage automatically.
+The only next task is the CPU-only minimal repair described in `docs/NEXT_TASK.md`:
+make unavailable optional `grad_norm` serialize truthfully and prove per-update primary
+evidence persists before checkpoint serialization. Do not modify frozen scientific
+identities or the failed run. No new PPO attempt, GRPO, seed 123, validation, or final
+test is authorized.
 
-All historical runs and the two successful baseline runs are immutable. Missing or
-unreliable metrics remain null/unavailable with reasons; noncritical telemetry and
-presentation issues are warnings only.
+All historical runs and successful baselines remain immutable. Missing or unreliable
+metrics remain null/unavailable with reasons; noncritical telemetry and presentation
+issues are warnings only.

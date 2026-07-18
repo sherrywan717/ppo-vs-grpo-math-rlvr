@@ -1,0 +1,19 @@
+{
+  "status": "failure",
+  "reason": "formal Trainer did not expose required grad norm",
+  "counters": {
+    "run_id": "ppo_formal_1p5b_seed42_20260718T150510Z",
+    "algorithm": "ppo",
+    "seed": 42,
+    "config_sha256": "1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43",
+    "active_suite_sha256": "1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600",
+    "updates": 0,
+    "optimizer_steps": 0,
+    "global_steps": 0,
+    "completions": 0,
+    "generated_tokens": 0,
+    "seen_pair_keys": [],
+    "checkpoints": [],
+    "validations": []
+  }
+}
