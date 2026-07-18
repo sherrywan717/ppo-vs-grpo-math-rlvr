@@ -1,0 +1,97 @@
+{
+  "architecture": [
+    "Qwen2ForCausalLM"
+  ],
+  "backward_calls": 0,
+  "baseline_calls": 0,
+  "chat_template_available": true,
+  "checkpoints_written": 0,
+  "cost_cny": 0.016356057719637954,
+  "cuda_initialized_before_authorized_cuda": false,
+  "device": [
+    "cuda:0"
+  ],
+  "dtype": [
+    "torch.bfloat16"
+  ],
+  "example_positions": [
+    0,
+    2
+  ],
+  "formal_prompt_rendering_success": true,
+  "forward_seconds": [
+    0.4384867288172245,
+    0.04476671293377876
+  ],
+  "forward_total_seconds": 0.48325344175100327,
+  "generation_calls": 0,
+  "gpu_hours": 0.0018418983918511206,
+  "logits_all_finite": [
+    true,
+    true
+  ],
+  "logits_shapes": [
+    [
+      1,
+      137,
+      151936
+    ],
+    [
+      1,
+      120,
+      151936
+    ]
+  ],
+  "lora_injections": 0,
+  "meta_parameter_count": 0,
+  "model_load_seconds": 1.5479077696800232,
+  "model_type": "qwen2",
+  "nvidia_smi_peak_used_mib": 3915,
+  "nvidia_smi_peak_utilization_pct": 9,
+  "optimizer_steps": 0,
+  "parameter_count": 1543714304,
+  "problem_ids": [
+    "gsm8k:train:1534",
+    "math:DigitalLearningGmbH/MATH-lighteval:train:4929"
+  ],
+  "prompt_token_counts": [
+    137,
+    120
+  ],
+  "reason": "local-only BF16 load and two finite formal-prompt forwards passed",
+  "repo_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "resource_sample_count": 24,
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "reward_or_verifier_rollouts": 0,
+  "run_id": "cuda_load_sanity_qwen25_1p5b_20260718T113620Z",
+  "sampler_warnings": [],
+  "snapshot_path": "/root/autodl-tmp/cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "status": "success",
+  "tokenizer_class": "Qwen2TokenizerFast",
+  "tokenizer_load_seconds": 0.2915848046541214,
+  "torch_current_allocated_bytes_post_cleanup": 33554432,
+  "torch_current_allocated_bytes_pre_cleanup": 3121901056,
+  "torch_current_reserved_bytes_post_cleanup": 33554432,
+  "torch_current_reserved_bytes_pre_cleanup": 3468689408,
+  "torch_peak_allocated_bytes": 3268704768,
+  "torch_peak_reserved_bytes": 3468689408,
+  "trainer_calls": 0,
+  "training_updates": 0,
+  "wall_time_seconds": 6.630834210664034,
+  "warnings": [
+    "worker allocator retained 32 MiB allocated/reserved after gc.collect() and torch.cuda.empty_cache(); authoritative post-process nvidia-smi release passed"
+  ],
+  "worker_exit_code": 0,
+  "warning_count": 1,
+  "post_exit_gpu": {
+    "nvidia_smi_memory_used_mib": 0,
+    "nvidia_smi_utilization_pct": 0,
+    "compute_processes": [],
+    "worker_process_exited": true,
+    "gpu_released": true
+  },
+  "figure_sources": [
+    "resource_metrics.csv",
+    "summary.json"
+  ]
+}
