@@ -118,13 +118,26 @@ were saved. The verified failure archive is
 CNY 0.448814, peak 28,655 MiB nvidia-smi VRAM; post-process GPU state was 0 MiB and no
 compute process.
 
+## Stage H.1 repair complete
+
+From pre-repair HEAD `108aa260481710ceb90080200af348f7a0ec0765`, the bounded CPU
+repair made missing aggregate/policy/value grad norms nullable with raw-key evidence and
+moved validated atomic completion/metric prefix persistence to every PPO update before
+the checkpoint callback. A fake step-8 callback failure retains 128 completions, eight
+metric rows, and matching counters. Existing trusted checkpoint/resume structure is
+unchanged. Twenty-three related pytest cases, affected Ruff/compileall, and formal PPO
+dry-run passed; full pytest was not run under the experiment-first limit.
+
+The historical failed run remains immutable and excluded. Its checksums and every
+frozen SHA remain unchanged. No CUDA, model/tokenizer, generation, real Trainer,
+backward, optimizer, baseline, validation, or final test ran in Stage H.1.
+
 ## Unique next task
 
-The only next task is the CPU-only minimal repair described in `docs/NEXT_TASK.md`:
-make unavailable optional `grad_norm` serialize truthfully and prove per-update primary
-evidence persists before checkpoint serialization. Do not modify frozen scientific
-identities or the failed run. No new PPO attempt, GRPO, seed 123, validation, or final
-test is authorized.
+The only next task is a new formal PPO seed-42 attempt described in
+`docs/NEXT_TASK.md`. It requires a new explicit GPU authorization and must use a new
+run ID; it is not a resume of the invalid partial checkpoint. GRPO and all later stages
+remain unauthorized.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable
 metrics remain null/unavailable with reasons; noncritical telemetry and presentation

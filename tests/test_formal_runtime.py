@@ -17,10 +17,18 @@ from math_rlvr.training.formal_runtime import (
 
 
 class FakeFormalBackend:
-    def __init__(self, root: Path, *, stop_after: int = 32, token_width: int = 1):
+    def __init__(
+        self,
+        root: Path,
+        *,
+        stop_after: int = 32,
+        token_width: int = 1,
+        fail_checkpoint_at: int | None = None,
+    ):
         self.root = root
         self.stop_after = stop_after
         self.token_width = token_width
+        self.fail_checkpoint_at = fail_checkpoint_at
 
     def execute(self, contract, observer, *, start_update):
         if start_update > 1:
@@ -64,6 +72,8 @@ class FakeFormalBackend:
                 "loss": 0.25,
                 "total_loss": 0.25,
                 "grad_norm": 1.0,
+                "grad_norm_available": True,
+                "grad_norm_reason": None,
                 "entropy": 0.5,
                 "policy_entropy_mean": 0.5,
                 "policy_entropy_mean_available": True,
@@ -122,6 +132,8 @@ class FakeFormalBackend:
                 global_step=update,
             )
             if update in contract.validation_steps:
+                if update == self.fail_checkpoint_at:
+                    raise RuntimeError("intentional checkpoint callback failure")
                 observer.validation(
                     update,
                     [
@@ -211,6 +223,35 @@ def test_fake_formal_32_step_finalization(algorithm, seed, tmp_path):
     ):
         assert (run_dir / required).exists()
 
+
+
+
+def test_update_evidence_is_atomic_before_step8_checkpoint_failure(tmp_path):
+    config = load_training("ppo", 42)
+    run_dir = tmp_path / "checkpoint-failure"
+    with pytest.raises(RuntimeError, match="intentional checkpoint callback failure"):
+        execute_formal_training(
+            config,
+            FakeFormalBackend(run_dir, fail_checkpoint_at=8),
+            run_dir=run_dir,
+            run_id=run_dir.name,
+        )
+    completions = [
+        json.loads(line) for line in (run_dir / "completions.jsonl").read_text().splitlines()
+    ]
+    metrics = [json.loads(line) for line in (run_dir / "metrics.jsonl").read_text().splitlines()]
+    failure = json.loads((run_dir / "failure_report.json").read_text())
+    assert len(completions) == 128
+    assert len(metrics) == 8
+    assert [row["update"] for row in metrics] == list(range(1, 9))
+    assert [row["pair_key"] for row in completions] == list(
+        formal_run_contract(config).pair_keys[:128]
+    )
+    assert failure["counters"]["updates"] == 8
+    assert failure["counters"]["optimizer_steps"] == 8
+    assert failure["counters"]["global_steps"] == 8
+    assert failure["counters"]["completions"] == 128
+    assert failure["counters"]["generated_tokens"] == 128
 
 def test_token_overflow_fails_closed_and_writes_failure_artifacts(tmp_path):
     config = load_training("ppo", 42)

@@ -1,43 +1,28 @@
-# Next task: Stage H.1 — CPU-only PPO evidence/checkpoint repair
+# Next task: execute a new formal PPO seed 42 attempt
 
-Status: blocked on one bounded execution-chain defect. This file does not authorize
-CUDA initialization, model loading, generation, training, resume, or another attempt.
+Status: CPU repair verified; GPU execution not yet authorized.
 
-## Failure evidence
+The only next task is a new, single-attempt formal PPO seed-42 run using the unchanged
+frozen command and config. It must use a new run ID and must not resume or reuse the
+partial checkpoint from `ppo_formal_1p5b_seed42_20260718T150510Z`.
 
-The immutable run `ppo_formal_1p5b_seed42_20260718T150510Z` reached the live step-8 checkpoint boundary and
-failed because formal checkpoint metric normalization treated absent TRL `grad_norm`
-as required. Finalized completion/metric/verifier JSONL files are empty and counters
-are zero, so generated tokens and scientific training metrics are unavailable. The
-partial checkpoint is not resume-capable. See
-`reports/runs/ppo_formal_1p5b_seed42_20260718T150510Z/report.md`.
+Before execution, verify the new repair commit, clean worktree, frozen suite/config
+SHAs, pinned offline snapshot, idle H800, baseline artifacts, writable storage, and the
+historical failed run checksum. Then a new explicit authorization may permit exactly:
 
-## Sole repair scope
+```bash
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYTHONPATH=src \
+python -m math_rlvr.training.ppo \
+  --config configs/formal_1p5b/resolved/ppo_seed_42.json \
+  --execute \
+  --confirm-formal-ppo
+```
 
-Perform a minimal CPU-only repair that:
+The frozen contract remains 32 updates, 512 rollout completions, 131,072 generated
+training-token cap, and checkpoint/validation at 8/16/24/32. Automatic retries are
+zero. PPO success or failure does not authorize GRPO, seed 123, or final test.
 
-1. Reuses the existing metric-availability contract so missing optional `grad_norm`
-   becomes `value=null`, `available=false`, with the exact reason and original-key
-   evidence; it must not become zero.
-2. Ensures each completed update's completion, reward/verifier, metric, comparison-key,
-   token, update, optimizer, and global-step evidence is appended durably before a
-   later checkpoint serialization failure can erase or misreport the prefix.
-3. Uses a fake formal PPO path through step 8 with missing grad norm to verify 128
-   ordered completion rows, eight metric/update/optimizer/global-step records, truthful
-   generated-token accounting, and a trusted resume-capable checkpoint-8 inventory.
-4. Verifies the checkpoint contains policy/value adapters and scalar head plus trusted
-   recovery state, but no full base-model weights.
-
-Do not introduce a new checkpoint format, metric, schema, fallback, broad guard, or
-unrelated test. Preserve all frozen config/suite/model/data/prompt/reward/parser/
-verifier/LoRA/sampling/budget SHAs and keep the failed run immutable.
-
-## Allowed verification
-
-Run only affected targeted CPU tests, Ruff on affected files, compileall on affected
-modules, and the formal PPO dry-run. CUDA/model/tokenizer/generation/Trainer/backward/
-optimizer activity must remain zero. Do not run the full pytest suite unless separately
-requested.
-
-After a repair commit, update the handoff/memory/registry and stop. A new real PPO
-attempt requires a new explicit authorization; GRPO seed 42 remains unauthorized.
+This file does not itself authorize CUDA, model loading, generation, training,
+backward, optimizer, checkpoint validation, or any GPU command.

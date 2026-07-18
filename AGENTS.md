@@ -547,3 +547,15 @@ The unique next task is a bounded CPU-only repair: missing optional `grad_norm` 
 serialize as null/unavailable with a reason, and append-only per-update primary evidence
 must be persisted before checkpoint serialization can discard it. Preserve the failed
 run and partial checkpoint unchanged. No new PPO attempt or GRPO run is authorized.
+
+### Stage H.1 optional-telemetry/evidence repair
+
+The bounded CPU-only repair after the first formal PPO seed-42 failure is complete.
+TRL 0.24.0 exposed neither `grad_norm` nor `train/grad_norm`; aggregate/policy/value
+grad norms are now nullable optional telemetry with explicit availability, reason, and
+raw-key evidence, while provided NaN/Inf remains fail-closed. The guarded PPO per-update
+log callback now validates and atomically persists the existing completion and metric
+prefixes before checkpoint callbacks. A fake step-8 failure preserves 128 ordered
+completion rows and eight metric/counter rows. No artifact type, checkpoint format,
+scientific identity, budget, or historical run changed. A new real PPO seed-42 attempt
+requires explicit authorization; never start it or GRPO automatically.

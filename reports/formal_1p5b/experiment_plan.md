@@ -281,3 +281,14 @@ base-model weights were saved. The immutable failure backup SHA256 is
 `76896c5b3db3ee4439566b8b68c0cad798af5b5610f393138aa23eba6c40debb`. No automatic retry, GRPO, seed-123 run, or final test occurred.
 The frozen experiment design remains unchanged; a separately authorized new attempt
 may occur only after the bounded CPU-only blocker in `docs/NEXT_TASK.md` is repaired.
+
+## Stage H.1 CPU repair record
+
+The first PPO42 attempt remains an excluded engineering failure. A bounded post-failure
+CPU repair made missing grad-norm telemetry nullable and moved validated atomic
+completion/metric prefix persistence to every completed PPO update before checkpoint
+callbacks. The existing checkpoint format, validation protocol, four-run order and all
+scientific variables remain unchanged. A fake step-8 failure retains 128 completions,
+eight metric rows and matching counters. This repair is disclosed history and does not
+retroactively make the failed attempt valid; any new PPO42 run requires a new run ID
+and explicit authorization.

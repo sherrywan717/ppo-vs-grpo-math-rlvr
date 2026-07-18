@@ -231,6 +231,19 @@ def _normal_metrics(log_history, records, contract, *, start_update=1):
             "ratio variance",
             allow_non_finite=True,
         )
+        grad_norm, grad_norm_raw_key = _optional_number(
+            trainer_row, ("grad_norm", "train/grad_norm"), "grad norm"
+        )
+        policy_grad_norm, policy_grad_norm_raw_key = _optional_number(
+            trainer_row,
+            ("policy_grad_norm", "train/policy_grad_norm"),
+            "policy grad norm",
+        )
+        value_grad_norm, value_grad_norm_raw_key = _optional_number(
+            trainer_row,
+            ("value_grad_norm", "train/value_grad_norm"),
+            "value grad norm",
+        )
         status_counts = dict(sorted(Counter(str(status) for status in statuses).items()))
         optional_reason = "reviewed TRL 0.24.0 per-update log row did not expose this metric"
         metrics = {
@@ -240,13 +253,20 @@ def _normal_metrics(log_history, records, contract, *, start_update=1):
             "loss": loss,
             "total_loss": loss,
             "total_loss_definition": loss_definition,
-            "grad_norm": _number(trainer_row, ("grad_norm", "train/grad_norm"), "grad norm"),
-            "policy_grad_norm": None,
-            "policy_grad_norm_available": False,
-            "policy_grad_norm_reason": optional_reason,
-            "value_grad_norm": None,
-            "value_grad_norm_available": False,
-            "value_grad_norm_reason": optional_reason,
+            "grad_norm": grad_norm,
+            "grad_norm_available": grad_norm is not None,
+            "grad_norm_reason": None if grad_norm is not None else optional_reason,
+            "grad_norm_raw_metric_key": grad_norm_raw_key,
+            "policy_grad_norm": policy_grad_norm,
+            "policy_grad_norm_available": policy_grad_norm is not None,
+            "policy_grad_norm_reason": (
+                None if policy_grad_norm is not None else optional_reason
+            ),
+            "policy_grad_norm_raw_metric_key": policy_grad_norm_raw_key,
+            "value_grad_norm": value_grad_norm,
+            "value_grad_norm_available": value_grad_norm is not None,
+            "value_grad_norm_reason": None if value_grad_norm is not None else optional_reason,
+            "value_grad_norm_raw_metric_key": value_grad_norm_raw_key,
             "entropy": entropy,
             "policy_entropy_mean": entropy,
             "policy_entropy_mean_available": entropy is not None,
@@ -744,6 +764,30 @@ def _assemble_backend(
             prompt_verifier=prompt_verifier,
         )
         model_roles = {"pending_optimizer_audit": True}
+        update_observer_holder = {}
+
+        def update_callback(trainer, step):
+            observer = update_observer_holder.get("observer")
+            if observer is None:
+                raise FormalRuntimeError("formal PPO update observer is not bound")
+            partial = _normal_completion_rows(evidence.partial_records(), contract)
+            expected_count = step * contract.completions_per_update
+            if len(partial) != expected_count:
+                raise FormalRuntimeError("formal PPO update completion prefix is incomplete")
+            metric = _normal_metrics(
+                [dict(row) for row in trainer.state.log_history],
+                partial,
+                contract,
+                start_update=step,
+            )[0]
+            start = expected_count - contract.completions_per_update
+            observer.update(
+                step,
+                partial[start:expected_count],
+                metric,
+                optimizer_step=step,
+                global_step=step,
+            )
 
         def checkpoint_callback(trainer, step):
             return _write_checkpoint(
@@ -772,6 +816,7 @@ def _assemble_backend(
             expected_contract=contract,
             completed_updates=completed_updates,
             checkpoint_callback=checkpoint_callback,
+            update_callback=update_callback,
         )
         trainer = build_ppo_trainer(
             config,
@@ -887,6 +932,7 @@ def _assemble_backend(
             (lambda: _restore_trusted_rng(resume_state)) if resume_state else None
         ),
         online_guard=online_guard,
+        update_observer_holder=(update_observer_holder if algorithm == "ppo" else None),
     )
     backend.model_roles = dict(model_roles)
     return backend

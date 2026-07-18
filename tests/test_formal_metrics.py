@@ -55,6 +55,9 @@ def test_ppo_metric_schema_preserves_native_entropy_and_nullable_fields():
     assert metric["total_loss"] == pytest.approx(0.23)
     assert metric["policy_loss"] == 0.2
     assert metric["value_loss"] == 0.3
+    assert metric["grad_norm"] == 1.25
+    assert metric["grad_norm_available"] is True
+    assert metric["grad_norm_raw_metric_key"] == "grad_norm"
     assert metric["kl"] == 0.01
     assert metric["clip_fraction"] == 0.125
     assert metric["ratio_mean"] == 1.01
@@ -109,3 +112,50 @@ def test_missing_native_entropy_is_null_not_zero():
     assert metric["policy_entropy_mean"] is None
     assert metric["policy_entropy_mean_available"] is False
     assert metric["policy_entropy_mean_reason"]
+
+
+def test_missing_grad_norm_is_null_unavailable_and_nonblocking():
+    contract = _contract("ppo")
+    row = {
+        "loss/policy_avg": 0.2,
+        "loss/value_avg": 0.3,
+        "policy/entropy_avg": 0.4,
+        "lr": 1e-5,
+    }
+    metric = _normal_metrics([row], _records(contract), contract)[0]
+    for name in ("grad_norm", "policy_grad_norm", "value_grad_norm"):
+        assert metric[name] is None
+        assert metric[f"{name}_available"] is False
+        assert metric[f"{name}_reason"]
+        assert metric[f"{name}_raw_metric_key"] is None
+
+
+def test_finite_role_grad_norms_preserve_raw_keys():
+    contract = _contract("ppo")
+    row = {
+        "loss/policy_avg": 0.2,
+        "loss/value_avg": 0.3,
+        "policy_grad_norm": 1.5,
+        "train/value_grad_norm": 2.5,
+        "lr": 1e-5,
+    }
+    metric = _normal_metrics([row], _records(contract), contract)[0]
+    assert metric["policy_grad_norm"] == 1.5
+    assert metric["policy_grad_norm_available"] is True
+    assert metric["policy_grad_norm_raw_metric_key"] == "policy_grad_norm"
+    assert metric["value_grad_norm"] == 2.5
+    assert metric["value_grad_norm_available"] is True
+    assert metric["value_grad_norm_raw_metric_key"] == "train/value_grad_norm"
+
+
+@pytest.mark.parametrize("key", ["grad_norm", "policy_grad_norm", "value_grad_norm"])
+def test_nonfinite_grad_norm_fails_closed(key):
+    contract = _contract("ppo")
+    row = {
+        "loss/policy_avg": 0.2,
+        "loss/value_avg": 0.3,
+        key: float("nan"),
+        "lr": 1e-5,
+    }
+    with pytest.raises(Exception, match="invalid optional .*grad norm"):
+        _normal_metrics([row], _records(contract), contract)

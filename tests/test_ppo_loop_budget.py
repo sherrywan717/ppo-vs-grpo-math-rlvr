@@ -333,6 +333,7 @@ def test_guarded_trainer_shim_counts_real_backward_and_underlying_step(monkeypat
                 self.optimizer.step()
                 self.optimizer.zero_grad()
         self.state.global_step = 1
+        self.log({"loss/policy_avg": 0.1, "loss/value_avg": 0.2, "lr": 1e-5})
         return SimpleNamespace(metrics={})
 
     monkeypatch.setattr(ppo_module, "forward", fake_forward)
@@ -341,6 +342,7 @@ def test_guarded_trainer_shim_counts_real_backward_and_underlying_step(monkeypat
     args = ppo_config(config, tmp_path, cpu_only=True)
     contract = expected_run_contract(Path("configs/pilot/resolved/ppo_seed_42.json"), "ppo")
     guard = budget_guard()
+    update_calls = []
     trainer_class = ppo_guarded_trainer_class(
         guard,
         evidence_recorder=SimpleNamespace(),
@@ -351,6 +353,9 @@ def test_guarded_trainer_shim_counts_real_backward_and_underlying_step(monkeypat
             "top_p": 0.95,
         },
         expected_contract=contract,
+        update_callback=lambda trainer, step: update_calls.append(
+            (step, len(trainer.state.log_history))
+        ),
     )
     trainer = trainer_class(
         args=args,
@@ -370,6 +375,8 @@ def test_guarded_trainer_shim_counts_real_backward_and_underlying_step(monkeypat
     assert trainer.ppo_backward_evidence["sync_gradients"] == [False, False, False, True]
     assert trainer.ppo_backward_evidence["underlying_optimizer_steps"] == 1
     assert guard.optimizer_steps == guard.ppo_epochs == guard.minibatches == 1
+    assert guard.updates == guard.global_step == 1
+    assert update_calls == [(1, 1)]
     assert torch.cuda.is_initialized() is False
 
 

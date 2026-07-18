@@ -999,6 +999,7 @@ def ppo_guarded_trainer_class(
     ordered_episode_records=None,
     expected_contract=None,
     checkpoint_callback=None,
+    update_callback=None,
     completed_updates=0,
 ):
     """The sole TRL 0.24.0 PPO private compatibility shim."""
@@ -1047,12 +1048,17 @@ def ppo_guarded_trainer_class(
 
         def log(self, logs, start_time=None):
             local_step = int(self.state.global_step)
-            if "loss/policy_avg" in logs:
+            is_update = "loss/policy_avg" in logs
+            absolute_step = completed_updates + local_step
+            if is_update:
                 guard.record_update()
-                guard.record_global_step(completed_updates + local_step)
-            self.state.global_step = completed_updates + local_step
+                guard.record_global_step(absolute_step)
+            self.state.global_step = absolute_step
             try:
-                return super().log(logs, start_time)
+                result = super().log(logs, start_time)
+                if is_update and update_callback is not None:
+                    update_callback(self, absolute_step)
+                return result
             finally:
                 self.state.global_step = local_step
 

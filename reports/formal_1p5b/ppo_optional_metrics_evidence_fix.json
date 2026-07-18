@@ -1,0 +1,72 @@
+{
+  "checkpoint_order": [
+    "persist validated update primary evidence prefix",
+    "write adapter/head and trusted recovery state",
+    "validate checkpoint inventory",
+    "run frozen checkpoint validation"
+  ],
+  "cuda_initialized": false,
+  "fixed_semantics": {
+    "atomic_writer": "math_rlvr.artifacts.manager.atomic_text",
+    "existing_artifacts_only": [
+      "completions.jsonl",
+      "metrics.jsonl"
+    ],
+    "finite_grad_norm": "preserve value and raw metric key with available=true",
+    "incremental_write_point": "after each successful TRL per-update log is appended and before Trainer checkpoint callback",
+    "missing_grad_norm": "value=null, available=false, explicit reason, raw metric key=null",
+    "non_finite_grad_norm": "fail closed",
+    "step_8_expected_prefix": {
+      "completions": 128,
+      "metric_rows": 8,
+      "updates": 8
+    }
+  },
+  "frozen_sha256": {
+    "active_suite_canonical": "1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600",
+    "active_suite_raw": "11869c63f4365aee5d4bf8e13fe263c9d0397164a18a88b419da07218f6a2017",
+    "historical_failed_run_checksums_file": "f9497dc31ae7d341a220345e3b821345ab3783db83c20d174ac49f26c1e38e3f",
+    "model_registry_raw": "643f6aba275c2f46478dfe48ff91f839ac772e54675e8266a9df14e930f01911",
+    "parser": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+    "ppo_seed_42_config_raw": "1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43",
+    "prompt": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "reward": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463",
+    "verifier": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd"
+  },
+  "generation_train_backward_optimizer": 0,
+  "historical_failed_run": "ppo_formal_1p5b_seed42_20260718T150510Z",
+  "historical_run_immutable": true,
+  "model_or_tokenizer_loads": 0,
+  "new_gpu_attempt_authorized": false,
+  "root_causes": {
+    "incremental_evidence": {
+      "cause": "CompletedTrainerBackend replayed Trainer evidence into FormalRuntimeObserver only after trainer.train returned; checkpoint-8 callback therefore preceded the first observer update"
+    },
+    "optional_grad_norm": {
+      "cause": "TRL 0.24.0 per-update log row did not expose either key; _normal_metrics used the required-number parser and FormalProgressGuard listed grad_norm as required",
+      "checked_raw_keys": [
+        "grad_norm",
+        "train/grad_norm"
+      ],
+      "failed_run_raw_key": null
+    }
+  },
+  "schema_version": 1,
+  "scope": "cpu_only_minimal_repair",
+  "stage": "H.1",
+  "tests": {
+    "compileall": "passed affected modules/tests",
+    "formal_ppo_dry_run": "passed; no training started",
+    "full_pytest": "not run; prohibited by experiment-first scope",
+    "pytest": {
+      "failed": 0,
+      "passed": 23,
+      "scope": [
+        "formal metrics",
+        "formal runtime",
+        "guarded PPO update callback"
+      ]
+    },
+    "ruff": "passed affected files"
+  }
+}

@@ -585,7 +585,6 @@ class FormalProgressGuard:
             "reward_std",
             "reward_variance",
             "loss",
-            "grad_norm",
             "learning_rate",
             "mean_completion_length",
             "completion_length_std",
@@ -606,6 +605,7 @@ class FormalProgressGuard:
         for name in required:
             _finite(name, metrics[name])
         for name in (
+            "grad_norm",
             "policy_entropy_mean",
             "policy_entropy_std",
             "response_token_entropy_mean",
@@ -1043,6 +1043,7 @@ class CompletedTrainerBackend:
         resume_checkpoint: Path | None = None,
         metric_prefix: tuple[dict[str, Any], ...] = (),
         before_train: Any = None,
+        update_observer_holder: dict[str, Any] | None = None,
     ):
         self.trainer = trainer
         self.evidence_recorder = evidence_recorder
@@ -1054,6 +1055,7 @@ class CompletedTrainerBackend:
         self.resume_checkpoint = resume_checkpoint
         self.metric_prefix = tuple(dict(row) for row in metric_prefix)
         self.before_train = before_train
+        self.update_observer_holder = update_observer_holder
 
     def execute(
         self, contract: FormalRunContract, observer: FormalRuntimeObserver, *, start_update: int
@@ -1070,6 +1072,8 @@ class CompletedTrainerBackend:
                 observer.validation_metrics.extend(rows)
         if self.before_train is not None:
             self.before_train()
+        if self.update_observer_holder is not None:
+            self.update_observer_holder["observer"] = observer
         self.trainer.train()
         absolute_global_step = int(self.trainer.state.global_step)
         if absolute_global_step != contract.global_steps:
@@ -1091,13 +1095,16 @@ class CompletedTrainerBackend:
         for update in range(start_update, contract.updates + 1):
             start = (update - 1) * contract.completions_per_update
             end = start + contract.completions_per_update
-            observer.update(
-                update,
-                records[start:end],
-                metrics[update - 1],
-                optimizer_step=update,
-                global_step=update,
-            )
+            if update > observer.guard.updates:
+                observer.update(
+                    update,
+                    records[start:end],
+                    metrics[update - 1],
+                    optimizer_step=update,
+                    global_step=update,
+                )
+            elif observer.completions[start:end] != records[start:end]:
+                raise FormalRuntimeError("incremental formal completion evidence drift")
             if update in contract.validation_steps:
                 observer.checkpoint(update, self.checkpoint_root / f"checkpoint-{update}")
                 validation_rows = self.validation_runner(update)
@@ -1165,6 +1172,25 @@ class FormalRuntimeObserver:
         )
         self.completions.extend(completion_rows)
         self.metrics.append({"update": update, **metrics})
+        self._persist_primary_evidence()
+
+    def _persist_primary_evidence(self) -> None:
+        from math_rlvr.artifacts.manager import atomic_text
+
+        for row in self.completions:
+            _standard_json(row)
+        for row in self.metrics:
+            _standard_json(row)
+        completion_text = "".join(
+            json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n"
+            for row in self.completions
+        )
+        metric_text = "".join(
+            json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n"
+            for row in self.metrics
+        )
+        atomic_text(self.run_dir / "completions.jsonl", completion_text)
+        atomic_text(self.run_dir / "metrics.jsonl", metric_text)
 
     def checkpoint(self, step: int, root: Path) -> None:
         self.guard.record_checkpoint(step)

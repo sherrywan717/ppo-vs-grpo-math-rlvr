@@ -802,3 +802,24 @@ This file records operational history and pitfalls that should survive context c
 - Next decision: bounded CPU-only repair of optional grad-norm availability and
   per-update evidence persistence. No new PPO attempt, GRPO, seed 123, validation, or
   final test is authorized.
+
+## Stage H.1: Optional Grad Norm and Incremental Evidence Repair
+
+- Starting HEAD `108aa260481710ceb90080200af348f7a0ec0765` was clean. Scope stayed
+  CPU-only and limited to two defects; no model/tokenizer/CUDA/generation/real Trainer/
+  backward/optimizer/evaluation ran.
+- Root cause 1: the failed TRL rows had no `grad_norm` or `train/grad_norm`; required
+  parsing and the formal required-metric set caused the checkpoint-8 exception. Missing
+  aggregate/policy/value grad norms now persist null/unavailable/reason/raw-key-null;
+  finite values retain their raw key and NaN/Inf still fails closed.
+- Root cause 2: `CompletedTrainerBackend` did not replay evidence into the observer
+  until all 32 steps returned. The guarded PPO log callback now updates the observer
+  after each logged update and before checkpoint callbacks; the observer atomically
+  rewrites the existing completion/metric JSONL prefixes.
+- Fake step-8 checkpoint failure preserved exactly 128 ordered completion rows, eight
+  metric rows and counters 8/8/8. Existing 32-step fake and same-run resume passed.
+- Verification: 23 related pytest passed; affected Ruff and compileall passed; formal
+  PPO dry-run reported no training started. Full pytest was intentionally omitted.
+- Historical failed run/checksums and all frozen identities remain unchanged. The next
+  real PPO42 attempt needs a new explicit authorization and new run ID; GRPO remains
+  unauthorized.
