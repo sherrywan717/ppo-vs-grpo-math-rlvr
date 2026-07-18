@@ -1,0 +1,93 @@
+{
+  "status": "failure",
+  "scientific_result_valid": false,
+  "run_id": "baseline_formal_1p5b_seed42_20260718T114907Z",
+  "stage": "Stage G frozen baseline evaluation",
+  "seed": 42,
+  "seed_123_executed": false,
+  "command_attempts": 1,
+  "automatic_retries": 0,
+  "failure": {
+    "stage": "formal_evaluation",
+    "exception_type": "KeyError",
+    "exception_message": "'components'",
+    "call_chain": "RealFormalEvaluationBackend.generate -> evaluation.to_dict()[\"components\"]",
+    "root_cause": "RewardEvaluation.to_dict() exposes flattened component fields and verifier_detail, but no top-level components key",
+    "affects": [
+      "result_truthfulness",
+      "completion_data_integrity",
+      "artifact_completeness"
+    ],
+    "code_modified": false,
+    "command_retried": false
+  },
+  "identity": {
+    "model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "evaluation_raw_sha256": "3b1a682b9ecebb51d8cd3de65aa57a201049e8efa5ab4536081598450605821f",
+    "evaluation_canonical_sha256": "b87ea305d4253f41f337fde3a0850ceb7e6925c87f6a9b8e0e6ac452e730ab50",
+    "mode": "base",
+    "adapter_loaded": false,
+    "local_files_only": true
+  },
+  "progress": {
+    "planned_completions": 800,
+    "persisted_completion_count": 0,
+    "completed_generation_calls_before_failure": 1,
+    "completed_generation_calls_evidence": "failure occurs on the first loop iteration after model.generate and reward evaluation, before rows.append",
+    "generated_tokens": null,
+    "generated_tokens_available": false,
+    "generated_tokens_unavailable_reason": "the first completion IDs/text were not appended or persisted before reward component serialization failed"
+  },
+  "metrics": {
+    "greedy_accuracy": null,
+    "greedy_accuracy_available": false,
+    "greedy_accuracy_unavailable_reason": "frozen protocol has no separate greedy completion",
+    "sampled_pass_at_1": null,
+    "pass_at_4": null,
+    "gsm8k": null,
+    "math500": null,
+    "math500_levels": null,
+    "format_accuracy": null,
+    "valid_answer_rate": null,
+    "verifier_status_distribution": null,
+    "completion_length": null,
+    "eos_rate": null,
+    "truncation_rate": null,
+    "unavailable_reason": "run failed before any completion row or aggregate metric was persisted"
+  },
+  "forbidden_operation_counters": {
+    "trainer_calls": 0,
+    "adapter_loads": 0,
+    "lora_injections": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0,
+    "checkpoints_written": 0,
+    "ppo_updates": 0,
+    "grpo_updates": 0
+  },
+  "resources": {
+    "samples": 19,
+    "resource_window_seconds": 6.312120467424393,
+    "peak_nvidia_smi_mib": 3801,
+    "peak_gpu_utilization_pct": 39,
+    "mean_gpu_utilization_pct": 12,
+    "gpu_hours": 0.0017533667965067758,
+    "cost_cny_at_8_88_per_hour": 0.015569897152980171,
+    "pytorch_allocator": null,
+    "pytorch_allocator_available": false,
+    "pytorch_allocator_unavailable_reason": "allocator finalized in memory but success-only artifact path was not reached"
+  },
+  "backup": {
+    "archive": "/root/autodl-fs/math-rlvr-backups/baseline_formal_1p5b_seed42_20260718T114907Z.failure.tar.gz",
+    "sha256": "b32174ddea42dd458a86a20aa53948b8b56fcf838f996fced22cd2648a0bd6d4",
+    "entries": 14,
+    "verified": true
+  },
+  "post_exit_gpu": {
+    "memory_used_mib": 0,
+    "utilization_pct": 0,
+    "compute_processes": [],
+    "released": true
+  }
+}
