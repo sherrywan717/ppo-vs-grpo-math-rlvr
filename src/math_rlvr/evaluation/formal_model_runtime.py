@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import shlex
+from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -19,6 +20,51 @@ from math_rlvr.training.model_source import ValidatedModelSource
 RUN_ROOT = Path("/root/autodl-tmp/runs/math_rlvr")
 
 
+def _formal_completion_record(
+    *,
+    item: dict[str, Any],
+    generation_seed: int,
+    completion_ids: list[int],
+    text: str,
+    max_completion_length: int,
+    eos_token_id: int | None,
+    evaluation: Any,
+) -> dict[str, Any]:
+    from math_rlvr.parser import ParsedCompletion, parse_completion
+    from math_rlvr.rewards.result import RewardStatus
+
+    status = evaluation.canonical_result.status
+    reward_evidence = evaluation.to_dict()
+    return {
+        **item,
+        "generation_seed": generation_seed,
+        "completion_ids": completion_ids,
+        "completion_mask": [1] * len(completion_ids),
+        "exact_token_count": len(completion_ids),
+        "raw_completion": text,
+        "truncated": (
+            len(completion_ids) == max_completion_length
+            and (not completion_ids or completion_ids[-1] != eos_token_id)
+        ),
+        "format_valid": isinstance(parse_completion(text), ParsedCompletion),
+        "valid_answer": status
+        in {RewardStatus.WRONG_ANSWER, RewardStatus.VERIFIED_PASS},
+        "canonical_correct": status is RewardStatus.VERIFIED_PASS,
+        "verifier_status": reward_evidence["canonical_status"],
+        **reward_evidence,
+    }
+
+
+def _record_formal_completion(
+    rows: list[dict[str, Any]],
+    record: dict[str, Any],
+    completion_recorder: Callable[[dict[str, Any]], None] | None,
+) -> None:
+    if completion_recorder is not None:
+        completion_recorder(record)
+    rows.append(record)
+
+
 class RealFormalEvaluationBackend:
     def __init__(
         self,
@@ -26,6 +72,7 @@ class RealFormalEvaluationBackend:
         config: dict[str, Any],
         model_source: ValidatedModelSource,
         policy_adapter: Path | None,
+        completion_recorder: Callable[[dict[str, Any]], None] | None = None,
     ):
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -34,6 +81,7 @@ class RealFormalEvaluationBackend:
             raise RuntimeError("formal evaluation requires a validated local-only snapshot")
         name = str(model_source.snapshot_path)
         self.config = config
+        self.completion_recorder = completion_recorder
         self.tokenizer = AutoTokenizer.from_pretrained(name, local_files_only=True)
         self.tokenizer.padding_side = "left"
         if self.tokenizer.pad_token_id is None:
@@ -69,10 +117,8 @@ class RealFormalEvaluationBackend:
         }
 
     def generate(self, plan):
-        from math_rlvr.parser import ParsedCompletion, parse_completion
         from math_rlvr.prompt import render_prompt_version
         from math_rlvr.rewards.formal import FORMAL_REWARD_POLICY
-        from math_rlvr.rewards.result import RewardStatus
         from math_rlvr.verifier import MathVerifier
 
         verifier = MathVerifier()
@@ -115,30 +161,16 @@ class RealFormalEvaluationBackend:
             evaluation = FORMAL_REWARD_POLICY.evaluate(
                 text, lambda candidate, problem=problem: verifier(problem, candidate)
             )
-            status = evaluation.canonical_result.status
-            rows.append(
-                {
-                    **item,
-                    "generation_seed": generation_seed,
-                    "completion_ids": completion_ids,
-                    "completion_mask": [1] * len(completion_ids),
-                    "exact_token_count": len(completion_ids),
-                    "raw_completion": text,
-                    "truncated": (
-                        len(completion_ids) == self.config["sampling"]["max_completion_length"]
-                        and (
-                            not completion_ids or completion_ids[-1] != self.tokenizer.eos_token_id
-                        )
-                    ),
-                    "format_valid": isinstance(parse_completion(text), ParsedCompletion),
-                    "valid_answer": status
-                    in {RewardStatus.WRONG_ANSWER, RewardStatus.VERIFIED_PASS},
-                    "canonical_correct": status is RewardStatus.VERIFIED_PASS,
-                    "verifier_status": status.value,
-                    "scalar_reward": evaluation.scalar_reward,
-                    "reward_components": evaluation.to_dict()["components"],
-                }
+            record = _formal_completion_record(
+                item=item,
+                generation_seed=generation_seed,
+                completion_ids=completion_ids,
+                text=text,
+                max_completion_length=self.config["sampling"]["max_completion_length"],
+                eos_token_id=self.tokenizer.eos_token_id,
+                evaluation=evaluation,
             )
+            _record_formal_completion(rows, record, self.completion_recorder)
         return rows
 
 
@@ -225,6 +257,9 @@ def execute_real_formal_evaluation(
             config=config,
             model_source=model_source,
             policy_adapter=selection.policy_adapter,
+            completion_recorder=lambda record: manager.append_jsonl(
+                "completions.jsonl", record
+            ),
         ),
         destination,
     )

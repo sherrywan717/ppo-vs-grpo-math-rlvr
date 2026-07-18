@@ -9,6 +9,12 @@ from math_rlvr.evaluation.formal import (
     load_evaluation_config,
     validate_evaluation_config,
 )
+from math_rlvr.evaluation.formal_model_runtime import (
+    _formal_completion_record,
+    _record_formal_completion,
+)
+from math_rlvr.rewards.formal import FORMAL_REWARD_POLICY
+from math_rlvr.verifier import GSM8KVerifier, MathExpressionVerifier
 
 
 def test_formal_evaluation_phases_are_cpu_only_and_matched() -> None:
@@ -90,3 +96,75 @@ def test_evaluation_artifact_manager_omits_empty_checkpoint_directory(
     )
     assert (manager.run_dir / "figures").is_dir()
     assert not (manager.run_dir / "checkpoints").exists()
+
+
+@pytest.mark.parametrize(
+    ("domain", "completion", "verifier"),
+    [
+        ("gsm8k", "<reasoning>brief</reasoning><answer>2</answer>", GSM8KVerifier("2")),
+        (
+            "math500",
+            "<reasoning>brief</reasoning><answer>$x^2$</answer>",
+            MathExpressionVerifier("$x^2$"),
+        ),
+    ],
+)
+def test_formal_reward_record_is_flat_json_and_immediately_persisted(
+    domain,
+    completion,
+    verifier,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(artifact_manager, "RUN_ROOT", tmp_path / "runs")
+    monkeypatch.setattr(artifact_manager, "REPORT_ROOT", tmp_path / "reports")
+    manager = ArtifactManager(
+        stage="formal_evaluation_record_fake",
+        algorithm="base",
+        model="Qwen/Qwen2.5-1.5B-Instruct",
+        seed=42,
+        command="cpu-only fake record serialization",
+        config={"dry_run": True},
+        run_id=f"formal_record_{domain}",
+        create_checkpoints=False,
+    )
+    evaluation = FORMAL_REWARD_POLICY.evaluate(completion, verifier)
+    record = _formal_completion_record(
+        item={
+            "phase": "baseline",
+            "seed": 42,
+            "problem_id": f"{domain}:fake",
+            "domain": domain,
+            "sample_kind": "pass1",
+            "generation_index": 0,
+            "pair_key": f"{domain}:fake::pass1::generation:0",
+        },
+        generation_seed=123,
+        completion_ids=[7, 8],
+        text=completion,
+        max_completion_length=256,
+        eos_token_id=2,
+        evaluation=evaluation,
+    )
+    rows = []
+    _record_formal_completion(
+        rows,
+        record,
+        lambda payload: manager.append_jsonl("completions.jsonl", payload),
+    )
+
+    persisted = json.loads((manager.run_dir / "completions.jsonl").read_text())
+    assert persisted == record == rows[0]
+    assert "components" not in record
+    assert "reward_components" not in record
+    assert record["canonical_status"] == "verified_pass"
+    assert record["verifier_status"] == record["canonical_status"]
+    assert record["scalar_reward"] == 1.0
+    assert record["answer_block_component"] == 0.05
+    assert record["strict_protocol_component"] == 0.05
+    assert record["valid_answer_component"] == 0.10
+    assert record["correctness_component"] == 0.80
+    assert record["reward_policy_version"] == "shaped_v3_domain"
+    assert len(record["reward_policy_sha256"]) == 64
+    assert isinstance(record["reward_component_weights"], dict)
+    assert isinstance(record["verifier_detail"], str)
