@@ -2,8 +2,9 @@
 
 本文定义 Math RLVR 正式项目最终必须交付的证据、分析与 GitHub 结构。它是
 portfolio 交付合同，不授权模型下载、CUDA、评测或训练，也不改变已经冻结的
-实验配置。当前 0.5B matched pilot 已完成；唯一有效 next task 是
-`docs/NEXT_TASK.md` 中的 Stage E.1 formal 1.5B model-bound CLI wiring。
+实验配置。当前 0.5B matched pilot、1.5B snapshot/CUDA sanity 和 frozen base
+baseline 已完成；唯一有效 next task 以 `docs/NEXT_TASK.md` 为准，当前为 Stage H
+formal PPO seed 42。
 
 ## 1. 最终项目必须回答的问题
 
@@ -273,6 +274,9 @@ Git 历史中保存：
 - 按固定规则筛选的 completion samples。
 - Artifact manifest 和 SHA256。
 - Windows 可检出的 UTF-8 文本和相对路径；复现命令同时说明 shell 环境前提。
+
+Windows 用户必须能够直接在 GitHub 网页中查看 Markdown 报告和 PNG/SVG 图片，
+无需本地 Linux 路径或专用绘图工具；所有报告链接使用 repository-relative path。
 
 Git 历史中禁止保存：
 

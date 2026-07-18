@@ -677,3 +677,98 @@ This file records operational history and pitfalls that should survive context c
 - Authority order is Git/configs/manifests/original artifacts, then
   `PROJECT_HANDOFF.md`, `docs/NEXT_TASK.md`, `AGENTS.md`/`memory.md`, and historical
   chat. Never alter historical evidence to match a derived handoff.
+
+
+## Stage E.1 Formal Model-Bound CLI and Exact Resume Completion
+
+- Documentation/evidence contract commit: `4107fca`; model-bound CLI commit:
+  `c082ec8`; trusted same-run resume commit: `e3cf482`.
+- PPO, GRPO, and evaluation require separate dual confirmations and accept only exact
+  active path/SHA identities. Seed 2026 remains rejected as reserved.
+- Recovery checkpoints bind same-run identity, steps 8/16/24, counter/key prefixes,
+  optimizer/scheduler/trainer state and RNG state; full Qwen weights are forbidden.
+- CPU gates completed with no CUDA/model/generation/training. This stage did not
+  authorize the later model download or baseline.
+
+## Stage F: Pinned Qwen 1.5B Snapshot and CUDA Sanity
+
+- Download commit `5bbf913358f018e413ea70ef3ce34fa38afcfa1d`; CUDA sanity commit
+  `2a86af7572d4f6b1419b1012b9b19f50cf9cbade`.
+- Exact revision `989aa7980e4cf806f80c7fef2b1adb7bc71aa306` downloaded once to the
+  canonical Hugging Face cache. Snapshot size was 3,098,973,447 bytes; download took
+  797.2488 seconds with zero retries and passed offline/local-only re-resolution.
+- CUDA sanity run `cuda_load_sanity_qwen25_1p5b_20260718T113620Z` loaded the BF16
+  1,543,714,304-parameter model and tokenizer locally, rendered two frozen prompts,
+  and produced finite logits. It performed no generation, LoRA, Trainer, backward,
+  optimizer, checkpoint, baseline, or training.
+- Sanity wall/GPU-hours/cost were 6.630834 s / 0.001841898 / CNY 0.016356; peak
+  nvidia-smi memory was 3,915 MiB. The worker allocator's 32 MiB residue was a warning;
+  post-process GPU state was 0 MiB/no compute process.
+- Static Stage F backup:
+  `/root/autodl-fs/math-rlvr-backups/code-rlvr_stage-f_2a86af7.tar.gz`, SHA256
+  `aba02b5508b12d86c8a4f2ece50a00bf62e9551b082aff99acbcc688ff0a1195`.
+
+## Stage G: Baseline Serialization Failure and Repair
+
+- Immutable attempt `baseline_formal_1p5b_seed42_20260718T114907Z` failed while
+  serializing the first reward evidence because `RewardResult.to_dict()` is flat and
+  the evaluator accessed a nonexistent `["components"]` field. Persisted evidence was
+  0/800; generated-token count is unavailable because no completion record was safely
+  appended. It is excluded from scientific statistics.
+- Resource wall time was 6.312120 s; derived GPU-hours/cost were 0.001753367 / CNY
+  0.015570. Failure backup SHA256:
+  `b32174ddea42dd458a86a20aa53948b8b56fcf838f996fced22cd2648a0bd6d4`.
+- Commit `b47966e` preserves the failed attempt. Repair commit
+  `cce3a212f7f5a60edbf43ffd6eef4794850173f6` reuses the existing flat reward evidence
+  mapping and regression-tests GSM8K/MATH JSON append/readback without changing reward,
+  prompt, parser, verifier, data, sampling, or config identity.
+
+## Stage G.1: Prompt-Length Failure
+
+- New immutable attempt `baseline_formal_1p5b_seed42_20260718T120909Z` used the repaired
+  serializer but failed at `math:HuggingFaceH4/MATH-500:test:219`: exact rendered
+  prompt length 800 exceeded the frozen 512 cap.
+- The run persisted 642/800 evidence rows and 74,968 exact generated tokens before the
+  failure. Wall/GPU-hours/cost were 1,620.691772 s / 0.450192159 / CNY 3.997706.
+- Failure backup SHA256:
+  `20f639e6432921ff8008607af2612f4412cfacd88ce1192f719763cf038418e1`.
+- The 642 rows are immutable engineering evidence, excluded from baseline statistics,
+  and never copied, resumed, or spliced into a later config identity.
+
+## Stage G.2: Full Prompt Audit and Capacity Amendment
+
+- The pinned tokenizer audit covered 1,192 actual-mode rows / 592 unique problems.
+  Maxima were train 713, validation 339, test/overall 800, GSM8K 262, MATH 800, and
+  MATH500 Level 1–5 279/257/415/800/767. No truncation occurred. Three unique problem
+  IDs exceeded 512.
+- Commit `edecfcf503cff8ee8aef3c7ef2136dae04e192b7` records the public
+  `post-freeze prompt-length capacity amendment`: shared evaluation/PPO/GRPO cap
+  512 -> 832; completion cap stays 256; 1,088 remains below context 32,768.
+- Evaluation raw/canonical SHA are now `85100dd0...f4a35` /
+  `d8ba5ab8...fe44`; active-suite raw/canonical SHA are `11869c63...2017` /
+  `1d7c29f7...9d600`. Active config SHAs are PPO42 `1093e87a...ec43`, GRPO42
+  `3371d231...9199`, GRPO123 `cc95138f...75e`, PPO123 `3d6cc1f3...c15e`.
+- No scientific variable except prompt capacity changed. Previously fitting token IDs
+  are unchanged and PPO/GRPO remain matched. Static amendment backup:
+  `/root/autodl-fs/math-rlvr-backups/code-rlvr_stage-g2-prompt-cap_edecfcf.tar.gz`,
+  SHA256 `3836d7379b47aa4a934e009386d570b1a4a455a32497f2f2c6b45286174fcdbb`.
+
+## Stage G.2: Successful Frozen Baselines and Next Decision
+
+- Scientific seed-42 run `baseline_formal_1p5b_seed42_20260718T125833Z`: 800/800,
+  96,150 tokens, sampled pass@1 0.040, pass@4 0.100, 0.584779932 GPU-hours,
+  CNY 5.192846. Backup SHA256 `77105f38c67ecb773edc54cedb63fe489df1298155d2eabbe0cf07e7b7cd5a13`.
+- Scientific seed-123 run `baseline_formal_1p5b_seed123_20260718T133624Z`: 800/800,
+  91,651 tokens, sampled pass@1 0.025, pass@4 0.060, 0.569322944 GPU-hours,
+  CNY 5.055588. Backup SHA256 `e473075db8123664c13a3d77e8c9960be108fe881aa5deef88c04660bff2edf0`.
+- Greedy accuracy is null/unavailable because the frozen protocol has no separate
+  greedy completion. Both success runs have complete checksums and are the only runs
+  included in `reports/formal_1p5b/01_baseline_results.md`.
+- Result commit `287f7d313c5ad8ac1500eb416eeacd605c3298f3`; final Git backup
+  `/root/autodl-fs/math-rlvr-backups/code-rlvr_stage-g2-baseline_287f7d3.tar.gz`,
+  SHA256 `f102571c8c1d3909080abc1c5ff2fdff8d04236b753c553438d9d47e9fee6cdc`.
+- Scientific inclusion decision: only the two 800/800 post-amendment runs are included;
+  the 0/800 serialization and 642/800 prompt-length attempts remain excluded forever.
+- With baseline and GPU release verified, there is no technical training blocker. The
+  unique next task is Stage H formal PPO seed 42, requiring a new explicit GPU
+  authorization. PPO success will not authorize GRPO automatically.

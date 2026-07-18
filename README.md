@@ -4,7 +4,7 @@ A reproducible comparison of PPO and GRPO sample efficiency, stability, and gene
 
 ## Frozen design
 
-Both algorithms use seeds `42`, `123`, and `2026`, the same frozen manifests and 2-GSM8K/2-MATH update order, `prompt_v2_formal_math`, BF16 policy LoRA (`r=16`, alpha 32, dropout 0; q/k/v/o projections), four responses per prompt, temperature 0.8, top-p 0.95, prompt length 512, completion length 256, and one domain-aware reward policy. Comparisons align actual completions and generated tokens, not trainer steps.
+The active formal suite uses PPO/GRPO at seeds `42` and `123`; seed `2026` remains `reserved_not_scheduled`. Both algorithms share the frozen manifests and 2-GSM8K/2-MATH update order, `prompt_v2_formal_math`, BF16 policy LoRA (`r=16`, alpha 32, dropout 0; q/k/v/o projections), four responses per prompt, temperature 0.8, top-p 0.95, amended prompt capacity 832, completion length 256, and one domain-aware reward policy. Comparisons align actual completions and generated tokens, not trainer steps.
 
 Formal reward `shaped_v3_domain` is fixed: answer block 0.05, strict protocol 0.05, domain-valid answer 0.10, and canonical correctness 0.80. Countdown exact-number-usage is not applied to GSM8K or MATH. Formal pass metrics use only canonical verifier status; infrastructure errors abort.
 
@@ -226,8 +226,8 @@ cost difference; they are never presented as a matched model architecture.
 The frozen baseline/final protocol uses GSM8K test 200 and MATH500 200 for pass@1 plus
 fixed 50+50 subsets for pass@4. Test data is used only for the shared base baseline and
 fixed step-32 final evaluation, never for prompt, reward, hyperparameter, or checkpoint
-selection. See `reports/formal_1p5b/experiment_plan.md`. Model download, CUDA sanity,
-baseline evaluation, and training remain separately authorized future stages.
+selection. See `reports/formal_1p5b/experiment_plan.md`. Model download, CUDA sanity, and the
+two-seed baseline are now complete; every training run remains separately authorized.
 
 ### Formal 1.5B four-run amendment
 
@@ -244,3 +244,21 @@ The formal CPU runtime is frozen in `math_rlvr.training.formal_runtime` and
 512 ordered completions, four checkpoints/validations, same-run resume continuity,
 overflow failure, backup, and baseline/final artifact finalization. This does not
 authorize or claim a 1.5B model load or training result.
+
+
+## Current formal 1.5B status
+
+The pinned Qwen 1.5B snapshot download and local-only BF16 CUDA/model-load sanity are
+complete. The frozen base baseline also completed successfully for seeds 42 and 123;
+results and CSV-derived figures are in
+[`reports/formal_1p5b/01_baseline_results.md`](reports/formal_1p5b/01_baseline_results.md).
+
+Two earlier seed-42 engineering attempts are preserved unchanged: one failed reward-
+evidence serialization at 0/800 and one hit the historical 512-token prompt cap at
+642/800. Both are explicitly excluded from scientific statistics. The public
+post-freeze capacity amendment and full audit are documented in
+[`reports/formal_1p5b/prompt_length_amendment.md`](reports/formal_1p5b/prompt_length_amendment.md).
+
+The unique next task is Stage H formal PPO seed 42, described in
+[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md). It requires a new explicit GPU authorization;
+no training starts automatically.

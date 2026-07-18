@@ -452,19 +452,19 @@ batch4/GA4, one iteration, no shuffle, drop-last, and zero workers. PPO's separa
 value base, q/v r8 adapter and scalar head are an explicit cost/architecture difference;
 checkpoints remain role-separated adapter/head-only.
 
-Future order is separately authorized stages: pinned CUDA/model-load sanity; shared
-untrained baseline; PPO42; GRPO42; seed-42 validation review; then GRPO123, PPO123,
-PPO2026, GRPO2026; fixed step-32 final test; CPU aggregate. Test data cannot tune the
-prompt, reward, hyperparameters, or checkpoint. Formal `--execute` currently fails
-before model/CUDA by design. A successful stage never authorizes the next one.
+Stage F pinned CUDA/model-load sanity and the shared untrained baseline are complete.
+The remaining order is separately authorized: PPO42; GRPO42; seed-42 validation review;
+then GRPO123, PPO123; fixed step-32 final test; CPU aggregate. Test data cannot tune the
+prompt, reward, hyperparameters, or checkpoint. A successful stage never authorizes the
+next one.
 
 ### Formal 1.5B four-run amendment
 
 The six-run Stage E plan at commit `499fea9f6de6f991229f15b949e23e63c496e6cc`
 remains historical evidence. The approved active suite is PPO42, GRPO42, a seed-42
 learning-signal review, GRPO123, PPO123, four fixed step-32 final evaluations, and CPU
-aggregation. The exact active-suite hash is
-`f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd`.
+aggregation. After the disclosed prompt-length capacity amendment, the exact active-suite canonical
+hash is `1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600`.
 Seed-2026 descriptors remain byte-identical and `reserved_not_scheduled`; never place
 them in the active registry, queue, costs, or aggregate without a new amendment.
 Two-seed results may report raw values, mean, sample SD, paired deltas, and
@@ -483,32 +483,46 @@ evaluation freezes two baseline seeds and four step-32 final checkpoints. CPU fa
 may exercise the runtime; no model download, CUDA, generation, Trainer, backward, or
 optimizer is authorized by this implementation commit.
 
-### Current Stage E handoff
+### Formal 1.5B standing rules
 
-`PROJECT_HANDOFF.md` is the concise current-state handoff and `docs/NEXT_TASK.md`
-contains the complete unexecuted Stage E.1 acceptance contract. The verified
-code/runtime baseline is `8ab031e567f877d48af75adb0ea5a6fba9e8bf55` on
-`pivot/math-rlvr`. The only current blocker is formal real-model PPO/GRPO/evaluation
-CLI wiring. Do not continue that implementation, download/load 1.5B, initialize CUDA,
-evaluate, or train without a new explicit request. Frozen configs and all historical
-runs, checkpoints, reports, checksums, and aggregates remain immutable.
+The formal project goal is a fair, auditable PPO-versus-GRPO Math RLVR comparison on
+`Qwen/Qwen2.5-1.5B-Instruct`. The active scientific suite has exactly four training
+runs: PPO seed 42, GRPO seed 42, GRPO seed 123, and PPO seed 123. Seed 2026 remains
+`reserved_not_scheduled`. Exact config path/SHA membership and execution order come
+from `configs/formal_1p5b/active_suite.json`; never infer them from names or chat.
+
+Frozen final test data is baseline/final-evaluation only. It must never select or tune
+prompts, rewards, data, sampling, hyperparameters, checkpoints, stopping rules, or
+code changes. Validation may provide the predeclared learning-signal review, while the
+final checkpoint remains fixed at step 32.
+
+Scientific metrics, exact greedy/sampled pass@1/pass@4 definitions, per-update and
+per-problem evidence, CSV/JSON-rebuildable figures, Markdown analysis, time, VRAM,
+GPU-hours, and CNY cost are core deliverables. Missing or unreliable metrics must be
+standard JSON `null`/CSV empty with `available=false` and a reason; never fabricate
+zero. The authoritative checklist is `docs/PORTFOLIO_DELIVERABLES.md`.
+
+Only training correctness, PPO/GRPO fairness, safety, same-run recovery, or report
+truthfulness can block. Optional telemetry, PTY capture, SVG whitespace, CSV CRLF,
+and other noncritical guards are warnings. Do not expand infrastructure for them.
+
+Every failed attempt is immutable evidence: never overwrite it, splice partial rows
+into another run, or include it in scientific statistics. Every completed stage,
+whether success or failure, must synchronize `PROJECT_HANDOFF.md`, `memory.md`,
+`docs/NEXT_TASK.md`, `reports/formal_1p5b/run_registry.csv`, and the concise README
+stage summary before handoff.
+
+### Current formal handoff
+
+Stage F snapshot download/CUDA sanity and the two-seed frozen base baseline are
+complete. The current active-suite canonical SHA256 is
+`1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600`.
+Two historical seed-42 baseline failures remain excluded; the post-freeze prompt-cap
+amendment is public and capacity-only. The unique next task is Stage H: execute formal
+PPO seed 42, only after a new explicit GPU authorization. See `PROJECT_HANDOFF.md` and
+`docs/NEXT_TASK.md` for current identities and the exact boundary.
 
 When sources conflict, use this order: Git commits plus actual configs/manifests and
-saved artifacts; `PROJECT_HANDOFF.md`; `docs/NEXT_TASK.md`; this file and `memory.md`;
-historical chat. Git and original artifacts always prevail.
-
-### Portfolio and GitHub delivery contract
-
-The authoritative portfolio checklist is `docs/PORTFOLIO_DELIVERABLES.md`. Formal
-work must preserve complete method/config identities, distinct greedy accuracy,
-sampled pass@1 and pass@4, domain/level results, per-update PPO/GRPO evidence,
-per-problem outputs, resource/cost data, reproducible figures, fixed-rule case studies,
-limitations and exact commands. Unavailable metrics are null with reasons, never zero.
-
-Prioritize scientific metrics, pass@k, time/VRAM/GPU-hours/CNY, per-problem evidence,
-figures, analysis, failures and reproducibility. Stop expanding noncritical guards,
-duplicate schemas, PTY details, SVG whitespace, CSV CRLF, optional telemetry and
-extreme fallbacks. Only correctness, fairness, safety, checkpoint recoverability or
-report truthfulness may block; everything else is a warning. The 0.5B matched pilot
-is complete. The only current next task is Stage E.1 formal 1.5B model-bound CLI
-wiring.
+saved artifacts; `PROJECT_HANDOFF.md`; `docs/PORTFOLIO_DELIVERABLES.md`;
+`docs/NEXT_TASK.md`; this file and `memory.md`; historical chat. Git and original
+artifacts always prevail.

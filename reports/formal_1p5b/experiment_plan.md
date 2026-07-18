@@ -1,7 +1,7 @@
 # Stage E formal 1.5B PPO versus GRPO experiment plan
 
-Status: CPU-only configuration frozen. No 1.5B weights, tokenizer, CUDA context,
-generation, Trainer, backward pass, or optimizer step was used in this stage.
+Status: formal design/runtime frozen; Stage F snapshot download and CUDA sanity plus
+the two-seed frozen base baseline are complete. Formal PPO/GRPO training has not begun.
 
 The completed 0.5B matched pilot validates execution, checkpoint safety, evidence
 alignment, and rough resource cost. It is not the final benchmark and supplies no
@@ -129,21 +129,22 @@ completion length, truncation, reward distribution, each problem/seed result, an
 paired pre/post deltas. Aggregation reports every seed, mean, sample SD, and a paired
 problem-level 10,000-resample bootstrap 95% interval. Two seeds are deliberately modest and do not justify a statistical-significance claim.
 
-## Staged future execution order
+## Execution status and remaining order
 
-Each numbered GPU stage requires a new explicit authorization and stops afterward.
+Every GPU stage requires a separate explicit authorization and stops afterward.
 
-1. Pinned 1.5B CUDA/model-load sanity.
-2. Shared untrained baseline evaluation.
-3. PPO seed 42 training.
-4. GRPO seed 42 training.
-5. CPU/validation review of seed 42 learning signal and checkpoint validity.
-6. GRPO seed 123 then PPO seed 123, only if both seed-42 paths produced valid updates and checkpoints.
+1. **Complete:** pinned 1.5B snapshot download and CUDA/model-load sanity.
+2. **Complete:** shared untrained baseline evaluation for seeds 42 and 123. Two prior
+   seed-42 engineering failures are preserved and excluded from statistics.
+3. **Unique next task:** PPO seed 42 training.
+4. GRPO seed 42 training, only after a separate authorization.
+5. CPU/validation review of seed-42 learning signal and checkpoint validity.
+6. GRPO seed 123, then PPO seed 123, each separately authorized.
 7. Frozen step-32 final test for all four active checkpoints.
 8. CPU-only aggregation, error analysis, case studies, and final report.
 
-No stage inherits another run's checkpoint. A run has one attempt, independent run ID,
-four independent checkpoints, and its own full persistent backup.
+No stage inherits another run's checkpoint. A training run has its own run ID, four
+trusted same-run recovery checkpoints, full artifact tree, and persistent backup.
 
 ## Static resource plan
 
@@ -177,7 +178,42 @@ It does not itself show that PPO or GRPO learns, generalizes, or outperforms the
 
 ## Post-freeze prompt-length capacity amendment
 
-The pinned Qwen 1.5B tokenizer audit found a maximum 800-token frozen prompt and a 713-token training prompt above the original 512 cap. The shared evaluation/PPO/GRPO cap is therefore amended to 832, the next 64-token boundary. With the unchanged 256-token completion limit, the 1,088-token maximum remains below the model context of 32,768. No prompt text, token IDs, sampling, reward, parser/verifier, dataset, budget, LoRA, or optimizer semantics change. See `prompt_length_amendment.md`.
+This amendment is public history, not a rewrite that makes the experiment appear to
+have started at the new cap. The original 512-token identity and both failed attempts
+remain preserved.
+
+The exact pinned Qwen 1.5B tokenizer rendered every actual formal mode: 1,192 rows
+covering 592 unique frozen problems (128 train, 64 validation, 400 test plus the
+frozen evaluation modes/subsets). Maximum prompt lengths were train 713, validation
+339, GSM8K 262, MATH/test/overall 800. MATH500 Level 1–5 maxima were
+279/257/415/800/767. No tokenizer truncation occurred. Three unique prompts exceeded
+the old 512 cap, including failed sample
+`math:HuggingFaceH4/MATH-500:test:219` at exactly 800 tokens.
+
+The shared evaluation/PPO/GRPO `max_prompt_length` is amended from 512 to 832, the
+next 64-token boundary. The unchanged 256-token completion cap gives 1,088 total,
+below the model context 32,768.
+
+| Identity | Old SHA256 | New SHA256 |
+|---|---|---|
+| Evaluation canonical | `b87ea305d4253f41f337fde3a0850ceb7e6925c87f6a9b8e0e6ac452e730ab50` | `d8ba5ab80ab0553d2ec7246fb4876956dcbc5dd0bcf8642fd33c4ec19da6fe44` |
+| Evaluation raw file | `3b1a682b9ecebb51d8cd3de65aa57a201049e8efa5ab4536081598450605821f` | `85100dd0f613f295a7219a45a42a03e3ad4a45e24893c7f296e1d8da9a1f4a35` |
+| Active suite canonical | `f6de8c555a70837d08c1e34e13a738a21ce247b3a09531df6244a2f1d3ef53bd` | `1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600` |
+| Active suite raw file | `a78df532c2d31a11a63790993d9ce2b1425844c46d5013fec6820a3609dffc49` | `11869c63f4365aee5d4bf8e13fe263c9d0397164a18a88b419da07218f6a2017` |
+| PPO seed 42 | `717502aa665e9d5ef967e04a5ab27aa53329ccb061bda228db3c715f4dab967b` | `1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43` |
+| GRPO seed 42 | `6776f8894e9ac725a39748b06b57b62782cea2dab61faf51fd3cc3ceb5ae58bf` | `3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199` |
+| GRPO seed 123 | `4ce0918f7284220c36555b9f23db181354168ebe252d7244ac3ac9587be236fa` | `cc95138f50f37fafa76766d3a08b0995ffd5e0bf87cd7b9050acedb5e0bbc75e` |
+| PPO seed 123 | `a68524e85e427e335abf6447aa2cc391686fd3aa4da6d42efb0e522beec1a0b3` | `3d6cc1f30f7b72bfadb5191613298ac3f64a1ba3c699cc8d1e30ce147218c15e` |
+
+No prompt text or token IDs, renderer, sampling, reward, parser/verifier, dataset
+content/order, completion/token/update budget, LoRA, optimizer, or fixed checkpoint
+rule changed. Previously fitting examples retain identical token IDs. PPO and GRPO use
+the same amended cap, so fairness is preserved.
+
+Failed runs `baseline_formal_1p5b_seed42_20260718T114907Z` (serialization, 0/800) and
+`baseline_formal_1p5b_seed42_20260718T120909Z` (prompt length, 642/800) are immutable,
+excluded, and never reused or spliced into successful runs. Full evidence and machine-
+readable identities are in `prompt_length_audit.*` and `prompt_length_amendment.*`.
 
 ## Resolved training descriptors
 
@@ -191,7 +227,9 @@ The pinned Qwen 1.5B tokenizer audit found a maximum 800-token frozen prompt and
 | GRPO seed 2026 (reserved_not_scheduled) | `168044574b2ef6b293d214560dd4032bb603ac0c25b2efe8589af423d75178f4` |
 
 Each descriptor binds its seed, algorithm, template hash, schedule SHA, and ordered-ID
-SHA. No runtime CLI seed override is accepted. The CPU-validated multi-update runtime is implemented in this amendment stage, but model download, CUDA sanity, evaluation, and training each remain separately unauthorized.
+SHA. No runtime CLI seed override is accepted. The CPU-validated runtime, Stage F
+snapshot/CUDA sanity, and the two-seed base baseline are complete. Formal training and
+all later checkpoint evaluations remain separately unauthorized.
 
 ## CPU-validated formal runtime
 
