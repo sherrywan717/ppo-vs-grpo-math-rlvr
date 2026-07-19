@@ -308,3 +308,19 @@ any 64-problem checkpoint validation. This is an execution-chain failure, not a
 scientific PPO result. The run, its training diagnostics, checkpoints, and verified
 backup remain immutable and excluded from aggregation. No test result was used for
 selection, no validation or final test ran, and the frozen design remains unchanged.
+
+## Stage H.2 post-training validation recovery amendment
+
+The failed PPO42 run remains immutable and excluded. A bounded CPU repair separated the
+monotonic training cursor from the ordered checkpoint/validation cursors. Checkpoints
+and validation remain fixed at 8/16/24/32, once each and in order; deferred validation
+after update 32 is now equivalent to online cadence for guard purposes. This changes no
+model, data, prompt, reward, parser/verifier, sampling, LoRA, update, completion, token,
+checkpoint, validation, or test-selection scientific variable.
+
+Read-only audit established complete 32-update/512-completion/51,369-token training
+evidence and complete trusted checkpoint contracts at all four steps. Validation
+remains pending, training resume is not authorized, and training rerun is not required.
+Four future validation-only commands must use new evaluation run directories and may
+execute only after separate authorization. The original engineering failure is not
+retroactively rewritten as success.

@@ -862,3 +862,39 @@ This file records operational history and pitfalls that should survive context c
   scientific aggregation.
 - Next decision: one bounded CPU-only repair aligning checkpoint/validation cadence
   with incremental observer updates. No repair or further GPU execution is authorized.
+
+## Stage H.2: Independent Validation Cadence and Recovery Eligibility
+
+- Starting HEAD `135ca10e6d002ce6d3e29e5d0cde56b4e6ec29eb` was clean. Scope remained
+  CPU-only; no CUDA, model/tokenizer, generation, Trainer, backward, optimizer, PPO,
+  GRPO, baseline, validation, or final test ran.
+- Root cause: the PPO callback had already advanced the training observer through
+  update 32. `CompletedTrainerBackend` then correctly entered deferred checkpoint/
+  validation replay at step 8, but checkpoint and validation guards incorrectly
+  required each replayed step to equal the current training update.
+- Repair: training stays a monotonic 1..32 cursor. Checkpoint and validation cursors are
+  independent ordered sequences 8/16/24/32. Deferred steps may be below the completed
+  training cursor, never ahead of it; duplicates, skipped/illegal steps and validation
+  without its trusted checkpoint still fail closed. Checkpoint inventory/identity is
+  validated before its cadence event is committed.
+- Verification: 19 targeted CPU/fake pytest cases passed, including online and
+  post-training deferred cadence, ordering/duplicate/missing/illegal rejection,
+  training-counter/token-budget independence, trusted resume/identity rejection and
+  incremental step-8 evidence. Affected Ruff/compileall, formal PPO dry-run and formal
+  validation protocol dry-run passed.
+- Read-only original evidence audit replayed 32 metric rows, 512 completion rows and
+  51,369 tokens through the formal training guard. All comparison keys, completion
+  IDs/masks/counts, rewards and verifier evidence passed.
+- Checkpoints 8/16/24/32 passed actual file size/SHA256 inventory, prefix counts,
+  model/config/suite/prompt/reward/parser/verifier identity and existing validation
+  selection. No base weights exist. Original checksums file SHA256 remains
+  `43295b905f4175a41de21cd41e71e1e42d687c80a411af0421f91ecc3133e372`;
+  failure backup remains `f63812af...d7c5`.
+- Eligibility: `training_contract=complete`, `training_evidence=complete`,
+  `checkpoint_contract=complete`, `validation_contract=pending`,
+  `validation_only_eligible=true`, `training_resume_authorized=false`, and
+  `training_rerun_required=false`. The original run is still
+  `engineering_failure_after_training` and excluded until four validations complete.
+- The unique next task is a separately authorized Stage H.3 validation-only sequence
+  for checkpoints 8,16,24,32. Expected/ceiling totals are about 20/40 minutes,
+  0.3333/0.6667 GPU-hours and CNY 2.96/5.92. No command starts automatically.

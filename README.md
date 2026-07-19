@@ -260,8 +260,9 @@ post-freeze capacity amendment and full audit are documented in
 [`reports/formal_1p5b/prompt_length_amendment.md`](reports/formal_1p5b/prompt_length_amendment.md).
 
 Two formal PPO seed-42 attempts remain immutable engineering failures excluded from
-scientific statistics. Stage H.1 correctly preserved all 32 updates and 512 completion
-rows in the second attempt, but post-training checkpoint replay failed its cadence
-guard before validation. The sole next task is the bounded CPU-only repair documented
-in [`docs/NEXT_TASK.md`](docs/NEXT_TASK.md); no PPO rerun, checkpoint evaluation, GRPO,
-seed 123, or final test starts automatically.
+scientific statistics. Stage H.2 separated training and validation cadence and audited
+the second attempt's complete 32-update evidence plus four trusted checkpoints.
+Training rerun is unnecessary; validation remains pending. The sole next task is the
+separately authorized validation-only sequence in
+[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md); no validation, PPO rerun, GRPO, seed 123,
+or final test starts automatically.

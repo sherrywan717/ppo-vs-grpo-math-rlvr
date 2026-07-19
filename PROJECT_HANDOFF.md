@@ -11,8 +11,8 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Authorized execution HEAD: `1d31f56386857909c881bba1a7c5302166cf9682`
-- Worktree: clean before the second Stage H attempt and before this failure-documentation update; it must be clean again after commit.
+- Stage H.2 starting HEAD: `135ca10e6d002ce6d3e29e5d0cde56b4e6ec29eb`
+- Worktree: clean at Stage H.2 start; it must be clean again after the repair commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -156,12 +156,34 @@ GPU was 0 MiB with no compute process. The verified failure archive is
 `/root/autodl-fs/math-rlvr-backups/ppo_formal_1p5b_seed42_20260719T131800Z.failure.tar.gz`,
 SHA256 `f63812afed44cdc9f0fcafdf0931454548da1a4ce145840ebf91bb6fa5a6d7c5`.
 
+## Stage H.2 cadence repair and recovery eligibility
+
+Training updates remain a monotonic 1..32 cursor with unchanged optimizer/global,
+completion-key, and token-budget checks. Checkpoint and validation use independent
+ordered cursors `[8,16,24,32]`; online and deferred execution are both supported.
+A validation step requires its same-position trusted checkpoint, while validation
+rows/tokens never modify training counters or budgets.
+
+Read-only replay validated 32 metric rows, 512 completion rows, 51,369 tokens, and all
+comparison keys. Checkpoints 8/16/24/32 passed actual file SHA256, inventory, prefix,
+same-run and frozen-identity validation, and existing formal evaluation selection. No
+base weights are present. Therefore `validation_only_eligible=true`,
+`training_rerun_required=false`, and `training_resume_authorized=false`. The
+original run remains `engineering_failure_after_training / validation_pending` and
+is not yet a scientific success.
+
+Nineteen targeted CPU/fake tests, affected Ruff/compileall, PPO dry-run, and validation
+protocol dry-run passed. CUDA/model/tokenizer/generation/Trainer/backward/optimizer and
+real validation counts were zero. See
+`reports/formal_1p5b/ppo_seed42_validation_recovery_eligibility.{md,json}`.
+
 ## Unique next task
 
-The only next task is the bounded CPU-only checkpoint-cadence repair described in
-`docs/NEXT_TASK.md`: checkpoint/validation recording must remain aligned with the
-incremental observer instead of replaying checkpoint 8 after update 32. No repair,
-PPO rerun, checkpoint resume/evaluation, GRPO, seed 123, or final test is authorized.
+The only next task is Stage H.3: separately authorize validation-only evaluation of
+the existing PPO seed-42 checkpoints in strict order 8,16,24,32 using the four exact
+commands in `docs/NEXT_TASK.md`. Each writes a new evaluation run and never modifies
+the training run. No validation, PPO rerun/resume, GRPO, seed 123, baseline, or final
+test is authorized by this handoff.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable
 metrics remain null/unavailable with reasons; noncritical telemetry and presentation

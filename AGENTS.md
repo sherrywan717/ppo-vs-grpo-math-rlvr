@@ -568,5 +568,21 @@ checkpoint directories 8/16/24/32 contain no base weights. After training, the b
 replayed checkpoint 8 while the observer already held update 32, so the cadence guard
 failed before any checkpoint validation. Preserve this run and backup unchanged and
 exclude it from scientific aggregation. Do not resume/evaluate its checkpoints or run
-another GPU job automatically. The sole next task is the bounded CPU-only cadence
-repair in `docs/NEXT_TASK.md`.
+another GPU job automatically without a later explicit authorization.
+
+### Stage H.2 checkpoint/validation cadence repair
+
+Training progress and checkpoint-validation cadence now have independent ordered
+state. Training remains exactly updates 1..32 with unchanged optimizer/global,
+completion-key and token-budget checks. Checkpoint and validation steps remain exactly
+8/16/24/32, once each and in order; validation requires the corresponding trusted
+same-run checkpoint but may run online or after training completes. Validation
+completions/tokens never alter training counters.
+
+A read-only audit of `ppo_formal_1p5b_seed42_20260719T131800Z` validated 32 metric
+rows, 512 completion rows, 51,369 tokens and all four checkpoint inventories, SHA256
+values, prefixes and frozen identities. The run remains
+`engineering_failure_after_training / validation_pending`, while its checkpoints are
+eligible only for separately authorized validation-only evaluation. Training rerun is
+not required and training resume is not authorized. Never modify the original run or
+start validation/GRPO automatically; follow `docs/NEXT_TASK.md`.

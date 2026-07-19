@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "audit_stage": "Stage H.2",
+  "run_id": "ppo_formal_1p5b_seed42_20260719T131800Z",
+  "original_run_status": "engineering_failure_after_training",
+  "training_contract": {
+    "status": "complete",
+    "updates": 32,
+    "optimizer_steps": 32,
+    "global_steps": 32,
+    "completions": 512,
+    "generated_tokens": 51369,
+    "generated_token_cap": 131072
+  },
+  "training_evidence": {
+    "status": "complete",
+    "metric_rows": 32,
+    "completion_rows": 512,
+    "comparison_keys_complete_and_ordered": true,
+    "completion_ids_masks_and_counts_valid": true,
+    "reward_and_verifier_evidence_present": true
+  },
+  "checkpoint_contract": {
+    "status": "complete",
+    "steps": [
+      8,
+      16,
+      24,
+      32
+    ],
+    "all_inventory_sha256_verified": true,
+    "same_run_identity_verified": true,
+    "frozen_identity_verified": true,
+    "policy_adapter_present": true,
+    "value_adapter_present": true,
+    "scalar_head_present": true,
+    "optimizer_scheduler_rng_runtime_prefix_present": true,
+    "base_model_weights_present": false,
+    "checkpoints": [
+      {
+        "step": 8,
+        "payload_file_count": 14,
+        "total_size_bytes": 66535669,
+        "completion_prefix_count": 128,
+        "metric_prefix_count": 8,
+        "generated_tokens": 13468,
+        "artifact_manifest_sha256": "805f2916ce56abf09c28c195d58f92dc94a198d9992593a0d8ec84164ac1f914"
+      },
+      {
+        "step": 16,
+        "payload_file_count": 14,
+        "total_size_bytes": 67271976,
+        "completion_prefix_count": 256,
+        "metric_prefix_count": 16,
+        "generated_tokens": 25216,
+        "artifact_manifest_sha256": "56d8c9086f42775d679ca8c8d864ef5ef118f3fafd9fe22c06e9adbb2b1f34d9"
+      },
+      {
+        "step": 24,
+        "payload_file_count": 14,
+        "total_size_bytes": 68021100,
+        "completion_prefix_count": 384,
+        "metric_prefix_count": 24,
+        "generated_tokens": 39158,
+        "artifact_manifest_sha256": "854a8c026a172f3f0e3f0faa93f6f7d0594d828d4f6bb8869744d20c2f38ca9c"
+      },
+      {
+        "step": 32,
+        "payload_file_count": 14,
+        "total_size_bytes": 68703758,
+        "completion_prefix_count": 512,
+        "metric_prefix_count": 32,
+        "generated_tokens": 51369,
+        "artifact_manifest_sha256": "18534747eb6bb1c0945676c7490fce29c90e1f67bff939bd9318ee1101ee1952"
+      }
+    ]
+  },
+  "validation_contract": {
+    "status": "pending",
+    "cursor": [],
+    "required_sequence": [
+      8,
+      16,
+      24,
+      32
+    ],
+    "completion_count": 0,
+    "generated_tokens": 0,
+    "separate_from_training_budget": true
+  },
+  "validation_only_eligible": {
+    "value": true,
+    "reason": "all four same-run checkpoints passed the existing formal inventory, SHA256, identity, prefix, and evaluation-selection validation"
+  },
+  "training_resume_authorized": false,
+  "training_rerun_required": false,
+  "source_immutability": {
+    "original_run_modified": false,
+    "original_checksums_file_sha256": "43295b905f4175a41de21cd41e71e1e42d687c80a411af0421f91ecc3133e372",
+    "failure_backup_sha256": "f63812afed44cdc9f0fcafdf0931454548da1a4ce145840ebf91bb6fa5a6d7c5"
+  },
+  "frozen_identity": {
+    "ppo_config_raw_sha256": "1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43",
+    "active_suite_raw_sha256": "11869c63f4365aee5d4bf8e13fe263c9d0397164a18a88b419da07218f6a2017",
+    "active_suite_canonical_sha256": "1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600",
+    "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "prompt_sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "reward_sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463",
+    "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+    "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd"
+  },
+  "future_validation_plan": {
+    "commands": [
+      {
+        "checkpoint_step": 8,
+        "run_id_template": "ppo_validation_formal_1p5b_seed42_step8_<UTCSTAMP>",
+        "command": "HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src python -m math_rlvr.evaluation.formal --config configs/formal_1p5b/evaluation.json --phase validation --algorithm ppo --seed 42 --mode ppo --checkpoint-step 8 --checkpoint /root/autodl-tmp/runs/math_rlvr/ppo_formal_1p5b_seed42_20260719T131800Z/checkpoint-8 --run-dir /root/autodl-tmp/runs/math_rlvr/ppo_validation_formal_1p5b_seed42_step8_<UTCSTAMP> --execute --confirm-formal-evaluation"
+      },
+      {
+        "checkpoint_step": 16,
+        "run_id_template": "ppo_validation_formal_1p5b_seed42_step16_<UTCSTAMP>",
+        "command": "HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src python -m math_rlvr.evaluation.formal --config configs/formal_1p5b/evaluation.json --phase validation --algorithm ppo --seed 42 --mode ppo --checkpoint-step 16 --checkpoint /root/autodl-tmp/runs/math_rlvr/ppo_formal_1p5b_seed42_20260719T131800Z/checkpoint-16 --run-dir /root/autodl-tmp/runs/math_rlvr/ppo_validation_formal_1p5b_seed42_step16_<UTCSTAMP> --execute --confirm-formal-evaluation"
+      },
+      {
+        "checkpoint_step": 24,
+        "run_id_template": "ppo_validation_formal_1p5b_seed42_step24_<UTCSTAMP>",
+        "command": "HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src python -m math_rlvr.evaluation.formal --config configs/formal_1p5b/evaluation.json --phase validation --algorithm ppo --seed 42 --mode ppo --checkpoint-step 24 --checkpoint /root/autodl-tmp/runs/math_rlvr/ppo_formal_1p5b_seed42_20260719T131800Z/checkpoint-24 --run-dir /root/autodl-tmp/runs/math_rlvr/ppo_validation_formal_1p5b_seed42_step24_<UTCSTAMP> --execute --confirm-formal-evaluation"
+      },
+      {
+        "checkpoint_step": 32,
+        "run_id_template": "ppo_validation_formal_1p5b_seed42_step32_<UTCSTAMP>",
+        "command": "HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src python -m math_rlvr.evaluation.formal --config configs/formal_1p5b/evaluation.json --phase validation --algorithm ppo --seed 42 --mode ppo --checkpoint-step 32 --checkpoint /root/autodl-tmp/runs/math_rlvr/ppo_formal_1p5b_seed42_20260719T131800Z/checkpoint-32 --run-dir /root/autodl-tmp/runs/math_rlvr/ppo_validation_formal_1p5b_seed42_step32_<UTCSTAMP> --execute --confirm-formal-evaluation"
+      }
+    ],
+    "attempts_per_command": 1,
+    "automatic_retries": 0,
+    "expected_total_wall_time_minutes": 20,
+    "ceiling_total_wall_time_minutes": 40,
+    "expected_gpu_hours": 0.3333,
+    "ceiling_gpu_hours": 0.6667,
+    "expected_cost_cny": 2.96,
+    "ceiling_cost_cny": 5.92,
+    "cost_rate_cny_per_gpu_hour": 8.88,
+    "authorized_now": false
+  },
+  "cpu_only_execution": {
+    "cuda_initialized": false,
+    "model_or_tokenizer_loads": 0,
+    "generation_calls": 0,
+    "trainer_calls": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0,
+    "validation_runs": 0
+  },
+  "cursor_contract": {
+    "training_cursor": "strict monotonic updates 1..32; optimizer/global equal update; completion keys and generated-token cap unchanged",
+    "checkpoint_cursor": [
+      8,
+      16,
+      24,
+      32
+    ],
+    "validation_cursor": [
+      8,
+      16,
+      24,
+      32
+    ],
+    "online_and_deferred_supported": true,
+    "validation_requires_same_position_trusted_checkpoint": true,
+    "validation_mutates_training_counters": false
+  },
+  "verification": {
+    "targeted_pytest": {
+      "passed": 19,
+      "failed": 0
+    },
+    "ruff": "passed",
+    "compileall": "passed",
+    "formal_ppo_dry_run": "passed_no_training",
+    "formal_validation_protocol_dry_run": "passed_no_model_or_generation",
+    "full_pytest": "not_run_scope_limited"
+  }
+}

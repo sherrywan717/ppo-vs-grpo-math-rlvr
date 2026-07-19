@@ -8,6 +8,7 @@ from math_rlvr.evaluation.formal import load_evaluation_config
 from math_rlvr.evaluation.formal_runtime import execute_formal_evaluation
 from math_rlvr.training.formal import FORMAL_ACTIVE_SEEDS, validate_formal_config_file
 from math_rlvr.training.formal_runtime import (
+    FormalProgressGuard,
     FormalRuntimeError,
     create_formal_backup,
     execute_formal_training,
@@ -24,11 +25,38 @@ class FakeFormalBackend:
         stop_after: int = 32,
         token_width: int = 1,
         fail_checkpoint_at: int | None = None,
+        defer_validation: bool = False,
     ):
         self.root = root
         self.stop_after = stop_after
         self.token_width = token_width
         self.fail_checkpoint_at = fail_checkpoint_at
+        self.defer_validation = defer_validation
+
+    def checkpoint_and_validate(self, contract, observer, update):
+        if update == self.fail_checkpoint_at:
+            raise RuntimeError("intentional checkpoint callback failure")
+        checkpoint = self.root / f"checkpoint-{update}"
+        completion_count = update * contract.completions_per_update
+        write_fake_trusted_checkpoint(
+            checkpoint,
+            contract,
+            update,
+            completion_prefix=observer.completions[:completion_count],
+            metric_prefix=observer.metrics[:update],
+        )
+        observer.checkpoint(update, checkpoint)
+        observer.validation(
+            update,
+            [
+                {
+                    "checkpoint_step": update,
+                    "problem_id": f"validation:{index}",
+                    "canonical_correct": False,
+                }
+                for index in range(64)
+            ],
+        )
 
     def execute(self, contract, observer, *, start_update):
         if start_update > 1:
@@ -131,31 +159,13 @@ class FakeFormalBackend:
                 optimizer_step=update,
                 global_step=update,
             )
-            if update in contract.validation_steps:
-                if update == self.fail_checkpoint_at:
-                    raise RuntimeError("intentional checkpoint callback failure")
-                observer.validation(
-                    update,
-                    [
-                        {
-                            "checkpoint_step": update,
-                            "problem_id": f"validation:{index}",
-                            "canonical_correct": False,
-                        }
-                        for index in range(64)
-                    ],
-                )
-                checkpoint = self.root / f"checkpoint-{update}"
-                write_fake_trusted_checkpoint(
-                    checkpoint,
-                    contract,
-                    update,
-                    completion_prefix=observer.completions,
-                    metric_prefix=observer.metrics,
-                )
-                observer.checkpoint(update, checkpoint)
+            if update in contract.validation_steps and not self.defer_validation:
+                self.checkpoint_and_validate(contract, observer, update)
         if self.stop_after < contract.updates:
             raise RuntimeError("intentional interruption")
+        if self.defer_validation:
+            for update in contract.validation_steps:
+                self.checkpoint_and_validate(contract, observer, update)
 
 
 class FakeEvaluationBackend:
@@ -223,6 +233,80 @@ def test_fake_formal_32_step_finalization(algorithm, seed, tmp_path):
     ):
         assert (run_dir / required).exists()
 
+
+
+
+def test_fake_formal_deferred_validation_after_training_is_complete(tmp_path):
+    config = load_training("ppo", 42)
+    run_dir = tmp_path / "deferred-validation"
+    result = execute_formal_training(
+        config,
+        FakeFormalBackend(run_dir, defer_validation=True),
+        run_dir=run_dir,
+        run_id=run_dir.name,
+    )
+    counters = result["counters"]
+    assert counters["updates"] == counters["optimizer_steps"] == counters["global_steps"] == 32
+    assert counters["completions"] == 512
+    assert counters["generated_tokens"] == 512
+    assert counters["checkpoints"] == counters["validations"] == [8, 16, 24, 32]
+
+
+def _validation_rows(step, *, token_count=0):
+    return [
+        {
+            "checkpoint_step": step,
+            "problem_id": f"validation:{index}",
+            "canonical_correct": False,
+            "exact_token_count": token_count,
+        }
+        for index in range(64)
+    ]
+
+
+def _completed_training_guard():
+    contract = formal_run_contract(load_training("ppo", 42))
+    guard = FormalProgressGuard(contract, run_id="completed-training")
+    guard.updates = guard.optimizer_steps = guard.global_steps = 32
+    guard.completions = 512
+    guard.generated_tokens = 51_369
+    guard.seen_pair_keys = list(contract.pair_keys)
+    return guard
+
+
+def test_validation_cursor_is_ordered_and_independent_of_training_counters():
+    guard = _completed_training_guard()
+    before = guard.snapshot()
+    for step in (8, 16, 24, 32):
+        guard.record_checkpoint(step)
+        guard.record_validation(step, _validation_rows(step, token_count=256))
+    after = guard.snapshot()
+    for key in (
+        "updates",
+        "optimizer_steps",
+        "global_steps",
+        "completions",
+        "generated_tokens",
+        "seen_pair_keys",
+    ):
+        assert after[key] == before[key]
+    assert after["checkpoints"] == after["validations"] == [8, 16, 24, 32]
+
+
+def test_validation_cursor_rejects_out_of_order_duplicate_missing_and_illegal_steps():
+    guard = _completed_training_guard()
+    with pytest.raises(FormalRuntimeError, match="checkpoint cadence"):
+        guard.record_checkpoint(16)
+    with pytest.raises(FormalRuntimeError, match="checkpoint cadence"):
+        guard.record_checkpoint(7)
+    with pytest.raises(FormalRuntimeError, match="checkpoint missing"):
+        guard.record_validation(8, _validation_rows(8))
+    guard.record_checkpoint(8)
+    guard.record_validation(8, _validation_rows(8))
+    with pytest.raises(FormalRuntimeError, match="checkpoint cadence"):
+        guard.record_checkpoint(8)
+    with pytest.raises(FormalRuntimeError, match="checkpoint cadence"):
+        guard.record_checkpoint(24)
 
 
 

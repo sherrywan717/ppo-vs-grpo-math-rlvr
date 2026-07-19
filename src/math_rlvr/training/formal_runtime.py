@@ -646,26 +646,30 @@ class FormalProgressGuard:
         expected_index = len(self.checkpoints)
         if expected_index >= len(self.contract.checkpoint_steps):
             raise FormalRuntimeError("too many formal checkpoints")
-        if step != self.contract.checkpoint_steps[expected_index] or step != self.updates:
+        if step != self.contract.checkpoint_steps[expected_index] or step > self.updates:
             raise FormalRuntimeError("formal checkpoint cadence mismatch")
         self.checkpoints.append(step)
-
 
     def record_validation(self, step: int, rows: list[dict[str, Any]]) -> None:
         expected_index = len(self.validations)
         if expected_index >= len(self.contract.validation_steps):
             raise FormalRuntimeError("too many formal validations")
-        if step != self.contract.validation_steps[expected_index] or step != self.updates:
+        if step != self.contract.validation_steps[expected_index]:
             raise FormalRuntimeError("formal validation cadence mismatch")
+        if expected_index >= len(self.checkpoints) or self.checkpoints[expected_index] != step:
+            raise FormalRuntimeError("formal validation checkpoint missing or out of order")
         if len(rows) != 64 or any(row.get("checkpoint_step") != step for row in rows):
             raise FormalRuntimeError("formal validation must contain 64 rows for its checkpoint")
         self.validations.append(step)
+
     def record_restored_validation(self, step: int, rows: list[dict[str, Any]]) -> None:
         expected_index = len(self.validations)
         if (
             expected_index >= len(self.contract.validation_steps)
             or step != self.contract.validation_steps[expected_index]
             or step > self.updates
+            or expected_index >= len(self.checkpoints)
+            or self.checkpoints[expected_index] != step
             or len(rows) != 64
             or any(row.get("checkpoint_step") != step for row in rows)
         ):
@@ -1193,8 +1197,9 @@ class FormalRuntimeObserver:
         atomic_text(self.run_dir / "metrics.jsonl", metric_text)
 
     def checkpoint(self, step: int, root: Path) -> None:
+        inventory = formal_checkpoint_inventory(root, self.contract, step)
         self.guard.record_checkpoint(step)
-        self.checkpoint_inventory.append(formal_checkpoint_inventory(root, self.contract, step))
+        self.checkpoint_inventory.append(inventory)
 
     def validation(self, step: int, rows: list[dict[str, Any]]) -> None:
         self.guard.record_validation(step, rows)
