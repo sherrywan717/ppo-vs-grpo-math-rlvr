@@ -823,3 +823,42 @@ This file records operational history and pitfalls that should survive context c
 - Historical failed run/checksums and all frozen identities remain unchanged. The next
   real PPO42 attempt needs a new explicit authorization and new run ID; GRPO remains
   unauthorized.
+
+## Stage H: Second Formal PPO Seed-42 Attempt Failed
+
+- From clean authorized HEAD `1d31f56386857909c881bba1a7c5302166cf9682`, the sole
+  command created `ppo_formal_1p5b_seed42_20260719T131800Z` and executed exactly once.
+  Frozen config `1093e87a...ec43`, suite raw/canonical `11869c63...2017` /
+  `1d7c29f7...9d600`, pinned model revision, offline snapshot, baseline checksum,
+  storage, and idle H800 passed preflight.
+- Stage H.1 incremental evidence worked: 32 metric rows and 512 ordered completion rows
+  persist 32 update/optimizer/global steps and 51,369 exact training rollout tokens.
+  Training stayed below the 131,072 cap. No automatic retry, GRPO, seed 123, baseline,
+  validation, or final test ran.
+- Checkpoint directories 8/16/24/32 contain policy/value adapters, scalar head,
+  optimizer, scheduler, RNG, trainer/runtime prefixes, identity, and SHA256 artifact
+  manifests with `base_weights_included=false`. They are not authorized for resume or
+  evaluation because the attempt failed before validation and run-level checkpoint
+  finalization.
+- Failure: after training reached update 32, `CompletedTrainerBackend` replayed the
+  scheduled checkpoint sequence from step 8. The incremental observer guard was
+  already at update 32, so `record_checkpoint(8)` raised `formal checkpoint cadence
+  mismatch`. Validation rows/tokens are 0/0; the existing seed-42 test baseline remains
+  an independent reference and is not a validation delta.
+- Diagnostic training means across the excluded run: reward 0.2365234, canonical pass
+  0.16796875, format 0.486328125, policy/value/total loss
+  0.0099564/4.4741664/0.4573730, approximate KL 0.0006067, ratio 0.994854,
+  clip fraction 0.0046075, and TRL native entropy 1.2805083. Grad norms, unified
+  response-token entropy, entropy std, advantage, and return remain null/unavailable
+  with reasons. These are failure diagnostics, not a scientific PPO result.
+- Resource evidence: 751.268899 seconds, 0.208685805 GPU-hours, CNY 1.853130,
+  53,151 MiB peak nvidia-smi VRAM and 34.8984% mean utilization. Post-process GPU state
+  was 0 MiB/no compute process.
+- Verified immutable failure backup:
+  `/root/autodl-fs/math-rlvr-backups/ppo_formal_1p5b_seed42_20260719T131800Z.failure.tar.gz`,
+  SHA256 `f63812afed44cdc9f0fcafdf0931454548da1a4ce145840ebf91bb6fa5a6d7c5`.
+  Git-safe evidence is under
+  `reports/runs/ppo_formal_1p5b_seed42_20260719T131800Z/`; the run is excluded from
+  scientific aggregation.
+- Next decision: one bounded CPU-only repair aligning checkpoint/validation cadence
+  with incremental observer updates. No repair or further GPU execution is authorized.

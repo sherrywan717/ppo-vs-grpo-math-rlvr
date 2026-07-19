@@ -1,0 +1,7 @@
+{
+  "checked_after_worker_exit": true,
+  "compute_process_count": 0,
+  "gpu_utilization_pct": 0,
+  "memory_used_mib": 0,
+  "released": true
+}

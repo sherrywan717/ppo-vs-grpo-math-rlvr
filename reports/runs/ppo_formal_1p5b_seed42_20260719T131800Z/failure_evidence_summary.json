@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "run_id": "ppo_formal_1p5b_seed42_20260719T131800Z",
+  "algorithm": "ppo",
+  "seed": 42,
+  "status": "failure",
+  "scientific_status": "excluded_engineering_failure",
+  "included_in_scientific_aggregate": false,
+  "automatic_retry_count": 0,
+  "failure_reason": "formal checkpoint cadence mismatch",
+  "failure_boundary": "after 32 training updates and checkpoint files were persisted, before any checkpoint validation",
+  "root_cause": "the incremental observer was already at update 32 when CompletedTrainerBackend replayed the scheduled checkpoint sequence beginning at step 8; FormalProgressGuard therefore rejected step 8 because it did not equal the current update 32",
+  "training_primary_evidence": {
+    "updates": 32,
+    "optimizer_steps": 32,
+    "global_steps": 32,
+    "completion_rows": 512,
+    "generated_tokens": 51369,
+    "generated_token_cap": 131072,
+    "metric_rows": 32,
+    "gsm8k_completion_rows": 256,
+    "math_completion_rows": 256,
+    "canonical_status_counts": {
+      "format_error": 263,
+      "parse_error": 31,
+      "verified_pass": 86,
+      "wrong_answer": 132
+    }
+  },
+  "training_metric_means": {
+    "reward_mean": 0.23652343750000002,
+    "canonical_pass_rate": 0.16796875,
+    "format_accuracy": 0.486328125,
+    "valid_answer_rate": 0.0,
+    "policy_loss": 0.00995637498999713,
+    "value_loss": 4.474166356027126,
+    "total_loss": 0.4573730105927098,
+    "approximate_kl": 0.0006067261747375596,
+    "ratio": 0.9948539733886719,
+    "ratio_variance": 2.759636810401034e-06,
+    "clip_fraction": 0.004607517264958005,
+    "trl_policy_entropy_mean": 1.2805083114653826,
+    "completion_length_tokens": 100.330078125,
+    "eos_rate": 0.97265625,
+    "truncation_rate": 0.02734375,
+    "completion_duplicate_rate": 0.005859375,
+    "unique_completion_rate": 0.994140625,
+    "zero_advantage_group_fraction": 0.25
+  },
+  "optional_metric_availability": {
+    "policy_grad_norm": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric",
+      "raw_metric_key": null
+    },
+    "value_grad_norm": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric",
+      "raw_metric_key": null
+    },
+    "response_token_entropy_mean": {
+      "value": null,
+      "available": false,
+      "reason": "TRL 0.24.0 PPO policy/entropy_avg is not response-mask weighted; computing the unified token mean would require intrusive or memory-expensive logits work"
+    },
+    "policy_entropy_std": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 log row emits only an aggregated entropy mean"
+    },
+    "advantage": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric"
+    },
+    "return": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric"
+    }
+  },
+  "reward_groups": {
+    "groups": 128,
+    "zero_variance_groups": 32,
+    "nonzero_variance_groups": 96
+  },
+  "checkpoint_state": {
+    "steps_present": [8, 16, 24, 32],
+    "per_checkpoint_artifact_manifest_present": true,
+    "trusted_resume_files_present": true,
+    "base_weights_included": false,
+    "run_level_checkpoint_inventory_finalized": false,
+    "authorized_for_resume_or_evaluation": false,
+    "reason": "the run failed the cadence guard before checkpoint validation and is excluded; no resume or evaluation was authorized"
+  },
+  "validation": {
+    "runs": 0,
+    "completion_count": 0,
+    "generated_tokens": 0,
+    "reason": "checkpoint cadence failure occurred before validation began"
+  },
+  "formal_test": {
+    "ran": false,
+    "baseline_reference_run": "baseline_formal_1p5b_seed42_20260718T125833Z",
+    "comparison_note": "the existing baseline is a separate formal test result and cannot be subtracted from absent 64-problem checkpoint validation"
+  },
+  "resources": {
+    "wall_time_seconds": 751.2688993476331,
+    "gpu_hours": 0.20868580537434253,
+    "cost_cny": 1.853129951724162,
+    "peak_nvidia_smi_vram_mb": 53151.0,
+    "mean_gpu_utilization_pct": 34.89840823970037,
+    "peak_pytorch_allocated_mib": 49360.81201171875,
+    "peak_pytorch_reserved_mib": 52472.0
+  },
+  "post_process_gpu_release": {
+    "compute_process_count": 0,
+    "memory_used_mib": 0,
+    "released": true
+  },
+  "backup": {
+    "path": "/root/autodl-fs/math-rlvr-backups/ppo_formal_1p5b_seed42_20260719T131800Z.failure.tar.gz",
+    "sha256": "f63812afed44cdc9f0fcafdf0931454548da1a4ce145840ebf91bb6fa5a6d7c5",
+    "entries": 102,
+    "verified": true
+  },
+  "next_blocker": "CPU-only minimal repair of incremental checkpoint/validation cadence: do not replay checkpoint 8 after the observer has already advanced to update 32"
+}

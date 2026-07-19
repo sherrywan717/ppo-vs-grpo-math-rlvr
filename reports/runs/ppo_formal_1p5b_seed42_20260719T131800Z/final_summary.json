@@ -1,0 +1,10 @@
+{
+  "status": "failure",
+  "failed_stage": "formal_training",
+  "exception_type": "FormalRuntimeError",
+  "stop_reason": "formal checkpoint cadence mismatch",
+  "counters": {
+    "completions": 0,
+    "generated_tokens": 0
+  }
+}

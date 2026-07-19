@@ -11,8 +11,8 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Authorized execution HEAD: `176f738cf949c06b305e2c80a7c84d0082e6eed1`
-- Worktree: clean before the single Stage H attempt and before this failure-documentation update; it must be clean again after commit.
+- Authorized execution HEAD: `1d31f56386857909c881bba1a7c5302166cf9682`
+- Worktree: clean before the second Stage H attempt and before this failure-documentation update; it must be clean again after commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -132,12 +132,36 @@ The historical failed run remains immutable and excluded. Its checksums and ever
 frozen SHA remain unchanged. No CUDA, model/tokenizer, generation, real Trainer,
 backward, optimizer, baseline, validation, or final test ran in Stage H.1.
 
+## Stage H PPO seed-42 second failed attempt
+
+The newly authorized command ran exactly once as
+`ppo_formal_1p5b_seed42_20260719T131800Z`; automatic retries were zero. Incremental
+primary evidence confirms 32 updates, 32 optimizer/global steps, 512 training
+completions, and 51,369 training rollout tokens. Checkpoint directories 8/16/24/32
+were written with role-separated adapters/head, trusted training state, artifact
+manifests, and `base_weights_included=false`.
+
+After training returned, the backend replayed scheduled checkpoint 8 while the
+incremental observer was already at update 32. The cadence guard rejected the mismatch
+before any frozen 64-problem validation ran. The attempt is therefore an immutable
+engineering failure and `included_in_scientific_aggregate=false`; none of its
+checkpoints is currently authorized for resume or evaluation. The generic exception
+`final_summary.json` has zero counters because no success result object reached
+finalization, while the authoritative JSONL prefixes, failure report, and checkpoint
+manifests agree at 32/512/51,369.
+
+Measured usage was 751.268899 seconds, 0.208685805 GPU-hours, CNY 1.853130,
+53,151 MiB peak nvidia-smi VRAM, and 34.8984% mean utilization. After worker exit the
+GPU was 0 MiB with no compute process. The verified failure archive is
+`/root/autodl-fs/math-rlvr-backups/ppo_formal_1p5b_seed42_20260719T131800Z.failure.tar.gz`,
+SHA256 `f63812afed44cdc9f0fcafdf0931454548da1a4ce145840ebf91bb6fa5a6d7c5`.
+
 ## Unique next task
 
-The only next task is a new formal PPO seed-42 attempt described in
-`docs/NEXT_TASK.md`. It requires a new explicit GPU authorization and must use a new
-run ID; it is not a resume of the invalid partial checkpoint. GRPO and all later stages
-remain unauthorized.
+The only next task is the bounded CPU-only checkpoint-cadence repair described in
+`docs/NEXT_TASK.md`: checkpoint/validation recording must remain aligned with the
+incremental observer instead of replaying checkpoint 8 after update 32. No repair,
+PPO rerun, checkpoint resume/evaluation, GRPO, seed 123, or final test is authorized.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable
 metrics remain null/unavailable with reasons; noncritical telemetry and presentation

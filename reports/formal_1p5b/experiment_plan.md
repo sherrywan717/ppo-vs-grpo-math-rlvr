@@ -292,3 +292,19 @@ scientific variables remain unchanged. A fake step-8 failure retains 128 complet
 eight metric rows and matching counters. This repair is disclosed history and does not
 retroactively make the failed attempt valid; any new PPO42 run requires a new run ID
 and explicit authorization.
+
+## Stage H second execution record: PPO seed 42 engineering failure
+
+The second authorized PPO42 attempt ran exactly once from
+`1d31f56386857909c881bba1a7c5302166cf9682` as
+`ppo_formal_1p5b_seed42_20260719T131800Z`. Frozen scientific identities and budgets
+did not change. Incremental primary evidence records 32 updates, 512 training
+completions, and 51,369 training tokens; checkpoint directories 8/16/24/32 were
+written with trusted state and no full base-model weights.
+
+After the trainer completed update 32, the backend replayed checkpoint 8 against an
+observer already at update 32, producing `formal checkpoint cadence mismatch` before
+any 64-problem checkpoint validation. This is an execution-chain failure, not a
+scientific PPO result. The run, its training diagnostics, checkpoints, and verified
+backup remain immutable and excluded from aggregation. No test result was used for
+selection, no validation or final test ran, and the frozen design remains unchanged.

@@ -518,8 +518,7 @@ Stage F snapshot download/CUDA sanity and the two-seed frozen base baseline are
 complete. The current active-suite canonical SHA256 is
 `1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600`.
 Two historical seed-42 baseline failures remain excluded; the post-freeze prompt-cap
-amendment is public and capacity-only. The unique next task is Stage H: execute formal
-PPO seed 42, only after a new explicit GPU authorization. See `PROJECT_HANDOFF.md` and
+amendment is public and capacity-only. See `PROJECT_HANDOFF.md` and
 `docs/NEXT_TASK.md` for current identities and the exact boundary.
 
 When sources conflict, use this order: Git commits plus actual configs/manifests and
@@ -559,3 +558,15 @@ prefixes before checkpoint callbacks. A fake step-8 failure preserves 128 ordere
 completion rows and eight metric/counter rows. No artifact type, checkpoint format,
 scientific identity, budget, or historical run changed. A new real PPO seed-42 attempt
 requires explicit authorization; never start it or GRPO automatically.
+
+### Second formal PPO seed-42 failure
+
+The separately authorized run `ppo_formal_1p5b_seed42_20260719T131800Z` executed once
+from clean HEAD `1d31f56386857909c881bba1a7c5302166cf9682`. Incremental evidence
+preserved all 32 updates, 512 completions, and 51,369 training tokens, and trusted
+checkpoint directories 8/16/24/32 contain no base weights. After training, the backend
+replayed checkpoint 8 while the observer already held update 32, so the cadence guard
+failed before any checkpoint validation. Preserve this run and backup unchanged and
+exclude it from scientific aggregation. Do not resume/evaluate its checkpoints or run
+another GPU job automatically. The sole next task is the bounded CPU-only cadence
+repair in `docs/NEXT_TASK.md`.

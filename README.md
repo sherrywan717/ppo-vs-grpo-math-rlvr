@@ -259,9 +259,9 @@ evidence serialization at 0/800 and one hit the historical 512-token prompt cap 
 post-freeze capacity amendment and full audit are documented in
 [`reports/formal_1p5b/prompt_length_amendment.md`](reports/formal_1p5b/prompt_length_amendment.md).
 
-The first authorized formal PPO seed-42 attempt, `ppo_formal_1p5b_seed42_20260718T150510Z`, remains
-an immutable engineering failure excluded from scientific statistics. The bounded
-CPU-only Stage H.1 repair now treats missing grad norms as nullable and atomically
-persists completion/metric evidence after every update before checkpoint callbacks.
-The unique next task is a newly authorized PPO seed-42 attempt documented in
-[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md); no run or GRPO starts automatically.
+Two formal PPO seed-42 attempts remain immutable engineering failures excluded from
+scientific statistics. Stage H.1 correctly preserved all 32 updates and 512 completion
+rows in the second attempt, but post-training checkpoint replay failed its cadence
+guard before validation. The sole next task is the bounded CPU-only repair documented
+in [`docs/NEXT_TASK.md`](docs/NEXT_TASK.md); no PPO rerun, checkpoint evaluation, GRPO,
+seed 123, or final test starts automatically.
