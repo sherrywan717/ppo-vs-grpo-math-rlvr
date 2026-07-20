@@ -1,0 +1,9 @@
+algorithm,checkpoint_step,sampled_pass_at_1,format_valid_rate,parseable_rate,truncation_rate,validation_generated_tokens,pass_at_4,pass_at_4_available,pass_at_4_reason
+ppo,8,0.046875,0.140625,0.140625,0.09375,7533,,False,validation_protocol_has_one_candidate_per_problem
+ppo,16,0.03125,0.109375,0.109375,0.078125,7848,,False,validation_protocol_has_one_candidate_per_problem
+ppo,24,0.03125,0.109375,0.109375,0.109375,7663,,False,validation_protocol_has_one_candidate_per_problem
+ppo,32,0.03125,0.109375,0.109375,0.109375,7497,,False,validation_protocol_has_one_candidate_per_problem
+grpo,8,0.03125,0.140625,0.140625,0.09375,7159,,False,validation_protocol_has_one_candidate_per_problem
+grpo,16,0.046875,0.15625,0.140625,0.078125,7321,,False,validation_protocol_has_one_candidate_per_problem
+grpo,24,0.0625,0.171875,0.140625,0.03125,7388,,False,validation_protocol_has_one_candidate_per_problem
+grpo,32,0.078125,0.21875,0.1875,0.03125,7245,,False,validation_protocol_has_one_candidate_per_problem

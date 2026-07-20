@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "algorithm": "grpo",
+  "seed": 42,
+  "validation_problem_universe": "frozen validation_64 manifest",
+  "problem_count": 64,
+  "sampling_mode": "one sampled completion per problem at each checkpoint",
+  "candidates_per_problem": 1,
+  "sampled_pass_at_1": {
+    "numerator": "canonical_status == verified_pass",
+    "denominator": "all 64 problems",
+    "aggregation": "mean per-problem canonical correctness"
+  },
+  "pass_at_4": {
+    "value": null,
+    "available": false,
+    "reason": "validation_protocol_has_one_candidate_per_problem"
+  },
+  "checkpoints": [
+    8,
+    16,
+    24,
+    32
+  ],
+  "completion_cap": 256,
+  "prompt_sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+  "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+  "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd"
+}

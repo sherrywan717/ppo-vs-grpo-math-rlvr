@@ -375,3 +375,18 @@ verifier, sampling, LoRA, budget, training objective, checkpoint, validation, or
 selection variable. Historical PPO metrics/checksums are not rewritten, and the
 recovered PPO composite remains scientifically complete. The next executable stage is
 formal GRPO seed 42 only after separate authorization.
+
+## Stage I GRPO seed-42 execution record
+
+The frozen GRPO seed-42 command executed once from commit
+`548e2d371cbc09d5527aed3ed9dbf0ac1ad94a1d` as
+`grpo_formal_1p5b_seed42_20260720T031006Z`. It completed 32 updates, 512 training
+completions, 50,773 rollout tokens, 128 four-completion reward groups, and checkpoints
+plus validation at 8/16/24/32. No scientific variable changed and no retry occurred.
+
+Validation used the same frozen 64 problems with one candidate each and remained outside
+the training budget. Pass@1 was 3.125%/4.6875%/6.25%/7.8125%; pass@4 is unavailable.
+The fixed step-32 selection was not changed, and formal test was not run. The matched
+seed-42 review is descriptive only; PPO/GRPO loss and native entropy magnitudes are not
+directly comparable. Seed 123 is still required before two-seed aggregation and requires
+a new explicit authorization.

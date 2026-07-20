@@ -617,3 +617,20 @@ The metric is reporting-only and cannot affect reward, loss, optimizer, selectio
 stopping. Historical PPO artifacts and their misleading native zeros remain immutable;
 the scientifically complete recovered composite is not downgraded or rerun. Formal
 GRPO seed 42 still requires separate explicit authorization via `docs/NEXT_TASK.md`.
+
+### Stage I formal GRPO seed-42 result
+
+Run `grpo_formal_1p5b_seed42_20260720T031006Z` is a scientific success from commit
+`548e2d371cbc09d5527aed3ed9dbf0ac1ad94a1d`: 32 updates/optimizer/global steps,
+512 training completions, 50,773 rollout tokens, 128 reward groups, safe checkpoints
+and frozen 64-problem validations at 8/16/24/32. Validation pass@1 was 3.125%,
+4.6875%, 6.25%, and 7.8125%; pass@4 is null/unavailable because there is one
+candidate per problem. Training had 101/128 nonzero-variance groups and 27
+zero-advantage groups, so it was not a no-learning-signal run.
+
+The verified backup SHA256 is
+`b584363595f99c1d3b61a7b6cc088cdda7ac38a29169058df7b30cd38bea5023`; GPU
+returned to 0 MiB/no process. No final test ran. The same-seed PPO/GRPO analysis is
+descriptive only: loss and native entropy definitions differ, one seed is not a
+significance claim, and test baseline is not a validation delta. The sole next queue
+position is formal GRPO seed 123 and still requires separate explicit GPU authorization.

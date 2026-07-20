@@ -11,8 +11,8 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Stage H.4 repair base HEAD: `68f50a5fea9ec1183adabf04fc60d8daf1dc7d16`
-- Worktree: clean at Stage H.4 start; expected clean after the repair commit.
+- Stage I execution base HEAD: `548e2d371cbc09d5527aed3ed9dbf0ac1ad94a1d`
+- Worktree: clean at Stage I start; expected clean after the result commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -211,13 +211,29 @@ Forty-four targeted CPU tests, affected Ruff/compileall, and PPO/GRPO formal dry
 passed. Historical PPO artifacts/checksums remain unchanged; the recovered composite
 stays `scientifically_complete_with_recovered_validation` and needs no rerun.
 
+## Stage I formal GRPO seed-42 success
+
+`grpo_formal_1p5b_seed42_20260720T031006Z` ran once with no retry and completed
+32/32 updates, 512/512 training completions, 50,773 rollout tokens, checkpoints and
+frozen validation at 8/16/24/32. The four validations produced 256 completions and
+29,113 separate tokens; pass@1 rose 3.125% / 4.6875% / 6.25% / 7.8125%, while
+pass@4 remained null/unavailable under the one-candidate protocol. All checksums,
+checkpoint inventories and the backup SHA
+`b584363595f99c1d3b61a7b6cc088cdda7ac38a29169058df7b30cd38bea5023` verified.
+GPU release passed and final test was not run.
+
+The seed-42 PPO/GRPO matched review is complete and descriptive only. GRPO ended with
+higher validation pass@1 and lower measured resource use, but one seed and 64 problems
+do not establish statistical significance or general superiority. Native loss and
+entropy magnitudes are not directly comparable across algorithms.
+
 ## Unique next task
 
-The only next task is separately authorized formal GRPO seed 42 from the frozen
-`configs/formal_1p5b/resolved/grpo_seed_42.json` SHA256
-`3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199`.
-Do not start it automatically. PPO rerun/resume, seed 123, baseline, final test, and
-automatic stage advancement remain unauthorized. Exact scope is in `docs/NEXT_TASK.md`.
+The only next task is separately authorized formal GRPO seed 123 using
+`configs/formal_1p5b/resolved/grpo_seed_123.json` SHA256
+`cc95138f50f37fafa76766d3a08b0995ffd5e0bf87cd7b9050acedb5e0bbc75e`.
+Do not start it automatically. PPO seed 123, final test, baseline reruns, and automatic
+stage advancement remain unauthorized. Exact scope is in `docs/NEXT_TASK.md`.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable
 metrics remain null/unavailable with reasons; noncritical telemetry and presentation

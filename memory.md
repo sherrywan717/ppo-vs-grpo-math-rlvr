@@ -954,3 +954,34 @@ This file records operational history and pitfalls that should survive context c
   remains `scientifically_complete_with_recovered_validation`; no PPO rerun is needed.
 - Next decision: separately authorize formal GRPO seed 42. It must not start
   automatically.
+
+## Stage I formal GRPO seed-42 success
+
+- Execution base was clean HEAD `548e2d371cbc09d5527aed3ed9dbf0ac1ad94a1d`. The
+  frozen command ran exactly once as `grpo_formal_1p5b_seed42_20260720T031006Z`;
+  automatic retries were zero.
+- Training completed 32 update/optimizer/global steps, 512 completions, 50,773 exact
+  rollout tokens under the 131,072 cap, and the expected 128 four-completion groups.
+  Of these, 101 had nonzero variance, 27 were all-equal/zero-advantage, and 15 were
+  all-zero. Mean reward/canonical pass/format/parseable was
+  0.267188/19.1406%/54.6875%/46.875%.
+- Checkpoints 8/16/24/32 are policy-adapter-only plus trusted optimizer/scheduler/RNG/
+  counter/prefix state. They contain no value adapter/head or base weights. All run
+  checksums and inventories verified.
+- Frozen validation produced 64 completions per checkpoint and 29,113 tokens total,
+  separate from training. Pass@1 was 3.125%/4.6875%/6.25%/7.8125%; pass@4 is
+  null/unavailable under one candidate per problem. No final test or test-driven
+  selection occurred.
+- Measured usage was 1,189.819 seconds, 0.330505 GPU-hours, CNY 2.934886, and 11,209
+  MiB peak nvidia-smi VRAM. The verified backup is
+  `/root/autodl-fs/math-rlvr-backups/grpo_formal_1p5b_seed42_20260720T031006Z.tar.gz`,
+  SHA256 `b584363595f99c1d3b61a7b6cc088cdda7ac38a29169058df7b30cd38bea5023`.
+  GPU ended at 0 MiB/no compute process.
+- Warnings: run-root incremental JSONL was filled after `train()` while trusted planned
+  checkpoint prefixes remained complete; the model-role snapshot captured the lazy
+  optimizer before creation, but checkpoint-32 has 224 unique optimizer IDs/state
+  entries matching 224 LoRA trainable tensors; allocator and per-checkpoint resource
+  summaries are unavailable. No source/config change or rerun was made.
+- Same-seed PPO/GRPO review is in `05_seed42_ppo_vs_grpo.md`. It is descriptive, not a
+  significance or superiority claim. The next decision is separately authorized formal
+  GRPO seed 123; do not start it automatically.

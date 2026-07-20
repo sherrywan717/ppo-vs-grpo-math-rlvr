@@ -1,0 +1,15 @@
+{
+  "run_id": "grpo_formal_1p5b_seed42_20260720T031006Z",
+  "wall_time_seconds": 1189.818621493876,
+  "gpu_hours": 0.33050517263718776,
+  "cost_cny": 2.9348859330182275,
+  "peak_nvidia_smi_vram_mb": 11209.0,
+  "mean_gpu_utilization_pct": 37.16625241645954,
+  "peak_gpu_utilization_pct": 99.0,
+  "pytorch_allocator": {
+    "value": null,
+    "available": false,
+    "reason": "runtime pytorch_allocator.json is empty"
+  },
+  "resource_samples": 3621
+}

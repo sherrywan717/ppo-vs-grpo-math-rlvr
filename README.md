@@ -265,9 +265,11 @@ attempt's trusted checkpoints without rerunning or resuming training. The transp
 composite is `scientifically_complete_with_recovered_validation`; its 32-update
 training and checkpoint curves are in
 [`reports/formal_1p5b/03_ppo_training.md`](reports/formal_1p5b/03_ppo_training.md).
-Stage H.4 corrected the prospective native `valid_answer_rate` mapping to the existing
-flat reward-component evidence, with explicit definition and null/unavailable handling.
-It is reporting-only; historical PPO artifacts remain immutable and the recovered
-composite remains scientifically complete. The sole next task in
-[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md) is separately authorized formal GRPO seed 42.
-No GRPO, seed 123, baseline, or final test starts automatically.
+Stage H.4 corrected prospective valid-answer telemetry without changing optimization.
+Stage I then completed formal GRPO seed 42: 32 updates, 512 training completions, safe
+checkpoints, and four frozen validations. Reports are in
+[`04_grpo_training.md`](reports/formal_1p5b/04_grpo_training.md) and
+[`05_seed42_ppo_vs_grpo.md`](reports/formal_1p5b/05_seed42_ppo_vs_grpo.md). The matched
+review is descriptive, not a single-seed superiority claim. The sole next task in
+[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md) is separately authorized formal GRPO seed 123.
+No seed-123 or final-test command starts automatically.

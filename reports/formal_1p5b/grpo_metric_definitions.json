@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "algorithm": "grpo",
+  "valid_answer_component_rate": {
+    "definition_version": "formal_domain_valid_answer_component_v1",
+    "numerator": "flat valid_answer_component > 0",
+    "denominator": "all update completions",
+    "status_scope": "extracted-answer verifier probe, not canonical_status"
+  },
+  "parseable_rate": {
+    "numerator": "canonical_status in {wrong_answer, verified_pass}",
+    "denominator": "all completions",
+    "includes_invalid_number_usage": false
+  },
+  "canonical_pass_rate": {
+    "numerator": "canonical_status == verified_pass",
+    "denominator": "all completions"
+  },
+  "accuracy_given_parseable": {
+    "numerator": "verified_pass",
+    "denominator": "wrong_answer + verified_pass",
+    "zero_denominator": {
+      "value": null,
+      "available": false,
+      "reason": "zero_denominator"
+    }
+  },
+  "entropy": {
+    "saved_metric": "policy_entropy_mean",
+    "source": "TRL 0.24.0 native entropy",
+    "raw_metric_key": "entropy",
+    "token_mask": "TRL completion_mask through EOS",
+    "aggregation": "completion-mask token mean per GRPO microbatch, then Trainer log mean",
+    "dtype": "BF16 logits converted to Python float",
+    "excludes_prompt": true,
+    "excludes_pad": true,
+    "excludes_eos": false,
+    "response_token_entropy_mean": {
+      "value": null,
+      "available": false,
+      "reason": "native GRPO entropy is microbatch-mean aggregated and cannot be made identical to PPO without an additional or intrusive logits computation"
+    },
+    "std": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 log row emits only an aggregated entropy mean"
+    }
+  },
+  "optional_metrics": {
+    "kl": {
+      "value": null,
+      "available": false,
+      "reason": "GRPO beta=0.0; reference-model KL is not computed"
+    },
+    "ratio": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric"
+    },
+    "ratio_variance": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric"
+    },
+    "policy_grad_norm": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric"
+    }
+  }
+}

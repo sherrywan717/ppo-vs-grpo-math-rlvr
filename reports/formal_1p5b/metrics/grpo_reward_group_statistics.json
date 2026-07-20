@@ -1,0 +1,1887 @@
+{
+  "run_id": "grpo_formal_1p5b_seed42_20260720T031006Z",
+  "rows": [
+    {
+      "scope": "update",
+      "update_start": 1,
+      "update_end": 1,
+      "update": 1,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.19062500000000002,
+      "reward_std": 0.318305449804115,
+      "reward_variance": 0.101318359375
+    },
+    {
+      "scope": "update",
+      "update_start": 2,
+      "update_end": 2,
+      "update": 2,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.11875,
+      "reward_std": 0.2423033996872516,
+      "reward_variance": 0.0587109375
+    },
+    {
+      "scope": "update",
+      "update_start": 3,
+      "update_end": 3,
+      "update": 3,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.328125,
+      "reward_std": 0.3960621597363222,
+      "reward_variance": 0.156865234375
+    },
+    {
+      "scope": "update",
+      "update_start": 4,
+      "update_end": 4,
+      "update": 4,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.375,
+      "reward_std": 0.42829604247529535,
+      "reward_variance": 0.1834375
+    },
+    {
+      "scope": "update",
+      "update_start": 5,
+      "update_end": 5,
+      "update": 5,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.196875,
+      "reward_std": 0.31447811430209255,
+      "reward_variance": 0.098896484375
+    },
+    {
+      "scope": "update",
+      "update_start": 6,
+      "update_end": 6,
+      "update": 6,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.5,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.06875,
+      "reward_std": 0.24165768661476505,
+      "reward_variance": 0.0583984375
+    },
+    {
+      "scope": "update",
+      "update_start": 7,
+      "update_end": 7,
+      "update": 7,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.171875,
+      "reward_std": 0.3211156090491398,
+      "reward_variance": 0.103115234375
+    },
+    {
+      "scope": "update",
+      "update_start": 8,
+      "update_end": 8,
+      "update": 8,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.14375,
+      "reward_std": 0.2364285039922217,
+      "reward_variance": 0.0558984375
+    },
+    {
+      "scope": "update",
+      "update_start": 9,
+      "update_end": 9,
+      "update": 9,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.09062500000000001,
+      "reward_std": 0.0869963181692191,
+      "reward_variance": 0.007568359375000001
+    },
+    {
+      "scope": "update",
+      "update_start": 10,
+      "update_end": 10,
+      "update": 10,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.365625,
+      "reward_std": 0.43363245885772894,
+      "reward_variance": 0.188037109375
+    },
+    {
+      "scope": "update",
+      "update_start": 11,
+      "update_end": 11,
+      "update": 11,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.296875,
+      "reward_std": 0.34571879378332904,
+      "reward_variance": 0.119521484375
+    },
+    {
+      "scope": "update",
+      "update_start": 12,
+      "update_end": 12,
+      "update": 12,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.390625,
+      "reward_std": 0.41728989848185877,
+      "reward_variance": 0.174130859375
+    },
+    {
+      "scope": "update",
+      "update_start": 13,
+      "update_end": 13,
+      "update": 13,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.34375,
+      "reward_std": 0.3872479018664917,
+      "reward_variance": 0.1499609375
+    },
+    {
+      "scope": "update",
+      "update_start": 14,
+      "update_end": 14,
+      "update": 14,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.2875,
+      "reward_std": 0.3511142976297035,
+      "reward_variance": 0.12328125
+    },
+    {
+      "scope": "update",
+      "update_start": 15,
+      "update_end": 15,
+      "update": 15,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.125,
+      "reward_std": 0.23979157616563598,
+      "reward_variance": 0.0575
+    },
+    {
+      "scope": "update",
+      "update_start": 16,
+      "update_end": 16,
+      "update": 16,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.30625,
+      "reward_std": 0.34135529511053436,
+      "reward_variance": 0.1165234375
+    },
+    {
+      "scope": "update",
+      "update_start": 17,
+      "update_end": 17,
+      "update": 17,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.11875000000000001,
+      "reward_std": 0.07043392293490404,
+      "reward_variance": 0.0049609375
+    },
+    {
+      "scope": "update",
+      "update_start": 18,
+      "update_end": 18,
+      "update": 18,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.075,
+      "reward_std": 0.09185586535436918,
+      "reward_variance": 0.0084375
+    },
+    {
+      "scope": "update",
+      "update_start": 19,
+      "update_end": 19,
+      "update": 19,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.065625,
+      "reward_std": 0.08425917976695478,
+      "reward_variance": 0.0070996093750000005
+    },
+    {
+      "scope": "update",
+      "update_start": 20,
+      "update_end": 20,
+      "update": 20,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.3875,
+      "reward_std": 0.47680577806901625,
+      "reward_variance": 0.22734375
+    },
+    {
+      "scope": "update",
+      "update_start": 21,
+      "update_end": 21,
+      "update": 21,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.225,
+      "reward_std": 0.3056754815159371,
+      "reward_variance": 0.0934375
+    },
+    {
+      "scope": "update",
+      "update_start": 22,
+      "update_end": 22,
+      "update": 22,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.440625,
+      "reward_std": 0.37758225511138627,
+      "reward_variance": 0.142568359375
+    },
+    {
+      "scope": "update",
+      "update_start": 23,
+      "update_end": 23,
+      "update": 23,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.140625,
+      "reward_std": 0.2359944053891956,
+      "reward_variance": 0.055693359375
+    },
+    {
+      "scope": "update",
+      "update_start": 24,
+      "update_end": 24,
+      "update": 24,
+      "group_count": 4,
+      "zero_std_group_count": 3,
+      "zero_std_group_fraction": 0.75,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 3,
+      "all_equal_group_fraction": 0.75,
+      "nonzero_variance_group_count": 1,
+      "nonzero_variance_group_fraction": 0.25,
+      "zero_advantage_group_count": 3,
+      "zero_advantage_group_fraction": 0.75,
+      "reward_mean": 0.3125,
+      "reward_std": 0.4060095442227929,
+      "reward_variance": 0.16484375
+    },
+    {
+      "scope": "update",
+      "update_start": 25,
+      "update_end": 25,
+      "update": 25,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.259375,
+      "reward_std": 0.3662388010233214,
+      "reward_variance": 0.134130859375
+    },
+    {
+      "scope": "update",
+      "update_start": 26,
+      "update_end": 26,
+      "update": 26,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.39375,
+      "reward_std": 0.4145309849697607,
+      "reward_variance": 0.1718359375
+    },
+    {
+      "scope": "update",
+      "update_start": 27,
+      "update_end": 27,
+      "update": 27,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.5,
+      "reward_std": 0.4472135954999579,
+      "reward_variance": 0.2
+    },
+    {
+      "scope": "update",
+      "update_start": 28,
+      "update_end": 28,
+      "update": 28,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.29375,
+      "reward_std": 0.41302050493891945,
+      "reward_variance": 0.1705859375
+    },
+    {
+      "scope": "update",
+      "update_start": 29,
+      "update_end": 29,
+      "update": 29,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.325,
+      "reward_std": 0.32787192621510003,
+      "reward_variance": 0.1075
+    },
+    {
+      "scope": "update",
+      "update_start": 30,
+      "update_end": 30,
+      "update": 30,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.36875,
+      "reward_std": 0.43115941077517955,
+      "reward_variance": 0.18589843749999999
+    },
+    {
+      "scope": "update",
+      "update_start": 31,
+      "update_end": 31,
+      "update": 31,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.51875,
+      "reward_std": 0.4275201018665672,
+      "reward_variance": 0.1827734375
+    },
+    {
+      "scope": "update",
+      "update_start": 32,
+      "update_end": 32,
+      "update": 32,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.325,
+      "reward_std": 0.3956797947836104,
+      "reward_variance": 0.1565625
+    },
+    {
+      "scope": "window",
+      "update_start": 1,
+      "update_end": 1,
+      "update": "",
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.19062500000000002,
+      "reward_std": 0.318305449804115,
+      "reward_variance": 0.101318359375
+    },
+    {
+      "scope": "window",
+      "update_start": 2,
+      "update_end": 8,
+      "update": "",
+      "group_count": 28,
+      "zero_std_group_count": 6,
+      "zero_std_group_fraction": 0.21428571428571427,
+      "all_zero_group_count": 5,
+      "all_zero_group_fraction": 0.17857142857142858,
+      "all_equal_group_count": 6,
+      "all_equal_group_fraction": 0.21428571428571427,
+      "nonzero_variance_group_count": 22,
+      "nonzero_variance_group_fraction": 0.7857142857142857,
+      "zero_advantage_group_count": 6,
+      "zero_advantage_group_fraction": 0.21428571428571427,
+      "reward_mean": 0.20044642857142855,
+      "reward_std": 0.3359750957842633,
+      "reward_variance": 0.1128792649872449
+    },
+    {
+      "scope": "window",
+      "update_start": 9,
+      "update_end": 16,
+      "update": "",
+      "group_count": 32,
+      "zero_std_group_count": 6,
+      "zero_std_group_fraction": 0.1875,
+      "all_zero_group_count": 3,
+      "all_zero_group_fraction": 0.09375,
+      "all_equal_group_count": 6,
+      "all_equal_group_fraction": 0.1875,
+      "nonzero_variance_group_count": 26,
+      "nonzero_variance_group_fraction": 0.8125,
+      "zero_advantage_group_count": 6,
+      "zero_advantage_group_fraction": 0.1875,
+      "reward_mean": 0.27578125,
+      "reward_std": 0.35723462478941975,
+      "reward_variance": 0.1276165771484375
+    },
+    {
+      "scope": "window",
+      "update_start": 17,
+      "update_end": 24,
+      "update": "",
+      "group_count": 32,
+      "zero_std_group_count": 10,
+      "zero_std_group_fraction": 0.3125,
+      "all_zero_group_count": 4,
+      "all_zero_group_fraction": 0.125,
+      "all_equal_group_count": 10,
+      "all_equal_group_fraction": 0.3125,
+      "nonzero_variance_group_count": 22,
+      "nonzero_variance_group_fraction": 0.6875,
+      "zero_advantage_group_count": 10,
+      "zero_advantage_group_fraction": 0.3125,
+      "reward_mean": 0.220703125,
+      "reward_std": 0.32617140718529325,
+      "reward_variance": 0.10638778686523437
+    },
+    {
+      "scope": "window",
+      "update_start": 25,
+      "update_end": 32,
+      "update": "",
+      "group_count": 32,
+      "zero_std_group_count": 4,
+      "zero_std_group_fraction": 0.125,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.0625,
+      "all_equal_group_count": 4,
+      "all_equal_group_fraction": 0.125,
+      "nonzero_variance_group_count": 28,
+      "nonzero_variance_group_fraction": 0.875,
+      "zero_advantage_group_count": 4,
+      "zero_advantage_group_fraction": 0.125,
+      "reward_mean": 0.373046875,
+      "reward_std": 0.4139605932969156,
+      "reward_variance": 0.17136337280273437
+    },
+    {
+      "scope": "window",
+      "update_start": 1,
+      "update_end": 32,
+      "update": "",
+      "group_count": 128,
+      "zero_std_group_count": 27,
+      "zero_std_group_fraction": 0.2109375,
+      "all_zero_group_count": 15,
+      "all_zero_group_fraction": 0.1171875,
+      "all_equal_group_count": 27,
+      "all_equal_group_fraction": 0.2109375,
+      "nonzero_variance_group_count": 101,
+      "nonzero_variance_group_fraction": 0.7890625,
+      "zero_advantage_group_count": 27,
+      "zero_advantage_group_fraction": 0.2109375,
+      "reward_mean": 0.2671875,
+      "reward_std": 0.3656750766989049,
+      "reward_variance": 0.13371826171875
+    }
+  ],
+  "group_rewards_by_update": [
+    {
+      "update": 1,
+      "groups": [
+        [
+          0.2,
+          1.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.2,
+          0.05,
+          0.0
+        ]
+      ],
+      "variances": [
+        0.1475,
+        0.0,
+        0.1475,
+        0.006718750000000001
+      ]
+    },
+    {
+      "update": 2,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.15,
+          0.2,
+          0.15,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "variances": [
+        0.007500000000000001,
+        0.0,
+        0.005625000000000001,
+        0.17
+      ]
+    },
+    {
+      "update": 3,
+      "groups": [
+        [
+          0.2,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.1,
+          1.0
+        ],
+        [
+          0.15,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.2,
+          1.0,
+          1.0
+        ]
+      ],
+      "variances": [
+        0.010000000000000002,
+        0.131875,
+        0.004218749999999999,
+        0.12
+      ]
+    },
+    {
+      "update": 4,
+      "groups": [
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.05
+        ],
+        [
+          1.0,
+          0.15,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "variances": [
+        0.010000000000000002,
+        0.18171875,
+        0.12546875,
+        0.1875
+      ]
+    },
+    {
+      "update": 5,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.1,
+          1.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.15,
+          1.0,
+          0.1,
+          0.0
+        ]
+      ],
+      "variances": [
+        0.0,
+        0.176875,
+        0.0,
+        0.16046875
+      ]
+    },
+    {
+      "update": 6,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.1
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "variances": [
+        0.0018750000000000001,
+        0.0,
+        0.1875,
+        0.0
+      ]
+    },
+    {
+      "update": 7,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.1,
+          0.0,
+          0.1
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.2,
+          0.15,
+          0.0
+        ]
+      ],
+      "variances": [
+        0.0,
+        0.005000000000000001,
+        0.1875,
+        0.15171875
+      ]
+    },
+    {
+      "update": 8,
+      "groups": [
+        [
+          1.0,
+          0.1,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          0.15,
+          0.15,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.0
+        ]
+      ],
+      "variances": [
+        0.176875,
+        0.006875000000000001,
+        0.005625,
+        0.010000000000000002
+      ]
+    },
+    {
+      "update": 9,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.15
+        ],
+        [
+          0.0,
+          0.1,
+          0.1,
+          0.1
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ]
+      ],
+      "variances": [
+        0.0,
+        0.00796875,
+        0.0018750000000000001,
+        0.0
+      ]
+    },
+    {
+      "update": 10,
+      "groups": [
+        [
+          1.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          1.0,
+          0.2
+        ],
+        [
+          0.15,
+          0.0,
+          0.15,
+          0.15
+        ]
+      ],
+      "variances": [
+        0.1875,
+        0.007500000000000001,
+        0.2075,
+        0.004218749999999999
+      ]
+    },
+    {
+      "update": 11,
+      "groups": [
+        [
+          0.2,
+          0.0,
+          0.2,
+          0.2
+        ],
+        [
+          0.1,
+          0.1,
+          0.2,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.2,
+          0.2,
+          0.15
+        ]
+      ],
+      "variances": [
+        0.007500000000000001,
+        0.005000000000000001,
+        0.2075,
+        0.12546875
+      ]
+    },
+    {
+      "update": 12,
+      "groups": [
+        [
+          1.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.15,
+          0.2,
+          0.15,
+          0.15
+        ],
+        [
+          1.0,
+          0.0,
+          1.0,
+          0.2
+        ]
+      ],
+      "variances": [
+        0.1875,
+        0.010000000000000002,
+        0.0004687500000000003,
+        0.2075
+      ]
+    },
+    {
+      "update": 13,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.1
+        ],
+        [
+          1.0,
+          0.2,
+          1.0,
+          1.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          1.0,
+          0.0,
+          0.2
+        ]
+      ],
+      "variances": [
+        0.0018750000000000001,
+        0.12,
+        0.0,
+        0.1475
+      ]
+    },
+    {
+      "update": 14,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          0.15,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.15,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          1.0
+        ]
+      ],
+      "variances": [
+        0.0,
+        0.0017187500000000002,
+        0.0004687500000000003,
+        0.12
+      ]
+    },
+    {
+      "update": 15,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.15,
+          0.0
+        ],
+        [
+          0.15,
+          0.15,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.2,
+          1.0
+        ]
+      ],
+      "variances": [
+        0.0,
+        0.005625,
+        0.005625,
+        0.1475
+      ]
+    },
+    {
+      "update": 16,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.2
+        ],
+        [
+          1.0,
+          0.2,
+          0.0,
+          1.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          1.0,
+          0.15,
+          0.2
+        ]
+      ],
+      "variances": [
+        0.00796875,
+        0.2075,
+        0.0,
+        0.12546875
+      ]
+    },
+    {
+      "update": 17,
+      "groups": [
+        [
+          0.1,
+          0.1,
+          0.2,
+          0.1
+        ],
+        [
+          0.2,
+          0.1,
+          0.1,
+          0.1
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.15
+        ],
+        [
+          0.2,
+          0.2,
+          0.0,
+          0.2
+        ]
+      ],
+      "variances": [
+        0.0018750000000000001,
+        0.0018750000000000001,
+        0.005625,
+        0.007500000000000001
+      ]
+    },
+    {
+      "update": 18,
+      "groups": [
+        [
+          0.05,
+          0.15,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ]
+      ],
+      "variances": [
+        0.00375,
+        0.0,
+        0.0,
+        0.007500000000000001
+      ]
+    },
+    {
+      "update": 19,
+      "groups": [
+        [
+          0.0,
+          0.1,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.05,
+          0.1
+        ],
+        [
+          0.2,
+          0.0,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "variances": [
+        0.006875000000000001,
+        0.0017187500000000002,
+        0.007500000000000001,
+        0.0
+      ]
+    },
+    {
+      "update": 20,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      ],
+      "variances": [
+        0.1875,
+        0.0,
+        0.17,
+        0.0
+      ]
+    },
+    {
+      "update": 21,
+      "groups": [
+        [
+          0.05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          0.2,
+          1.0
+        ],
+        [
+          0.15,
+          0.0,
+          0.2,
+          0.2
+        ]
+      ],
+      "variances": [
+        0.00046875000000000004,
+        0.007500000000000001,
+        0.16,
+        0.006718750000000001
+      ]
+    },
+    {
+      "update": 22,
+      "groups": [
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          0.15,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.2,
+          0.15,
+          0.15,
+          1.0
+        ]
+      ],
+      "variances": [
+        0.0,
+        0.0004687500000000003,
+        0.0,
+        0.130625
+      ]
+    },
+    {
+      "update": 23,
+      "groups": [
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.0
+        ],
+        [
+          0.1,
+          0.1,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.15,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.15
+        ]
+      ],
+      "variances": [
+        0.010000000000000002,
+        0.0025000000000000005,
+        0.15171875,
+        0.005625
+      ]
+    },
+    {
+      "update": 24,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ]
+      ],
+      "variances": [
+        0.007500000000000001,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "update": 25,
+      "groups": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          0.2,
+          0.2
+        ],
+        [
+          0.15,
+          1.0,
+          0.2,
+          0.2
+        ]
+      ],
+      "variances": [
+        0.0,
+        0.1875,
+        0.12,
+        0.12546875
+      ]
+    },
+    {
+      "update": 26,
+      "groups": [
+        [
+          0.1,
+          0.2,
+          0.1,
+          0.2
+        ],
+        [
+          0.2,
+          0.1,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          0.2
+        ]
+      ],
+      "variances": [
+        0.0025000000000000005,
+        0.006875000000000001,
+        0.1875,
+        0.16
+      ]
+    },
+    {
+      "update": 27,
+      "groups": [
+        [
+          0.2,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ]
+      ],
+      "variances": [
+        0.010000000000000002,
+        0.17,
+        0.12,
+        0.12
+      ]
+    },
+    {
+      "update": 28,
+      "groups": [
+        [
+          0.0,
+          0.1,
+          0.1,
+          0.1
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      ],
+      "variances": [
+        0.0018750000000000001,
+        0.0,
+        0.010000000000000002,
+        0.0
+      ]
+    },
+    {
+      "update": 29,
+      "groups": [
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          0.15,
+          0.15
+        ],
+        [
+          0.15,
+          0.15,
+          0.2,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          0.2,
+          0.2
+        ]
+      ],
+      "variances": [
+        0.0,
+        0.180625,
+        0.005625000000000001,
+        0.12
+      ]
+    },
+    {
+      "update": 30,
+      "groups": [
+        [
+          0.1,
+          0.1,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          1.0,
+          0.1
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          1.0
+        ]
+      ],
+      "variances": [
+        0.0025000000000000005,
+        0.226875,
+        0.17,
+        0.16
+      ]
+    },
+    {
+      "update": 31,
+      "groups": [
+        [
+          0.2,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.1,
+          0.1,
+          0.0,
+          0.1
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ]
+      ],
+      "variances": [
+        0.12,
+        0.0018750000000000001,
+        0.12,
+        0.12
+      ]
+    },
+    {
+      "update": 32,
+      "groups": [
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.1,
+          0.1,
+          1.0,
+          0.1
+        ],
+        [
+          0.15,
+          0.0,
+          0.0,
+          0.15
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ]
+      ],
+      "variances": [
+        0.010000000000000002,
+        0.151875,
+        0.005625,
+        0.12
+      ]
+    }
+  ]
+}

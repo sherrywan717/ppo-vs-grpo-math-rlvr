@@ -1,0 +1,314 @@
+[
+  {
+    "checkpoint_step": 8,
+    "checkpoint_root": "checkpoint-8",
+    "algorithm": "grpo",
+    "base_weights_included": false,
+    "files": [
+      {
+        "path": "artifact_manifest.json",
+        "size_bytes": 2761,
+        "sha256": "ebecfa8b53170e1ea6040d8c68a6be9295ef6d12f1dbaa2eeed1d8f8f1d7bd6c",
+        "role": "artifact_manifest.json"
+      },
+      {
+        "path": "metrics_prefix.jsonl",
+        "size_bytes": 39223,
+        "sha256": "a636516260672ab2bdd62837d4f9a37eb2d0362ba46b0c9ffcc0a6368195c829",
+        "role": "metrics_prefix.jsonl"
+      },
+      {
+        "path": "optimizer.pt",
+        "size_bytes": 35056715,
+        "sha256": "2e3da9ba5404dbabc9185c9c410c5ae8be5395098ec106a80d20839c79cda7b7",
+        "role": "optimizer.pt"
+      },
+      {
+        "path": "policy_adapter/adapter_config.json",
+        "size_bytes": 1153,
+        "sha256": "1acf91b3460493e52d7549e68d98d33f9e5cdf21a5dd0232a0695cb0c0638a9c",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "policy_adapter/adapter_model.safetensors",
+        "size_bytes": 17462400,
+        "sha256": "7279761dfd653e26e0d3870eb42c82bb163f8e0e28b3be35cd884036c70fa2e4",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "resume_manifest.json",
+        "size_bytes": 27168,
+        "sha256": "bdc055e43a3b7a39d520eeaae661d955bb391ec5e61ba3f17e8ddba95e9abb6d",
+        "role": "resume_manifest.json"
+      },
+      {
+        "path": "rng_state.json",
+        "size_bytes": 22478,
+        "sha256": "85079c6ece82470a0ba965bf3861601b6c5d2fa6594d08c51102f8571bba108e",
+        "role": "rng_state.json"
+      },
+      {
+        "path": "scheduler.pt",
+        "size_bytes": 1465,
+        "sha256": "37f877073a2ed86fb8ece6445c855823a746a9a902fb13dee5b3f859e220f6be",
+        "role": "scheduler.pt"
+      },
+      {
+        "path": "torch_rng.safetensors",
+        "size_bytes": 5208,
+        "sha256": "c1bb400ef7aed9ba0bc21d2b445a381465591448dc72ff117c749af498f82e62",
+        "role": "torch_rng.safetensors"
+      },
+      {
+        "path": "trainer_completion_prefix.jsonl",
+        "size_bytes": 543838,
+        "sha256": "aba69885a0156a9684ffe12010a484f247b9fe377a7207140c6634671faae731",
+        "role": "trainer_completion_prefix.jsonl"
+      },
+      {
+        "path": "trainer_state.json",
+        "size_bytes": 8134,
+        "sha256": "5b85c7629638c028e13da6f23cbaa4444da6ff3a757d8b56bcb701463e972a6e",
+        "role": "trainer_state.json"
+      }
+    ],
+    "total_size_bytes": 53170543,
+    "artifact_manifest_sha256": "ebecfa8b53170e1ea6040d8c68a6be9295ef6d12f1dbaa2eeed1d8f8f1d7bd6c",
+    "completion_prefix_count": 128,
+    "metric_prefix_count": 8
+  },
+  {
+    "checkpoint_step": 16,
+    "checkpoint_root": "checkpoint-16",
+    "algorithm": "grpo",
+    "base_weights_included": false,
+    "files": [
+      {
+        "path": "artifact_manifest.json",
+        "size_bytes": 2764,
+        "sha256": "fa2fcbe10668045b5e96ca1159735c10cc50012ab21ca35905e15c56dba5fb6c",
+        "role": "artifact_manifest.json"
+      },
+      {
+        "path": "metrics_prefix.jsonl",
+        "size_bytes": 78437,
+        "sha256": "9ac707dd09669e3b1a1c33e7b929f8dc85bc0554db161ba8916f5fd3e3782dc1",
+        "role": "metrics_prefix.jsonl"
+      },
+      {
+        "path": "optimizer.pt",
+        "size_bytes": 35056715,
+        "sha256": "5ec3ca73b1ae4d82703db5ddc026580e55aace77c39df435a156544fe46e154d",
+        "role": "optimizer.pt"
+      },
+      {
+        "path": "policy_adapter/adapter_config.json",
+        "size_bytes": 1153,
+        "sha256": "1acf91b3460493e52d7549e68d98d33f9e5cdf21a5dd0232a0695cb0c0638a9c",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "policy_adapter/adapter_model.safetensors",
+        "size_bytes": 17462400,
+        "sha256": "5edd68ba7772b46bf0187ab023c734c46564ca102a3096e84d329f8f4ed6a80c",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "resume_manifest.json",
+        "size_bytes": 34214,
+        "sha256": "33a9d9b8f7d284fd64065ece1be72d9f7c6a39fac498339559a7b056ad86866e",
+        "role": "resume_manifest.json"
+      },
+      {
+        "path": "rng_state.json",
+        "size_bytes": 22478,
+        "sha256": "85079c6ece82470a0ba965bf3861601b6c5d2fa6594d08c51102f8571bba108e",
+        "role": "rng_state.json"
+      },
+      {
+        "path": "scheduler.pt",
+        "size_bytes": 1465,
+        "sha256": "9d27b6607a0efd18204b41bb30544245025b1132b043d3a00efb113b42e82136",
+        "role": "scheduler.pt"
+      },
+      {
+        "path": "torch_rng.safetensors",
+        "size_bytes": 5208,
+        "sha256": "5dc8974efc6be6b9cc8661c582038ca92475d7fddb576d1f338b2c2f3674aa5c",
+        "role": "torch_rng.safetensors"
+      },
+      {
+        "path": "trainer_completion_prefix.jsonl",
+        "size_bytes": 1045133,
+        "sha256": "d59fb71c5a29cb0425c313eda421f3cfd8f901b025418f3179d62b9567d18afd",
+        "role": "trainer_completion_prefix.jsonl"
+      },
+      {
+        "path": "trainer_state.json",
+        "size_bytes": 15451,
+        "sha256": "944edcf69799b8b97bbd2c9fb40c38b77a72cc31e8732748285abed750d059c2",
+        "role": "trainer_state.json"
+      }
+    ],
+    "total_size_bytes": 53725418,
+    "artifact_manifest_sha256": "fa2fcbe10668045b5e96ca1159735c10cc50012ab21ca35905e15c56dba5fb6c",
+    "completion_prefix_count": 256,
+    "metric_prefix_count": 16
+  },
+  {
+    "checkpoint_step": 24,
+    "checkpoint_root": "checkpoint-24",
+    "algorithm": "grpo",
+    "base_weights_included": false,
+    "files": [
+      {
+        "path": "artifact_manifest.json",
+        "size_bytes": 2765,
+        "sha256": "248779840d746d3778d8f98d75ab07553f39226388b2a5564c4124fb3224acab",
+        "role": "artifact_manifest.json"
+      },
+      {
+        "path": "metrics_prefix.jsonl",
+        "size_bytes": 117612,
+        "sha256": "c06836804dc25306fda706fcaded0056e87239a431ea516e9bd30893ce2d3045",
+        "role": "metrics_prefix.jsonl"
+      },
+      {
+        "path": "optimizer.pt",
+        "size_bytes": 35056715,
+        "sha256": "1355d5aa93cc563706241ec42d2aa9dc7947369d32e1158aa3be3573d148ea2c",
+        "role": "optimizer.pt"
+      },
+      {
+        "path": "policy_adapter/adapter_config.json",
+        "size_bytes": 1153,
+        "sha256": "1acf91b3460493e52d7549e68d98d33f9e5cdf21a5dd0232a0695cb0c0638a9c",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "policy_adapter/adapter_model.safetensors",
+        "size_bytes": 17462400,
+        "sha256": "285d244f50166bc0f89808c53ce62271bd95b6fedbf633dc29edbcd066afc921",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "resume_manifest.json",
+        "size_bytes": 41250,
+        "sha256": "96beb10405a0fc2d88bd4c33b071fc840d9a6e1f326dbee79b20e5f27d816870",
+        "role": "resume_manifest.json"
+      },
+      {
+        "path": "rng_state.json",
+        "size_bytes": 22478,
+        "sha256": "85079c6ece82470a0ba965bf3861601b6c5d2fa6594d08c51102f8571bba108e",
+        "role": "rng_state.json"
+      },
+      {
+        "path": "scheduler.pt",
+        "size_bytes": 1465,
+        "sha256": "7e46b7401588f996c6e55afbd3dd0a6506c56e98404eab43359358f80541ec5f",
+        "role": "scheduler.pt"
+      },
+      {
+        "path": "torch_rng.safetensors",
+        "size_bytes": 5208,
+        "sha256": "209c1361f8d04cd4e5f65053bc1916523aed385429093aeeacf4753bec0ceba2",
+        "role": "torch_rng.safetensors"
+      },
+      {
+        "path": "trainer_completion_prefix.jsonl",
+        "size_bytes": 1507757,
+        "sha256": "f19c905d50d3157c34871402d5b64dac57a7f22da5f0a5689227fc904d80c87c",
+        "role": "trainer_completion_prefix.jsonl"
+      },
+      {
+        "path": "trainer_state.json",
+        "size_bytes": 22813,
+        "sha256": "afa8e4915e380a1f7b74aa82c95a4eb84fc8904019f0e703473437ae95dcef70",
+        "role": "trainer_state.json"
+      }
+    ],
+    "total_size_bytes": 54241616,
+    "artifact_manifest_sha256": "248779840d746d3778d8f98d75ab07553f39226388b2a5564c4124fb3224acab",
+    "completion_prefix_count": 384,
+    "metric_prefix_count": 24
+  },
+  {
+    "checkpoint_step": 32,
+    "checkpoint_root": "checkpoint-32",
+    "algorithm": "grpo",
+    "base_weights_included": false,
+    "files": [
+      {
+        "path": "artifact_manifest.json",
+        "size_bytes": 2765,
+        "sha256": "c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a",
+        "role": "artifact_manifest.json"
+      },
+      {
+        "path": "metrics_prefix.jsonl",
+        "size_bytes": 156780,
+        "sha256": "633b548d2c2bb0feec1459fb908db083842d46bb51a5237abd91680b7028f5f6",
+        "role": "metrics_prefix.jsonl"
+      },
+      {
+        "path": "optimizer.pt",
+        "size_bytes": 35056715,
+        "sha256": "df1a00da845f4ec3f2c0279317550293163449f2f2e6b1615a3a22e00af71af5",
+        "role": "optimizer.pt"
+      },
+      {
+        "path": "policy_adapter/adapter_config.json",
+        "size_bytes": 1153,
+        "sha256": "1acf91b3460493e52d7549e68d98d33f9e5cdf21a5dd0232a0695cb0c0638a9c",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "policy_adapter/adapter_model.safetensors",
+        "size_bytes": 17462400,
+        "sha256": "7d70a5b149cbb8c8382d6c3c5ba1b57d6da77c817147ff79ba7df2d9d7d86316",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "resume_manifest.json",
+        "size_bytes": 48276,
+        "sha256": "8e91ec53b1b517aa19b36a5ef586ae743899fdefc1071f3f9d633e812a0382d3",
+        "role": "resume_manifest.json"
+      },
+      {
+        "path": "rng_state.json",
+        "size_bytes": 22478,
+        "sha256": "85079c6ece82470a0ba965bf3861601b6c5d2fa6594d08c51102f8571bba108e",
+        "role": "rng_state.json"
+      },
+      {
+        "path": "scheduler.pt",
+        "size_bytes": 1465,
+        "sha256": "8accf7b93fc3aded41471054bf11c5e5f07000e46c27f06847805ae7890e85d7",
+        "role": "scheduler.pt"
+      },
+      {
+        "path": "torch_rng.safetensors",
+        "size_bytes": 5208,
+        "sha256": "a29715c55acc0ebe44b616ce7918c4632955cfd8f3605e4a85c7749b1127ce2f",
+        "role": "torch_rng.safetensors"
+      },
+      {
+        "path": "trainer_completion_prefix.jsonl",
+        "size_bytes": 1936239,
+        "sha256": "106990aa2105bacf75548d068b786488abc953bc70c7934e404bf822ce719c81",
+        "role": "trainer_completion_prefix.jsonl"
+      },
+      {
+        "path": "trainer_state.json",
+        "size_bytes": 30170,
+        "sha256": "ef44682076bc5498a7ca4db0dd6522f94190c24246193732b7df9218963fd1d2",
+        "role": "trainer_state.json"
+      }
+    ],
+    "total_size_bytes": 54723649,
+    "artifact_manifest_sha256": "c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a",
+    "completion_prefix_count": 512,
+    "metric_prefix_count": 32
+  }
+]

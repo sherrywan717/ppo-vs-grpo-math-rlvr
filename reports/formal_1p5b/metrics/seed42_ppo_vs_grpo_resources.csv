@@ -1,0 +1,3 @@
+algorithm,wall_time_seconds,gpu_hours,cost_cny,peak_vram_mb,resource_scope
+ppo,1728.72025500983,0.4802000708360639,4.264176629024248,53151,training plus recovered validation
+grpo,1189.818621493876,0.33050517263718776,2.9348859330182275,11209.0,training plus in-process validation
