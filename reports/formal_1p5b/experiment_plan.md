@@ -347,3 +347,14 @@ manifest SHAs, and the four validation artifact SHAs, is
 `scientifically_complete_with_recovered_validation`. This recovery does not rewrite
 history: optimization completed once before the cadence failure, Stage H.2 repaired the
 cursor CPU-only, and Stage H.3 performed only checkpoint evaluation.
+
+## Post-recovery metric-truthfulness blocker
+
+Stage H.3 aggregation found that the formal training runtime still calculates its
+raw `valid_answer_rate` through the obsolete nested `components.valid_answer` path.
+RewardResult evidence is flat, so the original PPO per-update field is misleading zero
+although canonical-status evidence is complete. The PPO composite transparently
+derives parseable rate from immutable `wrong_answer`/`verified_pass` statuses; it does
+not rewrite the original rows. Before GRPO seed 42, a bounded CPU-only repair must map
+the existing flat evidence correctly and verify that missing values are unavailable,
+not zero. No scientific variable or artifact schema may change.

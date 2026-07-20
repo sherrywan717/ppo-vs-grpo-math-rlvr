@@ -199,10 +199,14 @@ resumed, final test was not run, and checkpoint selection was not changed. See
 
 ## Unique next task
 
-The only next task is Stage I: execute formal GRPO seed 42 from the frozen active
-suite, after a new explicit GPU authorization. PPO rerun/resume, seed 123, baseline,
-final test, and automatic stage advancement remain unauthorized. Exact scope is in
-`docs/NEXT_TASK.md`.
+The only next task is Stage H.4: a bounded CPU-only correction of formal training
+`valid_answer_rate`, which currently reads the obsolete nested `components` object and
+therefore persisted misleading zeros despite complete flat reward evidence. The fix
+must reuse the existing flat `valid_answer_component`/canonical-status evidence,
+preserve all frozen identities, and add no schema or infrastructure. GRPO seed 42 may
+be authorized only after that repair passes targeted tests. PPO rerun/resume, seed 123,
+baseline, final test, and automatic stage advancement remain unauthorized. Exact scope
+is in `docs/NEXT_TASK.md`.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable
 metrics remain null/unavailable with reasons; noncritical telemetry and presentation

@@ -928,5 +928,9 @@ This file records operational history and pitfalls that should survive context c
   `ppo_formal_1p5b_seed42_composite_20260720T020928Z` is
   `scientifically_complete_with_recovered_validation`; no training rerun/resume,
   baseline, final test, GRPO, or seed-123 execution occurred.
-- The unique next task is Stage I formal GRPO seed 42, requiring a new explicit GPU
-  authorization. This stage does not authorize it.
+- Aggregation exposed a true report-truthfulness blocker for future GRPO: formal
+  training still computes native `valid_answer_rate` from obsolete nested
+  `components.valid_answer`, producing false zeros after RewardResult evidence became
+  flat. The PPO composite corrects only its derived report from canonical statuses.
+- The unique next task is a bounded CPU-only Stage H.4 field-mapping repair with
+  targeted tests. GRPO seed 42 still requires separate authorization afterward.

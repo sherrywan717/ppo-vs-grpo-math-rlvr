@@ -265,6 +265,8 @@ attempt's trusted checkpoints without rerunning or resuming training. The transp
 composite is `scientifically_complete_with_recovered_validation`; its 32-update
 training and checkpoint curves are in
 [`reports/formal_1p5b/03_ppo_training.md`](reports/formal_1p5b/03_ppo_training.md).
-The sole next task is separately authorized formal GRPO seed 42 in
-[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md); no GRPO, seed 123, baseline, or final test
-starts automatically.
+Aggregation exposed one report-truthfulness blocker before GRPO: formal training's
+native `valid_answer_rate` still reads an obsolete nested component and writes false
+zeros. The sole next task in [`docs/NEXT_TASK.md`](docs/NEXT_TASK.md) is a bounded
+CPU-only field-mapping repair. No GRPO, seed 123, baseline, or final test starts
+automatically.

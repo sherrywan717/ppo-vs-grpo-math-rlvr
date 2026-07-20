@@ -1,44 +1,34 @@
-# Next task: Stage I formal GRPO seed 42
+# Next task: Stage H.4 formal valid-answer metric truth fix
 
 Status: PPO seed-42 training plus recovered checkpoint validation is scientifically
-complete as a transparent composite. The original PPO training run remains immutable
-with its historical engineering-failure status; it must not be rerun or resumed.
+complete as a transparent composite. Stage H.3 aggregation exposed one true blocker
+before formal GRPO: native training `valid_answer_rate` reads the obsolete nested
+`components.valid_answer` path and therefore persisted misleading zeros after reward
+evidence serialization became flat.
 
-The only next task is a new formal GRPO seed-42 training run from update 0, after a new
-explicit GPU authorization. This file records scope only and does not authorize CUDA,
-model loading, generation, or training.
+The only next task is a bounded CPU-only correction of that existing field mapping.
+Do not initialize CUDA, load a model/tokenizer, generate, train, run validation, run
+baseline/final test, or execute PPO/GRPO.
 
-Frozen identity:
+Allowed scope:
 
-- Config: `configs/formal_1p5b/resolved/grpo_seed_42.json`
-- Config SHA256: `3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199`
-- Active suite raw SHA256:
-  `11869c63f4365aee5d4bf8e13fe263c9d0397164a18a88b419da07218f6a2017`
-- Active suite canonical SHA256:
-  `1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600`
-- Model revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
-- Budget: 32 updates, 512 training completions, 131,072 training rollout tokens
-- Checkpoint/validation cadence: 8, 16, 24, 32
-- Attempt: one; automatic retries: zero
+- Confirm the current flat RewardResult evidence keys already persisted per completion.
+- Make formal PPO/GRPO training `valid_answer_rate` use the existing flat
+  `valid_answer_component` or the already canonical status mapping, preserving its
+  frozen semantic definition.
+- A genuinely unavailable value must be `null`, `available=false`, with a reason; it
+  must never be fabricated as zero.
+- Add/update only directly affected CPU/fake tests for format, parseable/wrong,
+  canonical pass, and zero-denominator behavior.
+- Run only those targeted tests, affected Ruff/compileall, and formal PPO/GRPO dry-runs.
+- Preserve all configs, manifests, prompts, rewards, parsers, verifiers, sampling,
+  budgets, historical runs, checkpoints, and checksums. Do not add a schema, guard,
+  fallback, artifact type, or unrelated refactor.
 
-Future authorized command:
+After the minimal repair is committed and backed up with a clean worktree, the next
+separately authorized GPU stage may be formal GRPO seed 42 using frozen config
+`configs/formal_1p5b/resolved/grpo_seed_42.json` SHA256
+`3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199`.
 
-```bash
-HF_HUB_OFFLINE=1 \
-TRANSFORMERS_OFFLINE=1 \
-PYTHONPATH=src \
-python -m math_rlvr.training.grpo \
-  --config configs/formal_1p5b/resolved/grpo_seed_42.json \
-  --execute \
-  --confirm-formal-grpo
-```
-
-Before any future execution, verify clean branch/HEAD, exact config/suite/model and
-scientific identities, canonical local snapshot/offline mode, idle H800, writable run
-and backup paths, and a non-conflicting new run ID. Do not expand tests or engineering
-infrastructure when no correctness, fairness, recovery, safety, or evidence-truth
-blocker exists.
-
-PPO rerun/resume, seed 123, baseline, final test, and automatic progression beyond
-GRPO seed 42 remain unauthorized. The formal test baseline is independent of the
-64-problem checkpoint validation and must not be used for checkpoint selection.
+This file authorizes no GPU execution. PPO rerun/resume, seed 123, baseline, final
+test, and automatic progression remain unauthorized.

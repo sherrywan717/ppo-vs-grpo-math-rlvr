@@ -601,5 +601,7 @@ summary, checkpoints, and checksums remain immutable with status
 `engineering_failure_after_training / validation_pending`. The derived composite is
 `scientifically_complete_with_recovered_validation`: training was neither rerun nor
 resumed, final test was not run, and validation did not change checkpoint selection.
-The only future executable stage is formal GRPO seed 42 after a new explicit user
-authorization; never start it automatically.
+The recovered report also proves the runtime `valid_answer_rate` used a stale nested
+component lookup and wrote misleading zeros despite complete flat reward evidence.
+This report-truthfulness defect must receive a bounded CPU-only field-mapping repair
+before formal GRPO seed 42 can be authorized; never start GRPO automatically.
