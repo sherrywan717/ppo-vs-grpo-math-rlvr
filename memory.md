@@ -898,3 +898,35 @@ This file records operational history and pitfalls that should survive context c
 - The unique next task is a separately authorized Stage H.3 validation-only sequence
   for checkpoints 8,16,24,32. Expected/ceiling totals are about 20/40 minutes,
   0.3333/0.6667 GPU-hours and CNY 2.96/5.92. No command starts automatically.
+
+## Stage H.3: PPO Seed-42 Validation-Only Recovery
+
+- Execution base HEAD `2b4395171e72ef77032b567490960226d3b1bb1c` was clean. Frozen
+  config/suite/model/prompt/reward/parser/verifier identities, original run checksums,
+  four checkpoint inventories, local snapshot, offline mode, storage, and idle H800
+  passed the bounded preflight.
+- Four commands ran once each, in strict order, with zero retries:
+  `ppo_validation_formal_1p5b_seed42_step8_20260720T020928Z`,
+  `...step16_20260720T020928Z`, `...step24_20260720T020928Z`, and
+  `...step32_20260720T020928Z`. Each persisted 64/64 completion rows.
+- Generated validation tokens were 7,533 / 7,848 / 7,663 / 7,497 (30,541 total).
+  Sampled pass@1 was 4.6875% / 3.125% / 3.125% / 3.125%. Pass@4 is
+  null/unavailable because the protocol has one candidate per problem. Format/parseable
+  was 14.0625% at step 8 and 10.9375% thereafter.
+- Validation cost was 0.271514265 GPU-hours / CNY 2.411047, with 977.451 seconds
+  summed wall time and 3,847 MiB maximum nvidia-smi VRAM. Backup SHAs are
+  `bed8ab2d...caf2ef`, `eea05aae...e1efc`, `195dcc00...f7874`, and
+  `6dfbae6c...cfb723`; all run checksums and backups verified. GPU ended at 0 MiB with
+  no compute process.
+- The native validation aggregate leaves pass@1 null because the rows use
+  `sample_kind=validation`; the derived report uses complete per-problem
+  `canonical_correct` evidence. The training runtime's stale nested-component
+  `valid_answer_rate=0` is marked unreliable; parseable is derived from immutable
+  canonical statuses rather than reporting a fabricated zero.
+- Original training run `ppo_formal_1p5b_seed42_20260719T131800Z`, summary,
+  checkpoints, and checksum remain unchanged and individually excluded. Composite
+  `ppo_formal_1p5b_seed42_composite_20260720T020928Z` is
+  `scientifically_complete_with_recovered_validation`; no training rerun/resume,
+  baseline, final test, GRPO, or seed-123 execution occurred.
+- The unique next task is Stage I formal GRPO seed 42, requiring a new explicit GPU
+  authorization. This stage does not authorize it.

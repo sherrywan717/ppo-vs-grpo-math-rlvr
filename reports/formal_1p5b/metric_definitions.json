@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "format_valid": {
+    "definition": "parse_completion(text) returns ParsedCompletion",
+    "numerator": "format_valid=true",
+    "denominator": "all completions",
+    "includes_format_error": false
+  },
+  "parseable": {
+    "definition": "canonical verifier reached a parsed domain answer",
+    "numerator": "canonical_status in {wrong_answer, verified_pass}",
+    "denominator": "all completions",
+    "includes_invalid_number_usage": false,
+    "includes_format_error": false,
+    "includes_resource_limit": false,
+    "includes_parse_failure": false
+  },
+  "canonical_pass": {
+    "definition": "canonical_status == verified_pass",
+    "numerator": "verified_pass completions",
+    "denominator": "all completions",
+    "scalar_reward_independent": true
+  },
+  "accuracy_given_parseable": {
+    "numerator": "verified_pass",
+    "denominator": "wrong_answer + verified_pass",
+    "zero_denominator": {
+      "value": null,
+      "available": false,
+      "reason": "zero_denominator"
+    }
+  },
+  "training_runtime_valid_answer_rate": {
+    "value": null,
+    "available": false,
+    "raw_metric_key": "valid_answer_rate",
+    "reason": "stale nested components lookup after flat RewardResult evidence serialization produced misleading zeros; derived parseable_rate uses immutable canonical_status rows"
+  },
+  "entropy": {
+    "preferred_metric": "response_token_entropy_mean",
+    "preferred_metric_available": false,
+    "preferred_metric_reason": "TRL 0.24.0 PPO policy/entropy_avg is not response-mask weighted; computing the unified token mean would require intrusive or memory-expensive logits work",
+    "saved_metric": "policy_entropy_mean",
+    "saved_metric_available": true,
+    "metric_source": "TRL 0.24.0 native trainer metric",
+    "raw_metric_key": "policy/entropy_avg",
+    "logits_or_log_probabilities": "current policy training logits",
+    "response_axis_only": true,
+    "excludes_prompt": true,
+    "excludes_pad": false,
+    "excludes_eos": false,
+    "token_mask": "none in TRL policy/entropy_avg reduction",
+    "aggregation": "unmasked mean over response-axis training logits per microbatch, then mean over PPO epoch/minibatch/gradient-accumulation cells",
+    "dtype": "BF16 policy logits under formal config; scalar converted to Python float",
+    "formula": "H=-sum_v softmax(logits)_v * log_softmax(logits)_v (nats)",
+    "trl_version": "0.24.0",
+    "transformers_version": "4.57.6",
+    "extra_forward": false,
+    "full_logits_saved": false,
+    "std": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 log row emits only an aggregated entropy mean",
+      "raw_metric_key": null
+    }
+  },
+  "optional_metrics": {
+    "policy_grad_norm": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric",
+      "raw_metric_key": null
+    },
+    "value_grad_norm": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric",
+      "raw_metric_key": null
+    },
+    "advantage": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric",
+      "raw_metric_key": null
+    },
+    "return": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric",
+      "raw_metric_key": null
+    }
+  }
+}

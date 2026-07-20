@@ -11,8 +11,8 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Stage H.2 starting HEAD: `135ca10e6d002ce6d3e29e5d0cde56b4e6ec29eb`
-- Worktree: clean at Stage H.2 start; it must be clean again after the repair commit.
+- Stage H.3 execution base HEAD: `2b4395171e72ef77032b567490960226d3b1bb1c`
+- Worktree: clean at Stage H.3 start; expected clean after the result commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -145,7 +145,9 @@ After training returned, the backend replayed scheduled checkpoint 8 while the
 incremental observer was already at update 32. The cadence guard rejected the mismatch
 before any frozen 64-problem validation ran. The attempt is therefore an immutable
 engineering failure and `included_in_scientific_aggregate=false`; none of its
-checkpoints is currently authorized for resume or evaluation. The generic exception
+checkpoints was authorized for resume or evaluation at failure time. Stage H.2 later
+made the four trusted checkpoints eligible for the separately authorized validation-only
+recovery recorded below; training resume remains unauthorized. The generic exception
 `final_summary.json` has zero counters because no success result object reached
 finalization, while the authoritative JSONL prefixes, failure report, and checkpoint
 manifests agree at 32/512/51,369.
@@ -177,13 +179,30 @@ protocol dry-run passed. CUDA/model/tokenizer/generation/Trainer/backward/optimi
 real validation counts were zero. See
 `reports/formal_1p5b/ppo_seed42_validation_recovery_eligibility.{md,json}`.
 
+## Stage H.3 validation-only recovery complete
+
+Four independently backed-up runs evaluated checkpoints 8/16/24/32 in order against
+the frozen 64-problem validation manifest. They completed 64 rows each and generated
+7,533 / 7,848 / 7,663 / 7,497 tokens. Sampled pass@1 was 4.6875% / 3.125% /
+3.125% / 3.125%; pass@4 is null/unavailable because validation has one candidate per
+problem. Total recovery usage was 0.271514 GPU-hours and CNY 2.411047; all artifact
+checksums/backups verified and the GPU returned to 0 MiB with no compute process.
+
+The original training run remains unchanged as
+`engineering_failure_after_training / validation_pending` and excluded as an
+individual run. The transparent composite linking its complete 32-update training
+evidence, four checkpoint SHAs, and four validation artifact SHAs is
+`scientifically_complete_with_recovered_validation`. Training was not rerun or
+resumed, final test was not run, and checkpoint selection was not changed. See
+`reports/formal_1p5b/03_ppo_training.md` and
+`reports/formal_1p5b/ppo_seed42_composite_result.json`.
+
 ## Unique next task
 
-The only next task is Stage H.3: separately authorize validation-only evaluation of
-the existing PPO seed-42 checkpoints in strict order 8,16,24,32 using the four exact
-commands in `docs/NEXT_TASK.md`. Each writes a new evaluation run and never modifies
-the training run. No validation, PPO rerun/resume, GRPO, seed 123, baseline, or final
-test is authorized by this handoff.
+The only next task is Stage I: execute formal GRPO seed 42 from the frozen active
+suite, after a new explicit GPU authorization. PPO rerun/resume, seed 123, baseline,
+final test, and automatic stage advancement remain unauthorized. Exact scope is in
+`docs/NEXT_TASK.md`.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable
 metrics remain null/unavailable with reasons; noncritical telemetry and presentation

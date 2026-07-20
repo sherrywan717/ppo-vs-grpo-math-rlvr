@@ -1,0 +1,7 @@
+phase,algorithm,seed,run_id,checkpoint_step,unique_problems,completions_per_problem,completion_count,generated_tokens,generated_tokens_available,cumulative_generated_tokens,token_budget_scope,included_in_training_512,included_in_training_token_cap,generated_tokens_reason
+training,ppo,42,ppo_formal_1p5b_seed42_20260719T131800Z,,128,4,512,51369,True,51369,training_rollout,True,True,
+validation,ppo,42,ppo_validation_formal_1p5b_seed42_step8_20260720T020928Z,8,64,1,64,7533,True,7533,validation_only,False,False,
+validation,ppo,42,ppo_validation_formal_1p5b_seed42_step16_20260720T020928Z,16,64,1,64,7848,True,15381,validation_only,False,False,
+validation,ppo,42,ppo_validation_formal_1p5b_seed42_step24_20260720T020928Z,24,64,1,64,7663,True,23044,validation_only,False,False,
+validation,ppo,42,ppo_validation_formal_1p5b_seed42_step32_20260720T020928Z,32,64,1,64,7497,True,30541,validation_only,False,False,
+final_evaluation,ppo,42,,32,,,0,,False,,final_test_independent,False,False,final_test_not_run_or_authorized

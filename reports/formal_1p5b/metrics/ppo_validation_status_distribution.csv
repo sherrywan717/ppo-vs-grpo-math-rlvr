@@ -1,0 +1,13 @@
+checkpoint_step,canonical_status,count,fraction
+8,format_error,55,0.859375
+8,verified_pass,3,0.046875
+8,wrong_answer,6,0.09375
+16,format_error,57,0.890625
+16,verified_pass,2,0.03125
+16,wrong_answer,5,0.078125
+24,format_error,57,0.890625
+24,verified_pass,2,0.03125
+24,wrong_answer,5,0.078125
+32,format_error,57,0.890625
+32,verified_pass,2,0.03125
+32,wrong_answer,5,0.078125

@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "composite_id": "ppo_formal_1p5b_seed42_composite_20260720T020928Z",
+  "status": "scientifically_complete_with_recovered_validation",
+  "algorithm": "ppo",
+  "seed": 42,
+  "original_training_run": {
+    "run_id": "ppo_formal_1p5b_seed42_20260719T131800Z",
+    "original_status": "engineering_failure_after_training",
+    "original_validation_status": "validation_pending",
+    "modified": false,
+    "training_evidence_checksums_sha256": "43295b905f4175a41de21cd41e71e1e42d687c80a411af0421f91ecc3133e372",
+    "updates": 32,
+    "optimizer_steps": 32,
+    "global_steps": 32,
+    "completions": 512,
+    "generated_tokens": 51369
+  },
+  "recovery_history": {
+    "original_failure": "post-training checkpoint cadence bug before validation",
+    "cadence_fix_commit": "2b4395171e72ef77032b567490960226d3b1bb1c",
+    "training_rerun": false,
+    "training_resume": false,
+    "test_run": false,
+    "checkpoint_selection_changed": false
+  },
+  "checkpoints": [
+    {
+      "step": 8,
+      "artifact_manifest_sha256": "805f2916ce56abf09c28c195d58f92dc94a198d9992593a0d8ec84164ac1f914",
+      "validation_run_id": "ppo_validation_formal_1p5b_seed42_step8_20260720T020928Z",
+      "validation_artifact_checksums_sha256": "ea9588ad9c2b5fa04a5bbbe929154459ef4899f2493a51154cd3b68c19ff40d6",
+      "validation_backup_sha256": "bed8ab2d250db54ed74b6322748e97367902872aefc07414ea4a2af813caf2ef"
+    },
+    {
+      "step": 16,
+      "artifact_manifest_sha256": "56d8c9086f42775d679ca8c8d864ef5ef118f3fafd9fe22c06e9adbb2b1f34d9",
+      "validation_run_id": "ppo_validation_formal_1p5b_seed42_step16_20260720T020928Z",
+      "validation_artifact_checksums_sha256": "4eafad4ee75c43e664fb35ac356097959cccbc213db0cfb7db31fe6cad9b9a5d",
+      "validation_backup_sha256": "eea05aae4488a196f5d29417b3349afc29c8aeb16617af3503a54280656e1efc"
+    },
+    {
+      "step": 24,
+      "artifact_manifest_sha256": "854a8c026a172f3f0e3f0faa93f6f7d0594d828d4f6bb8869744d20c2f38ca9c",
+      "validation_run_id": "ppo_validation_formal_1p5b_seed42_step24_20260720T020928Z",
+      "validation_artifact_checksums_sha256": "2ab21bc885f1a78b99ef73ed6e5957afa9a38b5349852d5883fb808c3bf54321",
+      "validation_backup_sha256": "195dcc00bbc5355162501aca958342130ff3cb3dfb8c9d84d15f0ce0d73f7874"
+    },
+    {
+      "step": 32,
+      "artifact_manifest_sha256": "18534747eb6bb1c0945676c7490fce29c90e1f67bff939bd9318ee1101ee1952",
+      "validation_run_id": "ppo_validation_formal_1p5b_seed42_step32_20260720T020928Z",
+      "validation_artifact_checksums_sha256": "fea59dfbb7afea4f6c37d5c2e174dadf03834c3c0cb055f63f03ab29efe5ef8e",
+      "validation_backup_sha256": "6dfbae6c82eef37bc367590c940c781f7904b8db26b82d4e8182b66328cfb723"
+    }
+  ],
+  "validation_ledger": {
+    "unique_problem_count": 64,
+    "checkpoint_problem_pairs": 256,
+    "completions": 256,
+    "generated_tokens": 30541,
+    "counted_in_training_budget": false
+  },
+  "base_validation_delta": {
+    "value": null,
+    "available": false,
+    "reason": "matching_base_validation_not_available"
+  }
+}

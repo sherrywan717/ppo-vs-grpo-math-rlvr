@@ -1,0 +1,622 @@
+[
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "format_error",
+    "completion_count": 166,
+    "truncated_count": 1,
+    "truncation_rate": 0.006024096385542169
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "parse_error",
+    "completion_count": 25,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "verified_pass",
+    "completion_count": 22,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "wrong_answer",
+    "completion_count": 43,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "format_error",
+    "completion_count": 17,
+    "truncated_count": 3,
+    "truncation_rate": 0.17647058823529413
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "parse_error",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "verified_pass",
+    "completion_count": 21,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "wrong_answer",
+    "completion_count": 25,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 2",
+    "canonical_status": "format_error",
+    "completion_count": 41,
+    "truncated_count": 5,
+    "truncation_rate": 0.12195121951219512
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 2",
+    "canonical_status": "parse_error",
+    "completion_count": 4,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 2",
+    "canonical_status": "verified_pass",
+    "completion_count": 19,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 2",
+    "canonical_status": "wrong_answer",
+    "completion_count": 32,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "format_error",
+    "completion_count": 39,
+    "truncated_count": 5,
+    "truncation_rate": 0.1282051282051282
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "parse_error",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "verified_pass",
+    "completion_count": 24,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "training",
+    "checkpoint_step": null,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "wrong_answer",
+    "completion_count": 32,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "format_error",
+    "completion_count": 29,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "verified_pass",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "wrong_answer",
+    "completion_count": 2,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "format_error",
+    "completion_count": 2,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "wrong_answer",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "math",
+    "difficulty": "Level 2",
+    "canonical_status": "format_error",
+    "completion_count": 8,
+    "truncated_count": 2,
+    "truncation_rate": 0.25
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "format_error",
+    "completion_count": 9,
+    "truncated_count": 1,
+    "truncation_rate": 0.1111111111111111
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "verified_pass",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "wrong_answer",
+    "completion_count": 3,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "math",
+    "difficulty": "Level 4",
+    "canonical_status": "format_error",
+    "completion_count": 4,
+    "truncated_count": 1,
+    "truncation_rate": 0.25
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "math",
+    "difficulty": "Level 4",
+    "canonical_status": "verified_pass",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 8,
+    "domain": "math",
+    "difficulty": "Level 5",
+    "canonical_status": "format_error",
+    "completion_count": 3,
+    "truncated_count": 2,
+    "truncation_rate": 0.6666666666666666
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "format_error",
+    "completion_count": 30,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "wrong_answer",
+    "completion_count": 2,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "format_error",
+    "completion_count": 2,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "wrong_answer",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "math",
+    "difficulty": "Level 2",
+    "canonical_status": "format_error",
+    "completion_count": 8,
+    "truncated_count": 1,
+    "truncation_rate": 0.125
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "format_error",
+    "completion_count": 10,
+    "truncated_count": 1,
+    "truncation_rate": 0.1
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "verified_pass",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "wrong_answer",
+    "completion_count": 2,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "math",
+    "difficulty": "Level 4",
+    "canonical_status": "format_error",
+    "completion_count": 4,
+    "truncated_count": 1,
+    "truncation_rate": 0.25
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "math",
+    "difficulty": "Level 4",
+    "canonical_status": "verified_pass",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 16,
+    "domain": "math",
+    "difficulty": "Level 5",
+    "canonical_status": "format_error",
+    "completion_count": 3,
+    "truncated_count": 2,
+    "truncation_rate": 0.6666666666666666
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "format_error",
+    "completion_count": 30,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "wrong_answer",
+    "completion_count": 2,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "format_error",
+    "completion_count": 2,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "wrong_answer",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "math",
+    "difficulty": "Level 2",
+    "canonical_status": "format_error",
+    "completion_count": 8,
+    "truncated_count": 1,
+    "truncation_rate": 0.125
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "format_error",
+    "completion_count": 10,
+    "truncated_count": 2,
+    "truncation_rate": 0.2
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "verified_pass",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "wrong_answer",
+    "completion_count": 2,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "math",
+    "difficulty": "Level 4",
+    "canonical_status": "format_error",
+    "completion_count": 4,
+    "truncated_count": 1,
+    "truncation_rate": 0.25
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "math",
+    "difficulty": "Level 4",
+    "canonical_status": "verified_pass",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 24,
+    "domain": "math",
+    "difficulty": "Level 5",
+    "canonical_status": "format_error",
+    "completion_count": 3,
+    "truncated_count": 3,
+    "truncation_rate": 1.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "format_error",
+    "completion_count": 31,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "gsm8k",
+    "difficulty": "gsm8k",
+    "canonical_status": "wrong_answer",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "format_error",
+    "completion_count": 2,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "math",
+    "difficulty": "Level 1",
+    "canonical_status": "wrong_answer",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "math",
+    "difficulty": "Level 2",
+    "canonical_status": "format_error",
+    "completion_count": 7,
+    "truncated_count": 1,
+    "truncation_rate": 0.14285714285714285
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "math",
+    "difficulty": "Level 2",
+    "canonical_status": "wrong_answer",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "format_error",
+    "completion_count": 10,
+    "truncated_count": 2,
+    "truncation_rate": 0.2
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "verified_pass",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "math",
+    "difficulty": "Level 3",
+    "canonical_status": "wrong_answer",
+    "completion_count": 2,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "math",
+    "difficulty": "Level 4",
+    "canonical_status": "format_error",
+    "completion_count": 4,
+    "truncated_count": 2,
+    "truncation_rate": 0.5
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "math",
+    "difficulty": "Level 4",
+    "canonical_status": "verified_pass",
+    "completion_count": 1,
+    "truncated_count": 0,
+    "truncation_rate": 0.0
+  },
+  {
+    "phase": "validation",
+    "checkpoint_step": 32,
+    "domain": "math",
+    "difficulty": "Level 5",
+    "canonical_status": "format_error",
+    "completion_count": 3,
+    "truncated_count": 2,
+    "truncation_rate": 0.6666666666666666
+  }
+]

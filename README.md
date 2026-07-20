@@ -259,10 +259,12 @@ evidence serialization at 0/800 and one hit the historical 512-token prompt cap 
 post-freeze capacity amendment and full audit are documented in
 [`reports/formal_1p5b/prompt_length_amendment.md`](reports/formal_1p5b/prompt_length_amendment.md).
 
-Two formal PPO seed-42 attempts remain immutable engineering failures excluded from
-scientific statistics. Stage H.2 separated training and validation cadence and audited
-the second attempt's complete 32-update evidence plus four trusted checkpoints.
-Training rerun is unnecessary; validation remains pending. The sole next task is the
-separately authorized validation-only sequence in
-[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md); no validation, PPO rerun, GRPO, seed 123,
-or final test starts automatically.
+Two formal PPO seed-42 attempts remain immutable engineering failures as individual
+runs. Stage H.3 has now recovered all four checkpoint validations from the second
+attempt's trusted checkpoints without rerunning or resuming training. The transparent
+composite is `scientifically_complete_with_recovered_validation`; its 32-update
+training and checkpoint curves are in
+[`reports/formal_1p5b/03_ppo_training.md`](reports/formal_1p5b/03_ppo_training.md).
+The sole next task is separately authorized formal GRPO seed 42 in
+[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md); no GRPO, seed 123, baseline, or final test
+starts automatically.

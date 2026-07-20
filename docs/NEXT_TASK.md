@@ -1,113 +1,44 @@
-# Next task: Stage H.3 PPO seed-42 validation-only recovery
+# Next task: Stage I formal GRPO seed 42
 
-Status: Stage H.2 CPU repair and read-only eligibility audit passed. GPU validation is
-not yet authorized.
+Status: PPO seed-42 training plus recovered checkpoint validation is scientifically
+complete as a transparent composite. The original PPO training run remains immutable
+with its historical engineering-failure status; it must not be rerun or resumed.
 
-The only next task is to execute the existing PPO seed-42 checkpoints in strict order
-8, 16, 24, 32 against the frozen 64-problem validation set. Every command requires a
-new explicit authorization, a unique UTC timestamp in its new direct-child run
-directory, one attempt, and zero automatic retries. A failure stops the sequence.
+The only next task is a new formal GRPO seed-42 training run from update 0, after a new
+explicit GPU authorization. This file records scope only and does not authorize CUDA,
+model loading, generation, or training.
 
-The original training run and checkpoints are immutable inputs:
+Frozen identity:
 
-- Run: `ppo_formal_1p5b_seed42_20260719T131800Z`
-- Training: 32 updates, 512 completions, 51,369 rollout tokens
-- Validation-only eligible: true
-- Training resume authorized: false
-- Training rerun required: false
-- Original status: `engineering_failure_after_training / validation_pending`
-- Scientific aggregate inclusion: false until all four validations and reconciliation pass
+- Config: `configs/formal_1p5b/resolved/grpo_seed_42.json`
+- Config SHA256: `3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199`
+- Active suite raw SHA256:
+  `11869c63f4365aee5d4bf8e13fe263c9d0397164a18a88b419da07218f6a2017`
+- Active suite canonical SHA256:
+  `1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600`
+- Model revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
+- Budget: 32 updates, 512 training completions, 131,072 training rollout tokens
+- Checkpoint/validation cadence: 8, 16, 24, 32
+- Attempt: one; automatic retries: zero
 
-Each validation has 64 completions. Its completions/tokens belong only to the
-validation ledger and never alter the 512-completion/131,072-token training budget.
-The commands load only the checkpoint's policy adapter for generation; value adapter,
-scalar head, optimizer and training state are not loaded for evaluation.
-
-### Checkpoint 8
+Future authorized command:
 
 ```bash
 HF_HUB_OFFLINE=1 \
 TRANSFORMERS_OFFLINE=1 \
 PYTHONPATH=src \
-python -m math_rlvr.evaluation.formal \
-  --config configs/formal_1p5b/evaluation.json \
-  --phase validation \
-  --algorithm ppo \
-  --seed 42 \
-  --mode ppo \
-  --checkpoint-step 8 \
-  --checkpoint /root/autodl-tmp/runs/math_rlvr/ppo_formal_1p5b_seed42_20260719T131800Z/checkpoint-8 \
-  --run-dir /root/autodl-tmp/runs/math_rlvr/ppo_validation_formal_1p5b_seed42_step8_<UTCSTAMP> \
+python -m math_rlvr.training.grpo \
+  --config configs/formal_1p5b/resolved/grpo_seed_42.json \
   --execute \
-  --confirm-formal-evaluation
+  --confirm-formal-grpo
 ```
 
-### Checkpoint 16
+Before any future execution, verify clean branch/HEAD, exact config/suite/model and
+scientific identities, canonical local snapshot/offline mode, idle H800, writable run
+and backup paths, and a non-conflicting new run ID. Do not expand tests or engineering
+infrastructure when no correctness, fairness, recovery, safety, or evidence-truth
+blocker exists.
 
-```bash
-HF_HUB_OFFLINE=1 \
-TRANSFORMERS_OFFLINE=1 \
-PYTHONPATH=src \
-python -m math_rlvr.evaluation.formal \
-  --config configs/formal_1p5b/evaluation.json \
-  --phase validation \
-  --algorithm ppo \
-  --seed 42 \
-  --mode ppo \
-  --checkpoint-step 16 \
-  --checkpoint /root/autodl-tmp/runs/math_rlvr/ppo_formal_1p5b_seed42_20260719T131800Z/checkpoint-16 \
-  --run-dir /root/autodl-tmp/runs/math_rlvr/ppo_validation_formal_1p5b_seed42_step16_<UTCSTAMP> \
-  --execute \
-  --confirm-formal-evaluation
-```
-
-### Checkpoint 24
-
-```bash
-HF_HUB_OFFLINE=1 \
-TRANSFORMERS_OFFLINE=1 \
-PYTHONPATH=src \
-python -m math_rlvr.evaluation.formal \
-  --config configs/formal_1p5b/evaluation.json \
-  --phase validation \
-  --algorithm ppo \
-  --seed 42 \
-  --mode ppo \
-  --checkpoint-step 24 \
-  --checkpoint /root/autodl-tmp/runs/math_rlvr/ppo_formal_1p5b_seed42_20260719T131800Z/checkpoint-24 \
-  --run-dir /root/autodl-tmp/runs/math_rlvr/ppo_validation_formal_1p5b_seed42_step24_<UTCSTAMP> \
-  --execute \
-  --confirm-formal-evaluation
-```
-
-### Checkpoint 32
-
-```bash
-HF_HUB_OFFLINE=1 \
-TRANSFORMERS_OFFLINE=1 \
-PYTHONPATH=src \
-python -m math_rlvr.evaluation.formal \
-  --config configs/formal_1p5b/evaluation.json \
-  --phase validation \
-  --algorithm ppo \
-  --seed 42 \
-  --mode ppo \
-  --checkpoint-step 32 \
-  --checkpoint /root/autodl-tmp/runs/math_rlvr/ppo_formal_1p5b_seed42_20260719T131800Z/checkpoint-32 \
-  --run-dir /root/autodl-tmp/runs/math_rlvr/ppo_validation_formal_1p5b_seed42_step32_<UTCSTAMP> \
-  --execute \
-  --confirm-formal-evaluation
-```
-
-After all four succeed, CPU-only reconciliation may append validation artifacts and
-update the derived registry/handoff. It must not rewrite the original failure summary,
-training evidence, checkpoints, or checksums. The existing formal test baseline remains
-separate and must not be used as a 64-problem validation delta or for checkpoint
-selection.
-
-Frozen planning estimate for all four validations: approximately 20 minutes,
-0.3333 GPU-hours and CNY 2.96; ceiling 40 minutes, 0.6667 GPU-hours and CNY 5.92 at
-CNY 8.88/GPU-hour.
-
-This file authorizes no CUDA/model load, validation, PPO rerun/resume, GRPO, seed 123,
-baseline, final test, or automatic retry.
+PPO rerun/resume, seed 123, baseline, final test, and automatic progression beyond
+GRPO seed 42 remain unauthorized. The formal test baseline is independent of the
+64-problem checkpoint validation and must not be used for checkpoint selection.

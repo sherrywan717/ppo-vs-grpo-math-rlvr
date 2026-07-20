@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "phase": "validation",
+  "problem_universe": "frozen 64-problem validation manifest (32 GSM8K + 32 MATH)",
+  "problem_count": 64,
+  "sampling_mode": "frozen sampled generation, one candidate per problem",
+  "candidates_per_problem": 1,
+  "candidate_selection": "generation_index=0 and sample_kind=validation",
+  "sampled_pass_at_1": {
+    "available": true,
+    "numerator": "count(canonical_status == verified_pass)",
+    "denominator": 64,
+    "aggregation": "arithmetic mean of per-problem canonical_correct indicators",
+    "seed": 42,
+    "completion_cap": 256
+  },
+  "pass_at_4": {
+    "value": null,
+    "available": false,
+    "reason": "validation_protocol_has_one_candidate_per_problem",
+    "candidate_pool": null
+  },
+  "prompt_sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+  "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+  "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd",
+  "base_validation_delta": {
+    "value": null,
+    "available": false,
+    "reason": "matching_base_validation_not_available"
+  },
+  "formal_test_baseline_relation": "independent test protocol; never subtracted from validation and never used for checkpoint selection",
+  "runtime_reporting_note": "native aggregate sampled_pass_at_1 is null because validation rows use sample_kind=validation; derived result uses complete canonical_correct primary evidence"
+}

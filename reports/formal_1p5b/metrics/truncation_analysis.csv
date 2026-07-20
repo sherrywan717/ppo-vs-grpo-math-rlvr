@@ -1,0 +1,63 @@
+phase,checkpoint_step,domain,difficulty,canonical_status,completion_count,truncated_count,truncation_rate
+training,,gsm8k,gsm8k,format_error,166,1,0.006024096385542169
+training,,gsm8k,gsm8k,parse_error,25,0,0.0
+training,,gsm8k,gsm8k,verified_pass,22,0,0.0
+training,,gsm8k,gsm8k,wrong_answer,43,0,0.0
+training,,math,Level 1,format_error,17,3,0.17647058823529413
+training,,math,Level 1,parse_error,1,0,0.0
+training,,math,Level 1,verified_pass,21,0,0.0
+training,,math,Level 1,wrong_answer,25,0,0.0
+training,,math,Level 2,format_error,41,5,0.12195121951219512
+training,,math,Level 2,parse_error,4,0,0.0
+training,,math,Level 2,verified_pass,19,0,0.0
+training,,math,Level 2,wrong_answer,32,0,0.0
+training,,math,Level 3,format_error,39,5,0.1282051282051282
+training,,math,Level 3,parse_error,1,0,0.0
+training,,math,Level 3,verified_pass,24,0,0.0
+training,,math,Level 3,wrong_answer,32,0,0.0
+validation,8,gsm8k,gsm8k,format_error,29,0,0.0
+validation,8,gsm8k,gsm8k,verified_pass,1,0,0.0
+validation,8,gsm8k,gsm8k,wrong_answer,2,0,0.0
+validation,8,math,Level 1,format_error,2,0,0.0
+validation,8,math,Level 1,wrong_answer,1,0,0.0
+validation,8,math,Level 2,format_error,8,2,0.25
+validation,8,math,Level 3,format_error,9,1,0.1111111111111111
+validation,8,math,Level 3,verified_pass,1,0,0.0
+validation,8,math,Level 3,wrong_answer,3,0,0.0
+validation,8,math,Level 4,format_error,4,1,0.25
+validation,8,math,Level 4,verified_pass,1,0,0.0
+validation,8,math,Level 5,format_error,3,2,0.6666666666666666
+validation,16,gsm8k,gsm8k,format_error,30,0,0.0
+validation,16,gsm8k,gsm8k,wrong_answer,2,0,0.0
+validation,16,math,Level 1,format_error,2,0,0.0
+validation,16,math,Level 1,wrong_answer,1,0,0.0
+validation,16,math,Level 2,format_error,8,1,0.125
+validation,16,math,Level 3,format_error,10,1,0.1
+validation,16,math,Level 3,verified_pass,1,0,0.0
+validation,16,math,Level 3,wrong_answer,2,0,0.0
+validation,16,math,Level 4,format_error,4,1,0.25
+validation,16,math,Level 4,verified_pass,1,0,0.0
+validation,16,math,Level 5,format_error,3,2,0.6666666666666666
+validation,24,gsm8k,gsm8k,format_error,30,0,0.0
+validation,24,gsm8k,gsm8k,wrong_answer,2,0,0.0
+validation,24,math,Level 1,format_error,2,0,0.0
+validation,24,math,Level 1,wrong_answer,1,0,0.0
+validation,24,math,Level 2,format_error,8,1,0.125
+validation,24,math,Level 3,format_error,10,2,0.2
+validation,24,math,Level 3,verified_pass,1,0,0.0
+validation,24,math,Level 3,wrong_answer,2,0,0.0
+validation,24,math,Level 4,format_error,4,1,0.25
+validation,24,math,Level 4,verified_pass,1,0,0.0
+validation,24,math,Level 5,format_error,3,3,1.0
+validation,32,gsm8k,gsm8k,format_error,31,0,0.0
+validation,32,gsm8k,gsm8k,wrong_answer,1,0,0.0
+validation,32,math,Level 1,format_error,2,0,0.0
+validation,32,math,Level 1,wrong_answer,1,0,0.0
+validation,32,math,Level 2,format_error,7,1,0.14285714285714285
+validation,32,math,Level 2,wrong_answer,1,0,0.0
+validation,32,math,Level 3,format_error,10,2,0.2
+validation,32,math,Level 3,verified_pass,1,0,0.0
+validation,32,math,Level 3,wrong_answer,2,0,0.0
+validation,32,math,Level 4,format_error,4,2,0.5
+validation,32,math,Level 4,verified_pass,1,0,0.0
+validation,32,math,Level 5,format_error,3,2,0.6666666666666666

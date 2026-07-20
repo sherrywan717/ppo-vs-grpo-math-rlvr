@@ -324,3 +324,26 @@ remains pending, training resume is not authorized, and training rerun is not re
 Four future validation-only commands must use new evaluation run directories and may
 execute only after separate authorization. The original engineering failure is not
 retroactively rewritten as success.
+
+## Stage H.3 validation-only recovery record
+
+The four trusted PPO seed-42 checkpoints were evaluated once each, in fixed order
+8/16/24/32, against the same frozen 64-problem validation manifest. The validation
+runs were independent children and did not modify or resume the training run. They
+produced 256 completions and 30,541 validation tokens, excluded from the 512 training
+completions and 131,072 training-token cap. Formal test was not run and no checkpoint,
+configuration, or hyperparameter was selected or changed from validation results.
+
+One candidate was sampled per validation problem. Sampled pass@1 is therefore the mean
+of the 64 canonical-correct indicators; pass@4 is null/unavailable with reason
+`validation_protocol_has_one_candidate_per_problem`. No matching base-model 64-problem
+validation exists, so base validation delta is null/unavailable rather than subtracting
+the independent formal test baseline.
+
+The original run remains the immutable historical
+`engineering_failure_after_training / validation_pending` attempt. The derived
+composite, which binds the original training-evidence SHA, the four checkpoint artifact
+manifest SHAs, and the four validation artifact SHAs, is
+`scientifically_complete_with_recovered_validation`. This recovery does not rewrite
+history: optimization completed once before the cadence failure, Stage H.2 repaired the
+cursor CPU-only, and Stage H.3 performed only checkpoint evaluation.

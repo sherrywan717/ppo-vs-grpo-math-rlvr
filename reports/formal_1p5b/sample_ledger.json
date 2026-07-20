@@ -1,0 +1,118 @@
+{
+  "training": {
+    "completion_count": 512,
+    "generated_tokens": 51369,
+    "hard_cap": 131072
+  },
+  "validation": {
+    "unique_problem_count": 64,
+    "checkpoint_problem_pairs": 256,
+    "completion_count": 256,
+    "generated_tokens": 30541
+  },
+  "final_evaluation": {
+    "status": "not_run",
+    "generated_tokens": null,
+    "available": false,
+    "reason": "final_test_not_run_or_authorized"
+  },
+  "rows": [
+    {
+      "phase": "training",
+      "algorithm": "ppo",
+      "seed": 42,
+      "run_id": "ppo_formal_1p5b_seed42_20260719T131800Z",
+      "checkpoint_step": null,
+      "unique_problems": 128,
+      "completions_per_problem": 4,
+      "completion_count": 512,
+      "generated_tokens": 51369,
+      "generated_tokens_available": true,
+      "cumulative_generated_tokens": 51369,
+      "token_budget_scope": "training_rollout",
+      "included_in_training_512": true,
+      "included_in_training_token_cap": true
+    },
+    {
+      "phase": "validation",
+      "algorithm": "ppo",
+      "seed": 42,
+      "run_id": "ppo_validation_formal_1p5b_seed42_step8_20260720T020928Z",
+      "checkpoint_step": 8,
+      "unique_problems": 64,
+      "completions_per_problem": 1,
+      "completion_count": 64,
+      "generated_tokens": 7533,
+      "generated_tokens_available": true,
+      "cumulative_generated_tokens": 7533,
+      "token_budget_scope": "validation_only",
+      "included_in_training_512": false,
+      "included_in_training_token_cap": false
+    },
+    {
+      "phase": "validation",
+      "algorithm": "ppo",
+      "seed": 42,
+      "run_id": "ppo_validation_formal_1p5b_seed42_step16_20260720T020928Z",
+      "checkpoint_step": 16,
+      "unique_problems": 64,
+      "completions_per_problem": 1,
+      "completion_count": 64,
+      "generated_tokens": 7848,
+      "generated_tokens_available": true,
+      "cumulative_generated_tokens": 15381,
+      "token_budget_scope": "validation_only",
+      "included_in_training_512": false,
+      "included_in_training_token_cap": false
+    },
+    {
+      "phase": "validation",
+      "algorithm": "ppo",
+      "seed": 42,
+      "run_id": "ppo_validation_formal_1p5b_seed42_step24_20260720T020928Z",
+      "checkpoint_step": 24,
+      "unique_problems": 64,
+      "completions_per_problem": 1,
+      "completion_count": 64,
+      "generated_tokens": 7663,
+      "generated_tokens_available": true,
+      "cumulative_generated_tokens": 23044,
+      "token_budget_scope": "validation_only",
+      "included_in_training_512": false,
+      "included_in_training_token_cap": false
+    },
+    {
+      "phase": "validation",
+      "algorithm": "ppo",
+      "seed": 42,
+      "run_id": "ppo_validation_formal_1p5b_seed42_step32_20260720T020928Z",
+      "checkpoint_step": 32,
+      "unique_problems": 64,
+      "completions_per_problem": 1,
+      "completion_count": 64,
+      "generated_tokens": 7497,
+      "generated_tokens_available": true,
+      "cumulative_generated_tokens": 30541,
+      "token_budget_scope": "validation_only",
+      "included_in_training_512": false,
+      "included_in_training_token_cap": false
+    },
+    {
+      "phase": "final_evaluation",
+      "algorithm": "ppo",
+      "seed": 42,
+      "run_id": null,
+      "checkpoint_step": 32,
+      "unique_problems": null,
+      "completions_per_problem": null,
+      "completion_count": 0,
+      "generated_tokens": null,
+      "generated_tokens_available": false,
+      "generated_tokens_reason": "final_test_not_run_or_authorized",
+      "cumulative_generated_tokens": null,
+      "token_budget_scope": "final_test_independent",
+      "included_in_training_512": false,
+      "included_in_training_token_cap": false
+    }
+  ]
+}

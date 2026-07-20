@@ -586,3 +586,20 @@ values, prefixes and frozen identities. The run remains
 eligible only for separately authorized validation-only evaluation. Training rerun is
 not required and training resume is not authorized. Never modify the original run or
 start validation/GRPO automatically; follow `docs/NEXT_TASK.md`.
+
+### Stage H.3 recovered PPO checkpoint validation
+
+The separately authorized validation-only sequence evaluated the trusted PPO seed-42
+checkpoints in strict order 8/16/24/32. Each run completed the same frozen 64-problem
+validation manifest once, with one candidate per problem; pass@4 is therefore
+`null/unavailable`, never inferred from pass@1. The four runs total 256 validation
+completions and 30,541 validation tokens, which remain outside the 512-completion and
+131,072-token training budgets.
+
+The original training run `ppo_formal_1p5b_seed42_20260719T131800Z`, its failure
+summary, checkpoints, and checksums remain immutable with status
+`engineering_failure_after_training / validation_pending`. The derived composite is
+`scientifically_complete_with_recovered_validation`: training was neither rerun nor
+resumed, final test was not run, and validation did not change checkpoint selection.
+The only future executable stage is formal GRPO seed 42 after a new explicit user
+authorization; never start it automatically.
