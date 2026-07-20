@@ -25,6 +25,7 @@ from math_rlvr.training.formal_runtime import (
     formal_episode_records,
     formal_run_contract,
     formal_training_problems,
+    formal_valid_answer_metric,
     validate_formal_resume_checkpoint,
     validate_formal_runtime_prompt_preflight,
     write_formal_checkpoint_artifact_manifest,
@@ -328,10 +329,6 @@ def _normal_metrics(log_history, records, contract, *, start_update=1):
             "group_reward_variances": variances,
             "verifier_status_counts": status_counts,
             "format_accuracy": 1 - statuses.count("format_error") / 16,
-            "valid_answer_rate": sum(
-                bool(row.get("components", {}).get("valid_answer", 0)) for row in completion_rows
-            )
-            / 16,
             "canonical_pass_rate": statuses.count("verified_pass") / 16,
             "generated_tokens": sum(lengths),
             "cumulative_generated_tokens": sum(
@@ -374,6 +371,7 @@ def _normal_metrics(log_history, records, contract, *, start_update=1):
             "return_available": False,
             "return_reason": optional_reason,
         }
+        metrics.update(formal_valid_answer_metric(completion_rows))
         if policy_loss is not None:
             metrics["policy_loss"] = policy_loss
             metrics["value_loss"] = value_loss

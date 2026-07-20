@@ -14,6 +14,7 @@ from math_rlvr.training.formal_runtime import (
     execute_formal_training,
     formal_episode_records,
     formal_run_contract,
+    formal_valid_answer_metric,
 )
 
 
@@ -91,6 +92,7 @@ class FakeFormalBackend:
                         "raw_completion": "<reasoning>fake</reasoning><answer>0</answer>",
                         "scalar_reward": 0.1,
                         "canonical_status": "wrong_answer",
+                        "valid_answer_component": 0.1,
                     }
                 )
             metrics = {
@@ -128,7 +130,6 @@ class FakeFormalBackend:
                 "truncation_rate_available": True,
                 "zero_advantage_fraction": 1.0,
                 "format_accuracy": 1.0,
-                "valid_answer_rate": 1.0,
                 "canonical_pass_rate": 0.0,
                 "generated_tokens": 16 * self.token_width,
                 "cumulative_generated_tokens": update * 16 * self.token_width,
@@ -150,6 +151,7 @@ class FakeFormalBackend:
                 "return_available": False,
                 "return_reason": "fake backend does not expose return",
             }
+            metrics.update(formal_valid_answer_metric(rows))
             if contract.algorithm == "ppo":
                 metrics.update({"policy_loss": 0.1, "value_loss": 0.15})
             observer.update(

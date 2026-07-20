@@ -4,7 +4,12 @@ import pytest
 
 from math_rlvr.training.formal import validate_formal_config_file
 from math_rlvr.training.formal_model_runtime import _normal_metrics
-from math_rlvr.training.formal_runtime import formal_run_contract
+from math_rlvr.training.formal_runtime import (
+    FormalProgressGuard,
+    FormalRuntimeError,
+    formal_run_contract,
+    formal_valid_answer_metric,
+)
 
 
 def _contract(algorithm):
@@ -32,7 +37,7 @@ def _records(contract):
                 "truncated": index == 15,
                 "scalar_reward": rewards[index],
                 "canonical_status": "verified_pass" if index == 0 else "wrong_answer",
-                "components": {"valid_answer": 0.1},
+                "valid_answer_component": 0.1,
             }
         )
     return rows
@@ -102,6 +107,104 @@ def test_grpo_metric_schema_records_groups_and_masked_native_entropy():
     assert metric["clip_fraction"] == 0.05
     assert metric["kl"] is None
     assert "beta=0.0" in metric["kl_unavailable_reason"]
+
+
+@pytest.mark.parametrize(
+    ("status", "component", "expected"),
+    [
+        ("verified_pass", 0.1, 1.0),
+        ("wrong_answer", 0.1, 1.0),
+        ("format_error", 0.0, 0.0),
+        ("format_error", 0.1, 1.0),
+        ("parse_error", 0.0, 0.0),
+        ("invalid_expression", 0.0, 0.0),
+        ("invalid_number_usage", 0.0, 0.0),
+    ],
+)
+def test_valid_answer_metric_uses_flat_reward_component(status, component, expected):
+    metric = formal_valid_answer_metric(
+        [{"canonical_status": status, "valid_answer_component": component}]
+    )
+    assert metric["valid_answer_rate"] == expected
+    assert metric["valid_answer_rate_available"] is True
+    assert metric["valid_answer_rate_numerator"] == int(expected)
+    assert metric["valid_answer_rate_denominator"] == 1
+    assert metric["valid_answer_rate_raw_source_field"] == "valid_answer_component"
+
+
+def test_valid_answer_metric_mixed_and_all_invalid_batches():
+    mixed = formal_valid_answer_metric(
+        [
+            {"valid_answer_component": 0.1},
+            {"valid_answer_component": 0.0},
+            {"valid_answer_component": 0.1},
+            {"valid_answer_component": 0.0},
+        ]
+    )
+    invalid = formal_valid_answer_metric(
+        [{"valid_answer_component": 0.0}, {"valid_answer_component": 0.0}]
+    )
+    assert mixed["valid_answer_rate"] == 0.5
+    assert mixed["valid_answer_rate_numerator"] == 2
+    assert invalid["valid_answer_rate"] == 0.0
+    assert invalid["valid_answer_rate_available"] is True
+
+
+def test_valid_answer_metric_zero_denominator_and_missing_field_are_unavailable():
+    empty = formal_valid_answer_metric([])
+    missing = formal_valid_answer_metric([{"canonical_status": "wrong_answer"}])
+    assert empty["valid_answer_rate"] is None
+    assert empty["valid_answer_rate_available"] is False
+    assert empty["valid_answer_rate_reason"] == "zero_denominator"
+    assert missing["valid_answer_rate"] is None
+    assert missing["valid_answer_rate_available"] is False
+    assert missing["valid_answer_rate_reason"] == "valid_answer_component_missing"
+
+
+def test_ppo_and_grpo_use_identical_valid_answer_mapping_without_training_changes():
+    trainer_rows = {
+        "ppo": {"loss/policy_avg": 0.2, "loss/value_avg": 0.3, "lr": 1e-5},
+        "grpo": {"loss": 0.23, "learning_rate": 1e-5},
+    }
+    metrics = {}
+    for algorithm in ("ppo", "grpo"):
+        contract = _contract(algorithm)
+        records = _records(contract)
+        rewards_before = [row["scalar_reward"] for row in records]
+        metrics[algorithm] = _normal_metrics(
+            [trainer_rows[algorithm]], records, contract
+        )[0]
+        assert [row["scalar_reward"] for row in records] == rewards_before
+    assert metrics["ppo"]["valid_answer_rate"] == metrics["grpo"]["valid_answer_rate"]
+    assert metrics["ppo"]["valid_answer_rate_definition_version"] == metrics["grpo"][
+        "valid_answer_rate_definition_version"
+    ]
+    assert metrics["ppo"]["total_loss"] == metrics["grpo"]["total_loss"] == 0.23
+    assert metrics["ppo"]["advantage_mean"] is metrics["grpo"]["advantage_mean"] is None
+
+
+def test_valid_answer_aggregate_mismatch_fails_runtime_finalization():
+    contract = _contract("ppo")
+    records = _records(contract)
+    for index, row in enumerate(records):
+        row["update"] = 1
+        row["pair_key"] = contract.pair_keys[index]
+    metric = _normal_metrics(
+        [{"loss/policy_avg": 0.2, "loss/value_avg": 0.3, "lr": 1e-5}],
+        records,
+        contract,
+    )[0]
+    metric["valid_answer_rate"] = 0.0
+    with pytest.raises(
+        FormalRuntimeError, match="valid-answer aggregate contradicts completion evidence"
+    ):
+        FormalProgressGuard(contract, run_id="mismatch").record_update(
+            update=1,
+            completion_rows=records,
+            metrics=metric,
+            optimizer_step=1,
+            global_step=1,
+        )
 
 
 def test_missing_native_entropy_is_null_not_zero():

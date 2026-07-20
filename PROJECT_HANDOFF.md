@@ -11,8 +11,8 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Stage H.3 execution base HEAD: `2b4395171e72ef77032b567490960226d3b1bb1c`
-- Worktree: clean at Stage H.3 start; expected clean after the result commit.
+- Stage H.4 repair base HEAD: `68f50a5fea9ec1183adabf04fc60d8daf1dc7d16`
+- Worktree: clean at Stage H.4 start; expected clean after the repair commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -197,16 +197,27 @@ resumed, final test was not run, and checkpoint selection was not changed. See
 `reports/formal_1p5b/03_ppo_training.md` and
 `reports/formal_1p5b/ppo_seed42_composite_result.json`.
 
+## Stage H.4 valid-answer telemetry repair
+
+The stale `components.valid_answer` lookup was replaced by the existing flat
+`valid_answer_component` evidence through one shared PPO/GRPO definition. It counts
+positive extracted-answer verifier components over all update completions; it is not
+canonical parseable rate. Numerator, denominator, raw source, definition version,
+availability, and reason are persisted. Missing/zero-denominator values remain null,
+and contradictory aggregates fail finalization. Reward scalar and all optimization
+inputs are unchanged.
+
+Forty-four targeted CPU tests, affected Ruff/compileall, and PPO/GRPO formal dry-runs
+passed. Historical PPO artifacts/checksums remain unchanged; the recovered composite
+stays `scientifically_complete_with_recovered_validation` and needs no rerun.
+
 ## Unique next task
 
-The only next task is Stage H.4: a bounded CPU-only correction of formal training
-`valid_answer_rate`, which currently reads the obsolete nested `components` object and
-therefore persisted misleading zeros despite complete flat reward evidence. The fix
-must reuse the existing flat `valid_answer_component`/canonical-status evidence,
-preserve all frozen identities, and add no schema or infrastructure. GRPO seed 42 may
-be authorized only after that repair passes targeted tests. PPO rerun/resume, seed 123,
-baseline, final test, and automatic stage advancement remain unauthorized. Exact scope
-is in `docs/NEXT_TASK.md`.
+The only next task is separately authorized formal GRPO seed 42 from the frozen
+`configs/formal_1p5b/resolved/grpo_seed_42.json` SHA256
+`3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199`.
+Do not start it automatically. PPO rerun/resume, seed 123, baseline, final test, and
+automatic stage advancement remain unauthorized. Exact scope is in `docs/NEXT_TASK.md`.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable
 metrics remain null/unavailable with reasons; noncritical telemetry and presentation

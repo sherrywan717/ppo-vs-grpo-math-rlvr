@@ -1,0 +1,82 @@
+{
+  "stage": "H.4",
+  "scope": "cpu_only_valid_answer_metric_mapping_fix",
+  "starting_head": "68f50a5fea9ec1183adabf04fc60d8daf1dc7d16",
+  "impact": {
+    "telemetry_only": true,
+    "consumers": [
+      "training metrics JSONL/CSV",
+      "reports",
+      "plots"
+    ],
+    "reward_scalar": false,
+    "advantage_or_return": false,
+    "loss": false,
+    "optimizer_or_scheduler": false,
+    "checkpoint_selection_or_early_stopping": false,
+    "training_stop_condition": false
+  },
+  "old_mapping": "components.valid_answer",
+  "new_mapping": "valid_answer_component > 0",
+  "metric": {
+    "name": "valid_answer_rate",
+    "definition_version": "formal_domain_valid_answer_component_v1",
+    "numerator": "completion rows with flat valid_answer_component > 0",
+    "denominator": "all completion rows in the update",
+    "source": "RewardEvaluation.to_dict().valid_answer_component",
+    "positive_probe_statuses": [
+      "wrong_answer",
+      "verified_pass"
+    ],
+    "excluded_probe_statuses": [
+      "format_error",
+      "parse_error",
+      "invalid_expression",
+      "invalid_number_usage",
+      "resource_limit",
+      "infra_error"
+    ],
+    "status_scope": "extracted-answer verifier probe, not canonical_status",
+    "equivalent_to_canonical_parseable": false,
+    "zero_denominator": {
+      "value": null,
+      "available": false,
+      "reason": "zero_denominator"
+    },
+    "missing_source": {
+      "value": null,
+      "available": false,
+      "reason": "valid_answer_component_missing"
+    }
+  },
+  "consistency": "runtime finalization rejects aggregate metadata/value that contradict completion evidence",
+  "training_behavior": "reward scalar, loss, advantage/return, optimizer, scheduler and budgets unchanged",
+  "historical_ppo": {
+    "run_id": "ppo_formal_1p5b_seed42_20260719T131800Z",
+    "checksums_file_sha256": "43295b905f4175a41de21cd41e71e1e42d687c80a411af0421f91ecc3133e372",
+    "modified": false,
+    "native_false_zero_preserved": true,
+    "final_report_unaffected": "derived from immutable canonical primary evidence with disclosure",
+    "composite_status": "scientifically_complete_with_recovered_validation"
+  },
+  "verification": {
+    "targeted_pytest": {
+      "passed": 44,
+      "failed": 0
+    },
+    "ruff": "passed",
+    "compileall": "passed",
+    "ppo_formal_dry_run": "passed_no_training_started",
+    "grpo_formal_dry_run": "passed_no_training_started",
+    "full_pytest": "not_run_by_authorized_scope",
+    "cuda_initialized": false,
+    "model_or_tokenizer_loaded": false,
+    "generation_or_training": false
+  },
+  "frozen_sha256": {
+    "ppo_seed_42_config": "1093e87a8363a0a2a6ab640a6f723c04cb6cfb22edef2e38a8c3a0062693ec43",
+    "grpo_seed_42_config": "3371d23166d01834c67830eb8dfd51a02d4af483687b0b29e941194174099199",
+    "active_suite_raw": "11869c63f4365aee5d4bf8e13fe263c9d0397164a18a88b419da07218f6a2017",
+    "active_suite_canonical": "1d7c29f76d9bfbf11e1838cd6b0bc8f3da6d0133e0605420e9ed838de729d600"
+  }
+}

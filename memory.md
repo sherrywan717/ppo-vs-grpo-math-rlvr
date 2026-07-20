@@ -934,3 +934,23 @@ This file records operational history and pitfalls that should survive context c
   flat. The PPO composite corrects only its derived report from canonical statuses.
 - The unique next task is a bounded CPU-only Stage H.4 field-mapping repair with
   targeted tests. GRPO seed 42 still requires separate authorization afterward.
+
+## Stage H.4 valid-answer metric truth repair
+
+- Starting HEAD `68f50a5fea9ec1183adabf04fc60d8daf1dc7d16` was clean; the stage was CPU-only.
+- Root cause: formal training still read `components.valid_answer` after
+  `RewardEvaluation.to_dict()` became flat. The resulting native zero was reporting
+  telemetry only and never entered reward, loss, advantage/return, optimizer, scheduler,
+  selection, early stopping, or budget logic.
+- The shared PPO/GRPO mapping now aggregates flat `valid_answer_component > 0`, with
+  definition version, numerator, denominator, raw source/status scope and explicit
+  null/unavailable reasons. It is extracted-answer probe validity and is not equivalent
+  to canonical parseable rate. Contradictory aggregate/evidence fails finalization.
+- 44 targeted tests plus affected Ruff/compileall and both formal dry-runs passed. No
+  CUDA, model/tokenizer, generation, Trainer, backward, optimizer, PPO/GRPO execution,
+  baseline, validation, or final test ran.
+- Historical PPO artifacts remain immutable; checksums-file SHA256 remains
+  `43295b905f4175a41de21cd41e71e1e42d687c80a411af0421f91ecc3133e372`. The composite
+  remains `scientifically_complete_with_recovered_validation`; no PPO rerun is needed.
+- Next decision: separately authorize formal GRPO seed 42. It must not start
+  automatically.

@@ -358,3 +358,20 @@ derives parseable rate from immutable `wrong_answer`/`verified_pass` statuses; i
 not rewrite the original rows. Before GRPO seed 42, a bounded CPU-only repair must map
 the existing flat evidence correctly and verify that missing values are unavailable,
 not zero. No scientific variable or artifact schema may change.
+
+## Stage H.4 prospective telemetry correction
+
+After the recovered PPO validation was aggregated, a bounded CPU-only repair corrected
+the native training `valid_answer_rate` source from obsolete nested
+`components.valid_answer` to flat `valid_answer_component`. The frozen definition is
+the fraction of completion rows whose extracted-answer verifier component is positive
+(probe status `wrong_answer` or `verified_pass`), not canonical parseability. PPO and
+GRPO use the same function and persist definition version, numerator, denominator, raw
+source/status scope, availability, and reason. Missing evidence and zero denominators are
+null/unavailable; contradictory aggregate/evidence fails finalization.
+
+This prospective correction changes no model, data, prompt, reward scalar, parser,
+verifier, sampling, LoRA, budget, training objective, checkpoint, validation, or test
+selection variable. Historical PPO metrics/checksums are not rewritten, and the
+recovered PPO composite remains scientifically complete. The next executable stage is
+formal GRPO seed 42 only after separate authorization.

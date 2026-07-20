@@ -51,6 +51,68 @@ class FormalRuntimeError(RuntimeError):
     """A frozen formal execution or evidence invariant was violated."""
 
 
+VALID_ANSWER_METRIC_DEFINITION_VERSION = "formal_domain_valid_answer_component_v1"
+
+
+def formal_valid_answer_metric(completion_rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Aggregate the existing flat formal reward-component evidence."""
+    denominator = len(completion_rows)
+    base = {
+        "valid_answer_rate_definition_version": VALID_ANSWER_METRIC_DEFINITION_VERSION,
+        "valid_answer_rate_definition": (
+            "fraction of completions whose flat valid_answer_component is positive; "
+            "the component is emitted when the extracted-answer verifier probe returns "
+            "wrong_answer or verified_pass"
+        ),
+        "valid_answer_rate_denominator": denominator,
+        "valid_answer_rate_raw_source_field": "valid_answer_component",
+        "valid_answer_rate_status_mapping": {
+            "positive": ["wrong_answer", "verified_pass"],
+            "excluded": [
+                "format_error",
+                "parse_error",
+                "invalid_expression",
+                "invalid_number_usage",
+                "resource_limit",
+                "infra_error",
+            ],
+            "status_scope": "extracted-answer verifier probe, not canonical_status",
+        },
+    }
+    if denominator == 0:
+        return {
+            **base,
+            "valid_answer_rate": None,
+            "valid_answer_rate_available": False,
+            "valid_answer_rate_reason": "zero_denominator",
+            "valid_answer_rate_numerator": None,
+        }
+    if any("valid_answer_component" not in row for row in completion_rows):
+        return {
+            **base,
+            "valid_answer_rate": None,
+            "valid_answer_rate_available": False,
+            "valid_answer_rate_reason": "valid_answer_component_missing",
+            "valid_answer_rate_numerator": None,
+        }
+    values = [row["valid_answer_component"] for row in completion_rows]
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(float(value))
+        for value in values
+    ):
+        raise FormalRuntimeError("formal valid-answer component evidence is invalid")
+    numerator = sum(float(value) > 0.0 for value in values)
+    return {
+        **base,
+        "valid_answer_rate": numerator / denominator,
+        "valid_answer_rate_available": True,
+        "valid_answer_rate_reason": None,
+        "valid_answer_rate_numerator": numerator,
+    }
+
+
 @dataclass(frozen=True)
 class FormalRunContract:
     algorithm: str
@@ -592,7 +654,6 @@ class FormalProgressGuard:
             "unique_completion_rate",
             "zero_advantage_fraction",
             "format_accuracy",
-            "valid_answer_rate",
             "canonical_pass_rate",
             "generated_tokens",
             "cumulative_generated_tokens",
@@ -604,6 +665,12 @@ class FormalProgressGuard:
             raise FormalRuntimeError(f"formal required metrics missing: {sorted(missing)}")
         for name in required:
             _finite(name, metrics[name])
+        expected_valid_answer = formal_valid_answer_metric(completion_rows)
+        for name, expected in expected_valid_answer.items():
+            if name not in metrics or metrics[name] != expected:
+                raise FormalRuntimeError(
+                    "formal valid-answer aggregate contradicts completion evidence"
+                )
         for name in (
             "grad_norm",
             "policy_entropy_mean",

@@ -605,3 +605,15 @@ The recovered report also proves the runtime `valid_answer_rate` used a stale ne
 component lookup and wrote misleading zeros despite complete flat reward evidence.
 This report-truthfulness defect must receive a bounded CPU-only field-mapping repair
 before formal GRPO seed 42 can be authorized; never start GRPO automatically.
+
+### Stage H.4 formal valid-answer telemetry mapping
+
+Formal PPO and GRPO now share `formal_domain_valid_answer_component_v1` for native
+`valid_answer_rate`: the numerator counts flat `valid_answer_component > 0` rows and
+the denominator is all completion rows in the update. This is extracted-answer probe
+validity, not canonical parseability; `INVALID_NUMBER_USAGE` is excluded. Zero or
+missing denominators/evidence remain null/unavailable with reasons, never false zero.
+The metric is reporting-only and cannot affect reward, loss, optimizer, selection, or
+stopping. Historical PPO artifacts and their misleading native zeros remain immutable;
+the scientifically complete recovered composite is not downgraded or rerun. Formal
+GRPO seed 42 still requires separate explicit authorization via `docs/NEXT_TASK.md`.
