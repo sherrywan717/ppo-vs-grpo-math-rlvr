@@ -275,3 +275,20 @@ completions, safe checkpoints, and four frozen validations. Reports are in
 two-seed review is descriptive, not a significance or superiority claim. The sole next
 task in [`docs/NEXT_TASK.md`](docs/NEXT_TASK.md) is separately authorized formal PPO
 seed 123. No PPO seed-123 or final-test command starts automatically.
+
+
+### Stage K formal PPO seed-123 result
+
+`ppo_formal_1p5b_seed123_20260720T043732Z` completed 32 updates, 512 training
+completions, 51,969 rollout tokens, four safe checkpoints, and four frozen 64-problem
+validations in one attempt. Validation pass@1 was 3.1250%, 4.6875%, 4.6875%, and
+4.6875%; pass@4 is unavailable under the one-candidate protocol. The backup verified,
+and the GPU returned to 0 MiB/no process.
+
+All four active PPO/GRPO training runs are now complete. See
+[`08_ppo_seed123_training.md`](reports/formal_1p5b/08_ppo_seed123_training.md),
+[`09_ppo_seed_stability.md`](reports/formal_1p5b/09_ppo_seed_stability.md), and
+[`10_four_run_training_validation_aggregate.md`](reports/formal_1p5b/10_four_run_training_validation_aggregate.md).
+The comparison remains descriptive: two seeds do not establish significance, and no
+formal final test has run. The next stage is the separately authorized fixed step-32
+PPO seed-42 final evaluation in [`docs/NEXT_TASK.md`](docs/NEXT_TASK.md).

@@ -650,3 +650,21 @@ process. No final test ran and no seed-42-driven tuning occurred. The two-seed G
 review is descriptive only and does not establish statistical significance. The sole
 next queue position is formal PPO seed 123, which requires separate explicit GPU
 authorization.
+
+
+### Stage K formal PPO seed-123 result
+
+Run `ppo_formal_1p5b_seed123_20260720T043732Z` is a scientific success from commit
+`f6a62eeb8ce59c438f355b675db493552044de18`: one attempt completed 32 update /
+optimizer / global steps, 512 training completions, 51,969 rollout tokens, safe PPO
+policy/value adapters plus scalar-head checkpoints, and frozen validation at
+8/16/24/32. Validation pass@1 was 3.1250%, 4.6875%, 4.6875%, and 4.6875%;
+pass@4 is null/unavailable because there is one candidate per validation problem.
+
+The verified backup SHA256 is
+`689924eaa4392a4806f9d1adaa2bbf890b76d6813a6edfeafc2ca50213bc63c0`; parent
+GPU release was 0 MiB/no process. All four active formal training runs are complete.
+The four-run comparison is descriptive only: two seeds do not establish statistical
+significance, PPO/GRPO loss and native entropy definitions are not directly comparable,
+and formal test has not run. The only next queue item is the separately authorized
+fixed step-32 PPO seed-42 final evaluation; never start it automatically.

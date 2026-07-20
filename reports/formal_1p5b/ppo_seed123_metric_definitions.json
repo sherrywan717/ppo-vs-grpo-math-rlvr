@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "run_id": "ppo_formal_1p5b_seed123_20260720T043732Z",
+  "algorithm": "ppo",
+  "seed": 123,
+  "definitions": {
+    "format_valid": {
+      "source": "strict_protocol_component > 0",
+      "numerator": "strict envelope completions",
+      "denominator": "all completions"
+    },
+    "valid_answer_rate": {
+      "definition_version": "formal_domain_valid_answer_component_v1",
+      "source_field": "valid_answer_component",
+      "numerator": "component > 0",
+      "denominator": "all completions",
+      "note": "not canonical parseability"
+    },
+    "parseable_rate": {
+      "statuses": [
+        "verified_pass",
+        "wrong_answer"
+      ],
+      "numerator": "canonical parseable statuses",
+      "denominator": "all completions"
+    },
+    "canonical_pass": {
+      "status": "verified_pass",
+      "numerator": "verified passes",
+      "denominator": "all completions"
+    },
+    "accuracy_given_parseable": {
+      "numerator": "verified_pass",
+      "denominator": "verified_pass + wrong_answer",
+      "zero_denominator": {
+        "value": null,
+        "available": false,
+        "reason": "zero_denominator"
+      }
+    },
+    "entropy": {
+      "metric_source": "TRL 0.24.0 native trainer metric",
+      "raw_metric_key": "policy/entropy_avg",
+      "formula": "H=-sum_v softmax(logits)_v * log_softmax(logits)_v (nats)",
+      "token_mask": "none in TRL policy/entropy_avg reduction",
+      "excludes_prompt": true,
+      "excludes_pad": false,
+      "excludes_eos": false,
+      "aggregation": "unmasked response-axis mean per microbatch, then mean over PPO cells",
+      "dtype": "BF16 policy logits; scalar Python float",
+      "extra_model_forward": false,
+      "full_logits_saved": false
+    },
+    "response_token_entropy_mean": {
+      "value": null,
+      "available": false,
+      "reason": "TRL PPO native entropy is not response-mask weighted; identical PPO/GRPO semantics would require intrusive or memory-expensive logits work"
+    },
+    "policy_grad_norm": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric"
+    },
+    "value_grad_norm": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric"
+    },
+    "advantage_return": {
+      "value": null,
+      "available": false,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric"
+    }
+  }
+}

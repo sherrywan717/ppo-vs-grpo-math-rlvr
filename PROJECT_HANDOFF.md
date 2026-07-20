@@ -11,8 +11,9 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Stage J execution base HEAD: `e54d84d9795ad74da855e6fdf6e8a15700d36d1d`
-- Worktree: clean at Stage J start; expected clean after the result commit.
+- Stage K execution base HEAD: `f6a62eeb8ce59c438f355b675db493552044de18`
+- Stage K result: the commit containing this handoff and the PPO123 report.
+- Worktree: clean at Stage K start; expected clean after the result commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -241,13 +242,29 @@ The GRPO seed-42/123 stability review is descriptive only. Both runs preserved g
 learning signal and showed improving but seed-variable validation curves. Two seeds do
 not establish statistical significance or general algorithm superiority.
 
+## Stage K formal PPO seed-123 success
+
+`ppo_formal_1p5b_seed123_20260720T043732Z` ran once from execution-base commit
+`f6a62eeb8ce59c438f355b675db493552044de18`, with zero retries. It completed 32/32
+updates and optimizer/global steps, 512 training completions, 51,969 training tokens,
+trusted PPO checkpoints at 8/16/24/32, and 256 independent validation completions /
+26,859 validation tokens. Pass@1 was 3.1250% / 4.6875% / 4.6875% / 4.6875%;
+pass@4 is null/unavailable under the one-candidate protocol. All checksums and backup
+SHA `689924eaa4392a4806f9d1adaa2bbf890b76d6813a6edfeafc2ca50213bc63c0` verified;
+GPU release passed. No final test ran.
+
+All four active formal training runs are scientifically complete (PPO42 via its
+transparent recovered-validation composite). The two-seed/four-run aggregate is
+descriptive only and does not establish significance or general algorithm superiority.
+
 ## Unique next task
 
-The only next task is separately authorized formal PPO seed 123 using
-`configs/formal_1p5b/resolved/ppo_seed_123.json` SHA256
-`3d6cc1f30f7b72bfadb5191613298ac3f64a1ba3c699cc8d1e30ce147218c15e`.
-Do not start it automatically. Final test, seed 2026, baseline reruns, and automatic
-stage advancement remain unauthorized. Exact scope is in `docs/NEXT_TASK.md`.
+The only next task is the first separately authorized fixed step-32 final evaluation:
+PPO seed 42. It must use the frozen evaluation contract and trusted composite-linked
+checkpoint, and requires new explicit authorization. Do not start it automatically.
+The other three final evaluations, CPU final aggregation, seed 2026, baseline reruns,
+and automatic stage advancement remain unauthorized. Exact scope is in
+`docs/NEXT_TASK.md`.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable
 metrics remain null/unavailable with reasons; noncritical telemetry and presentation

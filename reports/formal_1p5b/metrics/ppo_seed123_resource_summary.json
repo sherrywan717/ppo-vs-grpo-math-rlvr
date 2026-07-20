@@ -1,0 +1,10 @@
+{
+  "run_id": "ppo_formal_1p5b_seed123_20260720T043732Z",
+  "wall_time_seconds": 1534.4384365230799,
+  "gpu_hours": 0.4262328990341889,
+  "cost_cny": 3.7849481434235974,
+  "peak_nvidia_smi_vram_mb": 53821.0,
+  "mean_gpu_utilization": 36.31561800040725,
+  "pytorch_peak_allocated_mib": 49560.5703125,
+  "pytorch_peak_reserved_mib": 53142.0
+}

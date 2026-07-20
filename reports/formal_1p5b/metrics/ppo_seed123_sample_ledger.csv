@@ -1,0 +1,7 @@
+phase,algorithm,seed,run_id,checkpoint_step,unique_problems,completions_per_problem,completion_count,generated_tokens,cumulative_generated_tokens,token_budget_scope
+training,ppo,123,ppo_formal_1p5b_seed123_20260720T043732Z,,128,4,512,51969,51969,training_rollout_cap_131072
+validation,ppo,123,ppo_formal_1p5b_seed123_20260720T043732Z,8,64,1,64,6593,6593,validation_separate_from_training
+validation,ppo,123,ppo_formal_1p5b_seed123_20260720T043732Z,16,64,1,64,6450,13043,validation_separate_from_training
+validation,ppo,123,ppo_formal_1p5b_seed123_20260720T043732Z,24,64,1,64,7040,20083,validation_separate_from_training
+validation,ppo,123,ppo_formal_1p5b_seed123_20260720T043732Z,32,64,1,64,6776,26859,validation_separate_from_training
+validation_total,ppo,123,ppo_formal_1p5b_seed123_20260720T043732Z,,256,1,256,26859,26859,validation_separate_from_training

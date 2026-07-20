@@ -136,12 +136,12 @@ Every GPU stage requires a separate explicit authorization and stops afterward.
 1. **Complete:** pinned 1.5B snapshot download and CUDA/model-load sanity.
 2. **Complete:** shared untrained baseline evaluation for seeds 42 and 123. Two prior
    seed-42 engineering failures are preserved and excluded from statistics.
-3. **Unique next task:** PPO seed 42 training.
-4. GRPO seed 42 training, only after a separate authorization.
-5. CPU/validation review of seed-42 learning signal and checkpoint validity.
-6. GRPO seed 123, then PPO seed 123, each separately authorized.
-7. Frozen step-32 final test for all four active checkpoints.
-8. CPU-only aggregation, error analysis, case studies, and final report.
+3. **Complete:** PPO seed 42 training plus transparent recovered validation composite.
+4. **Complete:** GRPO seed 42 training and matched seed-42 review.
+5. **Complete:** GRPO seed 123 and PPO seed 123 training, followed by descriptive two-seed/four-run aggregation.
+6. **Unique next task:** first frozen step-32 final test, PPO seed 42, only after separate authorization.
+7. Remaining three fixed step-32 final evaluations, each separately authorized.
+8. CPU-only final aggregation, error analysis, case studies, and final report.
 
 No stage inherits another run's checkpoint. A training run has its own run ID, four
 trusted same-run recovery checkpoints, full artifact tree, and persistent backup.
@@ -405,3 +405,21 @@ the training budget. Pass@1 was 4.6875%/7.8125%/9.375%/9.375%; pass@4 is unavail
 The fixed step-32 policy was not changed and formal test was not run. The GRPO two-seed
 stability review is descriptive and does not claim statistical significance. The next
 active queue position is PPO seed 123 and requires separate authorization.
+
+
+## Stage K PPO seed-123 execution record
+
+The frozen PPO seed-123 command executed once from commit
+`f6a62eeb8ce59c438f355b675db493552044de18` as
+`ppo_formal_1p5b_seed123_20260720T043732Z`. It completed 32 updates, 512 training
+completions, 51,969 rollout tokens, role-separated trusted checkpoints, and validation
+at 8/16/24/32. No scientific variable changed, previous results were not used for
+tuning, and no retry occurred.
+
+Validation used the same frozen 64 problems with one candidate each and remained outside
+the training budget. Pass@1 was 3.1250%/4.6875%/4.6875%/4.6875%; pass@4 is
+unavailable. The fixed step-32 policy was not changed and formal test was not run. All
+four active training runs are now complete. Two-seed PPO and four-run comparisons report
+raw values, means and sample SDs but do not claim significance; PPO/GRPO loss and native
+entropy magnitudes are not directly compared. The next active queue position is the
+fixed step-32 PPO seed-42 final evaluation and requires separate authorization.

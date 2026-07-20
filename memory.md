@@ -1009,3 +1009,14 @@ This file records operational history and pitfalls that should survive context c
   post-train JSONL finalization, pre-lazy-optimizer role snapshot, and pre-exit allocator
   residue; trusted checkpoint prefixes and parent GPU release are authoritative.
 - Next decision: separately authorize formal PPO seed 123. Do not start it automatically.
+
+
+## Stage K formal PPO seed-123 success
+
+- Clean execution base was `f6a62eeb8ce59c438f355b675db493552044de18`; the frozen command ran exactly once as `ppo_formal_1p5b_seed123_20260720T043732Z`, with zero retries and no source/config change or prior-run-driven tuning.
+- Training completed 32 update/optimizer/global steps, 512 completions, and 51,969 rollout tokens under the 131,072 cap. Mean reward/canonical pass/format/parseable was 0.216113/15.2344%/44.7266%/40.2344%; 92/128 diagnostic groups had nonzero reward variance.
+- Checkpoints 8/16/24/32 contain policy adapter, value adapter, scalar head and trusted optimizer/scheduler/RNG/counter/prefix state; `base_weights_included=false`. All run checksums and inventories passed.
+- Frozen in-process validation produced 64 completions per checkpoint and 26,859 separate tokens. Pass@1 was 3.1250%/4.6875%/4.6875%/4.6875%; pass@4 is null/unavailable under one candidate per problem. No final test or checkpoint selection occurred.
+- Usage was 1,534.438 seconds, 0.426233 GPU-hours, CNY 3.784948, 53,821 MiB peak nvidia-smi VRAM, and 36.32% mean utilization. Full backup SHA256: `689924eaa4392a4806f9d1adaa2bbf890b76d6813a6edfeafc2ca50213bc63c0`. Parent GPU state ended at 0 MiB/no compute process.
+- All four active formal training runs are complete. PPO two-seed and four-run reports are descriptive; GRPO has higher step-32 validation pass@1 in both seeds, but two seeds/64 validation problems do not establish significance or general superiority. Native entropy definitions differ and are not compared numerically across algorithms.
+- Next decision: separately authorize the first fixed step-32 final test, PPO seed 42. Do not start any final evaluation, seed 2026, baseline, or training automatically.

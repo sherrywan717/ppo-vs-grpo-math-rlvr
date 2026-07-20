@@ -1,0 +1,410 @@
+[
+  {
+    "checkpoint_step": 8,
+    "checkpoint_root": "checkpoint-8",
+    "algorithm": "ppo",
+    "base_weights_included": false,
+    "files": [
+      {
+        "path": "artifact_manifest.json",
+        "size_bytes": 3449,
+        "sha256": "b15e29e40fbcaafc6f44a1f4171c5d2d8df2ce7cc7c6621e02efbda0f27a894b",
+        "role": "artifact_manifest.json"
+      },
+      {
+        "path": "metrics_prefix.jsonl",
+        "size_bytes": 40206,
+        "sha256": "b831777948bf19cbbfc1c42ae25d8f648954fdc2cbf6533ffa936f6965990e22",
+        "role": "metrics_prefix.jsonl"
+      },
+      {
+        "path": "optimizer.pt",
+        "size_bytes": 43875542,
+        "sha256": "832a633fc212a8a9e2a9e03d6df426fba405ebea5b781b8c187f1794952edefb",
+        "role": "optimizer.pt"
+      },
+      {
+        "path": "policy_adapter/adapter_config.json",
+        "size_bytes": 1153,
+        "sha256": "bf1699cc92dfadda3b56ee63f0db25b4eeff6cf8659b1bc5959d21bdca3b5a73",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "policy_adapter/adapter_model.safetensors",
+        "size_bytes": 17462400,
+        "sha256": "3c1629cb16addb51a855444320ffdaf75584cd368d99894e27b352cd296bf3d6",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "resume_manifest.json",
+        "size_bytes": 36836,
+        "sha256": "7054f59fdfb243017af2890efb85a8edbf2bfdfa2b78e61f51039fa6a0572e91",
+        "role": "resume_manifest.json"
+      },
+      {
+        "path": "rng_state.json",
+        "size_bytes": 22449,
+        "sha256": "f88b10d8d1f43cc6a36dfbedd3b5ae8de6aa1fa8079d6960f808c95d836b9768",
+        "role": "rng_state.json"
+      },
+      {
+        "path": "scheduler.pt",
+        "size_bytes": 1465,
+        "sha256": "37f877073a2ed86fb8ece6445c855823a746a9a902fb13dee5b3f859e220f6be",
+        "role": "scheduler.pt"
+      },
+      {
+        "path": "torch_rng.safetensors",
+        "size_bytes": 5208,
+        "sha256": "607ee92cbd491024bc3f5747b9dd58d5ae9e4cfb6abc3b98165a995ce6875eef",
+        "role": "torch_rng.safetensors"
+      },
+      {
+        "path": "trainer_completion_prefix.jsonl",
+        "size_bytes": 681856,
+        "sha256": "38fae40973f3a135159538f6a844f82c27538bfe902994b81c48f54ba459f86e",
+        "role": "trainer_completion_prefix.jsonl"
+      },
+      {
+        "path": "trainer_state.json",
+        "size_bytes": 6901,
+        "sha256": "d2cc3b190f5c71faf566159cf84bd06eeee6c19a552908cfdd326151fb28e5aa",
+        "role": "trainer_state.json"
+      },
+      {
+        "path": "value_adapter/adapter_config.json",
+        "size_bytes": 1166,
+        "sha256": "8580c34fc793f7d0e9ba3d06f02e48b94cf861db47a7ceaf105847de36060007",
+        "role": "value_adapter"
+      },
+      {
+        "path": "value_adapter/adapter_model.safetensors",
+        "size_bytes": 4372816,
+        "sha256": "14b1f7d80a5728280935f7237e5a9386fd6f5cfc505af0b5f95ebb7daa8544aa",
+        "role": "value_adapter"
+      },
+      {
+        "path": "value_head/config.json",
+        "size_bytes": 55,
+        "sha256": "57b34c5261fd063ae10edcacb96f2ef58c136fd48cced0826c83dab362decc94",
+        "role": "value_head"
+      },
+      {
+        "path": "value_head/value_head.safetensors",
+        "size_bytes": 3176,
+        "sha256": "ce7ab73be789c30acd0f8c6182503ec6196c326f5bcff7ebe6b8687dd73f667a",
+        "role": "value_head"
+      }
+    ],
+    "total_size_bytes": 66514678,
+    "artifact_manifest_sha256": "b15e29e40fbcaafc6f44a1f4171c5d2d8df2ce7cc7c6621e02efbda0f27a894b",
+    "completion_prefix_count": 128,
+    "metric_prefix_count": 8
+  },
+  {
+    "checkpoint_step": 16,
+    "checkpoint_root": "checkpoint-16",
+    "algorithm": "ppo",
+    "base_weights_included": false,
+    "files": [
+      {
+        "path": "artifact_manifest.json",
+        "size_bytes": 3452,
+        "sha256": "173bbfbcca5f0eea2a91afbe284f45850a82c17f636018ad786f1eddff60c3b9",
+        "role": "artifact_manifest.json"
+      },
+      {
+        "path": "metrics_prefix.jsonl",
+        "size_bytes": 80472,
+        "sha256": "51a50dc25bcbecf054ec4bf17f794d8dbf4755b491fef0bc4ce36d5ce37c1f56",
+        "role": "metrics_prefix.jsonl"
+      },
+      {
+        "path": "optimizer.pt",
+        "size_bytes": 43875542,
+        "sha256": "8e95dd14ff366ae9c9183a8b388402778e3f5b8e7e93f1ed9b2735da13723a1d",
+        "role": "optimizer.pt"
+      },
+      {
+        "path": "policy_adapter/adapter_config.json",
+        "size_bytes": 1153,
+        "sha256": "bf1699cc92dfadda3b56ee63f0db25b4eeff6cf8659b1bc5959d21bdca3b5a73",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "policy_adapter/adapter_model.safetensors",
+        "size_bytes": 17462400,
+        "sha256": "4af8c3bb542ccd3a5bcf2067b9da29a44157bc8386850114114bd2a2ebbbbb38",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "resume_manifest.json",
+        "size_bytes": 44280,
+        "sha256": "c16cab605d76846679de4c6a6ea1787e4ddfe83ae09662c9c7f0000224b91a88",
+        "role": "resume_manifest.json"
+      },
+      {
+        "path": "rng_state.json",
+        "size_bytes": 22449,
+        "sha256": "8b377ea1d25782cd2aaa133e161770c44eb47300122c2daec04c5cc9873816e5",
+        "role": "rng_state.json"
+      },
+      {
+        "path": "scheduler.pt",
+        "size_bytes": 1465,
+        "sha256": "9d27b6607a0efd18204b41bb30544245025b1132b043d3a00efb113b42e82136",
+        "role": "scheduler.pt"
+      },
+      {
+        "path": "torch_rng.safetensors",
+        "size_bytes": 5208,
+        "sha256": "0ddfe255c32b5b1025e8f90d3a9759e0bc5bb30ffe5006f2fdabacaccb6af3a6",
+        "role": "torch_rng.safetensors"
+      },
+      {
+        "path": "trainer_completion_prefix.jsonl",
+        "size_bytes": 1342878,
+        "sha256": "bc0363dd8b52a572d7dc9ffbec814134ebc05b961e9bc1cf12c9f2f8938fed35",
+        "role": "trainer_completion_prefix.jsonl"
+      },
+      {
+        "path": "trainer_state.json",
+        "size_bytes": 13021,
+        "sha256": "46f0e73456fcdaff3951f78a968405b3a201eb200b984cebf39bfc7b3b0ed782",
+        "role": "trainer_state.json"
+      },
+      {
+        "path": "value_adapter/adapter_config.json",
+        "size_bytes": 1166,
+        "sha256": "8580c34fc793f7d0e9ba3d06f02e48b94cf861db47a7ceaf105847de36060007",
+        "role": "value_adapter"
+      },
+      {
+        "path": "value_adapter/adapter_model.safetensors",
+        "size_bytes": 4372816,
+        "sha256": "e8dd733bb3a036fa75b5e559c196f8993b4be74a6c654200420c98e805901ce2",
+        "role": "value_adapter"
+      },
+      {
+        "path": "value_head/config.json",
+        "size_bytes": 55,
+        "sha256": "57b34c5261fd063ae10edcacb96f2ef58c136fd48cced0826c83dab362decc94",
+        "role": "value_head"
+      },
+      {
+        "path": "value_head/value_head.safetensors",
+        "size_bytes": 3176,
+        "sha256": "3929ecc5dd4ddac4883654530c24a2f9d37dc80e02997726f7effe451e0874c0",
+        "role": "value_head"
+      }
+    ],
+    "total_size_bytes": 67229533,
+    "artifact_manifest_sha256": "173bbfbcca5f0eea2a91afbe284f45850a82c17f636018ad786f1eddff60c3b9",
+    "completion_prefix_count": 256,
+    "metric_prefix_count": 16
+  },
+  {
+    "checkpoint_step": 24,
+    "checkpoint_root": "checkpoint-24",
+    "algorithm": "ppo",
+    "base_weights_included": false,
+    "files": [
+      {
+        "path": "artifact_manifest.json",
+        "size_bytes": 3453,
+        "sha256": "2db64c02624e503d507fa9f38cc7186a06ffc583d0d8997b8452b227f4b9c495",
+        "role": "artifact_manifest.json"
+      },
+      {
+        "path": "metrics_prefix.jsonl",
+        "size_bytes": 120718,
+        "sha256": "4adf0ccbc8ad676a1aa83d0b7c9e6d6b5ed989883a3c0fb3c5203e8913f981f2",
+        "role": "metrics_prefix.jsonl"
+      },
+      {
+        "path": "optimizer.pt",
+        "size_bytes": 43875542,
+        "sha256": "ac8c665461812f439ad5ba91271ae4b7b44360bbf550a78c3f03bd65880b73e9",
+        "role": "optimizer.pt"
+      },
+      {
+        "path": "policy_adapter/adapter_config.json",
+        "size_bytes": 1153,
+        "sha256": "bf1699cc92dfadda3b56ee63f0db25b4eeff6cf8659b1bc5959d21bdca3b5a73",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "policy_adapter/adapter_model.safetensors",
+        "size_bytes": 17462400,
+        "sha256": "30ff7999cbc374188578d9da1590210bb1229a8a4471c4b6dfaabf9474d4eeec",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "resume_manifest.json",
+        "size_bytes": 51716,
+        "sha256": "bc0c7c9823bb3f7d3bfb64a66383a7db110a061456bd33c3d43208ce2e2241f7",
+        "role": "resume_manifest.json"
+      },
+      {
+        "path": "rng_state.json",
+        "size_bytes": 22449,
+        "sha256": "29ab2a940e89b451838e46750ed6f28b2dc8616d7720f1c123192807f320b10b",
+        "role": "rng_state.json"
+      },
+      {
+        "path": "scheduler.pt",
+        "size_bytes": 1465,
+        "sha256": "7e46b7401588f996c6e55afbd3dd0a6506c56e98404eab43359358f80541ec5f",
+        "role": "scheduler.pt"
+      },
+      {
+        "path": "torch_rng.safetensors",
+        "size_bytes": 5208,
+        "sha256": "ec0a104dc371e67d04b8a20cb6382e40ea3fc8c9d6f794cfe0ef42b7bb75269f",
+        "role": "torch_rng.safetensors"
+      },
+      {
+        "path": "trainer_completion_prefix.jsonl",
+        "size_bytes": 2040310,
+        "sha256": "fb6e0a500e2d4ab9660b68adaf3c78a8aa6ab2530678cac632de5180f844250a",
+        "role": "trainer_completion_prefix.jsonl"
+      },
+      {
+        "path": "trainer_state.json",
+        "size_bytes": 19201,
+        "sha256": "643f7bfbf2fc280322a1abf0d60e83da89fa868f05499fc6584e46e75155aa5b",
+        "role": "trainer_state.json"
+      },
+      {
+        "path": "value_adapter/adapter_config.json",
+        "size_bytes": 1166,
+        "sha256": "8580c34fc793f7d0e9ba3d06f02e48b94cf861db47a7ceaf105847de36060007",
+        "role": "value_adapter"
+      },
+      {
+        "path": "value_adapter/adapter_model.safetensors",
+        "size_bytes": 4372816,
+        "sha256": "30c44aa70733e3e30b955085ca23cd3f548986f42cff6ae99a0029d1721fe3a2",
+        "role": "value_adapter"
+      },
+      {
+        "path": "value_head/config.json",
+        "size_bytes": 55,
+        "sha256": "57b34c5261fd063ae10edcacb96f2ef58c136fd48cced0826c83dab362decc94",
+        "role": "value_head"
+      },
+      {
+        "path": "value_head/value_head.safetensors",
+        "size_bytes": 3176,
+        "sha256": "588141e134af0855098cd686d6d22a35c0c5904d5d7a4c807e311af9f57e7524",
+        "role": "value_head"
+      }
+    ],
+    "total_size_bytes": 67980828,
+    "artifact_manifest_sha256": "2db64c02624e503d507fa9f38cc7186a06ffc583d0d8997b8452b227f4b9c495",
+    "completion_prefix_count": 384,
+    "metric_prefix_count": 24
+  },
+  {
+    "checkpoint_step": 32,
+    "checkpoint_root": "checkpoint-32",
+    "algorithm": "ppo",
+    "base_weights_included": false,
+    "files": [
+      {
+        "path": "artifact_manifest.json",
+        "size_bytes": 3453,
+        "sha256": "61b0364c79317bec1391e1087d680c8eced17c7ec66190254534ef887ba650b1",
+        "role": "artifact_manifest.json"
+      },
+      {
+        "path": "metrics_prefix.jsonl",
+        "size_bytes": 160857,
+        "sha256": "05421f10aeafecb0293c3ec7e3c658647d7ae007752f4230f9fd19c3389d3b3f",
+        "role": "metrics_prefix.jsonl"
+      },
+      {
+        "path": "optimizer.pt",
+        "size_bytes": 43875542,
+        "sha256": "fee0fa1e02184a1ceea8cde1b5bc52a90358b21b251888dee9a477a7e7552cab",
+        "role": "optimizer.pt"
+      },
+      {
+        "path": "policy_adapter/adapter_config.json",
+        "size_bytes": 1153,
+        "sha256": "bf1699cc92dfadda3b56ee63f0db25b4eeff6cf8659b1bc5959d21bdca3b5a73",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "policy_adapter/adapter_model.safetensors",
+        "size_bytes": 17462400,
+        "sha256": "5761c234c6849adcb4b85fc57d801da13a5960c9e91fd0ec8e1da03fc4e0588a",
+        "role": "policy_adapter"
+      },
+      {
+        "path": "resume_manifest.json",
+        "size_bytes": 59140,
+        "sha256": "4b71ac4807022619c1eb7a3385218fc702f07a96e5dd87a4853175234bd7acbf",
+        "role": "resume_manifest.json"
+      },
+      {
+        "path": "rng_state.json",
+        "size_bytes": 22449,
+        "sha256": "cb58f678a132f5d6d1e67c4edf2918ce179daac116ac29f3c83f2cf1ceaef0e7",
+        "role": "rng_state.json"
+      },
+      {
+        "path": "scheduler.pt",
+        "size_bytes": 1465,
+        "sha256": "8accf7b93fc3aded41471054bf11c5e5f07000e46c27f06847805ae7890e85d7",
+        "role": "scheduler.pt"
+      },
+      {
+        "path": "torch_rng.safetensors",
+        "size_bytes": 5208,
+        "sha256": "c8b2b2b98f1a3575a5aff5b21e868b74f85f3d7fa6bc95aea3fc32c31b5723f3",
+        "role": "torch_rng.safetensors"
+      },
+      {
+        "path": "trainer_completion_prefix.jsonl",
+        "size_bytes": 2684774,
+        "sha256": "202c74e6715bd8375ea7ff00ebf6ff3eecd8c21747d22b541a6834ab8a6743c2",
+        "role": "trainer_completion_prefix.jsonl"
+      },
+      {
+        "path": "trainer_state.json",
+        "size_bytes": 25349,
+        "sha256": "c5fa3aef6a16740c3eb3238b1c37eb37f5fb0ae74f926972a2e8831df7809de0",
+        "role": "trainer_state.json"
+      },
+      {
+        "path": "value_adapter/adapter_config.json",
+        "size_bytes": 1166,
+        "sha256": "8580c34fc793f7d0e9ba3d06f02e48b94cf861db47a7ceaf105847de36060007",
+        "role": "value_adapter"
+      },
+      {
+        "path": "value_adapter/adapter_model.safetensors",
+        "size_bytes": 4372816,
+        "sha256": "6211addbd6e889dd0efeada8b2a723d835d712c85405404c9474de6895bf88f1",
+        "role": "value_adapter"
+      },
+      {
+        "path": "value_head/config.json",
+        "size_bytes": 55,
+        "sha256": "57b34c5261fd063ae10edcacb96f2ef58c136fd48cced0826c83dab362decc94",
+        "role": "value_head"
+      },
+      {
+        "path": "value_head/value_head.safetensors",
+        "size_bytes": 3176,
+        "sha256": "dd3d13d2b3ca98f3ffd90c4be8482b89408be075cf2f9d98d85655d626bb5dad",
+        "role": "value_head"
+      }
+    ],
+    "total_size_bytes": 68679003,
+    "artifact_manifest_sha256": "61b0364c79317bec1391e1087d680c8eced17c7ec66190254534ef887ba650b1",
+    "completion_prefix_count": 512,
+    "metric_prefix_count": 32
+  }
+]

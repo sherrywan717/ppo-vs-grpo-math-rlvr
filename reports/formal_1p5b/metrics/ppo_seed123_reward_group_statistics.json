@@ -1,0 +1,3605 @@
+{
+  "run_id": "ppo_formal_1p5b_seed123_20260720T043732Z",
+  "rows": [
+    {
+      "scope": "update",
+      "update_start": 1,
+      "update_end": 1,
+      "update": 1,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.08750000000000001,
+      "reward_std": 0.09100137361600648,
+      "reward_variance": 0.00828125,
+      "group_rewards": [
+        [
+          0.2,
+          0.1,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.15,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0018750000000000001,
+        0.0,
+        0.006718750000000001,
+        0.004218749999999999
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 2,
+      "update_end": 2,
+      "update": 2,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.121875,
+      "reward_std": 0.24300768377769458,
+      "reward_variance": 0.059052734375,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.15,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.2,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.007500000000000001,
+        0.0,
+        0.006718750000000001,
+        0.17
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 3,
+      "update_end": 3,
+      "update": 3,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.29375,
+      "reward_std": 0.34860211918460854,
+      "reward_variance": 0.1215234375,
+      "group_rewards": [
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.15
+        ],
+        [
+          0.2,
+          1.0,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.006718750000000001,
+        0.12,
+        0.004218749999999999,
+        0.16
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 4,
+      "update_end": 4,
+      "update": 4,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.503125,
+      "reward_std": 0.443871022229431,
+      "reward_variance": 0.197021484375,
+      "group_rewards": [
+        [
+          0.2,
+          0.2,
+          1.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.05,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.2,
+          1.0,
+          1.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.12,
+        0.00046875000000000004,
+        0.12,
+        0.12
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 5,
+      "update_end": 5,
+      "update": 5,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.21875,
+      "reward_std": 0.30866395562164367,
+      "reward_variance": 0.0952734375,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.1,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          1.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.176875,
+        0.0,
+        0.12
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 6,
+      "update_end": 6,
+      "update": 6,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.5,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.021875,
+      "reward_std": 0.058546856234984984,
+      "reward_variance": 0.0034277343750000002,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.0,
+        0.004218749999999999,
+        0.007500000000000001
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 7,
+      "update_end": 7,
+      "update": 7,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.090625,
+      "reward_std": 0.24252496649829683,
+      "reward_variance": 0.058818359375,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.1
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.15,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.0018750000000000001,
+        0.007500000000000001,
+        0.17296875
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 8,
+      "update_end": 8,
+      "update": 8,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.225,
+      "reward_std": 0.3051638903933426,
+      "reward_variance": 0.093125,
+      "group_rewards": [
+        [
+          0.1,
+          0.0,
+          1.0,
+          0.1
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.165,
+        0.0,
+        0.12,
+        0.0
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 9,
+      "update_end": 9,
+      "update": 9,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.09062500000000001,
+      "reward_std": 0.08332682266233365,
+      "reward_variance": 0.006943359375000001,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.05
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.0018750000000000001,
+        0.007500000000000001,
+        0.00046875000000000004,
+        0.0
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 10,
+      "update_end": 10,
+      "update": 10,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.475,
+      "reward_std": 0.4683748498798799,
+      "reward_variance": 0.219375,
+      "group_rewards": [
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.12,
+        0.1875,
+        0.12,
+        0.007500000000000001
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 11,
+      "update_end": 11,
+      "update": 11,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.09375,
+      "reward_std": 0.08637671850678283,
+      "reward_variance": 0.0074609375000000006,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.1,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.15,
+          0.2,
+          0.0
+        ],
+        [
+          0.15,
+          0.15,
+          0.2,
+          0.15
+        ]
+      ],
+      "group_reward_variances": [
+        0.007500000000000001,
+        0.0018750000000000001,
+        0.006718750000000001,
+        0.0004687500000000003
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 12,
+      "update_end": 12,
+      "update": 12,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.16875,
+      "reward_std": 0.32301073898556376,
+      "reward_variance": 0.1043359375,
+      "group_rewards": [
+        [
+          0.2,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.15,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.00796875,
+        0.007500000000000001,
+        0.004218749999999999,
+        0.25
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 13,
+      "update_end": 13,
+      "update": 13,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.19375,
+      "reward_std": 0.316659813522335,
+      "reward_variance": 0.1002734375,
+      "group_rewards": [
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.15,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.1875,
+        0.1875,
+        0.0004687500000000003,
+        0.00796875
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 14,
+      "update_end": 14,
+      "update": 14,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.140625,
+      "reward_std": 0.23928196625529471,
+      "reward_variance": 0.057255859375,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.1
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.00421875,
+        0.010000000000000002,
+        0.12
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 15,
+      "update_end": 15,
+      "update": 15,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.07500000000000001,
+      "reward_std": 0.09682458365518543,
+      "reward_variance": 0.009375000000000001,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.007500000000000001,
+        0.007500000000000001,
+        0.0
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 16,
+      "update_end": 16,
+      "update": 16,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.178125,
+      "reward_std": 0.32014096016442506,
+      "reward_variance": 0.102490234375,
+      "group_rewards": [
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.15
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          1.0,
+          0.15,
+          0.0,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.004218749999999999,
+        0.17296875,
+        0.010000000000000002,
+        0.17296875
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 17,
+      "update_end": 17,
+      "update": 17,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.13125,
+      "reward_std": 0.23905739373631596,
+      "reward_variance": 0.0571484375,
+      "group_rewards": [
+        [
+          1.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.1475,
+        0.0018750000000000001,
+        0.0,
+        0.010000000000000002
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 18,
+      "update_end": 18,
+      "update": 18,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.5,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.109375,
+      "reward_std": 0.24381008874736912,
+      "reward_variance": 0.059443359375,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.0,
+        0.12,
+        0.004218749999999999
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 19,
+      "update_end": 19,
+      "update": 19,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.121875,
+      "reward_std": 0.23977121256522851,
+      "reward_variance": 0.057490234375,
+      "group_rewards": [
+        [
+          0.1,
+          0.05,
+          0.0,
+          0.0
+        ],
+        [
+          0.05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.2,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.0017187500000000002,
+        0.00046875000000000004,
+        0.1475,
+        0.00796875
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 20,
+      "update_end": 20,
+      "update": 20,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.5,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.2125,
+      "reward_std": 0.38385381331960217,
+      "reward_variance": 0.14734375,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          1.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.0,
+        0.1875,
+        0.16
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 21,
+      "update_end": 21,
+      "update": 21,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.5,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.196875,
+      "reward_std": 0.38668008013731453,
+      "reward_variance": 0.149521484375,
+      "group_rewards": [
+        [
+          0.05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.00046875000000000004,
+        0.0,
+        0.151875,
+        0.0
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 22,
+      "update_end": 22,
+      "update": 22,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.528125,
+      "reward_std": 0.41906471382711286,
+      "reward_variance": 0.17561523437499998,
+      "group_rewards": [
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.1,
+          0.0,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.15,
+          1.0,
+          1.0,
+          1.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.006875000000000001,
+        0.0,
+        0.13546875
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 23,
+      "update_end": 23,
+      "update": 23,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.5,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.159375,
+      "reward_std": 0.32558541026127075,
+      "reward_variance": 0.106005859375,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          0.15,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.007500000000000001,
+        0.0,
+        0.17046875,
+        0.0
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 24,
+      "update_end": 24,
+      "update": 24,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.33125,
+      "reward_std": 0.39444383313724146,
+      "reward_variance": 0.1555859375,
+      "group_rewards": [
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.2,
+          0.15,
+          0.2,
+          0.15
+        ]
+      ],
+      "group_reward_variances": [
+        0.007500000000000001,
+        0.0,
+        0.0,
+        0.0006250000000000004
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 25,
+      "update_end": 25,
+      "update": 25,
+      "group_count": 4,
+      "zero_std_group_count": 3,
+      "zero_std_group_fraction": 0.75,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.5,
+      "all_equal_group_count": 3,
+      "all_equal_group_fraction": 0.75,
+      "nonzero_variance_group_count": 1,
+      "nonzero_variance_group_fraction": 0.25,
+      "zero_advantage_group_count": 3,
+      "zero_advantage_group_fraction": 0.75,
+      "reward_mean": 0.2,
+      "reward_std": 0.31622776601683794,
+      "reward_variance": 0.1,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          0.2,
+          1.0,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.0,
+        0.0,
+        0.16
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 26,
+      "update_end": 26,
+      "update": 26,
+      "group_count": 4,
+      "zero_std_group_count": 3,
+      "zero_std_group_fraction": 0.75,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.5,
+      "all_equal_group_count": 3,
+      "all_equal_group_fraction": 0.75,
+      "nonzero_variance_group_count": 1,
+      "nonzero_variance_group_fraction": 0.25,
+      "zero_advantage_group_count": 3,
+      "zero_advantage_group_fraction": 0.75,
+      "reward_mean": 0.3125,
+      "reward_std": 0.46351240544347894,
+      "reward_variance": 0.21484375,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.0,
+        0.1875,
+        0.0
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 27,
+      "update_end": 27,
+      "update": 27,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.321875,
+      "reward_std": 0.4003782391376934,
+      "reward_variance": 0.160302734375,
+      "group_rewards": [
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          0.15
+        ]
+      ],
+      "group_reward_variances": [
+        0.010000000000000002,
+        0.010000000000000002,
+        0.25,
+        0.17046875
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 28,
+      "update_end": 28,
+      "update": 28,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.246875,
+      "reward_std": 0.3697417806726743,
+      "reward_variance": 0.136708984375,
+      "group_rewards": [
+        [
+          0.0,
+          0.1,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0025000000000000005,
+        0.004218749999999999,
+        0.010000000000000002,
+        0.12
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 29,
+      "update_end": 29,
+      "update": 29,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.25625,
+      "reward_std": 0.29094404530768453,
+      "reward_variance": 0.08464843749999999,
+      "group_rewards": [
+        [
+          0.0,
+          0.15,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.15
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.006718750000000001,
+        0.25,
+        0.0004687500000000003,
+        0.0
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 30,
+      "update_end": 30,
+      "update": 30,
+      "group_count": 4,
+      "zero_std_group_count": 2,
+      "zero_std_group_fraction": 0.5,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.5,
+      "all_equal_group_count": 2,
+      "all_equal_group_fraction": 0.5,
+      "nonzero_variance_group_count": 2,
+      "nonzero_variance_group_fraction": 0.5,
+      "zero_advantage_group_count": 2,
+      "zero_advantage_group_fraction": 0.5,
+      "reward_mean": 0.225,
+      "reward_std": 0.3799671038392666,
+      "reward_variance": 0.144375,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          0.2,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.25,
+        0.0,
+        0.12
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 31,
+      "update_end": 31,
+      "update": 31,
+      "group_count": 4,
+      "zero_std_group_count": 0,
+      "zero_std_group_fraction": 0.0,
+      "all_zero_group_count": 0,
+      "all_zero_group_fraction": 0.0,
+      "all_equal_group_count": 0,
+      "all_equal_group_fraction": 0.0,
+      "nonzero_variance_group_count": 4,
+      "nonzero_variance_group_fraction": 1.0,
+      "zero_advantage_group_count": 0,
+      "zero_advantage_group_fraction": 0.0,
+      "reward_mean": 0.3875,
+      "reward_std": 0.419635258289863,
+      "reward_variance": 0.17609375,
+      "group_rewards": [
+        [
+          0.0,
+          0.1,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.1
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.226875,
+        0.0018750000000000001,
+        0.16,
+        0.12
+      ]
+    },
+    {
+      "scope": "update",
+      "update_start": 32,
+      "update_end": 32,
+      "update": 32,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.196875,
+      "reward_std": 0.31447811430209255,
+      "reward_variance": 0.098896484375,
+      "group_rewards": [
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.1,
+          0.1,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.15,
+          1.0,
+          0.2,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.007500000000000001,
+        0.1425,
+        0.0,
+        0.12546875
+      ]
+    },
+    {
+      "scope": "update_1",
+      "update_start": 1,
+      "update_end": 1,
+      "update": 1,
+      "group_count": 4,
+      "zero_std_group_count": 1,
+      "zero_std_group_fraction": 0.25,
+      "all_zero_group_count": 1,
+      "all_zero_group_fraction": 0.25,
+      "all_equal_group_count": 1,
+      "all_equal_group_fraction": 0.25,
+      "nonzero_variance_group_count": 3,
+      "nonzero_variance_group_fraction": 0.75,
+      "zero_advantage_group_count": 1,
+      "zero_advantage_group_fraction": 0.25,
+      "reward_mean": 0.08750000000000001,
+      "reward_std": 0.09100137361600648,
+      "reward_variance": 0.00828125,
+      "group_rewards": [
+        [
+          0.2,
+          0.1,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.15,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0018750000000000001,
+        0.0,
+        0.006718750000000001,
+        0.004218749999999999
+      ]
+    },
+    {
+      "scope": "updates_2_8",
+      "update_start": 2,
+      "update_end": 8,
+      "update": null,
+      "group_count": 28,
+      "zero_std_group_count": 8,
+      "zero_std_group_fraction": 0.2857142857142857,
+      "all_zero_group_count": 6,
+      "all_zero_group_fraction": 0.21428571428571427,
+      "all_equal_group_count": 8,
+      "all_equal_group_fraction": 0.2857142857142857,
+      "nonzero_variance_group_count": 20,
+      "nonzero_variance_group_fraction": 0.7142857142857143,
+      "zero_advantage_group_count": 8,
+      "zero_advantage_group_fraction": 0.2857142857142857,
+      "reward_mean": 0.21071428571428572,
+      "reward_std": 0.333570281429658,
+      "reward_variance": 0.11126913265306122,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.15,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.15
+        ],
+        [
+          0.2,
+          1.0,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.05,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.2,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.1,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.1
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.15,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.1,
+          0.0,
+          1.0,
+          0.1
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.007500000000000001,
+        0.0,
+        0.006718750000000001,
+        0.17,
+        0.006718750000000001,
+        0.12,
+        0.004218749999999999,
+        0.16,
+        0.12,
+        0.00046875000000000004,
+        0.12,
+        0.12,
+        0.0,
+        0.176875,
+        0.0,
+        0.12,
+        0.0,
+        0.0,
+        0.004218749999999999,
+        0.007500000000000001,
+        0.0,
+        0.0018750000000000001,
+        0.007500000000000001,
+        0.17296875,
+        0.165,
+        0.0,
+        0.12,
+        0.0
+      ]
+    },
+    {
+      "scope": "updates_9_16",
+      "update_start": 9,
+      "update_end": 16,
+      "update": null,
+      "group_count": 32,
+      "zero_std_group_count": 4,
+      "zero_std_group_fraction": 0.125,
+      "all_zero_group_count": 2,
+      "all_zero_group_fraction": 0.0625,
+      "all_equal_group_count": 4,
+      "all_equal_group_fraction": 0.125,
+      "nonzero_variance_group_count": 28,
+      "nonzero_variance_group_fraction": 0.875,
+      "zero_advantage_group_count": 4,
+      "zero_advantage_group_fraction": 0.125,
+      "reward_mean": 0.176953125,
+      "reward_std": 0.30057902089589417,
+      "reward_variance": 0.09034774780273437,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.05
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.1,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.15,
+          0.2,
+          0.0
+        ],
+        [
+          0.15,
+          0.15,
+          0.2,
+          0.15
+        ],
+        [
+          0.2,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.15,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.15,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.1
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.15
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          1.0,
+          0.15,
+          0.0,
+          0.0
+        ]
+      ],
+      "group_reward_variances": [
+        0.0018750000000000001,
+        0.007500000000000001,
+        0.00046875000000000004,
+        0.0,
+        0.12,
+        0.1875,
+        0.12,
+        0.007500000000000001,
+        0.007500000000000001,
+        0.0018750000000000001,
+        0.006718750000000001,
+        0.0004687500000000003,
+        0.00796875,
+        0.007500000000000001,
+        0.004218749999999999,
+        0.25,
+        0.1875,
+        0.1875,
+        0.0004687500000000003,
+        0.00796875,
+        0.0,
+        0.00421875,
+        0.010000000000000002,
+        0.12,
+        0.0,
+        0.007500000000000001,
+        0.007500000000000001,
+        0.0,
+        0.004218749999999999,
+        0.17296875,
+        0.010000000000000002,
+        0.17296875
+      ]
+    },
+    {
+      "scope": "updates_17_24",
+      "update_start": 17,
+      "update_end": 24,
+      "update": null,
+      "group_count": 32,
+      "zero_std_group_count": 13,
+      "zero_std_group_fraction": 0.40625,
+      "all_zero_group_count": 10,
+      "all_zero_group_fraction": 0.3125,
+      "all_equal_group_count": 13,
+      "all_equal_group_fraction": 0.40625,
+      "nonzero_variance_group_count": 19,
+      "nonzero_variance_group_fraction": 0.59375,
+      "zero_advantage_group_count": 13,
+      "zero_advantage_group_fraction": 0.40625,
+      "reward_mean": 0.223828125,
+      "reward_std": 0.36217468397029684,
+      "reward_variance": 0.13117050170898437,
+      "group_rewards": [
+        [
+          1.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.1,
+          0.05,
+          0.0,
+          0.0
+        ],
+        [
+          0.05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.2,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          1.0
+        ],
+        [
+          0.05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.1,
+          0.0,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.15,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          0.15,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.2,
+          0.15,
+          0.2,
+          0.15
+        ]
+      ],
+      "group_reward_variances": [
+        0.1475,
+        0.0018750000000000001,
+        0.0,
+        0.010000000000000002,
+        0.0,
+        0.0,
+        0.12,
+        0.004218749999999999,
+        0.0017187500000000002,
+        0.00046875000000000004,
+        0.1475,
+        0.00796875,
+        0.0,
+        0.0,
+        0.1875,
+        0.16,
+        0.00046875000000000004,
+        0.0,
+        0.151875,
+        0.0,
+        0.0,
+        0.006875000000000001,
+        0.0,
+        0.13546875,
+        0.007500000000000001,
+        0.0,
+        0.17046875,
+        0.0,
+        0.007500000000000001,
+        0.0,
+        0.0,
+        0.0006250000000000004
+      ]
+    },
+    {
+      "scope": "updates_25_32",
+      "update_start": 25,
+      "update_end": 32,
+      "update": null,
+      "group_count": 32,
+      "zero_std_group_count": 10,
+      "zero_std_group_fraction": 0.3125,
+      "all_zero_group_count": 7,
+      "all_zero_group_fraction": 0.21875,
+      "all_equal_group_count": 10,
+      "all_equal_group_fraction": 0.3125,
+      "nonzero_variance_group_count": 22,
+      "nonzero_variance_group_fraction": 0.6875,
+      "zero_advantage_group_count": 10,
+      "zero_advantage_group_fraction": 0.3125,
+      "reward_mean": 0.268359375,
+      "reward_std": 0.3786732128096855,
+      "reward_variance": 0.14339340209960938,
+      "group_rewards": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          0.2,
+          1.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          0.15
+        ],
+        [
+          0.0,
+          0.1,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.15
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.1,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.1
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.1,
+          0.1,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.15,
+          1.0,
+          0.2,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.0,
+        0.0,
+        0.0,
+        0.16,
+        0.0,
+        0.0,
+        0.1875,
+        0.0,
+        0.010000000000000002,
+        0.010000000000000002,
+        0.25,
+        0.17046875,
+        0.0025000000000000005,
+        0.004218749999999999,
+        0.010000000000000002,
+        0.12,
+        0.006718750000000001,
+        0.25,
+        0.0004687500000000003,
+        0.0,
+        0.0,
+        0.25,
+        0.0,
+        0.12,
+        0.226875,
+        0.0018750000000000001,
+        0.16,
+        0.12,
+        0.007500000000000001,
+        0.1425,
+        0.0,
+        0.12546875
+      ]
+    },
+    {
+      "scope": "run_total",
+      "update_start": 1,
+      "update_end": 32,
+      "update": null,
+      "group_count": 128,
+      "zero_std_group_count": 36,
+      "zero_std_group_fraction": 0.28125,
+      "all_zero_group_count": 26,
+      "all_zero_group_fraction": 0.203125,
+      "all_equal_group_count": 36,
+      "all_equal_group_fraction": 0.28125,
+      "nonzero_variance_group_count": 92,
+      "nonzero_variance_group_fraction": 0.71875,
+      "zero_advantage_group_count": 36,
+      "zero_advantage_group_fraction": 0.28125,
+      "reward_mean": 0.21611328125,
+      "reward_std": 0.34268176469555306,
+      "reward_variance": 0.1174307918548584,
+      "group_rewards": [
+        [
+          0.2,
+          0.1,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.15,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.15,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.15
+        ],
+        [
+          0.2,
+          1.0,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.05,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.2,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.1,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.1
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.15,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.1,
+          0.0,
+          1.0,
+          0.1
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.05
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.1,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.15,
+          0.2,
+          0.0
+        ],
+        [
+          0.15,
+          0.15,
+          0.2,
+          0.15
+        ],
+        [
+          0.2,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.15,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.15,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.1
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.15
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          1.0,
+          0.15,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.1,
+          0.05,
+          0.0,
+          0.0
+        ],
+        [
+          0.05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.2,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          1.0
+        ],
+        [
+          0.05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.1,
+          0.0,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.15,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.2,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          0.15,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.2,
+          0.15,
+          0.2,
+          0.15
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          0.2,
+          1.0,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          0.15
+        ],
+        [
+          0.0,
+          0.1,
+          0.1,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.15,
+          0.0
+        ],
+        [
+          0.0,
+          0.2,
+          0.2,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.15,
+          0.2,
+          0.2
+        ],
+        [
+          1.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.15
+        ],
+        [
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.2,
+          1.0,
+          0.2,
+          0.2
+        ],
+        [
+          0.0,
+          0.1,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.1
+        ],
+        [
+          0.2,
+          1.0,
+          1.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.2,
+          1.0,
+          0.2
+        ],
+        [
+          0.2,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.1,
+          0.1,
+          0.2
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.15,
+          1.0,
+          0.2,
+          0.2
+        ]
+      ],
+      "group_reward_variances": [
+        0.0018750000000000001,
+        0.0,
+        0.006718750000000001,
+        0.004218749999999999,
+        0.007500000000000001,
+        0.0,
+        0.006718750000000001,
+        0.17,
+        0.006718750000000001,
+        0.12,
+        0.004218749999999999,
+        0.16,
+        0.12,
+        0.00046875000000000004,
+        0.12,
+        0.12,
+        0.0,
+        0.176875,
+        0.0,
+        0.12,
+        0.0,
+        0.0,
+        0.004218749999999999,
+        0.007500000000000001,
+        0.0,
+        0.0018750000000000001,
+        0.007500000000000001,
+        0.17296875,
+        0.165,
+        0.0,
+        0.12,
+        0.0,
+        0.0018750000000000001,
+        0.007500000000000001,
+        0.00046875000000000004,
+        0.0,
+        0.12,
+        0.1875,
+        0.12,
+        0.007500000000000001,
+        0.007500000000000001,
+        0.0018750000000000001,
+        0.006718750000000001,
+        0.0004687500000000003,
+        0.00796875,
+        0.007500000000000001,
+        0.004218749999999999,
+        0.25,
+        0.1875,
+        0.1875,
+        0.0004687500000000003,
+        0.00796875,
+        0.0,
+        0.00421875,
+        0.010000000000000002,
+        0.12,
+        0.0,
+        0.007500000000000001,
+        0.007500000000000001,
+        0.0,
+        0.004218749999999999,
+        0.17296875,
+        0.010000000000000002,
+        0.17296875,
+        0.1475,
+        0.0018750000000000001,
+        0.0,
+        0.010000000000000002,
+        0.0,
+        0.0,
+        0.12,
+        0.004218749999999999,
+        0.0017187500000000002,
+        0.00046875000000000004,
+        0.1475,
+        0.00796875,
+        0.0,
+        0.0,
+        0.1875,
+        0.16,
+        0.00046875000000000004,
+        0.0,
+        0.151875,
+        0.0,
+        0.0,
+        0.006875000000000001,
+        0.0,
+        0.13546875,
+        0.007500000000000001,
+        0.0,
+        0.17046875,
+        0.0,
+        0.007500000000000001,
+        0.0,
+        0.0,
+        0.0006250000000000004,
+        0.0,
+        0.0,
+        0.0,
+        0.16,
+        0.0,
+        0.0,
+        0.1875,
+        0.0,
+        0.010000000000000002,
+        0.010000000000000002,
+        0.25,
+        0.17046875,
+        0.0025000000000000005,
+        0.004218749999999999,
+        0.010000000000000002,
+        0.12,
+        0.006718750000000001,
+        0.25,
+        0.0004687500000000003,
+        0.0,
+        0.0,
+        0.25,
+        0.0,
+        0.12,
+        0.226875,
+        0.0018750000000000001,
+        0.16,
+        0.12,
+        0.007500000000000001,
+        0.1425,
+        0.0,
+        0.12546875
+      ]
+    }
+  ]
+}

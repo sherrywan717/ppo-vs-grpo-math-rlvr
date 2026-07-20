@@ -1,0 +1,17 @@
+scope,algorithm,metric,seed42,seed123,mean,sample_sd
+training_update_mean,ppo,reward_mean,0.23652343750000002,0.21611328125,0.226318359375,0.014432159889452
+training_update_mean,ppo,canonical_pass_rate,0.16796875,0.15234375,0.16015625,0.011048543456039806
+training_update_mean,ppo,format_accuracy,0.486328125,0.447265625,0.466796875,0.027621358640099514
+training_update_mean,ppo,parseable_rate,0.42578125,0.40234375,0.4140625,0.016572815184059706
+checkpoint32_validation,ppo,sampled_pass_at_1,0.03125,0.046875,0.0390625,0.011048543456039806
+checkpoint32_validation,ppo,format_valid_rate,0.109375,0.15625,0.1328125,0.03314563036811941
+checkpoint32_validation,ppo,parseable_rate,0.109375,0.15625,0.1328125,0.03314563036811941
+checkpoint32_validation,ppo,truncation_rate,0.109375,0.078125,0.09375,0.02209708691207961
+training_update_mean,grpo,reward_mean,0.2671875,0.24423828125,0.255712890625,0.016227548201058484
+training_update_mean,grpo,canonical_pass_rate,0.19140625,0.169921875,0.1806640625,0.015191747252054731
+training_update_mean,grpo,format_accuracy,0.546875,0.515625,0.53125,0.02209708691207961
+training_update_mean,grpo,parseable_rate,0.46875,0.44140625,0.455078125,0.01933495104806966
+checkpoint32_validation,grpo,sampled_pass_at_1,0.078125,0.09375,0.0859375,0.011048543456039806
+checkpoint32_validation,grpo,format_valid_rate,0.21875,0.234375,0.2265625,0.011048543456039806
+checkpoint32_validation,grpo,parseable_rate,0.1875,0.21875,0.203125,0.02209708691207961
+checkpoint32_validation,grpo,truncation_rate,0.03125,0.078125,0.0546875,0.03314563036811941
