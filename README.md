@@ -266,10 +266,12 @@ composite is `scientifically_complete_with_recovered_validation`; its 32-update
 training and checkpoint curves are in
 [`reports/formal_1p5b/03_ppo_training.md`](reports/formal_1p5b/03_ppo_training.md).
 Stage H.4 corrected prospective valid-answer telemetry without changing optimization.
-Stage I then completed formal GRPO seed 42: 32 updates, 512 training completions, safe
-checkpoints, and four frozen validations. Reports are in
-[`04_grpo_training.md`](reports/formal_1p5b/04_grpo_training.md) and
-[`05_seed42_ppo_vs_grpo.md`](reports/formal_1p5b/05_seed42_ppo_vs_grpo.md). The matched
-review is descriptive, not a single-seed superiority claim. The sole next task in
-[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md) is separately authorized formal GRPO seed 123.
-No seed-123 or final-test command starts automatically.
+Stage I completed formal GRPO seed 42, and Stage J completed formal GRPO seed 123
+without changing the frozen contract. Both runs have 32 updates, 512 training
+completions, safe checkpoints, and four frozen validations. Reports are in
+[`04_grpo_training.md`](reports/formal_1p5b/04_grpo_training.md),
+[`06_grpo_seed123_training.md`](reports/formal_1p5b/06_grpo_seed123_training.md), and
+[`07_grpo_seed_stability.md`](reports/formal_1p5b/07_grpo_seed_stability.md). The
+two-seed review is descriptive, not a significance or superiority claim. The sole next
+task in [`docs/NEXT_TASK.md`](docs/NEXT_TASK.md) is separately authorized formal PPO
+seed 123. No PPO seed-123 or final-test command starts automatically.

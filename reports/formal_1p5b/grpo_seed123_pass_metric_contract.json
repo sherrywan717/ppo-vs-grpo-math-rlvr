@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "run_id": "grpo_formal_1p5b_seed123_20260720T035927Z",
+  "algorithm": "grpo",
+  "seed": 123,
+  "validation": {
+    "problem_universe": "frozen validation_64.json",
+    "problem_count": 64,
+    "sampling_mode": "one sampled candidate per problem at each checkpoint",
+    "candidates_per_problem": 1,
+    "sampled_pass_at_1": {
+      "numerator": "problems whose sole candidate is VERIFIED_PASS",
+      "denominator": 64,
+      "aggregation": "mean of per-problem binary canonical pass"
+    },
+    "pass_at_4": {
+      "value": null,
+      "available": false,
+      "reason": "validation_protocol_has_one_candidate_per_problem"
+    },
+    "completion_cap": 256,
+    "prompt_sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+    "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd"
+  }
+}

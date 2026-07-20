@@ -985,3 +985,27 @@ This file records operational history and pitfalls that should survive context c
 - Same-seed PPO/GRPO review is in `05_seed42_ppo_vs_grpo.md`. It is descriptive, not a
   significance or superiority claim. The next decision is separately authorized formal
   GRPO seed 123; do not start it automatically.
+
+
+## Stage J formal GRPO seed-123 success
+
+- Clean execution base was `e54d84d9795ad74da855e6fdf6e8a15700d36d1d`; frozen
+  command ran exactly once as `grpo_formal_1p5b_seed123_20260720T035927Z`, with zero retries and no source/config
+  change or seed-42-driven tuning.
+- Training completed 32 update/optimizer/global steps, 128 microsteps, 512 completions,
+  52,284 rollout tokens, and 128 four-completion groups. One hundred groups had
+  nonzero variance, 28 were zero-advantage/all-equal, and 16 were all-zero. Mean
+  reward/canonical pass/format/parseable was 0.244238/16.9922%/51.5625%/44.1406%.
+- Checkpoints 8/16/24/32 contain policy adapter and trusted optimizer/scheduler/RNG/
+  counter/prefix state; no PPO value role or full base weights. All checksums passed.
+- Frozen validation produced 64 completions per checkpoint and 27,513 separate tokens.
+  Pass@1 was 4.6875%/7.8125%/9.375%/9.375%; pass@4 is null/unavailable under one
+  candidate per problem. No final test or checkpoint selection occurred.
+- Usage was 1,113.959 seconds, 0.309433 GPU-hours, CNY 2.747765, peak nvidia-smi
+  VRAM 8,741 MiB, and mean utilization 37.58%. Full backup: `e78eb0719bc93c1076bd06e50037cc453cbaa5103cf1e1fbfc9e8151212e521a`.
+  Post-process GPU state was 0 MiB/no compute process.
+- GRPO seed42/123 stability review is in `07_grpo_seed_stability.md`; results are
+  descriptive, not statistically significant. Warnings remain limited to run-root
+  post-train JSONL finalization, pre-lazy-optimizer role snapshot, and pre-exit allocator
+  residue; trusted checkpoint prefixes and parent GPU release are authoritative.
+- Next decision: separately authorize formal PPO seed 123. Do not start it automatically.

@@ -1,0 +1,88 @@
+{
+  "run_id": "grpo_formal_1p5b_seed123_20260720T035927Z",
+  "rows": [
+    {
+      "phase": "training",
+      "algorithm": "grpo",
+      "seed": 123,
+      "run_id": "grpo_formal_1p5b_seed123_20260720T035927Z",
+      "checkpoint_step": null,
+      "unique_problems": 128,
+      "completions_per_problem": 4,
+      "completion_count": 512,
+      "generated_tokens": 52284,
+      "cumulative_generated_tokens": 52284,
+      "token_budget_scope": "training_rollout_cap_131072"
+    },
+    {
+      "phase": "validation",
+      "algorithm": "grpo",
+      "seed": 123,
+      "run_id": "grpo_formal_1p5b_seed123_20260720T035927Z",
+      "checkpoint_step": 8,
+      "unique_problems": 64,
+      "completions_per_problem": 1,
+      "completion_count": 64,
+      "generated_tokens": 6590,
+      "cumulative_generated_tokens": 6590,
+      "token_budget_scope": "validation_separate_from_training"
+    },
+    {
+      "phase": "validation",
+      "algorithm": "grpo",
+      "seed": 123,
+      "run_id": "grpo_formal_1p5b_seed123_20260720T035927Z",
+      "checkpoint_step": 16,
+      "unique_problems": 64,
+      "completions_per_problem": 1,
+      "completion_count": 64,
+      "generated_tokens": 7089,
+      "cumulative_generated_tokens": 13679,
+      "token_budget_scope": "validation_separate_from_training"
+    },
+    {
+      "phase": "validation",
+      "algorithm": "grpo",
+      "seed": 123,
+      "run_id": "grpo_formal_1p5b_seed123_20260720T035927Z",
+      "checkpoint_step": 24,
+      "unique_problems": 64,
+      "completions_per_problem": 1,
+      "completion_count": 64,
+      "generated_tokens": 6938,
+      "cumulative_generated_tokens": 20617,
+      "token_budget_scope": "validation_separate_from_training"
+    },
+    {
+      "phase": "validation",
+      "algorithm": "grpo",
+      "seed": 123,
+      "run_id": "grpo_formal_1p5b_seed123_20260720T035927Z",
+      "checkpoint_step": 32,
+      "unique_problems": 64,
+      "completions_per_problem": 1,
+      "completion_count": 64,
+      "generated_tokens": 6896,
+      "cumulative_generated_tokens": 27513,
+      "token_budget_scope": "validation_separate_from_training"
+    },
+    {
+      "phase": "validation_total",
+      "algorithm": "grpo",
+      "seed": 123,
+      "run_id": "grpo_formal_1p5b_seed123_20260720T035927Z",
+      "checkpoint_step": null,
+      "unique_problems": 256,
+      "completions_per_problem": 1,
+      "completion_count": 256,
+      "generated_tokens": 27513,
+      "cumulative_generated_tokens": 27513,
+      "token_budget_scope": "validation_separate_from_training"
+    }
+  ],
+  "final_test": {
+    "executed": false,
+    "completion_count": 0,
+    "generated_tokens": null
+  }
+}

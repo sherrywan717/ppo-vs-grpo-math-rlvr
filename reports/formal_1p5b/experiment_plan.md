@@ -390,3 +390,18 @@ The fixed step-32 selection was not changed, and formal test was not run. The ma
 seed-42 review is descriptive only; PPO/GRPO loss and native entropy magnitudes are not
 directly comparable. Seed 123 is still required before two-seed aggregation and requires
 a new explicit authorization.
+
+
+## Stage J GRPO seed-123 execution record
+
+The frozen GRPO seed-123 command executed once from commit
+`e54d84d9795ad74da855e6fdf6e8a15700d36d1d` as `grpo_formal_1p5b_seed123_20260720T035927Z`. It completed 32 updates,
+128 microsteps, 512 training completions, 52,284 rollout tokens, 128 four-completion
+reward groups, and checkpoints plus validation at 8/16/24/32. No scientific variable
+changed, seed-42 results were not used for tuning, and no retry occurred.
+
+Validation used the same frozen 64 problems with one candidate each and remained outside
+the training budget. Pass@1 was 4.6875%/7.8125%/9.375%/9.375%; pass@4 is unavailable.
+The fixed step-32 policy was not changed and formal test was not run. The GRPO two-seed
+stability review is descriptive and does not claim statistical significance. The next
+active queue position is PPO seed 123 and requires separate authorization.

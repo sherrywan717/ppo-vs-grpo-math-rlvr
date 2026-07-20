@@ -634,3 +634,19 @@ returned to 0 MiB/no process. No final test ran. The same-seed PPO/GRPO analysis
 descriptive only: loss and native entropy definitions differ, one seed is not a
 significance claim, and test baseline is not a validation delta. The sole next queue
 position is formal GRPO seed 123 and still requires separate explicit GPU authorization.
+
+
+### Stage J formal GRPO seed-123 result
+
+Run `grpo_formal_1p5b_seed123_20260720T035927Z` is a scientific success from commit
+`e54d84d9795ad74da855e6fdf6e8a15700d36d1d`: 32 update/optimizer/global steps,
+128 microsteps, 512 training completions, 52,284 rollout tokens, safe checkpoints and
+frozen 64-problem validations at 8/16/24/32. Validation pass@1 was 4.6875%,
+7.8125%, 9.375%, and 9.375%; pass@4 is null/unavailable because there is one
+candidate per problem. Training retained 100/128 nonzero-variance reward groups.
+
+The verified backup SHA256 is `e78eb0719bc93c1076bd06e50037cc453cbaa5103cf1e1fbfc9e8151212e521a` and the GPU returned to 0 MiB/no
+process. No final test ran and no seed-42-driven tuning occurred. The two-seed GRPO
+review is descriptive only and does not establish statistical significance. The sole
+next queue position is formal PPO seed 123, which requires separate explicit GPU
+authorization.

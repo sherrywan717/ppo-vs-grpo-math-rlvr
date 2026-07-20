@@ -11,8 +11,8 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Stage I execution base HEAD: `548e2d371cbc09d5527aed3ed9dbf0ac1ad94a1d`
-- Worktree: clean at Stage I start; expected clean after the result commit.
+- Stage J execution base HEAD: `e54d84d9795ad74da855e6fdf6e8a15700d36d1d`
+- Worktree: clean at Stage J start; expected clean after the result commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -227,12 +227,26 @@ higher validation pass@1 and lower measured resource use, but one seed and 64 pr
 do not establish statistical significance or general superiority. Native loss and
 entropy magnitudes are not directly comparable across algorithms.
 
+## Stage J formal GRPO seed-123 success
+
+`grpo_formal_1p5b_seed123_20260720T035927Z` ran once with no retry and completed 32/32 updates, 128 microsteps,
+512/512 training completions, 52,284 rollout tokens, and checkpoints plus frozen
+validation at 8/16/24/32. The four validations produced 256 completions and 27,513
+separate tokens; pass@1 was 4.6875% / 7.8125% / 9.375% / 9.375%, while pass@4
+remained null/unavailable under the one-candidate protocol. All run checksums,
+checkpoint inventories and backup SHA `e78eb0719bc93c1076bd06e50037cc453cbaa5103cf1e1fbfc9e8151212e521a` verified. GPU release passed;
+no final test ran.
+
+The GRPO seed-42/123 stability review is descriptive only. Both runs preserved group
+learning signal and showed improving but seed-variable validation curves. Two seeds do
+not establish statistical significance or general algorithm superiority.
+
 ## Unique next task
 
-The only next task is separately authorized formal GRPO seed 123 using
-`configs/formal_1p5b/resolved/grpo_seed_123.json` SHA256
-`cc95138f50f37fafa76766d3a08b0995ffd5e0bf87cd7b9050acedb5e0bbc75e`.
-Do not start it automatically. PPO seed 123, final test, baseline reruns, and automatic
+The only next task is separately authorized formal PPO seed 123 using
+`configs/formal_1p5b/resolved/ppo_seed_123.json` SHA256
+`3d6cc1f30f7b72bfadb5191613298ac3f64a1ba3c699cc8d1e30ce147218c15e`.
+Do not start it automatically. Final test, seed 2026, baseline reruns, and automatic
 stage advancement remain unauthorized. Exact scope is in `docs/NEXT_TASK.md`.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable

@@ -1,0 +1,235 @@
+phase,update_or_checkpoint,domain,difficulty,canonical_status,outcome_category,completion_count,truncated_count,truncation_rate
+training,1,gsm8k,,format_error,non_truncated_format_failure,4,0,0.0
+training,1,gsm8k,,wrong_answer,parseable_wrong_answer,4,0,0.0
+training,1,math,,format_error,non_truncated_format_failure,5,0,0.0
+training,1,math,,verified_pass,canonical_pass,2,0,0.0
+training,1,math,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,10,gsm8k,,format_error,non_truncated_format_failure,4,0,0.0
+training,10,gsm8k,,verified_pass,canonical_pass,3,0,0.0
+training,10,gsm8k,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,10,math,,format_error,non_truncated_format_failure,5,0,0.0
+training,10,math,,verified_pass,canonical_pass,3,0,0.0
+training,11,gsm8k,,format_error,non_truncated_format_failure,6,0,0.0
+training,11,gsm8k,,wrong_answer,parseable_wrong_answer,2,0,0.0
+training,11,math,,format_error,non_truncated_format_failure,2,0,0.0
+training,11,math,,wrong_answer,parseable_wrong_answer,6,0,0.0
+training,12,gsm8k,,format_error,non_truncated_format_failure,6,0,0.0
+training,12,gsm8k,,wrong_answer,parseable_wrong_answer,2,0,0.0
+training,12,math,,format_error,non_truncated_format_failure,2,0,0.0
+training,12,math,,verified_pass,canonical_pass,1,0,0.0
+training,12,math,,wrong_answer,parseable_wrong_answer,5,0,0.0
+training,13,gsm8k,,format_error,non_truncated_format_failure,8,0,0.0
+training,13,math,,format_error,non_truncated_format_failure,2,0,0.0
+training,13,math,,verified_pass,canonical_pass,1,0,0.0
+training,13,math,,wrong_answer,parseable_wrong_answer,5,0,0.0
+training,14,gsm8k,,format_error,non_truncated_format_failure,4,0,0.0
+training,14,gsm8k,,parse_error,parse_failure,3,0,0.0
+training,14,gsm8k,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,14,math,,verified_pass,canonical_pass,2,0,0.0
+training,14,math,,wrong_answer,parseable_wrong_answer,6,0,0.0
+training,15,gsm8k,,format_error,non_truncated_format_failure,8,0,0.0
+training,15,math,,format_error,non_truncated_format_failure,3,0,0.0
+training,15,math,,format_error,truncated_format_failure,2,2,1.0
+training,15,math,,wrong_answer,parseable_wrong_answer,3,0,0.0
+training,16,gsm8k,,format_error,non_truncated_format_failure,7,0,0.0
+training,16,gsm8k,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,16,math,,format_error,non_truncated_format_failure,4,0,0.0
+training,16,math,,wrong_answer,parseable_wrong_answer,4,0,0.0
+training,17,gsm8k,,format_error,non_truncated_format_failure,1,0,0.0
+training,17,gsm8k,,parse_error,parse_failure,6,0,0.0
+training,17,gsm8k,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,17,math,,format_error,non_truncated_format_failure,3,0,0.0
+training,17,math,,format_error,truncated_format_failure,1,1,1.0
+training,17,math,,wrong_answer,parseable_wrong_answer,4,0,0.0
+training,18,gsm8k,,format_error,non_truncated_format_failure,8,0,0.0
+training,18,math,,format_error,non_truncated_format_failure,2,0,0.0
+training,18,math,,verified_pass,canonical_pass,2,0,0.0
+training,18,math,,wrong_answer,parseable_wrong_answer,4,0,0.0
+training,19,gsm8k,,format_error,non_truncated_format_failure,4,0,0.0
+training,19,gsm8k,,parse_error,parse_failure,4,0,0.0
+training,19,math,,format_error,non_truncated_format_failure,2,0,0.0
+training,19,math,,format_error,truncated_format_failure,2,2,1.0
+training,19,math,,parse_error,parse_failure,1,0,0.0
+training,19,math,,wrong_answer,parseable_wrong_answer,3,0,0.0
+training,2,gsm8k,,format_error,non_truncated_format_failure,8,0,0.0
+training,2,math,,format_error,non_truncated_format_failure,7,0,0.0
+training,2,math,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,20,gsm8k,,format_error,non_truncated_format_failure,8,0,0.0
+training,20,math,,format_error,non_truncated_format_failure,3,0,0.0
+training,20,math,,verified_pass,canonical_pass,4,0,0.0
+training,20,math,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,21,gsm8k,,format_error,non_truncated_format_failure,7,0,0.0
+training,21,gsm8k,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,21,math,,format_error,non_truncated_format_failure,4,0,0.0
+training,21,math,,verified_pass,canonical_pass,3,0,0.0
+training,21,math,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,22,gsm8k,,format_error,non_truncated_format_failure,1,0,0.0
+training,22,gsm8k,,wrong_answer,parseable_wrong_answer,7,0,0.0
+training,22,math,,verified_pass,canonical_pass,5,0,0.0
+training,22,math,,wrong_answer,parseable_wrong_answer,3,0,0.0
+training,23,gsm8k,,format_error,non_truncated_format_failure,7,0,0.0
+training,23,gsm8k,,verified_pass,canonical_pass,1,0,0.0
+training,23,math,,format_error,non_truncated_format_failure,5,0,0.0
+training,23,math,,verified_pass,canonical_pass,2,0,0.0
+training,23,math,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,24,gsm8k,,format_error,non_truncated_format_failure,6,0,0.0
+training,24,gsm8k,,wrong_answer,parseable_wrong_answer,2,0,0.0
+training,24,math,,verified_pass,canonical_pass,4,0,0.0
+training,24,math,,wrong_answer,parseable_wrong_answer,4,0,0.0
+training,25,gsm8k,,format_error,non_truncated_format_failure,7,0,0.0
+training,25,gsm8k,,verified_pass,canonical_pass,1,0,0.0
+training,25,math,,format_error,non_truncated_format_failure,1,0,0.0
+training,25,math,,format_error,truncated_format_failure,1,1,1.0
+training,25,math,,wrong_answer,parseable_wrong_answer,6,0,0.0
+training,26,gsm8k,,format_error,non_truncated_format_failure,2,0,0.0
+training,26,gsm8k,,parse_error,parse_failure,3,0,0.0
+training,26,gsm8k,,verified_pass,canonical_pass,2,0,0.0
+training,26,gsm8k,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,26,math,,format_error,non_truncated_format_failure,2,0,0.0
+training,26,math,,verified_pass,canonical_pass,6,0,0.0
+training,27,gsm8k,,format_error,non_truncated_format_failure,3,0,0.0
+training,27,gsm8k,,wrong_answer,parseable_wrong_answer,5,0,0.0
+training,27,math,,verified_pass,canonical_pass,4,0,0.0
+training,27,math,,wrong_answer,parseable_wrong_answer,4,0,0.0
+training,28,gsm8k,,format_error,non_truncated_format_failure,5,0,0.0
+training,28,gsm8k,,parse_error,parse_failure,3,0,0.0
+training,28,math,,format_error,non_truncated_format_failure,3,0,0.0
+training,28,math,,verified_pass,canonical_pass,3,0,0.0
+training,28,math,,wrong_answer,parseable_wrong_answer,2,0,0.0
+training,29,gsm8k,,format_error,non_truncated_format_failure,1,0,0.0
+training,29,gsm8k,,parse_error,parse_failure,1,0,0.0
+training,29,gsm8k,,verified_pass,canonical_pass,2,0,0.0
+training,29,gsm8k,,wrong_answer,parseable_wrong_answer,4,0,0.0
+training,29,math,,format_error,non_truncated_format_failure,1,0,0.0
+training,29,math,,verified_pass,canonical_pass,5,0,0.0
+training,29,math,,wrong_answer,parseable_wrong_answer,2,0,0.0
+training,3,gsm8k,,format_error,non_truncated_format_failure,2,0,0.0
+training,3,gsm8k,,parse_error,parse_failure,1,0,0.0
+training,3,gsm8k,,wrong_answer,parseable_wrong_answer,5,0,0.0
+training,3,math,,format_error,non_truncated_format_failure,3,0,0.0
+training,3,math,,verified_pass,canonical_pass,2,0,0.0
+training,3,math,,wrong_answer,parseable_wrong_answer,3,0,0.0
+training,30,gsm8k,,format_error,non_truncated_format_failure,1,0,0.0
+training,30,gsm8k,,format_error,truncated_format_failure,1,1,1.0
+training,30,gsm8k,,parse_error,parse_failure,4,0,0.0
+training,30,gsm8k,,verified_pass,canonical_pass,1,0,0.0
+training,30,gsm8k,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,30,math,,format_error,non_truncated_format_failure,3,0,0.0
+training,30,math,,format_error,truncated_format_failure,2,2,1.0
+training,30,math,,verified_pass,canonical_pass,2,0,0.0
+training,30,math,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,31,gsm8k,,format_error,non_truncated_format_failure,2,0,0.0
+training,31,gsm8k,,parse_error,parse_failure,2,0,0.0
+training,31,gsm8k,,verified_pass,canonical_pass,4,0,0.0
+training,31,math,,format_error,non_truncated_format_failure,1,0,0.0
+training,31,math,,verified_pass,canonical_pass,3,0,0.0
+training,31,math,,wrong_answer,parseable_wrong_answer,4,0,0.0
+training,32,gsm8k,,format_error,non_truncated_format_failure,1,0,0.0
+training,32,gsm8k,,parse_error,parse_failure,3,0,0.0
+training,32,gsm8k,,verified_pass,canonical_pass,2,0,0.0
+training,32,gsm8k,,wrong_answer,parseable_wrong_answer,2,0,0.0
+training,32,math,,format_error,non_truncated_format_failure,4,0,0.0
+training,32,math,,verified_pass,canonical_pass,3,0,0.0
+training,32,math,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,4,gsm8k,,format_error,non_truncated_format_failure,3,0,0.0
+training,4,gsm8k,,parse_error,parse_failure,1,0,0.0
+training,4,gsm8k,,verified_pass,canonical_pass,3,0,0.0
+training,4,gsm8k,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,4,math,,format_error,non_truncated_format_failure,1,0,0.0
+training,4,math,,verified_pass,canonical_pass,5,0,0.0
+training,4,math,,wrong_answer,parseable_wrong_answer,2,0,0.0
+training,5,gsm8k,,format_error,non_truncated_format_failure,4,0,0.0
+training,5,gsm8k,,parse_error,parse_failure,3,0,0.0
+training,5,gsm8k,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,5,math,,format_error,non_truncated_format_failure,2,0,0.0
+training,5,math,,verified_pass,canonical_pass,1,0,0.0
+training,5,math,,wrong_answer,parseable_wrong_answer,5,0,0.0
+training,6,gsm8k,,format_error,non_truncated_format_failure,7,0,0.0
+training,6,gsm8k,,verified_pass,canonical_pass,1,0,0.0
+training,6,math,,format_error,non_truncated_format_failure,5,0,0.0
+training,6,math,,format_error,truncated_format_failure,1,1,1.0
+training,6,math,,wrong_answer,parseable_wrong_answer,2,0,0.0
+training,7,gsm8k,,format_error,non_truncated_format_failure,4,0,0.0
+training,7,gsm8k,,wrong_answer,parseable_wrong_answer,4,0,0.0
+training,7,math,,format_error,non_truncated_format_failure,3,0,0.0
+training,7,math,,format_error,truncated_format_failure,3,3,1.0
+training,7,math,,verified_pass,canonical_pass,1,0,0.0
+training,7,math,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,8,gsm8k,,format_error,non_truncated_format_failure,3,0,0.0
+training,8,gsm8k,,parse_error,parse_failure,1,0,0.0
+training,8,gsm8k,,verified_pass,canonical_pass,1,0,0.0
+training,8,gsm8k,,wrong_answer,parseable_wrong_answer,3,0,0.0
+training,8,math,,format_error,non_truncated_format_failure,4,0,0.0
+training,8,math,,format_error,truncated_format_failure,1,1,1.0
+training,8,math,,parse_error,parse_failure,1,0,0.0
+training,8,math,,verified_pass,canonical_pass,2,0,0.0
+training,9,gsm8k,,format_error,non_truncated_format_failure,7,0,0.0
+training,9,gsm8k,,wrong_answer,parseable_wrong_answer,1,0,0.0
+training,9,math,,format_error,non_truncated_format_failure,2,0,0.0
+training,9,math,,format_error,truncated_format_failure,1,1,1.0
+training,9,math,,parse_error,parse_failure,1,0,0.0
+training,9,math,,wrong_answer,parseable_wrong_answer,4,0,0.0
+validation,16,gsm8k,gsm8k,format_error,non_truncated_format_failure,26,0,0.0
+validation,16,gsm8k,gsm8k,parse_error,parse_failure,1,0,0.0
+validation,16,gsm8k,gsm8k,verified_pass,canonical_pass,2,0,0.0
+validation,16,gsm8k,gsm8k,wrong_answer,parseable_wrong_answer,3,0,0.0
+validation,16,math,Level 1,format_error,non_truncated_format_failure,1,0,0.0
+validation,16,math,Level 1,verified_pass,canonical_pass,1,0,0.0
+validation,16,math,Level 1,wrong_answer,parseable_wrong_answer,1,0,0.0
+validation,16,math,Level 2,format_error,non_truncated_format_failure,6,0,0.0
+validation,16,math,Level 2,format_error,truncated_format_failure,1,1,1.0
+validation,16,math,Level 2,verified_pass,canonical_pass,1,0,0.0
+validation,16,math,Level 3,format_error,non_truncated_format_failure,9,0,0.0
+validation,16,math,Level 3,verified_pass,canonical_pass,1,0,0.0
+validation,16,math,Level 3,wrong_answer,parseable_wrong_answer,3,0,0.0
+validation,16,math,Level 4,format_error,non_truncated_format_failure,4,0,0.0
+validation,16,math,Level 4,format_error,truncated_format_failure,1,1,1.0
+validation,16,math,Level 5,format_error,non_truncated_format_failure,2,0,0.0
+validation,16,math,Level 5,format_error,truncated_format_failure,1,1,1.0
+validation,24,gsm8k,gsm8k,format_error,non_truncated_format_failure,26,0,0.0
+validation,24,gsm8k,gsm8k,parse_error,parse_failure,1,0,0.0
+validation,24,gsm8k,gsm8k,verified_pass,canonical_pass,3,0,0.0
+validation,24,gsm8k,gsm8k,wrong_answer,parseable_wrong_answer,2,0,0.0
+validation,24,math,Level 1,wrong_answer,parseable_wrong_answer,3,0,0.0
+validation,24,math,Level 2,format_error,non_truncated_format_failure,6,0,0.0
+validation,24,math,Level 2,format_error,truncated_format_failure,1,1,1.0
+validation,24,math,Level 2,verified_pass,canonical_pass,1,0,0.0
+validation,24,math,Level 3,format_error,non_truncated_format_failure,8,0,0.0
+validation,24,math,Level 3,verified_pass,canonical_pass,2,0,0.0
+validation,24,math,Level 3,wrong_answer,parseable_wrong_answer,3,0,0.0
+validation,24,math,Level 4,format_error,non_truncated_format_failure,4,0,0.0
+validation,24,math,Level 4,format_error,truncated_format_failure,1,1,1.0
+validation,24,math,Level 5,format_error,non_truncated_format_failure,3,0,0.0
+validation,32,gsm8k,gsm8k,format_error,non_truncated_format_failure,25,0,0.0
+validation,32,gsm8k,gsm8k,parse_error,parse_failure,1,0,0.0
+validation,32,gsm8k,gsm8k,verified_pass,canonical_pass,4,0,0.0
+validation,32,gsm8k,gsm8k,wrong_answer,parseable_wrong_answer,2,0,0.0
+validation,32,math,Level 1,format_error,non_truncated_format_failure,1,0,0.0
+validation,32,math,Level 1,wrong_answer,parseable_wrong_answer,2,0,0.0
+validation,32,math,Level 2,format_error,non_truncated_format_failure,5,0,0.0
+validation,32,math,Level 2,format_error,truncated_format_failure,2,2,1.0
+validation,32,math,Level 2,wrong_answer,parseable_wrong_answer,1,0,0.0
+validation,32,math,Level 3,format_error,non_truncated_format_failure,8,0,0.0
+validation,32,math,Level 3,format_error,truncated_format_failure,1,1,1.0
+validation,32,math,Level 3,verified_pass,canonical_pass,1,0,0.0
+validation,32,math,Level 3,wrong_answer,parseable_wrong_answer,3,0,0.0
+validation,32,math,Level 4,format_error,non_truncated_format_failure,3,0,0.0
+validation,32,math,Level 4,format_error,truncated_format_failure,1,1,1.0
+validation,32,math,Level 4,verified_pass,canonical_pass,1,0,0.0
+validation,32,math,Level 5,format_error,non_truncated_format_failure,2,0,0.0
+validation,32,math,Level 5,format_error,truncated_format_failure,1,1,1.0
+validation,8,gsm8k,gsm8k,format_error,non_truncated_format_failure,29,0,0.0
+validation,8,gsm8k,gsm8k,verified_pass,canonical_pass,1,0,0.0
+validation,8,gsm8k,gsm8k,wrong_answer,parseable_wrong_answer,2,0,0.0
+validation,8,math,Level 1,verified_pass,canonical_pass,1,0,0.0
+validation,8,math,Level 1,wrong_answer,parseable_wrong_answer,2,0,0.0
+validation,8,math,Level 2,format_error,non_truncated_format_failure,6,0,0.0
+validation,8,math,Level 2,format_error,truncated_format_failure,1,1,1.0
+validation,8,math,Level 2,wrong_answer,parseable_wrong_answer,1,0,0.0
+validation,8,math,Level 3,format_error,non_truncated_format_failure,11,0,0.0
+validation,8,math,Level 3,verified_pass,canonical_pass,1,0,0.0
+validation,8,math,Level 3,wrong_answer,parseable_wrong_answer,1,0,0.0
+validation,8,math,Level 4,format_error,non_truncated_format_failure,3,0,0.0
+validation,8,math,Level 4,format_error,truncated_format_failure,2,2,1.0
+validation,8,math,Level 5,format_error,non_truncated_format_failure,1,0,0.0
+validation,8,math,Level 5,format_error,truncated_format_failure,2,2,1.0

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "run_id": "grpo_formal_1p5b_seed123_20260720T035927Z",
+  "algorithm": "grpo",
+  "seed": 123,
+  "definitions": {
+    "format_valid": {
+      "source": "strict_protocol_component > 0",
+      "numerator": "strict envelope completions",
+      "denominator": "all completions"
+    },
+    "valid_answer_rate": {
+      "definition_version": "formal_domain_valid_answer_component_v1",
+      "source_field": "valid_answer_component",
+      "numerator": "component > 0",
+      "denominator": "all completions",
+      "note": "not canonical parseability"
+    },
+    "parseable_rate": {
+      "statuses": [
+        "verified_pass",
+        "wrong_answer"
+      ],
+      "numerator": "canonical parseable statuses",
+      "denominator": "all completions"
+    },
+    "canonical_pass": {
+      "status": "verified_pass",
+      "numerator": "verified passes",
+      "denominator": "all completions"
+    },
+    "accuracy_given_parseable": {
+      "numerator": "verified_pass",
+      "denominator": "verified_pass + wrong_answer",
+      "zero_denominator": {
+        "value": null,
+        "available": false,
+        "reason": "zero_denominator"
+      }
+    },
+    "entropy": {
+      "metric_source": "TRL 0.24.0 native",
+      "raw_metric_key": "entropy",
+      "formula": "mean per-token entropy from policy log probabilities",
+      "token_mask": "completion_mask through EOS",
+      "excludes_prompt": true,
+      "excludes_pad": true,
+      "excludes_eos": false,
+      "aggregation": "masked completion token mean, then logged microbatch mean",
+      "dtype": "trainer native mixed precision",
+      "extra_model_forward": false,
+      "full_logits_saved": false
+    },
+    "response_token_entropy_mean": {
+      "value": null,
+      "available": false,
+      "reason": "native GRPO entropy cannot be made identical to PPO without additional or intrusive logits computation"
+    },
+    "kl": {
+      "value": null,
+      "available": false,
+      "reason": "GRPO beta=0.0; reference-model KL is not computed"
+    },
+    "ratio": {
+      "value": null,
+      "available": false,
+      "reason": "TRL 0.24.0 did not expose the metric"
+    },
+    "value_metrics": {
+      "value": null,
+      "available": false,
+      "reason": "GRPO has no PPO value role"
+    }
+  }
+}
