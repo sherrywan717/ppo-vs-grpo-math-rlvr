@@ -1,0 +1,85 @@
+{
+  "identity_match": true,
+  "candidate_key_count": 800,
+  "same_problem_prompt_parser_verifier_sampling_and_cap": true,
+  "candidate_pools_independent": true,
+  "comparisons": [
+    {
+      "comparison": "base_vs_grpo",
+      "pool": "pass1",
+      "problems": 400,
+      "delta": 0.03,
+      "bootstrap_95_ci": [
+        0.01,
+        0.05
+      ],
+      "bootstrap_resamples": 10000,
+      "bootstrap_seed": 20260712,
+      "transitions": {
+        "both_fail": 369,
+        "base_pass_to_grpo_fail": 3,
+        "base_fail_to_grpo_pass": 15,
+        "both_pass": 13
+      },
+      "mcnemar_exact_two_sided_p": 0.007537841796875
+    },
+    {
+      "comparison": "base_vs_grpo",
+      "pool": "pass4",
+      "problems": 100,
+      "delta": 0.04,
+      "bootstrap_95_ci": [
+        -0.02,
+        0.1
+      ],
+      "bootstrap_resamples": 10000,
+      "bootstrap_seed": 20260712,
+      "transitions": {
+        "both_fail": 83,
+        "both_pass": 7,
+        "base_pass_to_grpo_fail": 3,
+        "base_fail_to_grpo_pass": 7
+      },
+      "mcnemar_exact_two_sided_p": 0.34375
+    },
+    {
+      "comparison": "ppo_vs_grpo",
+      "pool": "pass1",
+      "problems": 400,
+      "delta": 0.0325,
+      "bootstrap_95_ci": [
+        0.0125,
+        0.055
+      ],
+      "bootstrap_resamples": 10000,
+      "bootstrap_seed": 20260712,
+      "transitions": {
+        "both_fail": 369,
+        "ppo_fail_to_grpo_pass": 16,
+        "both_pass": 12,
+        "ppo_pass_to_grpo_fail": 3
+      },
+      "mcnemar_exact_two_sided_p": 0.004425048828125
+    },
+    {
+      "comparison": "ppo_vs_grpo",
+      "pool": "pass4",
+      "problems": 100,
+      "delta": 0.05,
+      "bootstrap_95_ci": [
+        -0.02,
+        0.12
+      ],
+      "bootstrap_resamples": 10000,
+      "bootstrap_seed": 20260712,
+      "transitions": {
+        "both_fail": 82,
+        "ppo_fail_to_grpo_pass": 9,
+        "ppo_pass_to_grpo_fail": 4,
+        "both_pass": 5
+      },
+      "mcnemar_exact_two_sided_p": 0.266845703125
+    }
+  ],
+  "interpretation": "descriptive paired analysis; not used for tuning or checkpoint selection"
+}

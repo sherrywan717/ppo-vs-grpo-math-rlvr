@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "run_id": "grpo_final_formal_1p5b_seed42_20260721T034104Z",
+  "evaluation_config_raw_sha256": "85100dd0f613f295a7219a45a42a03e3ad4a45e24893c7f296e1d8da9a1f4a35",
+  "evaluation_config_canonical_sha256": "d8ba5ab80ab0553d2ec7246fb4876956dcbc5dd0bcf8642fd33c4ec19da6fe44",
+  "seed": 42,
+  "completion_cap": 256,
+  "total_completions": 800,
+  "sampled_pass_at_1": {
+    "problem_universe": "200 GSM8K test + 200 MATH500",
+    "problem_count": 400,
+    "candidates_per_problem": 1,
+    "candidate_index": 0,
+    "numerator": "problems whose sole candidate has canonical_status=verified_pass",
+    "denominator": 400,
+    "aggregation": "mean of per-problem canonical-pass indicators"
+  },
+  "independent_pass_at_4": {
+    "problem_universe": "fixed 50 GSM8K + 50 MATH500 subset; MATH Levels 1-5 each 10",
+    "problem_count": 100,
+    "candidates_per_problem": 4,
+    "candidate_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "numerator": "problems with at least one canonical_status=verified_pass among four",
+    "denominator": 100,
+    "aggregation": "mean of per-problem any-pass indicators"
+  },
+  "pool_relationship": "independent_not_nested",
+  "monotonicity_assertion": {
+    "applied": false,
+    "reason": "pass1_and_pass4_use_independent_candidate_pools"
+  },
+  "candidate_seed": "big_endian_integer_from_first_8_bytes_of_sha256(seed::pair_key)",
+  "identity": {
+    "prompt_sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+    "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd",
+    "reward_sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463"
+  }
+}

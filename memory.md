@@ -1031,3 +1031,29 @@ This file records operational history and pitfalls that should survive context c
 - Overall format/flat valid-answer-component/parseable/canonical-candidate-pass rates are 14.0% / 24.5% / 12.25% / 3.375%. EOS/truncation are 90%/10%; all 80 truncated rows are format errors. Pass@4 within-group exact-text duplicate rate is 0%.
 - Resource usage: 3,280.502 seconds, 0.911251 GPU-hours, CNY 8.091905, 3,933 MiB peak nvidia-smi VRAM, 34.342% mean utilization. All 20 checksums passed; checkpoint manifest SHA is `18534747eb6bb1c0945676c7490fce29c90e1f67bff939bd9318ee1101ee1952`; successful backup SHA is `04fcb03b22ab74e865e2627c0e02460b62c6c731e2245d054aefe5ff6b562fc1`. GPU ended at 0 MiB/no process.
 - Scientific aggregate includes only the fresh successful run. The unique next decision is separately authorized GRPO seed-42 checkpoint-32 final evaluation; do not start it automatically.
+
+## Stage L2 GRPO seed-42 held-out final evaluation
+
+- From clean execution-base HEAD `fbd2e5c0cdfa2d7d7c1e0cd951ff2ea2c6ecb794`, the
+  frozen GRPO checkpoint-32 command ran once as
+  `grpo_final_formal_1p5b_seed42_20260721T034104Z`; retries were zero.
+- The run completed 800/800 candidates and 94,288 exact tokens. Sampled pass@1 is
+  28/400 (7.0%); independent pass@4 is 14/100 (14.0%); greedy is null/unavailable.
+  GSM8K is 6.0%/18.0%, MATH500 8.0%/10.0%, and Level 1–5 pass@1 is
+  15.0%/17.5%/5.0%/2.5%/0%.
+- All 800 candidate keys match Base and PPO42. Base→GRPO pass@1 has 15 improvements,
+  3 regressions, and bootstrap 95% CI [+1.0,+5.0] points; PPO→GRPO has 16/3 and
+  [+1.25,+5.5]. Pass@4 intervals span zero. These are one-seed paired results, not a
+  cross-seed superiority claim.
+- Format/flat valid-answer-component/parseable/canonical-candidate-pass rates are
+  24.5%/36.375%/20.25%/6.125%. EOS/truncation are 92%/8%; all 64 truncated rows are
+  format errors. Pass@4 duplicate rate is 0%.
+- Usage was 3,001.050 seconds, 0.833625 GPU-hours, CNY 7.402591, 3,933 MiB peak
+  nvidia-smi VRAM, and 35.627% mean utilization. Checkpoint manifest SHA is
+  `c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a`.
+  All 20 run checksums passed; backup SHA is
+  `97be0c2f1931690fb631dec557eb17201df12b177810c0b270192c46e6920e48`;
+  GPU ended at 0 MiB/no process.
+- No training, resume, backward, optimizer, baseline/PPO rerun, seed-123 evaluation,
+  or scientific-config change occurred. The next queue position is separately
+  authorized GRPO seed-123 checkpoint-32 final evaluation.

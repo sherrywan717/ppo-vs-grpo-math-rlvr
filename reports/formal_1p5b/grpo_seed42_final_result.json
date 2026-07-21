@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "run_id": "grpo_final_formal_1p5b_seed42_20260721T034104Z",
+  "status": "success",
+  "scientific_status": "held_out_final_evaluation_complete",
+  "algorithm": "grpo",
+  "seed": 42,
+  "checkpoint_step": 32,
+  "checkpoint_artifact_manifest_sha256": "c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a",
+  "completion_count": 800,
+  "generated_tokens": 94288,
+  "sampled_pass_at_1": 0.07,
+  "independent_pass_at_4": 0.14,
+  "runtime_checksum_entries_verified": 20,
+  "backup_sha256": "97be0c2f1931690fb631dec557eb17201df12b177810c0b270192c46e6920e48",
+  "gpu_released": true,
+  "training_resume_backward_optimizer_counts": 0,
+  "next_stage": "Stage L3: GRPO seed 123 checkpoint-32 held-out final evaluation",
+  "next_stage_authorized": false
+}

@@ -685,3 +685,19 @@ terminated by a host power/network outage at 429 rows/41,144 tokens. It is immut
 excluded, and never resumed or mixed with the successful run. The next queue item is
 GRPO seed-42 checkpoint-32 final evaluation and requires separate authorization; never
 start it or either seed-123 final evaluation automatically.
+
+### Stage L2 GRPO seed-42 held-out final evaluation
+
+The fixed checkpoint-32 run `grpo_final_formal_1p5b_seed42_20260721T034104Z` is a
+scientific success: 800/800 completions, 94,288 exact tokens, sampled pass@1 7.0%, and
+independent-pool pass@4 14.0%. Its Base/PPO/GRPO candidate identities match exactly;
+paired pass@1 deltas favor GRPO on this single frozen seed, while pass@4 intervals span
+zero. Do not generalize this into cross-seed algorithm superiority or use it for tuning.
+
+Checkpoint manifest SHA
+`c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a`, all runtime
+checksums, and backup SHA
+`97be0c2f1931690fb631dec557eb17201df12b177810c0b270192c46e6920e48`
+verified; GPU returned to 0 MiB/no process. The only next queue item is separately
+authorized GRPO seed-123 checkpoint-32 final evaluation. Never start it, PPO123, final
+aggregation, seed2026, baseline, or training automatically.

@@ -1,0 +1,8 @@
+{
+  "run_id": "grpo_final_formal_1p5b_seed42_20260721T034104Z",
+  "stage": "formal_1p5b_evaluation",
+  "algorithm": "grpo",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "seed": 42,
+  "created_at": "2026-07-21T03:41:23.351445+00:00"
+}

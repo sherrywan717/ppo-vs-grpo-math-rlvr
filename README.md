@@ -303,3 +303,14 @@ a general gain. The first process was interrupted by a host outage at 429 rows a
 preserved and excluded; the successful run started from zero and reused none of it.
 GPU release and both backups verified. The next separately authorized stage is GRPO
 seed-42 checkpoint-32 final evaluation; no other final evaluation starts automatically.
+
+### Stage L2 GRPO seed-42 held-out final evaluation
+
+[`12_grpo_seed42_final_evaluation.md`](reports/formal_1p5b/12_grpo_seed42_final_evaluation.md)
+records 800/800 completions and 94,288 tokens from the fixed GRPO checkpoint-32:
+sampled pass@1 7.0% and independent pass@4 14.0%. The matched three-way analysis in
+[`13_seed42_final_comparison.md`](reports/formal_1p5b/13_seed42_final_comparison.md)
+finds GRPO42 +3.0 points versus Base and +3.25 versus PPO42 on pass@1; the one-seed
+result does not establish general superiority. All checksums and the persistent backup
+verified, and GPU release was 0 MiB/no process. The next separately authorized stage is
+GRPO seed-123 checkpoint-32 final evaluation.

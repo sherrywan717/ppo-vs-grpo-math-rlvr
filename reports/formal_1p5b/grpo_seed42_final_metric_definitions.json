@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "format_valid": {
+    "definition": "strict parser accepts exactly one reasoning block followed by one terminal answer block",
+    "denominator": "all candidates"
+  },
+  "valid_answer_component_rate": {
+    "definition": "flat RewardEvaluation.valid_answer_component is greater than zero",
+    "source_field": "valid_answer_component",
+    "denominator": "all candidates",
+    "note": "domain-valid extracted-answer shaping probe; not canonical parseability"
+  },
+  "parseable": {
+    "definition": "canonical status is wrong_answer or verified_pass",
+    "included_statuses": [
+      "wrong_answer",
+      "verified_pass"
+    ],
+    "excluded_statuses": [
+      "format_error",
+      "parse_error",
+      "invalid_expression",
+      "invalid_number_usage",
+      "resource_limit"
+    ],
+    "denominator": "all candidates"
+  },
+  "canonical_pass": {
+    "definition": "canonical status is verified_pass",
+    "denominator": "all candidates for candidate rate; problem universes for pass metrics"
+  },
+  "accuracy_given_parseable": {
+    "numerator": "verified_pass candidates",
+    "denominator": "wrong_answer + verified_pass candidates",
+    "zero_denominator": {
+      "value": null,
+      "available": false,
+      "reason": "zero_denominator"
+    }
+  },
+  "eos": {
+    "definition": "last real completion token equals tokenizer EOS id 151645",
+    "response_tokens_only": true
+  },
+  "truncated": {
+    "definition": "runtime primary-evidence truncated flag; completion reached the 256-token cap without EOS"
+  },
+  "pass4_duplicate_rate": {
+    "definition": "sum over independent pass4 groups of (4 - number of unique exact completion texts) divided by 400 candidates"
+  },
+  "missing_metric": {
+    "value": null,
+    "available": false,
+    "reason": "explicit_source_specific_reason"
+  }
+}

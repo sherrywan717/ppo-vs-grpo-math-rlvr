@@ -1,0 +1,1 @@
+PYTHONPATH=src python -m math_rlvr.evaluation.formal --phase final --seed 42 --mode grpo --execute --confirm-formal-evaluation --algorithm grpo --checkpoint-step 32 --checkpoint /root/autodl-tmp/runs/math_rlvr/grpo_formal_1p5b_seed42_20260720T031006Z/checkpoint-32

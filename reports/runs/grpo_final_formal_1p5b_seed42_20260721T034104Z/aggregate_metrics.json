@@ -1,0 +1,57 @@
+{
+  "aggregate": {
+    "completion_count": 800,
+    "unique_problem_count": 400,
+    "pass1": 0.07,
+    "pass4": 0.14,
+    "format_accuracy": 0.245,
+    "valid_answer_rate": 0.2025,
+    "canonical_correctness": 0.06125,
+    "mean_completion_length": 117.86,
+    "truncation_rate": 0.08,
+    "reward_mean": 0.1193125,
+    "test_driven_tuning": false,
+    "sampled_pass_at_1": 0.07,
+    "pass_at_4": 0.14,
+    "greedy_accuracy": null,
+    "greedy_accuracy_available": false,
+    "greedy_accuracy_unavailable_reason": "frozen protocol has no separate greedy completion"
+  },
+  "slices": [
+    {
+      "slice": "gsm8k",
+      "problems": 200,
+      "sampled_pass_at_1": 0.06
+    },
+    {
+      "slice": "math500",
+      "problems": 200,
+      "sampled_pass_at_1": 0.08
+    },
+    {
+      "slice": "math500_level_1",
+      "problems": 40,
+      "sampled_pass_at_1": 0.15
+    },
+    {
+      "slice": "math500_level_2",
+      "problems": 40,
+      "sampled_pass_at_1": 0.175
+    },
+    {
+      "slice": "math500_level_3",
+      "problems": 40,
+      "sampled_pass_at_1": 0.05
+    },
+    {
+      "slice": "math500_level_4",
+      "problems": 40,
+      "sampled_pass_at_1": 0.025
+    },
+    {
+      "slice": "math500_level_5",
+      "problems": 40,
+      "sampled_pass_at_1": 0.0
+    }
+  ]
+}

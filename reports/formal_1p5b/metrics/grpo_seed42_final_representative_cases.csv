@@ -1,0 +1,643 @@
+category,selection_rule,category_total,problem_id,pair_key,domain,difficulty,sample_kind,base_status,ppo_status,grpo_status,base_completion,ppo_completion,grpo_completion,grpo_scalar_reward,grpo_truncated
+base_wrong_ppo_wrong_grpo_right,lexicographic_problem_or_pair_key_first_five,10,gsm8k:test:118,gsm8k:test:118::pass1::generation:0,gsm8k,gsm8k,pass1,wrong_answer,wrong_answer,verified_pass,"<reasoning>The first day had 2 * 5 = 10 vehicles. Adding these to the total gives 10 + 30 = 40 vehicles. Therefore, the number of containers from the second day is 40 - 30 = 10.</reasoning>
+<answer>10</answer>","<reasoning>The first day had 2 * 5 = 10 vehicles. Adding these to the total gives 10 + 30 = 40 vehicles. Therefore, the number of containers from the second day is 40 - 30 = 10.</reasoning>
+<answer>10</answer>","<reasoning>The first day had 2 * 5 = 10 vehicles. Adding these to the total gives 30 - 10 = 20 additional vehicles from the second day. Since each container holds 5 vehicles, the number of containers is 20 / 5 = 4.</reasoning>
+<answer>4</answer>",1.0,False
+base_wrong_ppo_wrong_grpo_right,lexicographic_problem_or_pair_key_first_five,10,gsm8k:test:312,gsm8k:test:312::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,verified_pass,"Quinn is 30, so Jane is 30 - 3 = 27. Trent is 5 + 27 = 32.
+
+32","Given: 
+- Quinn is 30 years old.
+- Jane is 3 years younger than Quinn.
+
+Therefore,
+- Jane's age = Quinn's age - 3
+- Jane's age = 30 - 3 = 27
+
+Since Trent is 5 years older than Jane:
+- Trent's age = Jane's age + 5
+- Trent's age = 27 + 5 = 32
+
+The answer: Trent is 32 years old.","<reasoning>Jane is 30 - 3 = 27 years old because Quinn is 30 and Jane is 3 years younger than Quinn. Trent is 27 + 5 = 32 years old because Trent is 5 years older than Jane.</reasoning>
+<answer>32</answer>",1.0,False
+base_wrong_ppo_wrong_grpo_right,lexicographic_problem_or_pair_key_first_five,10,gsm8k:test:42,gsm8k:test:42::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,verified_pass,She made a total of 5*8=40 pieces of pie. There were originally 14 left over so the guests ate 40-14=26 pieces.,"The total number of pies was 5 * 8 = 40 pieces. There were 14 pieces left over. So, 40 - 14 = 26 pieces were taken by the guests.
+
+<answer>26</answer>","<reasoning>The total number of pieces before any were eaten was \(5 \text{ pies} \times 8 \text{ pieces per pie} = 40\) pieces. After the guests took some, there were 14 pieces left. Therefore, they ate \(40 - 14 = 26\) pieces.</reasoning>
+<answer>26</answer>",1.0,False
+base_wrong_ppo_wrong_grpo_right,lexicographic_problem_or_pair_key_first_five,10,gsm8k:test:809,gsm8k:test:809::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,verified_pass,"The initial goal was 100 - 150 = -50. After ordering an additional 100, it's now -50 + 100 = 50 left to sell. Therefore, Dale still needs to sell 50 butterscotch candies.","The initial goal was 100 - 150 = -50. After ordering an additional 100, it's now -50 + 100 = 50 left to sell. Therefore, Dale still needs to sell 50 butterscotch candies.","<reasoning>Dale initially had 100 candies and sold 150, leaving him with -50 left to sell. After ordering another 100, he now needs to sell 50 candies.</reasoning>
+<answer>50</answer>",1.0,False
+base_wrong_ppo_wrong_grpo_right,lexicographic_problem_or_pair_key_first_five,10,gsm8k:test:886,gsm8k:test:886::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,verified_pass,"Initially arranged: 
+1. Calculate total number of possible microphone pairs: \( \frac{50}{2} = 25 \) pairs.
+
+2. Determine how many microphones will not fit (20%): \( 50 \times \frac{20}{100} = 10 \)
+Since 10 microphones cannot be paired, we can form: 
+3. Remaining pairs: \( 25 - 10 = 15 \)
+
+Thus, the number of pairs of microphones arranged on the stage is **15**.","Initially arranged the remaining microphones into pairs: (50 - 10) / 2 = 20 pairs
+
+<sentence 1> If all could be arranged as pairs without leaving gaps, then originally there would be: 
+<sentence 2> 50 * 4 / 2 = 100 possible microphone arrangements.
+
+Therefore, fewer than 100 mic{c}hines were initially arranged into pairs.","<reasoning>The singer can fit \(50 \times (1 - 0.2) = 40\) microphones into pairs. Since each pair consists of 2 microphones, he can arrange \(40 / 2 = 20\) pairs.</reasoning>
+<answer>20</answer>",1.0,False
+base_right_ppo_grpo_wrong,lexicographic_problem_or_pair_key_first_five,3,gsm8k:test:1010,gsm8k:test:1010::pass1::generation:0,gsm8k,gsm8k,pass1,verified_pass,format_error,wrong_answer,"<reasoning>Bethany runs 10 laps. Trey runs \(10 + 4 = 14\) laps. Shaelyn runs \(\frac{14}{2} = 7\) laps. Quinn runs \(7 - 2 = 5\) laps. Therefore, Bethany runs \(10 - 5 = 5\) more laps than Quinn.</reasoning>
+<answer>5</answer>",<reasoning>Bethany runs 10 laps. Trey runs 10 + 4 = 14 laps. Shaelyn runs 1/2 * 14 = 7 laps. Quinn runs 7 - 2 = 5 laps.<\/reasoning><answer>5</answer>,"<reasoning>Tony runs 10 + 4 = 14 laps. Stacy runs half of Tony's laps: 14 / 2 = 7 laps. Quinn runs 7 - 2 = 5 laps. Bethany runs 10 more laps than Quinn: 5 + 10 = 15 more laps.</reasoning>
+<answer>15</answer>",0.2,False
+base_right_ppo_grpo_wrong,lexicographic_problem_or_pair_key_first_five,3,gsm8k:test:381,gsm8k:test:381::pass1::generation:0,gsm8k,gsm8k,pass1,verified_pass,format_error,parse_error,"<reasoning>The distance hiked by Cho is \(14 \text{ km/h} \times 8 \text{ h} = 112 \text{ km}\). The distance hiked by Chloe is \(9 \text{ km/h} \times 5 \text{ h} = 45 \text{ km}\). Cho hiked \(112 - 45 = 67 \text{ km}\) farther than Chloe.</reasoning>
+<answer>67</answer>","To solve this, we calculate distances: 
+- For Cho: \(14 \text{ km/h} \times 8 \text{ h} = 112 \text{ km}\)
+- For Chloe: \(9 \text{ km/h} \times 5 \text{ h} = 45 \text{ km}\)
+
+Difference: \(112 - 45 = 67 \text{ km}\)
+
+Chloe hiked 67 kilometers farther than Cho.","<reasoning>To find out how many kilometers farther Cho hiked, we calculate the distance each person covered:  
+Cho's distance = speed * time = 14 km/h * 8 h = 112 km  
+Chloe's distance = 9 km/h * 5 h = 45 km  
+So, Cho hiked 112 - 45 = 67 km farther than Chloe.  
+
+</reasoning>
+<answer>67 km</answer>",0.1,False
+base_right_ppo_grpo_wrong,lexicographic_problem_or_pair_key_first_five,3,math:HuggingFaceH4/MATH-500:test:474,math:HuggingFaceH4/MATH-500:test:474::pass1::generation:0,math500,1,pass1,verified_pass,format_error,format_error,"<reasoning>The product simplifies using properties of logarithms: 
+$$\log_b(a) = \frac{\log_c(a)}{\log_c(b)}$$
+Thus,
+$$\log_2{3} \cdot \log_3{4} \cdot \log_4{5} \cdot \log_5{6} \cdot \log_6{7} \cdot \log_7{8} = \frac{\log_{10}{3}}{\log_{10}{2}} \cdot \frac{\log_{10}{4}}{\log_{10}{3}} \cdot \frac{\log_{10}{5}}{\log_{10}{4}} \cdot \frac{\log_{10}{6}}{\log_{10}{5}} \cdot \frac{\log_{10}{7}}{\log_{10}{6}} \cdot \frac{\log_{10}{8}}{\log_{10}{7}} = \frac{\log_{10}{8}}{\log_{10}{2}} = 3.$</reasoning>
+<answer>3</answer>","<reasoning>The product simplifies using properties of logarithms: 
+$$\log_b(a) = \frac{\log_c(a)}{\log_c(b)}$$
+Thus,
+$$\log_2{3} \cdot \log_3{4} \cdot \log_4{5} \cdot \log_5{6} \cdot \log_6{7} \cdot \log_7{8} = \frac{\log_{10}{3}}{\log_{10}{2}} \cdot \frac{\log_{10}{4}}{\log_{10}{3}} \cdot \frac{\log_{10}{5}}{\log_{10}{4}} \cdot \frac{\log_{10}{6}}{\log_{10}{5}} \cdot \frac{\log_{10}{7}}{\log_{10}{6}} \cdot \frac{\log_{10}{8}}{\log_{10}{7}} = \frac{\log_{10}{8}}{\log_{10}{2}} = \log_{10}{8} = 3.$
+
+Therefore, the answer is 3.</answer>","<reasoning>The product simplifies using properties of logarithms: 
+$$\log_b(a) = \frac{\log_c(a)}{\log_c(b)}$$
+Thus,
+$$\log_2{3} \cdot \log_3{4} \cdot \log_4{5} \cdot \log_5{6} \cdot \log_6{7} \cdot \log_7{8} = \frac{\log_{10}{3}}{\log_{10}{2}} \cdot \frac{\log_{10}{4}}{\log_{10}{3}} \cdot \frac{\log_{10}{5}}{\log_{10}{4}} \cdot \frac{\log_{10}{6}}{\log_{10}{5}} \cdot \frac{\log_{10}{7}}{\log_{10}{6}} \cdot \frac{\log_{10}{8}}{\log_{10}{7}} = \frac{\log_{10}{8}}{\log_{10}{2}} = \log_{10}{8} = 3.$
+
+Therefore, the answer is 3.</answer>",0.0,False
+ppo_right_grpo_wrong,lexicographic_problem_or_pair_key_first_five,3,gsm8k:test:1266,gsm8k:test:1266::pass1::generation:0,gsm8k,gsm8k,pass1,parse_error,verified_pass,wrong_answer,"<reasoning>The kennel houses 3 German Shepherds consuming \(3 \times 5 = 15\) kg/day for all dogs combined. Adding the 2 Bulldogs' consumption: \(15 + (2 \times 3) = 21\) kg per day.
+
+In a week (7 days): \(21 \times 7 = 14\) kg.
+
+</reasoning>
+<answer>14 kg</answer>","<reasoning>The kennel houses 3 German Shepherds consuming \(3 \times 5 = 15\) kg/day for all dogs combined. Adding the 2 Bulldogs' consumption: \(2 \times 3 = 6\) kg/day. In total, they consume \(15 + 6 = 21\) kg/day. For a week (\(7\) days), this becomes \(21 \times 7 = 147\) kg.</reasoning>
+<answer>147</answer>","<reasoning>A German Shepherd requires 5 kg/day * 7 days = 35 kg/week  
+A Bulldog requires 3 kg/day * 7 days = 21 kg/week  
+Total weekly consumption: 35 kg + 21 kg = 56 kg</reasoning>
+<answer>56</answer>",0.2,False
+ppo_right_grpo_wrong,lexicographic_problem_or_pair_key_first_five,3,math:HuggingFaceH4/MATH-500:test:219,math:HuggingFaceH4/MATH-500:test:219::pass1::generation:0,math500,4,pass1,format_error,verified_pass,format_error,"<reasoning>The wheel has six outcomes: 1, 2, 3, 6, 9, 7. Out of these, 6 can be divided by 4 leaving remainder 2 or 3. Thus there's a $\frac{1}{6}$ chance for the first outcome.
+
+Similarly, out of 5 numbers remaining, there's another $\frac{1}{5}$ chance for the second outcome.
+
+Multiplying both probabilities together gives us the overall probability of landing on a shaded square: $\frac{1}{6} \times \frac{1}{5} = \boxed{\frac{1}{30}}$.","<reasoning>The wheel has six outcomes: 1, 2, 3, 6, 9, 3. Out of these, 3 can land on a shaded square. Since there's an equal chance for any number to be selected, the probability is \( \frac{3}{6} = \frac{1}{2} \).
+
+</reasoning>
+
+<answer>\(\frac{1}{2}\) </answer>","<reasoning>The wheel has six outcomes: 1, 2, 3, 6, 9, 7. Out of these, 6 can be divided by 4 leaving remainder 2 or 3. Thus there's a $\frac{1}{6}$ chance for the first outcome.
+
+Similarly, out of 5 numbers remaining, there's another $\frac{1}{5}$ chance for the second outcome being divisible by 5 leaving remainder 1 or 2. Therefore, the overall chance for placing a checker on a shaded square = $\frac{1}{6} \times \frac{1}{5} = \boxed{\frac{1}{30}}$",0.0,False
+ppo_right_grpo_wrong,lexicographic_problem_or_pair_key_first_five,3,math:HuggingFaceH4/MATH-500:test:74,math:HuggingFaceH4/MATH-500:test:74::pass1::generation:0,math500,2,pass1,format_error,verified_pass,wrong_answer,"<simplification>
+First, express sec(x) as 1/cos(x):
+$$\frac{1/\cos(x)}{\sin(x)} - \frac{\sin(x)}{\cos(x)}.$$
+Combine into a single fraction:
+$$\frac{1 - \sin^2(x)}{\sin(x)\cos(x)}.$$
+Use the Pythagorean identity \(1 - \sin^2(x) = \cos^2(x)\):
+$$\frac{\cos^2(x)}{\sin(x)\cos(x)}.$$
+Cancel out one cos(x):
+$$\frac{\cos(x)}{\sin(x)} = \cot(x).$$
+</simplification>
+
+<answer>
+cot(x)
+</answer>","<reasoning>
+We can rewrite \(\sec x\) as \(\frac{1}{\cos x}\). Thus,
+\[
+\frac{\sec x}{\sin x} - \frac{\sin x}{\cos x} = \frac{1/\cos x}{\sin x} - sinx/cosx = \frac{1-\sin^2x}{\sin x \cos x}.
+\]
+Using the Pythagorean identity \(1 - \sin^2x = \cos^2x\),
+\[
+= \frac{\cos^2x}{\sin x \cos x} = \frac{\cos x}{\sin x} = \cot x.
+\]
+</reasoning>
+<answer>\(\cot x\)</answer>","<reasoning>
+First, recall that secant is the reciprocal of cosine (sec x = 1/cos x) and sine is the reciprocal of cosine (sin x = 1/cos x). Substitute these into the expression:
+$$\frac{1/\cos x}{\sin x} - \frac{\sin x}{\cos x}.$$
+Combine the fractions by finding a common denominator: 
+$$\frac{1-\sin^2x}{\cos x \sin x}.$$
+Recognize that $1-\sin^2x$ is a difference of squares and factor it as $(1+\sin x)(1-\sin x)$:
+$$\frac{(1+\sin x)(1-\sin x)}{\cos x \sin x}.$$
+Since $\cos x = \sqrt{1-\sin^2x}$ for simplicity,
+the this simplifies to:
+$$\boxed{\frac{1+\sin x}{\sin x \sqrt{1-\sin^2x}}}.$$.
+</reasoning>
+<answer>$\frac{1+\sin x}{\sin x \sqrt{1-\sin^2x}}$</answer>",0.2,False
+ppo_wrong_grpo_right,lexicographic_problem_or_pair_key_first_five,16,gsm8k:test:118,gsm8k:test:118::pass1::generation:0,gsm8k,gsm8k,pass1,wrong_answer,wrong_answer,verified_pass,"<reasoning>The first day had 2 * 5 = 10 vehicles. Adding these to the total gives 10 + 30 = 40 vehicles. Therefore, the number of containers from the second day is 40 - 30 = 10.</reasoning>
+<answer>10</answer>","<reasoning>The first day had 2 * 5 = 10 vehicles. Adding these to the total gives 10 + 30 = 40 vehicles. Therefore, the number of containers from the second day is 40 - 30 = 10.</reasoning>
+<answer>10</answer>","<reasoning>The first day had 2 * 5 = 10 vehicles. Adding these to the total gives 30 - 10 = 20 additional vehicles from the second day. Since each container holds 5 vehicles, the number of containers is 20 / 5 = 4.</reasoning>
+<answer>4</answer>",1.0,False
+ppo_wrong_grpo_right,lexicographic_problem_or_pair_key_first_five,16,gsm8k:test:180,gsm8k:test:180::pass1::generation:0,gsm8k,gsm8k,pass1,verified_pass,format_error,verified_pass,"<reasoning>The winner received \( \frac{3}{4} \) of the votes, which is \( \frac{3}{4} \times 80 = 60 \) votes. Subtracting this from the total gives the loser: \( 80 - 60 = 20 \).</reasoning>
+<answer>20</answer>","The winner received \( \frac{3}{4} \times 80 = 60 \) votes. Thus, the loser must have gotten \( 80 - 60 = 20 \) votes.","<reasoning>The winner received \( \frac{3}{4} \times 80 = 60 \) votes. Subtract from the total: \( 80 - 60 = 20 \). The loser got 20 votes.</reasoning>
+<answer>20</answer>",1.0,False
+ppo_wrong_grpo_right,lexicographic_problem_or_pair_key_first_five,16,gsm8k:test:312,gsm8k:test:312::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,verified_pass,"Quinn is 30, so Jane is 30 - 3 = 27. Trent is 5 + 27 = 32.
+
+32","Given: 
+- Quinn is 30 years old.
+- Jane is 3 years younger than Quinn.
+
+Therefore,
+- Jane's age = Quinn's age - 3
+- Jane's age = 30 - 3 = 27
+
+Since Trent is 5 years older than Jane:
+- Trent's age = Jane's age + 5
+- Trent's age = 27 + 5 = 32
+
+The answer: Trent is 32 years old.","<reasoning>Jane is 30 - 3 = 27 years old because Quinn is 30 and Jane is 3 years younger than Quinn. Trent is 27 + 5 = 32 years old because Trent is 5 years older than Jane.</reasoning>
+<answer>32</answer>",1.0,False
+ppo_wrong_grpo_right,lexicographic_problem_or_pair_key_first_five,16,gsm8k:test:42,gsm8k:test:42::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,verified_pass,She made a total of 5*8=40 pieces of pie. There were originally 14 left over so the guests ate 40-14=26 pieces.,"The total number of pies was 5 * 8 = 40 pieces. There were 14 pieces left over. So, 40 - 14 = 26 pieces were taken by the guests.
+
+<answer>26</answer>","<reasoning>The total number of pieces before any were eaten was \(5 \text{ pies} \times 8 \text{ pieces per pie} = 40\) pieces. After the guests took some, there were 14 pieces left. Therefore, they ate \(40 - 14 = 26\) pieces.</reasoning>
+<answer>26</answer>",1.0,False
+ppo_wrong_grpo_right,lexicographic_problem_or_pair_key_first_five,16,gsm8k:test:700,gsm8k:test:700::pass1::generation:0,gsm8k,gsm8k,pass1,verified_pass,wrong_answer,verified_pass,"<reasoning>The city displays fireworks in 20 boxes per box, totaling 15 * 20 = 300 fireworks. The city uses 15 + 3 = 8 boxes for their display. Each box has 5 fireworks, so all these boxes have 8 * 5 = 40 fireworks. Hannah sees 40/100 * 300 = 120 city-wide fireworks plus her own 3 boxes which total 3 * 5 = 15 more fireworks she sets off. So, in total Hannah will see 120 + 15 = 135 fireworks. 
+
+</reasoning>
+<answer>135</answer>","<reasoning>The city displays fireworks in 20 boxes per box, totaling 15 * 20 = 300 fireworks. The city uses 15 + 3 = 8 boxes for their display. Each box has 5 fireworks, so all these boxes have 8 * 5 = 40 fireworks. Hannah sees 40/100 * 300 = 120 city-wide fireworks plus her own 3 boxes which total 3 * 5 = 15 more for a grand total of 300 + 120 + 15 = 435 fireworks. </reasoning>
+<answer>435</answer>","<reasoning>The city displays fireworks in 20 boxes per box, totaling 15 * 20 = 300 fireworks. The backyard has 5 boxes, so there are 3 * 5 = 15 fireworks. Since Hannah can see 40% of the city’s fireworks, she sees 0.4 * 300 = 120 fireworks from the city. She also sets off 15 additional fireworks on the street. Therefore, Hannah sees 120 + 15 = 135 fireworks in total. </reasoning>
+<answer>135</answer>",1.0,False
+all_three_wrong,lexicographic_problem_or_pair_key_first_five,366,gsm8k:test:1000,gsm8k:test:1000::pass1::generation:0,gsm8k,gsm8k,pass1,wrong_answer,wrong_answer,wrong_answer,"<reasoning>Doctor Jones spends 20 minutes x 10 = 200 minutes or 3.33 hours on appointments. 9 patients * 20 mins/inpnt = 180 mins or 1.4 hours are spent doing rounds. So he needs a total of 3.33 + 1.4 = 4.73 hours working on patients. Since it's Monday, there’s no lunch break. Therefore, he can only work 9 - 4.73 = 4.27 hours on updating records after doing rounds and taking care of patients. 
+</reasoning>
+<answer>4.27</answer>","<reasoning>Doctor Jones spends 20 minutes x 10 = 200 minutes or 3.33 hours on appointments. 9 inpatients take 9 x 20 = 180 minutes or 1.44 hours of round checking. So he uses a total of 3.33 + 1.44 = 4.74 hours on patients and appointments. Therefore, he has 9 - 4.74 = 4.26 hours to update his records.</reasoning>
+<answer>4.26</answer>","<reasoning>Doctor Jones spends 20 minutes x 10 = 200 minutes or 3.33 hours on appointments. 9 patients * 20 mins/inpnt = 180 mins or 1.4 hours are spent doing rounds. So he needs a total of 3.33 + 1.4 = 4.73 hours working on things other than patient care. Therefore, there is 9 - 4.73 = 4.27 hours left.</reasoning><answer>4.27</answer>",0.2,False
+all_three_wrong,lexicographic_problem_or_pair_key_first_five,366,gsm8k:test:1003,gsm8k:test:1003::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,format_error,"The total cost per session is $25 + $1.50 = $3.50. With 10 students each day for 3 sessions, it's $3.50 * 10 * 3 = $105 for one week.
+
+Assuming a typical school month has about 4 weeks, the monthly earnings would be $105 * 4 = $4200. Therefore, the expected earnings of the dance studio in a month are $4200.","The total cost per session is $25 + $1.50 = $3.50. With 10 students each day for 3 sessions, the daily revenue is $3.50 * 10 * 3 = $105.
+
+In a month (assuming 4 weeks), the monthly revenue is $105 * 4 = $420. Thus, the expected earnings of the dance studio in a month are $420.","The total cost per session is $25 + $1.50 = $3.50. With 10 students each day for 3 sessions, it's $3.50 * 10 * 3 = $105 for one week.
+
+Assuming a typical school month has about 4 weeks, the monthly earnings would be $105 * 4 = $4200. Therefore, the expected earnings of the dance studio in a month are $4200.",0.0,False
+all_three_wrong,lexicographic_problem_or_pair_key_first_five,366,gsm8k:test:1009,gsm8k:test:1009::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,format_error,"Half of the 3000 students over 16 are male: 1500 (half) * (1/4) = 375 males over 16. Total males: 375 + (1/2) * (3000 - 375) = 1875. Thus, females: 3000 - 1875 = 1125.","Half of the 3000 students over 16 are male: 1500 (half) * (1/4) = 375 males over 16. Total males: 375 + (1/2) * (3000 - 375) = 1875. Thus, females: 3000 - 1875 = 1125.","Half of the 3000 students over 16 are male: 1500 (half) * (1/4) = 375 males
+
+Remaining 2500 students under 16 are male.
+
+Therefore, total number of male students is 375 + 2500 = 2875
+
+The number of female students is 3000 - 2875 = 1125
+
+1125 female students are enrolled at the school.",0.0,False
+all_three_wrong,lexicographic_problem_or_pair_key_first_five,366,gsm8k:test:1012,gsm8k:test:1012::pass1::generation:0,gsm8k,gsm8k,pass1,wrong_answer,format_error,format_error,"<reasoning>The power bank lost 9% of its capacity over the first 5 hours, then lost 7% over the next 3 hours until reaching 28% remaining.</reasoning>
+<answer>100%</answer>","<reasoning>The power bank lost 9% of its capacity over the first 5 hours, then lost 7% over the next 3 hours until it reached 28% of its initial capacity.</reasoning>
+
+To find the original charge, consider these steps: Let x be the initial charge. After 5 hours: \(x - 0.09x = 0.91x\). For the next 3 hours: \(0.91x - 0.07 \times 0.91x = 0.8467x\). Since it ends up being 28%, we set up an equation: \(0.8467x = 0.28\).
+
+Now solve for x:
+
+\[ x = \frac{0.28}{0.8467} \approx 0.314 \]
+
+So, the initial charge was approximately 0.314 (or 31.4%) of the power bank's full capacity.","<reasoning>The power bank lost 9% of its capacity over the first 5 hours, then lost 7% over the next 3 hours until it reached 28% of its initial capacity.</reasoning>
+
+To find the original charge, consider these steps: Let x be the initial charge. After 5 hours: \(x - 0.09x = 0.91x\). For the next 3 hours: \(0.91x - 0.07 \times 0.91x = 0.8467x\). Since it ends up being 28%, we set up an equation: \(0.8467x = 0.28\).
+
+Now solve for x:
+
+\[x = \frac{0.28}{0.8467} \approx 0.314\]
+
+So, the initial charge was approximately 0.314 (or 31.4%) of the power bank's full capacity.",0.0,False
+all_three_wrong,lexicographic_problem_or_pair_key_first_five,366,gsm8k:test:1030,gsm8k:test:1030::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,wrong_answer,"Given the probabilities:
+- Substitute teacher: 50%
+- Normal teacher gives an extension: 40%, but an extension not given: 60%
+- Marcus convinces teacher he ate it: 20%
+
+The homework will be submitted if either the normal teacher gives an extension or Marcus convinces the teacher.
+
+Thus, the probability Marcus will submit his homework is the sum of these probabilities:
+
+\( P(\text{submit}) = P(\text{normal ext}) + P(\text{convinces}) \)
+\( P(\text{submit}) = 0.40 + 0.20 \)
+
+Therefore, the percentage chance that Marcus will actually have to turn in his homework tomorrow is \( 0.60 \) or 60%.","Given the probabilities:
+- Substitute teacher: 50%
+- Normal teacher gives an extension: 40%, but an extension not given: 60%
+- Marcus convinces teacher he ate it: 20%
+
+The homework will be submitted if either the normal teacher gives an extension or Marcus convinces the teacher.
+
+Thus, the probability Marcus will submit his homework is the sum of these probabilities:
+
+\( P(\text{submit}) = P(\text{normal ext}) + P(\text{convinces}) \)
+\( P(\text{submit}) = 0.40 + 0.20 \)
+
+Therefore, the percentage chance that Marcus will actually have to turn in his homework tomorrow is 60%.","<reasoning>The probability of any event happening is the product of the probabilities of each independent condition. For Marcus to need to turn in homework, all conditions must fail:  
+1) No substitute teacher (50%)
+2) Not given an extension by the regular teacher (60%, 100-40=60%)  
+3) Not able to convince the teacher (80%, 100-20=80%)  
+Multiplying these:  
+50 * 60 * 80 = 24000/10000 = 24%  
+Therefore, there is a 24% chance that Marcus will actually have to turn in his homework tomorrow.  
+</reasoning>
+<answer>24%</answer>",0.2,False
+all_three_right,lexicographic_problem_or_pair_key_first_five,7,gsm8k:test:1189,gsm8k:test:1189::pass1::generation:0,gsm8k,gsm8k,pass1,verified_pass,verified_pass,verified_pass,"<reasoning>Doxa ate 1 slice. Her sister ate 2 (1+1), and her brother ate 3 (2+1). Total = 1 + 2 + 3 = 6 slices.</reasoning>
+<answer>6</answer>","<reasoning>Doxa ate 1 slice. Her sister ate 2 (1+1), and her brother ate 3 (2+1). Total = 1 + 2 + 3 = 6 slices.</reasoning>
+<answer>6</answer>","<reasoning>Doxa ate 1 slice. Her sister ate 2 (1+1), and her brother ate 3 (2+1). Total = 1 + 2 + 3 = 6 slices.</reasoning>
+<answer>6</answer>",1.0,False
+all_three_right,lexicographic_problem_or_pair_key_first_five,7,gsm8k:test:668,gsm8k:test:668::pass1::generation:0,gsm8k,gsm8k,pass1,verified_pass,verified_pass,verified_pass,"<reasoning>First calculate the number of managers: \(50 \times 0.20 = 10\). Then determine how many oversee the entire company: \(10 \times 0.30 = 3\).</reasoning>
+<answer>3</answer>","<reasoning>First calculate the number of managers: \(50 \times 0.20 = 10\). Then determine how many oversee the entire company: \(10 \times 0.30 = 3\).</reasoning>
+<answer>3</answer>","<reasoning>First calculate the number of managers: \(50 \times 0.20 = 10\). Then determine how many oversee the entire company: \(10 \times 0.30 = 3\).</reasoning>
+<answer>3</answer>",1.0,False
+all_three_right,lexicographic_problem_or_pair_key_first_five,7,math:HuggingFaceH4/MATH-500:test:167,math:HuggingFaceH4/MATH-500:test:167::pass1::generation:0,math500,1,pass1,verified_pass,verified_pass,verified_pass,"<reasoning>The volume \( V \) of the cone can be calculated using the formula \( V = \frac{1}{3} B h \), where \( B \) is the area of the base (30 square units) and \( h \) is the height (6.5 units). Substituting these values gives \( V = \frac{1}{3} \times 30 \times 6.5 \).</reasoning>
+
+<answer>65</answer>","<reasoning>The volume \( V \) of the cone can be calculated using the formula \( V = \frac{1}{3} B h \), where \( B \) is the area of the base (30 square units) and \( h \) is the height (6.5 units). Substituting these values gives \( V = \frac{1}{3} \times 30 \times 6.5 \).</reasoning>
+
+<answer>65</answer>","<reasoning>The volume \( V \) of the cone can be calculated using the formula \( V = \frac{1}{3} B h \), where \( B \) is the area of the base (30 square units) and \( h \) is the height (6.5 units). Substituting these values gives \( V = \frac{1}{3} \times 30 \times 6.5 \).</reasoning>
+
+<answer>65</answer>",1.0,False
+all_three_right,lexicographic_problem_or_pair_key_first_five,7,math:HuggingFaceH4/MATH-500:test:262,math:HuggingFaceH4/MATH-500:test:262::pass1::generation:0,math500,1,pass1,verified_pass,verified_pass,verified_pass,"<reasoning>
+We start by isolating x: \(10^x = 9990 + 10\).
+Next, we calculate the right side: \(10^x = 10000\).
+Taking logarithms on both sides or recognizing this as a power of 10, we find: \(x = 4\).
+</reasoning>
+<answer>4</answer>","<reasoning>
+We start by isolating x: \(10^x = 9990 + 10\).
+Next, we calculate the right side: \(10^x = 10000\).
+Taking logarithms on both sides or recognizing this as a power of 10, we find \(x = 4\).
+</reasoning>
+<answer>
+4
+</answer>","<reasoning>
+We start by isolating x: \(10^x = 9990 + 10\).
+Next, we calculate the right side: \(10^x = 10000\).
+Taking logarithms on both sides or recognizing this as a power of 10, we find \(x = 4\).
+</reasoning>
+<answer>
+4
+</answer>",1.0,False
+all_three_right,lexicographic_problem_or_pair_key_first_five,7,math:HuggingFaceH4/MATH-500:test:455,math:HuggingFaceH4/MATH-500:test:455::pass1::generation:0,math500,2,pass1,verified_pass,verified_pass,verified_pass,"<reasoning>In choosing 5 students out of 6, we are looking for combinations since the order does not matter.</reasoning>
+
+<answer>6</answer>","<reasoning>Selecting 5 students out of 6 means choosing all 6 students since you need to select everyone.</reasoning>
+<answer>6</answer>","<reasoning>In choosing 5 students out of 6, we are looking for combinations since the order does not matter.</reasoning>
+
+<answer>6</answer>",1.0,False
+truncated_format_failure,lexicographic_problem_or_pair_key_first_five,64,gsm8k:test:525,gsm8k:test:525::pass4::generation:0,gsm8k,gsm8k,pass4,format_error,format_error,format_error,"The total amount of raisins available is 27 cups. Each cookie recipe requires 3/4 cup of raisins.
+
+To find out how many batches of cookies she can make, divide the total amount by the amount needed for one batch: 
+27 / (3/4) = 36
+
+Therefore, Heather can make 36 batches of oatmeal cookies.","The total amount of raisins available is 27 cups. The raisins are divided equally for oatmeal cookies, granola, and snack mix. Therefore, each category gets 27 / 3 = 9 cups.
+
+A batch of oatmeal cookies requires 3/4 cup of raisins. To find out how many batches she can make: 
+(27 cups - (3/4 * 27) cups)/3/4 cups = 9 batches 
+
+Therefore, the answer is 9.","The total amount of raisins per type is: 
+- Oatmeal cookies: \( \frac{3}{4} \) cup / batch 
+- Granola bars: Assume each bar uses a certain number of cups for simplicity (let's say x), so total for granola is \( x \) cups/batch
+- Snack Mix: Assume this also uses 'y' cups/batch
+
+Given: Total raisins = 27 cups.
+
+So we have the equation:
+\[ (\frac{3}{4} + x + y) \times \text{(number of batches)} = 27 \]
+
+Without knowing specific quantities for granola or snack mix, we need more information. Let's assume typical values for these items:
+
+- Granola bars typically use about half a cup/can (so x ≈ 0.5)
+- Snack mix uses similar amounts as granola bars
+
+Let's assume granola uses 1 cup per batch (x = 1)
+
+Now solving:
+\[ (\frac{3}{4} + 1 + y) \times \text{(number of batches)} = 27 \]
+\[ (\frac{7}{4} + y) \times \text{(number of batches)}",0.0,True
+truncated_format_failure,lexicographic_problem_or_pair_key_first_five,64,math:HuggingFaceH4/MATH-500:test:103,math:HuggingFaceH4/MATH-500:test:103::pass1::generation:0,math500,5,pass1,format_error,format_error,format_error,"The function \( f(x) = \lambda x(1 - x) \) is a quadratic equation in terms of \( x \). For there to exist some \( x \in [0,1] \) such that \( f(x) \neq x \), the condition \( f(f(x)) = x \) must hold.
+
+Setting \( f(x) = y \) gives \( y = \lambda y^2 (1-y) \). Simplifying, we get \( y = 0 \) or \( y = \frac{x}{\lambda} \). Since \( f(f(x)) = x \), it implies \( y = x \).
+
+Therefore, for \( f(f(x)) = x \), the only solution occurs when \( y = x \). This means solving \( \lambda x^2 (1-x) = x \) within \([0,1]\):
+
+This leads us to:
+
+- If \(\lambda \geq 1\), then \( x = 0 \) or \( x = 1 \), neither of which satisfy \( \lambda x^2 (1-x) = x \).
+  
+- Otherwise, if \( 0 \le \lambda < 1 \):
+  - The","The function \( f(x) = \lambda x(1 - x) \) is a quadratic equation in terms of \( x \). For there to exist some \( x \in [0,1] \) such that \( f(x) \neq x \), the condition \( f(f(x)) = x \) must hold.
+
+Setting \( f(x) = y \) gives \( y = \lambda y^2 (1-y) \). Simplifying, we get \( y = 0 \) or \( y = \frac{x}{\lambda} \). Since \( f(f(x)) = x \), it implies \( y = x \).
+
+Therefore, for \( f(f(x)) = x \), the only solution occurs when \( y = x \). This means solving \( \lambda x^2 (1-x) = x \) within \([0,1]\):
+
+This leads us to:
+
+- If \(\lambda \geq 1\), then \( x = 0 \) or \( x = 1 \), neither of which satisfy \( \lambda x^2 (1-x) = x \).
+  
+- Otherwise (\(0 \leq \lambda < 1\)), the root must lie","The function \( f(x) = \lambda x(1 - x) \) is a quadratic equation in terms of \( x \). For there to exist some \( x \in [0,1] \) such that \( f(x) \neq x \), it must cross the line \( y = x \). This requires the discriminant of the quadratic equation \( \lambda x^2 + (1-\lambda)x - 1 = 0 \) to be positive.
+
+The discriminant must satisfy:
+\[
+\Delta > 0 \implies (\lambda-1)^2(\lambda+3) > 0
+\]
+Since \( 0 \le \lambda \le 4 \), we find the intervals where this condition holds:
+
+For \( 0 \le \lambda < 1 \):
+- \((\lambda-1)^2 \ge 0\) and \(\lambda+3 > 0\),
+so \(\Delta > 0\).
+
+For \( 1 \le \lambda < 4 \):
+- Both factors are negative or zero,
+so \(\Delta \le 0\).
+
+Thus, the valid interval for \( \lambda \) is \( 0 \le \lambda < 1",0.0,True
+truncated_format_failure,lexicographic_problem_or_pair_key_first_five,64,math:HuggingFaceH4/MATH-500:test:134,math:HuggingFaceH4/MATH-500:test:134::pass1::generation:0,math500,4,pass1,format_error,format_error,format_error,"The given conditions describe a hyperbola with vertices at \( F_1 \) and \( F_2 \), which are symmetric about the y-axis, implying \( h = 0 \). Since the difference in distances is constant (\( |PF_1 - PF_2| = 24 \)), the standard form of the hyperbola's equation with center at \( (0, 2) \) becomes:
+\[
+\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1,
+\]
+where \( 2a = 24 \) gives \( a = 12 \) and \( 2c = 24 \) where \( c = 13 \). Therefore, \( b^2 = c^2 - a^2 = 13^2 - 12^2 = 15 \).
+
+Thus, we have \( h = 0 \), \( k = 2 \), \( a = 12 \), and \( b = 1\sqrt{5} \). Summing these values:
+\[
+h + k + a + b = 0 + 2 + 12 + \sqrt","The given conditions describe a hyperbola with vertices at \( F_1 = (10,2) \) and \( F_2 = (-16,2) \), which means it has its center on the x-axis between these points, i.e., \( (h,k) = (5,2) \).
+
+To find \( a \) and \( b \):
+- \( |F_1F_2| = 26 \), which is \( 2c = 26 \), so \( c = 13 \).
+- Given \( |PF_1 - PF_2| = 24 \) implies \( 2a = 24 \), so \( a = 12 \).
+- From \( c^2 = a^2 + b^2 \), we get \( 13^2 = 12^2 + b^2 \), hence \( b^2 = 9 \), leading to \( b = 3 \).
+
+Thus,
+\( h + k + a + b = 5 + 2 + 12 + 3 = 22 \).
+
+Therefore, the answer is 22.","The given conditions describe a hyperbola with vertices at \( F_1 \) and \( F_2 \), which are symmetric about the y-axis, implying \( h = 0 \). Since the difference in distances is constant (\( |PF_1 - PF_2| = 24 \)), the standard form of this hyperbola is:
+\[
+\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1,
+\]
+where \( 2a \) is half the distance between the foci, leading to \( a = 35 \).
+
+To find \( b \), use the relationship \( c^2 = a^2 + b^2 \), where \( c = \sqrt{|F_1 F_2|/2} = 7 \). Thus,
+\[
+c^2 = a^2 + b^2 \implies 7^2 = 35^2 + b^2 \implies 49 = 16 + b^2 \implies b^2 = 33 \implies b = \sqrt{33}.
+\]
+
+Hence, \( h = 0 \), \( k",0.0,True
+truncated_format_failure,lexicographic_problem_or_pair_key_first_five,64,math:HuggingFaceH4/MATH-500:test:134,math:HuggingFaceH4/MATH-500:test:134::pass4::generation:2,math500,4,pass4,format_error,format_error,format_error,"The given points \( F_1 = (10,2) \) and \( F_2 = (-16,2) \ form an ellipse because the distance between these foci is constant: 
+\[ |F_1F_2| = 26 = 2 \cdot |OF_1|. \]
+However, for the condition \( |PF_1 - PF_2| = 24 \) to hold, it suggests we consider the locus of points equidistant from the foci by 24 units, which leading us to recognize this as a hyperbola.
+
+Thus,
+\[ \text{Equation of Hyperbola: } \frac{(x - h)^2}{a^2} - \frac{(y - k)^2}{b^2} = 1, \]
+where \( a = \sqrt{\left(\frac{24}{2}\right)^2} = 12, \)
+and \( c = \frac{|F_1F_2|}{2} = 13. \)
+
+\( b^2 = c^2 - a^2 \):
+\[ b^2 = 13^2 - 12^2 = 1","The given points \( F_1 = (10,2) \) and \( F_2 = (-16,2) \ form an ellipse because the distance between these foci is constant: 
+\[ |F_1F_2| = 26 = 2 \cdot |OF_1|. \]
+However, for the condition \( |PF_1 - PF_2| = 24 \) to hold, it suggests we consider the locus of points equidistant from the foci by 24 units, which leading us to recognize this as a hyperbola.
+
+Thus,
+\[ \text{Equation of Hyperbola: } \frac{(x - h)^2}{a^2} - \frac{(y - k)^2}{b^2} = 1, \]
+where \( a = \sqrt{\left(\frac{24}{2}\right)^2} = 12, \)
+and \( c = \frac{|F_1F_2|}{2} = 13. \)
+
+\( b^2 = c^2 - a^2 \):
+\[ b^2 = 13^2 - 12^2 = 9","The given points \( F_1 = (10,2) \) and \( F_2 = (-16,2) \ form an ellipse because the distance between the foci is constant (\(|F_1F_2| = 26\) instead of 24). To find the equation of the hyperbola formed by points \( P \) such that \( |PF_1 - PF_2| = 24 \), we adjust for the difference in distances by using the definition of a hyperbola.
+
+Setting up the standard form of the hyperbola equation:
+\[
+\frac{(x - h)^2}{a^2} - \frac{(y - k)^2}{b^2} = 1,
+\]
+where \( h = 0 \) due to symmetry, \( k = 2 \), we solve for \( a^2 \) and \( b^2 \) using the relationship derived from the hyperbola's property \( c^2 = a^2 + b^2 \).
+
+Given \( F_1F_2 = 26 \), where \( c = 13 \) for the adjusted hyperbola:
+\[
+c^2 = a",0.0,True
+truncated_format_failure,lexicographic_problem_or_pair_key_first_five,64,math:HuggingFaceH4/MATH-500:test:156,math:HuggingFaceH4/MATH-500:test:156::pass4::generation:0,math500,3,pass4,format_error,format_error,format_error,"<reasoning>To solve this problem, we need to analyze the geometry formed by the observers' line of sight from points \(A\) and \(B\). Since \(\overline{OP}\) is perpendicular to the track, it forms a right angle with both runners’ paths. Given that \(B\) runs three times faster than \(A\), the relative speed difference between \(A\) and \(B\) affects how close they are to each other over time. The key insight is that the maximum angle \(\angle APB\) occurs when \(A\) and \(B\) are positioned such that their combined projection onto the horizontal plane makes the angle maximized. Using trigonometric relationships based on their speeds, the angle can be derived analytically or geometrically. After careful consideration, the angle turns out to be \(90^\circ\) because the setup ensures they meet directly across the vertical line connecting \(A\) and \(B\). Therefore,
+<br><answer>90</answer>","<reasoning>To solve this problem, we need to analyze the geometry formed by the observers' line of sight from points \(A\) and \(B\). Since \(\overline{OP}\) is perpendicular to the track, it forms a right angle with both runners’ paths. Given that \(B\) runs three times faster than \(A\), the relative speed difference between \(A\) and \(B\) affects how close they are to each other over time. The key insight is that the maximum angle \(\angle APB\) occurs when \(A\) and \(B\) are positioned such that their lines of sight intersect at an optimal angle due to the fixed distance constraint along the track.
+
+<answer>90</answer>","<reasoning>To solve this problem, we need to analyze the geometry formed by the observers' line of sight from points \(A\) and \(B\). Since \(\overline{OP}\) is perpendicular to the track, it forms a right angle with both runners’ paths. Given that \(B\) runs three times faster than \(A\), the relative speed difference between \(A\) and \(B\) affects how much closer or farther apart they get over time. The maximum angle occurs when \(A\) and \(B\) are directly opposite each other along their paths. This happens when the straight-line distance between \(A\) and \(B\) plus the height difference (\(OP\)) results in an optimal viewing angle for the observer at \(P\). Using trigonometric principles, the angle can be calculated. For simplicity, let's consider the scenario where the shortest path difference leads to the maximized angle observation: since \(B\) runs three times faster, the angle observed will be maximized if \(A\) is positioned such that the line of vision intersects the circle passing through \(A\) and \(B\) with radius equal to the track width, thus forming a right triangle. Solving this geometrically or algebraically yields the solution.</reasoning",0.0,True
+parseable_wrong_answer,lexicographic_problem_or_pair_key_first_five,113,gsm8k:test:1000,gsm8k:test:1000::pass1::generation:0,gsm8k,gsm8k,pass1,wrong_answer,wrong_answer,wrong_answer,"<reasoning>Doctor Jones spends 20 minutes x 10 = 200 minutes or 3.33 hours on appointments. 9 patients * 20 mins/inpnt = 180 mins or 1.4 hours are spent doing rounds. So he needs a total of 3.33 + 1.4 = 4.73 hours working on patients. Since it's Monday, there’s no lunch break. Therefore, he can only work 9 - 4.73 = 4.27 hours on updating records after doing rounds and taking care of patients. 
+</reasoning>
+<answer>4.27</answer>","<reasoning>Doctor Jones spends 20 minutes x 10 = 200 minutes or 3.33 hours on appointments. 9 inpatients take 9 x 20 = 180 minutes or 1.44 hours of round checking. So he uses a total of 3.33 + 1.44 = 4.74 hours on patients and appointments. Therefore, he has 9 - 4.74 = 4.26 hours to update his records.</reasoning>
+<answer>4.26</answer>","<reasoning>Doctor Jones spends 20 minutes x 10 = 200 minutes or 3.33 hours on appointments. 9 patients * 20 mins/inpnt = 180 mins or 1.4 hours are spent doing rounds. So he needs a total of 3.33 + 1.4 = 4.73 hours working on things other than patient care. Therefore, there is 9 - 4.73 = 4.27 hours left.</reasoning><answer>4.27</answer>",0.2,False
+parseable_wrong_answer,lexicographic_problem_or_pair_key_first_five,113,gsm8k:test:1010,gsm8k:test:1010::pass1::generation:0,gsm8k,gsm8k,pass1,verified_pass,format_error,wrong_answer,"<reasoning>Bethany runs 10 laps. Trey runs \(10 + 4 = 14\) laps. Shaelyn runs \(\frac{14}{2} = 7\) laps. Quinn runs \(7 - 2 = 5\) laps. Therefore, Bethany runs \(10 - 5 = 5\) more laps than Quinn.</reasoning>
+<answer>5</answer>",<reasoning>Bethany runs 10 laps. Trey runs 10 + 4 = 14 laps. Shaelyn runs 1/2 * 14 = 7 laps. Quinn runs 7 - 2 = 5 laps.<\/reasoning><answer>5</answer>,"<reasoning>Tony runs 10 + 4 = 14 laps. Stacy runs half of Tony's laps: 14 / 2 = 7 laps. Quinn runs 7 - 2 = 5 laps. Bethany runs 10 more laps than Quinn: 5 + 10 = 15 more laps.</reasoning>
+<answer>15</answer>",0.2,False
+parseable_wrong_answer,lexicographic_problem_or_pair_key_first_five,113,gsm8k:test:1012,gsm8k:test:1012::pass4::generation:1,gsm8k,gsm8k,pass4,format_error,format_error,wrong_answer,"Let's denote the initial full capacity as \( x \). After 5 hours, it loses 9%, so it has \( 0.91x \) left. Then, over the next 3 hours, it looses 7% per hour, leaving \( (0.91)^4(x) = 0.656(x) \).
+
+The remaining charge is given by:
+
+\[
+(0.91)^4 \cdot x - 0.656x = 0.28x
+\]
+
+Dividing both sides by \( 0.28 \):
+
+\[
+x - 0.656x = 1
+\]
+
+\[
+0.344x = 1
+\]
+
+So,
+
+\[
+x = \frac{1}{0.344}
+\]
+
+Therefore,
+
+\( x \approx 2.91 \)","Let's denote the initial full capacity as \( x \). After 5 hours, it loses 9%, so it has \( 0.91x \) left. Then, over the next 3 hours, it looses 7% per hour, leaving \( (0.91)^4(x) = 0.656(x) \).
+
+The remaining charge is given by:
+
+\[
+(0.91)^4 \times (0.93^3) \times x = 0.28x
+\]
+
+Dividing both sides by \( (0.91)^4 \), we get:
+
+\[
+(0.93^3) = \frac{0.28}{0.91^4} = \frac{0.28}{0.666}
+\]
+
+Therefore,
+
+\( x = \frac{0.28}{0.666} \)
+
+So,
+
+\( x = 0.4 \)","<reasoning>The power bank lost 9% every hour for 5 hours and then 7% for another 3 hours until it reached 28% of its initial capacity.</reasoning>
+<answer>100%</answer>",0.2,False
+parseable_wrong_answer,lexicographic_problem_or_pair_key_first_five,113,gsm8k:test:1012,gsm8k:test:1012::pass4::generation:3,gsm8k,gsm8k,pass4,parse_error,parse_error,wrong_answer,"<reasoning>
+Let's denote the initial charge as \( x \) percent. Over the first 5 hours, the battery loses 9% per hour, so after 5 hours, the remaining charge is \( (1 - 0.09)^5 = 0.46^5 \). The remaining percentage after 5 hours is then \( 28\% \).
+</reasoning>
+
+<answer>
+\( 54 \% \)
+</answer>","<reasoning>
+Let's denote the initial charge as \( x \) percent. Over the first 5 hours, the battery loses 9% per hour, so after 5 hours, the remaining charge is \( (1 - 0.09)^5 = 0.46^5 \). The remaining percentage after 5 hours is then \( 28\% \).
+</reasoning>
+
+<answer>
+\( 54 \% \)
+</answer>","<reasoning>
+Let's denote the initial charge as x.
+
+For 5 hours, the battery lost 9% per hour: \(x - 0.09 \times 5 = x - 0.45\)
+
+Then for another 3 hours, the battery lost 7% per hour starting from x-0.45: 
+\( (x - 0.45) - 0.07 \times 3 = x - 0.45 - 0.21 = x - 0.65 \)
+
+The remaining charge is given as 28%, so we have:
+\[ x - 0.65 = 0.28 \]
+\[ x = 0.28 + 0.65 \]
+\[ x = 0.885 \]
+
+Therefore,
+</reasoning>
+<answer>
+0.885
+</answer>",0.2,False
+parseable_wrong_answer,lexicographic_problem_or_pair_key_first_five,113,gsm8k:test:1030,gsm8k:test:1030::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,wrong_answer,"Given the probabilities:
+- Substitute teacher: 50%
+- Normal teacher gives an extension: 40%, but an extension not given: 60%
+- Marcus convinces teacher he ate it: 20%
+
+The homework will be submitted if either the normal teacher gives an extension or Marcus convinces the teacher.
+
+Thus, the probability Marcus will submit his homework is the sum of these probabilities:
+
+\( P(\text{submit}) = P(\text{normal ext}) + P(\text{convinces}) \)
+\( P(\text{submit}) = 0.40 + 0.20 \)
+
+Therefore, the percentage chance that Marcus will actually have to turn in his homework tomorrow is \( 0.60 \) or 60%.","Given the probabilities:
+- Substitute teacher: 50%
+- Normal teacher gives an extension: 40%, but an extension not given: 60%
+- Marcus convinces teacher he ate it: 20%
+
+The homework will be submitted if either the normal teacher gives an extension or Marcus convinces the teacher.
+
+Thus, the probability Marcus will submit his homework is the sum of these probabilities:
+
+\( P(\text{submit}) = P(\text{normal ext}) + P(\text{convinces}) \)
+\( P(\text{submit}) = 0.40 + 0.20 \)
+
+Therefore, the percentage chance that Marcus will actually have to turn in his homework tomorrow is 60%.","<reasoning>The probability of any event happening is the product of the probabilities of each independent condition. For Marcus to need to turn in homework, all conditions must fail:  
+1) No substitute teacher (50%)
+2) Not given an extension by the regular teacher (60%, 100-40=60%)  
+3) Not able to convince the teacher (80%, 100-20=80%)  
+Multiplying these:  
+50 * 60 * 80 = 24000/10000 = 24%  
+Therefore, there is a 24% chance that Marcus will actually have to turn in his homework tomorrow.  
+</reasoning>
+<answer>24%</answer>",0.2,False
+high_reward_canonical_wrong,lexicographic_problem_or_pair_key_first_five,113,gsm8k:test:1000,gsm8k:test:1000::pass1::generation:0,gsm8k,gsm8k,pass1,wrong_answer,wrong_answer,wrong_answer,"<reasoning>Doctor Jones spends 20 minutes x 10 = 200 minutes or 3.33 hours on appointments. 9 patients * 20 mins/inpnt = 180 mins or 1.4 hours are spent doing rounds. So he needs a total of 3.33 + 1.4 = 4.73 hours working on patients. Since it's Monday, there’s no lunch break. Therefore, he can only work 9 - 4.73 = 4.27 hours on updating records after doing rounds and taking care of patients. 
+</reasoning>
+<answer>4.27</answer>","<reasoning>Doctor Jones spends 20 minutes x 10 = 200 minutes or 3.33 hours on appointments. 9 inpatients take 9 x 20 = 180 minutes or 1.44 hours of round checking. So he uses a total of 3.33 + 1.44 = 4.74 hours on patients and appointments. Therefore, he has 9 - 4.74 = 4.26 hours to update his records.</reasoning>
+<answer>4.26</answer>","<reasoning>Doctor Jones spends 20 minutes x 10 = 200 minutes or 3.33 hours on appointments. 9 patients * 20 mins/inpnt = 180 mins or 1.4 hours are spent doing rounds. So he needs a total of 3.33 + 1.4 = 4.73 hours working on things other than patient care. Therefore, there is 9 - 4.73 = 4.27 hours left.</reasoning><answer>4.27</answer>",0.2,False
+high_reward_canonical_wrong,lexicographic_problem_or_pair_key_first_five,113,gsm8k:test:1010,gsm8k:test:1010::pass1::generation:0,gsm8k,gsm8k,pass1,verified_pass,format_error,wrong_answer,"<reasoning>Bethany runs 10 laps. Trey runs \(10 + 4 = 14\) laps. Shaelyn runs \(\frac{14}{2} = 7\) laps. Quinn runs \(7 - 2 = 5\) laps. Therefore, Bethany runs \(10 - 5 = 5\) more laps than Quinn.</reasoning>
+<answer>5</answer>",<reasoning>Bethany runs 10 laps. Trey runs 10 + 4 = 14 laps. Shaelyn runs 1/2 * 14 = 7 laps. Quinn runs 7 - 2 = 5 laps.<\/reasoning><answer>5</answer>,"<reasoning>Tony runs 10 + 4 = 14 laps. Stacy runs half of Tony's laps: 14 / 2 = 7 laps. Quinn runs 7 - 2 = 5 laps. Bethany runs 10 more laps than Quinn: 5 + 10 = 15 more laps.</reasoning>
+<answer>15</answer>",0.2,False
+high_reward_canonical_wrong,lexicographic_problem_or_pair_key_first_five,113,gsm8k:test:1012,gsm8k:test:1012::pass4::generation:1,gsm8k,gsm8k,pass4,format_error,format_error,wrong_answer,"Let's denote the initial full capacity as \( x \). After 5 hours, it loses 9%, so it has \( 0.91x \) left. Then, over the next 3 hours, it looses 7% per hour, leaving \( (0.91)^4(x) = 0.656(x) \).
+
+The remaining charge is given by:
+
+\[
+(0.91)^4 \cdot x - 0.656x = 0.28x
+\]
+
+Dividing both sides by \( 0.28 \):
+
+\[
+x - 0.656x = 1
+\]
+
+\[
+0.344x = 1
+\]
+
+So,
+
+\[
+x = \frac{1}{0.344}
+\]
+
+Therefore,
+
+\( x \approx 2.91 \)","Let's denote the initial full capacity as \( x \). After 5 hours, it loses 9%, so it has \( 0.91x \) left. Then, over the next 3 hours, it looses 7% per hour, leaving \( (0.91)^4(x) = 0.656(x) \).
+
+The remaining charge is given by:
+
+\[
+(0.91)^4 \times (0.93^3) \times x = 0.28x
+\]
+
+Dividing both sides by \( (0.91)^4 \), we get:
+
+\[
+(0.93^3) = \frac{0.28}{0.91^4} = \frac{0.28}{0.666}
+\]
+
+Therefore,
+
+\( x = \frac{0.28}{0.666} \)
+
+So,
+
+\( x = 0.4 \)","<reasoning>The power bank lost 9% every hour for 5 hours and then 7% for another 3 hours until it reached 28% of its initial capacity.</reasoning>
+<answer>100%</answer>",0.2,False
+high_reward_canonical_wrong,lexicographic_problem_or_pair_key_first_five,113,gsm8k:test:1012,gsm8k:test:1012::pass4::generation:3,gsm8k,gsm8k,pass4,parse_error,parse_error,wrong_answer,"<reasoning>
+Let's denote the initial charge as \( x \) percent. Over the first 5 hours, the battery loses 9% per hour, so after 5 hours, the remaining charge is \( (1 - 0.09)^5 = 0.46^5 \). The remaining percentage after 5 hours is then \( 28\% \).
+</reasoning>
+
+<answer>
+\( 54 \% \)
+</answer>","<reasoning>
+Let's denote the initial charge as \( x \) percent. Over the first 5 hours, the battery loses 9% per hour, so after 5 hours, the remaining charge is \( (1 - 0.09)^5 = 0.46^5 \). The remaining percentage after 5 hours is then \( 28\% \).
+</reasoning>
+
+<answer>
+\( 54 \% \)
+</answer>","<reasoning>
+Let's denote the initial charge as x.
+
+For 5 hours, the battery lost 9% per hour: \(x - 0.09 \times 5 = x - 0.45\)
+
+Then for another 3 hours, the battery lost 7% per hour starting from x-0.45: 
+\( (x - 0.45) - 0.07 \times 3 = x - 0.45 - 0.21 = x - 0.65 \)
+
+The remaining charge is given as 28%, so we have:
+\[ x - 0.65 = 0.28 \]
+\[ x = 0.28 + 0.65 \]
+\[ x = 0.885 \]
+
+Therefore,
+</reasoning>
+<answer>
+0.885
+</answer>",0.2,False
+high_reward_canonical_wrong,lexicographic_problem_or_pair_key_first_five,113,gsm8k:test:1030,gsm8k:test:1030::pass1::generation:0,gsm8k,gsm8k,pass1,format_error,format_error,wrong_answer,"Given the probabilities:
+- Substitute teacher: 50%
+- Normal teacher gives an extension: 40%, but an extension not given: 60%
+- Marcus convinces teacher he ate it: 20%
+
+The homework will be submitted if either the normal teacher gives an extension or Marcus convinces the teacher.
+
+Thus, the probability Marcus will submit his homework is the sum of these probabilities:
+
+\( P(\text{submit}) = P(\text{normal ext}) + P(\text{convinces}) \)
+\( P(\text{submit}) = 0.40 + 0.20 \)
+
+Therefore, the percentage chance that Marcus will actually have to turn in his homework tomorrow is \( 0.60 \) or 60%.","Given the probabilities:
+- Substitute teacher: 50%
+- Normal teacher gives an extension: 40%, but an extension not given: 60%
+- Marcus convinces teacher he ate it: 20%
+
+The homework will be submitted if either the normal teacher gives an extension or Marcus convinces the teacher.
+
+Thus, the probability Marcus will submit his homework is the sum of these probabilities:
+
+\( P(\text{submit}) = P(\text{normal ext}) + P(\text{convinces}) \)
+\( P(\text{submit}) = 0.40 + 0.20 \)
+
+Therefore, the percentage chance that Marcus will actually have to turn in his homework tomorrow is 60%.","<reasoning>The probability of any event happening is the product of the probabilities of each independent condition. For Marcus to need to turn in homework, all conditions must fail:  
+1) No substitute teacher (50%)
+2) Not given an extension by the regular teacher (60%, 100-40=60%)  
+3) Not able to convince the teacher (80%, 100-20=80%)  
+Multiplying these:  
+50 * 60 * 80 = 24000/10000 = 24%  
+Therefore, there is a 24% chance that Marcus will actually have to turn in his homework tomorrow.  
+</reasoning>
+<answer>24%</answer>",0.2,False

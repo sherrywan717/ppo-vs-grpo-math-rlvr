@@ -441,3 +441,19 @@ pass, and 376 both fail. The 10,000-resample paired bootstrap interval for the -
 point pass@1 delta is [-2.25, +1.75] points. No test result was used to select a
 checkpoint or change any scientific variable. The next queue position is GRPO seed-42
 checkpoint-32 final evaluation and still requires separate authorization.
+
+## Stage L2 GRPO seed-42 final-evaluation record
+
+The frozen GRPO seed-42 checkpoint-32 policy was evaluated once under the unchanged
+held-out protocol as `grpo_final_formal_1p5b_seed42_20260721T034104Z`. It completed
+800/800 candidates and 94,288 exact tokens. Sampled pass@1 is 28/400 (7.0%); the
+independent 100-problem pass@4 pool is 14/100 (14.0%). The pass pools remain separate
+and no nested monotonicity claim is made.
+
+Candidate keys and all model/test/prompt/reward/parser/verifier/sampling identities
+match the seed-42 Base and PPO evaluations. GRPO minus Base pass@1 is +3.0 points with
+paired bootstrap 95% CI [+1.0,+5.0]; GRPO minus PPO is +3.25 points with CI
+[+1.25,+5.5]. Both independent-pass@4 intervals include zero. These results are
+descriptive for one training seed and did not select a checkpoint or change any frozen
+variable. The next queue position is GRPO seed-123 checkpoint-32 final evaluation and
+requires separate authorization.

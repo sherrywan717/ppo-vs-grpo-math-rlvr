@@ -11,9 +11,9 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Stage L1 execution base HEAD: `3bd7f62d6d83d06c805d924cb1f7739e560e3f93`
-- Stage L1 result: the commit containing this handoff and the PPO42 final report.
-- Worktree: clean at Stage L1 start; expected clean after the result commit.
+- Stage L2 execution base HEAD: `fbd2e5c0cdfa2d7d7c1e0cd951ff2ea2c6ecb794`
+- Stage L2 result: the commit containing this handoff and the GRPO42 final reports.
+- Worktree: clean at Stage L2 start; expected clean after the result commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -278,12 +278,28 @@ verified. Usage was 0.911251 GPU-hours / CNY 8.091905, peak nvidia-smi VRAM 3,93
 MiB, and GPU release was 0 MiB/no process. The complete backup SHA256 is
 `04fcb03b22ab74e865e2627c0e02460b62c6c731e2245d054aefe5ff6b562fc1`.
 
+## Stage L2 GRPO seed-42 final evaluation
+
+Stage L2 completed the fixed GRPO seed-42 checkpoint-32 held-out evaluation as
+`grpo_final_formal_1p5b_seed42_20260721T034104Z`: 800/800 candidates, 94,288 exact
+tokens, sampled pass@1 28/400 (7.0%), and independent pass@4 14/100 (14.0%). Its
+checkpoint manifest SHA is
+`c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a`;
+all 20 runtime checksums and persistent backup SHA
+`97be0c2f1931690fb631dec557eb17201df12b177810c0b270192c46e6920e48`
+verified. GPU release was 0 MiB/no compute process.
+
+All Base/PPO/GRPO candidate identities match. GRPO minus Base pass@1 is +3.0 points
+(bootstrap 95% CI +1.0 to +5.0) and GRPO minus PPO is +3.25 points (+1.25 to +5.5).
+Both independent-pass@4 intervals span zero. This one-seed result is not a general
+algorithm-superiority claim and did not affect any scientific setting.
+
 ## Unique next task
 
-The only next task is separately authorized GRPO seed-42 checkpoint-32 final
-evaluation under the same frozen held-out protocol. Do not start it automatically.
-GRPO/PPO seed-123 final evaluations, CPU final aggregation, seed 2026, baseline reruns,
-and training remain unauthorized. Exact scope is in `docs/NEXT_TASK.md`.
+The only next task is a separately authorized GRPO seed-123 checkpoint-32 held-out
+final evaluation under the same frozen protocol. Do not start it automatically.
+PPO123 final evaluation, CPU final aggregation, seed 2026, baseline reruns, and training
+remain unauthorized. Exact scope is in `docs/NEXT_TASK.md`.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable
 metrics remain null/unavailable with reasons; noncritical telemetry and presentation
