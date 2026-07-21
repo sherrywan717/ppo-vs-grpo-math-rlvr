@@ -1,0 +1,10 @@
+{
+  "status": "success",
+  "failed_stage": null,
+  "exception_type": null,
+  "stop_reason": null,
+  "counters": {
+    "completions": 800,
+    "generated_tokens": null
+  }
+}

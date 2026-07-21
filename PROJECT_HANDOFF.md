@@ -11,9 +11,9 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Stage K execution base HEAD: `f6a62eeb8ce59c438f355b675db493552044de18`
-- Stage K result: the commit containing this handoff and the PPO123 report.
-- Worktree: clean at Stage K start; expected clean after the result commit.
+- Stage L1 execution base HEAD: `3bd7f62d6d83d06c805d924cb1f7739e560e3f93`
+- Stage L1 result: the commit containing this handoff and the PPO42 final report.
+- Worktree: clean at Stage L1 start; expected clean after the result commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -257,14 +257,33 @@ All four active formal training runs are scientifically complete (PPO42 via its
 transparent recovered-validation composite). The two-seed/four-run aggregate is
 descriptive only and does not establish significance or general algorithm superiority.
 
+## Stage L1 PPO seed-42 final evaluation
+
+The first process, `ppo_final_formal_1p5b_seed42_20260720T052931Z`, was terminated by
+a host power/network outage after 429 persisted rows and 41,144 tokens. It remains
+immutable and excluded; no row was resumed, copied, or mixed into a scientific run.
+Its verified failure-evidence backup SHA256 is
+`498f0a33696cd3aed77a6d2e9f7fc02e1515fcf624f51aef023b5b12dcc65e21`.
+
+After new explicit authorization, `ppo_final_formal_1p5b_seed42_20260721T022152Z`
+ran once from update-free checkpoint-32 evaluation and succeeded with 800/800
+completions and 98,018 tokens. Sampled pass@1 is 15/400 (3.75%) and independent-pool
+pass@4 is 9/100 (9.0%); greedy is null/unavailable. The matching seed-42 base values
+are 4.0% and 10.0%. Paired pass@1 had 8 improvements and 9 regressions; paired pass@4
+had 2 and 3. No test result changed the fixed checkpoint or any scientific setting.
+
+All 20 run checksums and the trusted checkpoint manifest SHA
+`18534747eb6bb1c0945676c7490fce29c90e1f67bff939bd9318ee1101ee1952`
+verified. Usage was 0.911251 GPU-hours / CNY 8.091905, peak nvidia-smi VRAM 3,933
+MiB, and GPU release was 0 MiB/no process. The complete backup SHA256 is
+`04fcb03b22ab74e865e2627c0e02460b62c6c731e2245d054aefe5ff6b562fc1`.
+
 ## Unique next task
 
-The only next task is the first separately authorized fixed step-32 final evaluation:
-PPO seed 42. It must use the frozen evaluation contract and trusted composite-linked
-checkpoint, and requires new explicit authorization. Do not start it automatically.
-The other three final evaluations, CPU final aggregation, seed 2026, baseline reruns,
-and automatic stage advancement remain unauthorized. Exact scope is in
-`docs/NEXT_TASK.md`.
+The only next task is separately authorized GRPO seed-42 checkpoint-32 final
+evaluation under the same frozen held-out protocol. Do not start it automatically.
+GRPO/PPO seed-123 final evaluations, CPU final aggregation, seed 2026, baseline reruns,
+and training remain unauthorized. Exact scope is in `docs/NEXT_TASK.md`.
 
 All historical runs and successful baselines remain immutable. Missing or unreliable
 metrics remain null/unavailable with reasons; noncritical telemetry and presentation

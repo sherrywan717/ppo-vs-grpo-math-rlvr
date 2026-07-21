@@ -1,0 +1,68 @@
+selection_rule,transition,problem_id,domain,math500_level,baseline_status,ppo_status,baseline_completion,ppo_completion
+lexicographically first five problem_id values with transition=base_fail_to_ppo_pass,base_fail_to_ppo_pass,gsm8k:test:1266,gsm8k,,parse_error,verified_pass,"<reasoning>The kennel houses 3 German Shepherds consuming \(3 \times 5 = 15\) kg/day for all dogs combined. Adding the 2 Bulldogs' consumption: \(15 + (2 \times 3) = 21\) kg per day.
+
+In a week (7 days): \(21 \times 7 = 14\) kg.
+
+</reasoning>
+<answer>14 kg</answer>","<reasoning>The kennel houses 3 German Shepherds consuming \(3 \times 5 = 15\) kg/day for all dogs combined. Adding the 2 Bulldogs' consumption: \(2 \times 3 = 6\) kg/day. In total, they consume \(15 + 6 = 21\) kg/day. For a week (\(7\) days), this becomes \(21 \times 7 = 147\) kg.</reasoning>
+<answer>147</answer>"
+lexicographically first five problem_id values with transition=base_fail_to_ppo_pass,base_fail_to_ppo_pass,gsm8k:test:465,gsm8k,,format_error,verified_pass,"<reasoning>Miss Maria has \(6 \times 25 = 150\) basketball cards from the decks. She has \(5 \times 40 = 200\) baseball cards from the boxes. In total, she has \(150 + 200 = 350\) cards before giving away. After keeping 50, she gives away \(350 - 50 = 290\) cards to her students. Since each student gets 10 cards, she has \(290 / 10 = 29\) students.","<reasoning>First, calculate the total number of basketball cards: 6 decks * 25 cards/deck = 150 basketball cards. Then find the total number of baseball cards: 5 boxes * 40 cards/box = 200 baseball cards. Add these together to get the total card count before giving away: 150 + 200 = 350 cards. Subtract what's kept from the total to see how many are given out: 350 - 50 = 300 cards. Divide by the number of cards each student gets for the number of students: 300 / 10 = 30 students.</reasoning>
+<answer>30</answer>"
+lexicographically first five problem_id values with transition=base_fail_to_ppo_pass,base_fail_to_ppo_pass,gsm8k:test:636,gsm8k,,format_error,verified_pass,"Jewel processes 50 customers per day, so Julie processes 100 customers daily (twice as fast). In a week, Jewel processes 3500 customers, and Julie processes 7000. Together, they process 10500 customers weekly.
+
+The total weekly production for both is 10500.","<reasoning>
+Jewel processes 50 customers per day. Julie processes 100 customers per day since she works twice as fast. There are 7 days in a week, so their daily production totals:
+- Jewel: 50 * 7 = 350 customers per week
+- Julie: 100 * 7 = 700 customers per week
+
+Combined, they process 350 + 700 = 1050 customers per week.
+</reasoning>
+
+<answer>
+1050
+</answer>"
+lexicographically first five problem_id values with transition=base_fail_to_ppo_pass,base_fail_to_ppo_pass,math:HuggingFaceH4/MATH-500:test:219,math500,4,format_error,verified_pass,"<reasoning>The wheel has six outcomes: 1, 2, 3, 6, 9, 7. Out of these, 6 can be divided by 4 leaving remainder 2 or 3. Thus there's a $\frac{1}{6}$ chance for the first outcome.
+
+Similarly, out of 5 numbers remaining, there's another $\frac{1}{5}$ chance for the second outcome.
+
+Multiplying both probabilities together gives us the overall probability of landing on a shaded square: $\frac{1}{6} \times \frac{1}{5} = \boxed{\frac{1}{30}}$.","<reasoning>The wheel has six outcomes: 1, 2, 3, 6, 9, 3. Out of these, 3 can land on a shaded square. Since there's an equal chance for any number to be selected, the probability is \( \frac{3}{6} = \frac{1}{2} \).
+
+</reasoning>
+
+<answer>\(\frac{1}{2}\) </answer>"
+lexicographically first five problem_id values with transition=base_fail_to_ppo_pass,base_fail_to_ppo_pass,math:HuggingFaceH4/MATH-500:test:395,math500,1,format_error,verified_pass,"Given \( a = 8 \), we have:
+
+\[ \left(16\sqrt[3]{a^2}\right)^{\frac{1}{3}} = \left(16\sqrt[3]{8^2}\right)^{\frac{1}{3}} = (16)(8)^\frac{2}{3} = 16 \cdot 4 = 64 \]
+
+Therefore, the value is \( 64 \).","<reasoning>
+Given \( a = 8 \), we need to find the value of \( \left(16\sqrt[3]{a^2}\right)^{\frac{1}{3}} \).
+
+First, calculate the cube root inside: 
+\[ \sqrt[3]{a^2} = \sqrt[3]{8^2} = \sqrt[3]{64} = 4 \]
+So,
+\[ 16\sqrt[3]{a^2} = 16 \cdot 4 = 64 \]
+
+Then raise it to the power of \(\frac{1}{3}\):
+\[ \left(16\sqrt[3]{a^2}\right)^{\frac{1}{3}} = 64^{\frac{1}{3}} = 4 \]
+</reasoning>
+<answer>4</answer>"
+lexicographically first five problem_id values with transition=base_pass_to_ppo_fail,base_pass_to_ppo_fail,gsm8k:test:1010,gsm8k,,verified_pass,format_error,"<reasoning>Bethany runs 10 laps. Trey runs \(10 + 4 = 14\) laps. Shaelyn runs \(\frac{14}{2} = 7\) laps. Quinn runs \(7 - 2 = 5\) laps. Therefore, Bethany runs \(10 - 5 = 5\) more laps than Quinn.</reasoning>
+<answer>5</answer>",<reasoning>Bethany runs 10 laps. Trey runs 10 + 4 = 14 laps. Shaelyn runs 1/2 * 14 = 7 laps. Quinn runs 7 - 2 = 5 laps.<\/reasoning><answer>5</answer>
+lexicographically first five problem_id values with transition=base_pass_to_ppo_fail,base_pass_to_ppo_fail,gsm8k:test:180,gsm8k,,verified_pass,format_error,"<reasoning>The winner received \( \frac{3}{4} \) of the votes, which is \( \frac{3}{4} \times 80 = 60 \) votes. Subtracting this from the total gives the loser: \( 80 - 60 = 20 \).</reasoning>
+<answer>20</answer>","The winner received \( \frac{3}{4} \times 80 = 60 \) votes. Thus, the loser must have gotten \( 80 - 60 = 20 \) votes."
+lexicographically first five problem_id values with transition=base_pass_to_ppo_fail,base_pass_to_ppo_fail,gsm8k:test:381,gsm8k,,verified_pass,format_error,"<reasoning>The distance hiked by Cho is \(14 \text{ km/h} \times 8 \text{ h} = 112 \text{ km}\). The distance hiked by Chloe is \(9 \text{ km/h} \times 5 \text{ h} = 45 \text{ km}\). Cho hiked \(112 - 45 = 67 \text{ km}\) farther than Chloe.</reasoning>
+<answer>67</answer>","To solve this, we calculate distances: 
+- For Cho: \(14 \text{ km/h} \times 8 \text{ h} = 112 \text{ km}\)
+- For Chloe: \(9 \text{ km/h} \times 5 \text{ h} = 45 \text{ km}\)
+
+Difference: \(112 - 45 = 67 \text{ km}\)
+
+Chloe hiked 67 kilometers farther than Cho."
+lexicographically first five problem_id values with transition=base_pass_to_ppo_fail,base_pass_to_ppo_fail,gsm8k:test:700,gsm8k,,verified_pass,wrong_answer,"<reasoning>The city displays fireworks in 20 boxes per box, totaling 15 * 20 = 300 fireworks. The city uses 15 + 3 = 8 boxes for their display. Each box has 5 fireworks, so all these boxes have 8 * 5 = 40 fireworks. Hannah sees 40/100 * 300 = 120 city-wide fireworks plus her own 3 boxes which total 3 * 5 = 15 more fireworks she sets off. So, in total Hannah will see 120 + 15 = 135 fireworks. 
+
+</reasoning>
+<answer>135</answer>","<reasoning>The city displays fireworks in 20 boxes per box, totaling 15 * 20 = 300 fireworks. The city uses 15 + 3 = 8 boxes for their display. Each box has 5 fireworks, so all these boxes have 8 * 5 = 40 fireworks. Hannah sees 40/100 * 300 = 120 city-wide fireworks plus her own 3 boxes which total 3 * 5 = 15 more for a grand total of 300 + 120 + 15 = 435 fireworks. </reasoning>
+<answer>435</answer>"
+lexicographically first five problem_id values with transition=base_pass_to_ppo_fail,base_pass_to_ppo_fail,gsm8k:test:917,gsm8k,,verified_pass,parse_error,"<reasoning>Kira bought a total of 3 + 5 + 6 = 14 pieces of fruit. After eating 2 pieces, there are 14 - 2 = 12 pieces left.</reasoning>
+<answer>12</answer>","<reasoning>Kira had a total of 3 + 5 + 6 = 14 pieces of fruit initially. After eating 2 pieces, she has 14 - 2 = 12 pieces left.</reasoning>
+<answer>12 pieces</answer>"

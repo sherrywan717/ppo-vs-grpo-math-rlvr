@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "run_id": "ppo_final_formal_1p5b_seed42_20260721T022152Z",
+  "problem_universe": {
+    "total": 400,
+    "gsm8k": 200,
+    "math500": 200
+  },
+  "sampled_pass_at_1": {
+    "pool": "pass1",
+    "candidates_per_problem": 1,
+    "numerator": "count of pass1 rows with canonical_status=verified_pass",
+    "denominator": 400
+  },
+  "pass_at_4": {
+    "pool": "fixed independent pass4 subset",
+    "problems": 100,
+    "gsm8k": 50,
+    "math500": 50,
+    "candidates_per_problem": 4,
+    "numerator": "groups with at least one canonical_status=verified_pass",
+    "denominator": 100
+  },
+  "candidate_pools": "independent_not_nested",
+  "nested_pass4_ge_pass1_assertion": false,
+  "generation_seed": "big-endian integer from first 8 bytes of SHA256(seed::pair_key)",
+  "sampling": {
+    "seed": 42,
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "max_prompt_length": 832,
+    "max_completion_length": 256
+  },
+  "identities": {
+    "prompt_sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+    "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd",
+    "reward_sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463"
+  }
+}

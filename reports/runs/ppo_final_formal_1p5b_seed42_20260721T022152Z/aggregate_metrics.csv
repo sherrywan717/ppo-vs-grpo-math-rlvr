@@ -1,0 +1,9 @@
+slice,completion_count,unique_problem_count,pass1,pass4,format_accuracy,valid_answer_rate,canonical_correctness,mean_completion_length,truncation_rate,reward_mean,test_driven_tuning,sampled_pass_at_1,pass_at_4,greedy_accuracy,greedy_accuracy_available,greedy_accuracy_unavailable_reason,problems
+all,800,400,0.0375,0.09,0.14,0.1225,0.03375,122.5225,0.1,0.072625,False,0.0375,0.09,,False,frozen protocol has no separate greedy completion,
+gsm8k,,,,,,,,,,,,0.025,,,,,200
+math500,,,,,,,,,,,,0.05,,,,,200
+math500_level_1,,,,,,,,,,,,0.125,,,,,40
+math500_level_2,,,,,,,,,,,,0.1,,,,,40
+math500_level_3,,,,,,,,,,,,0.0,,,,,40
+math500_level_4,,,,,,,,,,,,0.025,,,,,40
+math500_level_5,,,,,,,,,,,,0.0,,,,,40

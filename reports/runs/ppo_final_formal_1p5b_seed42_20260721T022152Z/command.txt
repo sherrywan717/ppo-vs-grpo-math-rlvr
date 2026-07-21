@@ -1,0 +1,1 @@
+PYTHONPATH=src python -m math_rlvr.evaluation.formal --phase final --seed 42 --mode ppo --execute --confirm-formal-evaluation --algorithm ppo --checkpoint-step 32 --checkpoint /root/autodl-tmp/runs/math_rlvr/ppo_formal_1p5b_seed42_20260719T131800Z/checkpoint-32

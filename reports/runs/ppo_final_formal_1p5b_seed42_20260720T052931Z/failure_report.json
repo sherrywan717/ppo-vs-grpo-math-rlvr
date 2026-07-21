@@ -1,0 +1,16 @@
+{
+  "run_id": "ppo_final_formal_1p5b_seed42_20260720T052931Z",
+  "status": "external_power_outage_interruption",
+  "completion_rows": 429,
+  "generated_tokens": 41144,
+  "included_in_scientific_aggregate": false,
+  "backup_sha256": "498f0a33696cd3aed77a6d2e9f7fc02e1515fcf624f51aef023b5b12dcc65e21",
+  "reason": "host power/network outage terminated the first authorized process before finalization",
+  "scientific_result": false,
+  "resume_or_row_reuse": false,
+  "gpu_after_restart_mib": 0,
+  "compute_processes_after_restart": 0,
+  "measured_wall_time_seconds_through_last_sample": 1257.3181302025914,
+  "measured_gpu_hours_through_last_sample": 0.3492550361673865,
+  "measured_cost_cny_through_last_sample": 3.1013847211663923
+}

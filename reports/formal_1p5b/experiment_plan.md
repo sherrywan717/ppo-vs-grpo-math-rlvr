@@ -139,9 +139,10 @@ Every GPU stage requires a separate explicit authorization and stops afterward.
 3. **Complete:** PPO seed 42 training plus transparent recovered validation composite.
 4. **Complete:** GRPO seed 42 training and matched seed-42 review.
 5. **Complete:** GRPO seed 123 and PPO seed 123 training, followed by descriptive two-seed/four-run aggregation.
-6. **Unique next task:** first frozen step-32 final test, PPO seed 42, only after separate authorization.
-7. Remaining three fixed step-32 final evaluations, each separately authorized.
-8. CPU-only final aggregation, error analysis, case studies, and final report.
+6. **Complete:** fixed step-32 PPO seed-42 final test, including transparent exclusion of the power-outage interruption.
+7. **Unique next task:** fixed step-32 GRPO seed-42 final test, only after separate authorization.
+8. Remaining seed-123 GRPO/PPO fixed step-32 final evaluations, each separately authorized.
+9. CPU-only final aggregation, error analysis, case studies, and final report.
 
 No stage inherits another run's checkpoint. A training run has its own run ID, four
 trusted same-run recovery checkpoints, full artifact tree, and persistent backup.
@@ -423,3 +424,20 @@ four active training runs are now complete. Two-seed PPO and four-run comparison
 raw values, means and sample SDs but do not claim significance; PPO/GRPO loss and native
 entropy magnitudes are not directly compared. The next active queue position is the
 fixed step-32 PPO seed-42 final evaluation and requires separate authorization.
+
+## Stage L1 PPO seed-42 final-evaluation record
+
+The fixed checkpoint-32 policy was evaluated under the unchanged held-out protocol.
+The first process `ppo_final_formal_1p5b_seed42_20260720T052931Z` was terminated by a
+host power/network outage after 429 persisted rows / 41,144 tokens. That partial run is
+immutable, excluded, and not resumed or reused. A later explicitly authorized fresh
+run, `ppo_final_formal_1p5b_seed42_20260721T022152Z`, completed 800/800 candidates and
+98,018 tokens.
+
+Sampled pass@1 is 15/400 (3.75%) and independent-pool pass@4 is 9/100 (9.0%), versus
+matching base seed-42 values 16/400 (4.0%) and 10/100 (10.0%). Candidate identities
+match exactly; pass@1 paired transitions are 8 improvements, 9 regressions, 7 both
+pass, and 376 both fail. The 10,000-resample paired bootstrap interval for the -0.25
+point pass@1 delta is [-2.25, +1.75] points. No test result was used to select a
+checkpoint or change any scientific variable. The next queue position is GRPO seed-42
+checkpoint-32 final evaluation and still requires separate authorization.

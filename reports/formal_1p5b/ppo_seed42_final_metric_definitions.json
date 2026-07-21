@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "format_valid": {
+    "numerator": "completion rows accepted by strict_completion_parser_v1",
+    "denominator": "all completion rows"
+  },
+  "valid_answer_component_rate": {
+    "numerator": "completion rows with flat valid_answer_component > 0",
+    "denominator": "all completion rows",
+    "raw_source": "RewardEvaluation.to_dict().valid_answer_component"
+  },
+  "parseable": {
+    "numerator": "canonical_status in {wrong_answer, verified_pass}",
+    "denominator": "all completion rows",
+    "includes_invalid_number_usage": false,
+    "includes_format_error": false,
+    "includes_parse_error": false
+  },
+  "canonical_pass": {
+    "numerator": "canonical_status=verified_pass",
+    "denominator": "metric-specific candidate/problem pool"
+  },
+  "accuracy_given_parseable": {
+    "numerator": "canonical_status=verified_pass",
+    "denominator": "canonical_status in {wrong_answer, verified_pass}",
+    "zero_denominator": {
+      "value": null,
+      "available": false,
+      "reason": "zero_denominator"
+    }
+  },
+  "eos_rate": {
+    "numerator": "completion_ids ending in tokenizer EOS 151645",
+    "denominator": "all completion rows"
+  },
+  "truncation_rate": {
+    "numerator": "exact_token_count=256 and final token is not EOS",
+    "denominator": "all completion rows"
+  },
+  "pass4_duplicate_rate": {
+    "numerator": "sum over pass4 groups of 4 minus distinct exact completion texts",
+    "denominator": "400 pass4 candidates",
+    "scope": "within_problem_pass4_group"
+  },
+  "missing_values": {
+    "value": null,
+    "available": false,
+    "reason": "explicit metric-specific reason; never zero-filled"
+  }
+}

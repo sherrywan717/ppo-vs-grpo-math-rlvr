@@ -668,3 +668,20 @@ The four-run comparison is descriptive only: two seeds do not establish statisti
 significance, PPO/GRPO loss and native entropy definitions are not directly comparable,
 and formal test has not run. The only next queue item is the separately authorized
 fixed step-32 PPO seed-42 final evaluation; never start it automatically.
+
+### Stage L1 PPO seed-42 held-out final evaluation
+
+The fixed checkpoint-32 evaluation `ppo_final_formal_1p5b_seed42_20260721T022152Z`
+is a scientific success: 800/800 completions, 98,018 exact tokens, sampled pass@1
+3.75%, and independent-pool pass@4 9.0%. The matching base seed-42 values are 4.0%
+and 10.0%; paired deltas are descriptive and were not used for tuning or checkpoint
+selection. Greedy remains null/unavailable because the frozen protocol has no greedy
+pool. The verified backup SHA256 is
+`04fcb03b22ab74e865e2627c0e02460b62c6c731e2245d054aefe5ff6b562fc1`; GPU
+returned to 0 MiB/no process.
+
+The earlier process `ppo_final_formal_1p5b_seed42_20260720T052931Z` was externally
+terminated by a host power/network outage at 429 rows/41,144 tokens. It is immutable,
+excluded, and never resumed or mixed with the successful run. The next queue item is
+GRPO seed-42 checkpoint-32 final evaluation and requires separate authorization; never
+start it or either seed-123 final evaluation automatically.

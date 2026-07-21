@@ -272,9 +272,9 @@ completions, safe checkpoints, and four frozen validations. Reports are in
 [`04_grpo_training.md`](reports/formal_1p5b/04_grpo_training.md),
 [`06_grpo_seed123_training.md`](reports/formal_1p5b/06_grpo_seed123_training.md), and
 [`07_grpo_seed_stability.md`](reports/formal_1p5b/07_grpo_seed_stability.md). The
-two-seed review is descriptive, not a significance or superiority claim. The sole next
-task in [`docs/NEXT_TASK.md`](docs/NEXT_TASK.md) is separately authorized formal PPO
-seed 123. No PPO seed-123 or final-test command starts automatically.
+two-seed review is descriptive, not a significance or superiority claim. PPO seed 123
+is also complete; current execution status is maintained below and in
+[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md).
 
 
 ### Stage K formal PPO seed-123 result
@@ -289,6 +289,17 @@ All four active PPO/GRPO training runs are now complete. See
 [`08_ppo_seed123_training.md`](reports/formal_1p5b/08_ppo_seed123_training.md),
 [`09_ppo_seed_stability.md`](reports/formal_1p5b/09_ppo_seed_stability.md), and
 [`10_four_run_training_validation_aggregate.md`](reports/formal_1p5b/10_four_run_training_validation_aggregate.md).
-The comparison remains descriptive: two seeds do not establish significance, and no
-formal final test has run. The next stage is the separately authorized fixed step-32
-PPO seed-42 final evaluation in [`docs/NEXT_TASK.md`](docs/NEXT_TASK.md).
+The comparison remains descriptive: two seeds do not establish significance. Stage L1
+subsequently completed the first fixed step-32 held-out final evaluation, as recorded
+below.
+
+### Stage L1 PPO seed-42 held-out final evaluation
+
+[`11_ppo_seed42_final_evaluation.md`](reports/formal_1p5b/11_ppo_seed42_final_evaluation.md)
+records the fixed checkpoint-32 result: 800 completions, 98,018 tokens, sampled pass@1
+3.75%, and independent-pool pass@4 9.0%. Matching seed-42 base values are 4.0% and
+10.0%; paired intervals span zero, so the result is descriptive rather than evidence of
+a general gain. The first process was interrupted by a host outage at 429 rows and is
+preserved and excluded; the successful run started from zero and reused none of it.
+GPU release and both backups verified. The next separately authorized stage is GRPO
+seed-42 checkpoint-32 final evaluation; no other final evaluation starts automatically.
