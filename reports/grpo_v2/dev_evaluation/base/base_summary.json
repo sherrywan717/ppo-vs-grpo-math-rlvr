@@ -1,0 +1,358 @@
+{
+  "run_id": "base_dev_grpo_v2_seed42_20260722T060500Z",
+  "aggregate": {
+    "completion_count": 128,
+    "unique_problem_count": 128,
+    "generated_tokens": 12949,
+    "candidate0_pass_at_1": {
+      "numerator": 6,
+      "denominator": 128,
+      "value": 0.046875,
+      "available": true,
+      "reason": null
+    },
+    "format_rate": {
+      "numerator": 17,
+      "denominator": 128,
+      "value": 0.1328125,
+      "available": true,
+      "reason": null
+    },
+    "valid_answer_rate": {
+      "numerator": 16,
+      "denominator": 128,
+      "value": 0.125,
+      "available": true,
+      "reason": null
+    },
+    "parseable_rate": {
+      "numerator": 16,
+      "denominator": 128,
+      "value": 0.125,
+      "available": true,
+      "reason": null
+    },
+    "accuracy_given_parseable": {
+      "numerator": 6,
+      "denominator": 16,
+      "value": 0.375,
+      "available": true,
+      "reason": null
+    },
+    "eos_rate": {
+      "numerator": 124,
+      "denominator": 128,
+      "value": 0.96875,
+      "available": true,
+      "reason": null
+    },
+    "truncation_rate": {
+      "numerator": 4,
+      "denominator": 128,
+      "value": 0.03125,
+      "available": true,
+      "reason": null
+    },
+    "completion_length": {
+      "mean": 101.1640625,
+      "median": 83.5,
+      "std": 56.01543338283592,
+      "p95": 246
+    },
+    "reward_status_counts": {
+      "format_error": 111,
+      "parse_error": 1,
+      "verified_pass": 6,
+      "wrong_answer": 10
+    },
+    "pass_at_4": {
+      "value": null,
+      "available": false,
+      "reason": "dev_protocol_one_candidate_per_problem"
+    },
+    "pass_at_10": {
+      "value": null,
+      "available": false,
+      "reason": "dev_protocol_one_candidate_per_problem"
+    },
+    "slices": {
+      "all": {
+        "problems": 128,
+        "candidate0_pass_at_1": {
+          "numerator": 6,
+          "denominator": 128,
+          "value": 0.046875,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 17,
+          "denominator": 128,
+          "value": 0.1328125,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 16,
+          "denominator": 128,
+          "value": 0.125,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 16,
+          "denominator": 128,
+          "value": 0.125,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 124,
+          "denominator": 128,
+          "value": 0.96875,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 4,
+          "denominator": 128,
+          "value": 0.03125,
+          "available": true,
+          "reason": null
+        }
+      },
+      "gsm8k": {
+        "problems": 64,
+        "candidate0_pass_at_1": {
+          "numerator": 1,
+          "denominator": 64,
+          "value": 0.015625,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 3,
+          "denominator": 64,
+          "value": 0.046875,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 3,
+          "denominator": 64,
+          "value": 0.046875,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 3,
+          "denominator": 64,
+          "value": 0.046875,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 64,
+          "denominator": 64,
+          "value": 1.0,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 0,
+          "denominator": 64,
+          "value": 0.0,
+          "available": true,
+          "reason": null
+        }
+      },
+      "math": {
+        "problems": 64,
+        "candidate0_pass_at_1": {
+          "numerator": 5,
+          "denominator": 64,
+          "value": 0.078125,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 14,
+          "denominator": 64,
+          "value": 0.21875,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 13,
+          "denominator": 64,
+          "value": 0.203125,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 13,
+          "denominator": 64,
+          "value": 0.203125,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 60,
+          "denominator": 64,
+          "value": 0.9375,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 4,
+          "denominator": 64,
+          "value": 0.0625,
+          "available": true,
+          "reason": null
+        }
+      },
+      "math_level_1": {
+        "problems": 16,
+        "candidate0_pass_at_1": {
+          "numerator": 3,
+          "denominator": 16,
+          "value": 0.1875,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 5,
+          "denominator": 16,
+          "value": 0.3125,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 4,
+          "denominator": 16,
+          "value": 0.25,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 4,
+          "denominator": 16,
+          "value": 0.25,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 16,
+          "denominator": 16,
+          "value": 1.0,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 0,
+          "denominator": 16,
+          "value": 0.0,
+          "available": true,
+          "reason": null
+        }
+      },
+      "math_level_2": {
+        "problems": 24,
+        "candidate0_pass_at_1": {
+          "numerator": 2,
+          "denominator": 24,
+          "value": 0.08333333333333333,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 5,
+          "denominator": 24,
+          "value": 0.20833333333333334,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 5,
+          "denominator": 24,
+          "value": 0.20833333333333334,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 5,
+          "denominator": 24,
+          "value": 0.20833333333333334,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 23,
+          "denominator": 24,
+          "value": 0.9583333333333334,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 1,
+          "denominator": 24,
+          "value": 0.041666666666666664,
+          "available": true,
+          "reason": null
+        }
+      },
+      "math_level_3": {
+        "problems": 24,
+        "candidate0_pass_at_1": {
+          "numerator": 0,
+          "denominator": 24,
+          "value": 0.0,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 4,
+          "denominator": 24,
+          "value": 0.16666666666666666,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 4,
+          "denominator": 24,
+          "value": 0.16666666666666666,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 4,
+          "denominator": 24,
+          "value": 0.16666666666666666,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 21,
+          "denominator": 24,
+          "value": 0.875,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 3,
+          "denominator": 24,
+          "value": 0.125,
+          "available": true,
+          "reason": null
+        }
+      }
+    }
+  },
+  "resource": {
+    "available": true,
+    "peak_vram_mb": 3831.0,
+    "mean_gpu_utilization": 37.86374133949192,
+    "gpu_hours": 0.07514720189178156,
+    "estimated_cost_cny": 0.6673071527990203
+  }
+}

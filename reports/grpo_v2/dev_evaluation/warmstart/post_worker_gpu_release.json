@@ -1,0 +1,11 @@
+{
+  "baseline_gpu_memory_mib": 0,
+  "gpu_memory_restored_to_baseline": true,
+  "new_compute_pids": [],
+  "no_new_compute_processes": true,
+  "parent_cuda_initialized": false,
+  "post_worker_gpu_memory_mib": 0,
+  "worker_absent_from_nvidia_smi_compute_processes": true,
+  "worker_pid": 68954,
+  "worker_pid_exited": true
+}

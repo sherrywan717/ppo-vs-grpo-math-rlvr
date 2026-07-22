@@ -177,3 +177,7 @@ The seed-42 warm-start [`warmstart_grpo_v2_seed42_20260722T051218Z`](reports/grp
 ### Stage P.1 evaluator status
 
 A single guarded matched dev-v2 evaluator is frozen for the 128-problem Base versus warm-start comparison. It uses identical candidate-0 sampling and evidence identities in both modes; warm-start is bound to the immutable checkpoint-16 adapter. CPU gates passed without CUDA. The next execution is Base dev followed by warm-start dev; GRPO-v2 and hidden test remain unexecuted.
+
+### GRPO-v2 matched dev result
+
+The frozen matched evaluation completed once per mode: Base achieved 6/128 candidate-0 pass@1 and warm-start 8/128. Format validity improved from 17/128 to 23/128. Five problems improved and three regressed; the +1.5625 pp paired delta has a bootstrap 95% interval of [-2.34375,+6.25] pp, so it is an uncertain dev-only gain rather than evidence of hidden-test superiority. [Full results](reports/grpo_v2/stage_p1_dev_results.md). GRPO-v2 and hidden test have not started.

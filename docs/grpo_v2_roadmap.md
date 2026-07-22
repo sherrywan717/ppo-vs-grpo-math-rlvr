@@ -32,3 +32,7 @@ Warm-start `warmstart_grpo_v2_seed42_20260722T051218Z` is complete and immutable
 ## Stage P.1 matched dev evaluator
 
 The shared evaluator is frozen at `configs/grpo_v2/dev_evaluation_seed42.json` (raw SHA `8501bfb9...2528`). It evaluates 128 ordered dev-v2 problems with one candidate each, identical per-problem seeds, prompt/parser/verifier/reward and sampling for Base and warm-start. The only model-state difference is the exact immutable checkpoint-16 policy adapter. Pass@4/pass@10 are unavailable by protocol. Phase A CPU gates passed; Phase B runs Base then warm-start once each. GRPO-v2 and hidden test remain unauthorized.
+
+## Stage P.1 result and next gate
+
+Matched Base and warm-start dev-v2 runs both completed 128/128. Base pass@1 was 6/128 and warm-start 8/128; format improved 17/128 to 23/128. The paired +1.5625 pp pass@1 delta has 95% bootstrap CI [-2.34375,+6.25] pp and McNemar p=0.7265625, so the gain is uncertain and dev-only. The warm-start is eligible for explicit GRPO-v2 review because format and pass@1 did not decline, but the repository still lacks a frozen model-bound 128-update GRPO-v2 runner. The next stage is CPU-only runtime freeze; hidden test remains sealed.

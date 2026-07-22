@@ -1,15 +1,7 @@
-# Next task: execute the two frozen matched dev-v2 evaluations
+# Next task: CPU-only freeze the guarded 128-update GRPO-v2 runtime
 
-Stage P warm-start training is immutable and must not be rerun. Stage P.1 Phase A has frozen the shared evaluator at config SHA `8501bfb945f85dda895d9278bb5d1d74a5d9c2c0791f9daa7cb0152d25e02528`.
+Stage P warm-start and both Stage P.1 matched dev evaluations are complete and immutable. Base achieved 6/128 candidate-0 pass@1; warm-start achieved 8/128 with a +1.5625 pp paired delta whose bootstrap interval includes zero. This supports protocol-following improvement and only an uncertain dev gain.
 
-Execute exactly once, in order, with no retry:
+The sole next task is CPU-only: implement and freeze the model-bound GRPO-v2 CLI/runtime from `configs/grpo_v2/grpo_v2_seed42.json`, initialized only from warm-start checkpoint-16 policy adapter SHA `44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9`. It must preserve the pre-registered 128-update/2,048-completion/524,288-token contract, incremental evidence, checkpoints/dev at 32/64/96/128, fresh GRPO optimizer, exact resume and adapter-only safety.
 
-```bash
-HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src python -m math_rlvr.evaluation.grpo_v2_dev --config configs/grpo_v2/dev_evaluation_seed42.json --mode base --run-dir /root/autodl-tmp/runs/math_rlvr/base_dev_grpo_v2_seed42_20260722T060500Z --execute --confirm-grpo-v2-dev
-```
-
-```bash
-HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src python -m math_rlvr.evaluation.grpo_v2_dev --config configs/grpo_v2/dev_evaluation_seed42.json --mode warmstart --checkpoint /root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16 --run-dir /root/autodl-tmp/runs/math_rlvr/warmstart_dev_grpo_v2_seed42_20260722T060500Z --execute --confirm-grpo-v2-dev
-```
-
-Each run is 128 single-candidate completions. Do not run GRPO-v2, hidden test, warm-start training, or any retry.
+Do not execute GRPO-v2, rerun warm-start/dev, access hidden test, or initialize CUDA during that freeze. A later real GRPO-v2 run requires new explicit GPU authorization.

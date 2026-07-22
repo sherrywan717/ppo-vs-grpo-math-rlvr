@@ -733,3 +733,7 @@ Base and warm-start dev-v2 are `not_executed_evaluator_unavailable`, not zero: t
 ### Matched GRPO-v2 dev evaluator
 
 The frozen shared evaluator `math_rlvr.evaluation.grpo_v2_dev` is the only authorized model-bound path for `dev_v2`. Base and warm-start modes must share the exact 128-problem order, prompt/parser/verifier/reward/sampling identity, candidate index 0, and per-problem seeds. Base forbids adapters; warm-start accepts only checkpoint-16 artifact `507749d3...92f0` and policy adapter `44066dd1...72b9`. Each run is inference-only with 128 completions and independent token/resource accounting. Pass@4/pass@10 are unavailable on this single-candidate dev protocol. Warm-start training is immutable and must never be rerun to repair evaluation.
+
+### GRPO-v2 matched dev result
+
+Base dev run `base_dev_grpo_v2_seed42_20260722T060500Z` and warm-start dev run `warmstart_dev_grpo_v2_seed42_20260722T060500Z` are immutable scientific successes with 128/128 single-candidate completions each. Candidate-0 pass@1 was 6/128 for Base and 8/128 for warm-start; format was 17/128 versus 23/128. The paired delta is +1.5625 pp with bootstrap 95% CI [-2.34375, +6.25] pp and exact McNemar p=0.7265625. Interpret this as improved protocol adherence and a small uncertain dev gain, not hidden-test proof. Never rerun either dev evaluation or the warm-start to improve these outcomes.

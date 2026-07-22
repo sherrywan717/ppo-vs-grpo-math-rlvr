@@ -1,0 +1,63 @@
+{
+  "base": {
+    "completion_count": 128,
+    "cost_cny": 0.6673071527990203,
+    "format_numerator": 17,
+    "generated_tokens": 12949,
+    "gpu_hours": 0.07514720189178156,
+    "parseable_numerator": 16,
+    "pass_at_1_denominator": 128,
+    "pass_at_1_numerator": 6,
+    "peak_vram_mb": 3831.0,
+    "run_id": "base_dev_grpo_v2_seed42_20260722T060500Z",
+    "status": "success",
+    "truncation_numerator": 4,
+    "wall_time_seconds": 270.5299268104136
+  },
+  "matched_identity": true,
+  "paired": {
+    "bootstrap_95_delta_pp": [-2.34375, 6.25],
+    "bootstrap_samples": 10000,
+    "bootstrap_seed": 42,
+    "delta_pp": 1.5625,
+    "improved": 5,
+    "mcnemar_exact_p": 0.7265625,
+    "regressed": 3,
+    "unchanged_correct": 3,
+    "unchanged_wrong": 117
+  },
+  "pass_at_10": {
+    "available": false,
+    "reason": "dev_protocol_one_candidate_per_problem",
+    "value": null
+  },
+  "pass_at_4": {
+    "available": false,
+    "reason": "dev_protocol_one_candidate_per_problem",
+    "value": null
+  },
+  "status": "scientifically_complete_matched_dev_pair",
+  "total": {
+    "completion_count": 256,
+    "cost_cny": 1.6360307209777338,
+    "generated_tokens": 26125,
+    "gpu_hours": 0.18423769380379884,
+    "gpu_released": true,
+    "wall_time_seconds": 663.2556976936758
+  },
+  "warmstart": {
+    "completion_count": 128,
+    "cost_cny": 0.9687235681787134,
+    "format_numerator": 23,
+    "generated_tokens": 13176,
+    "gpu_hours": 0.10909049191201727,
+    "parseable_numerator": 20,
+    "pass_at_1_denominator": 128,
+    "pass_at_1_numerator": 8,
+    "peak_vram_mb": 3841.0,
+    "run_id": "warmstart_dev_grpo_v2_seed42_20260722T060500Z",
+    "status": "success",
+    "truncation_numerator": 3,
+    "wall_time_seconds": 392.72577088326216
+  }
+}

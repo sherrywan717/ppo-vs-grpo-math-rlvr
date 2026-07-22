@@ -1,0 +1,13 @@
+metric,mode,numerator,denominator,value,delta_pp
+pass_at_1,Base,6,128,0.046875,0
+pass_at_1,Warm-start,8,128,0.0625,1.5625
+format_rate,Base,17,128,0.1328125,0
+format_rate,Warm-start,23,128,0.1796875,4.6875
+valid_answer_rate,Base,16,128,0.125,0
+valid_answer_rate,Warm-start,20,128,0.15625,3.125
+parseable_rate,Base,16,128,0.125,0
+parseable_rate,Warm-start,20,128,0.15625,3.125
+eos_rate,Base,124,128,0.96875,0
+eos_rate,Warm-start,125,128,0.9765625,0.78125
+truncation_rate,Base,4,128,0.03125,0
+truncation_rate,Warm-start,3,128,0.0234375,-0.78125

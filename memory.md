@@ -1106,3 +1106,10 @@ This file records operational history and pitfalls that should survive context c
 - The evaluator fixes 128 candidate-0 completions, identical plan/order/seeds/sampling, 32,768-token ceiling, inference-only roles, incremental evidence, verified backup, and parent post-worker GPU release. Base forbids adapters; warm-start binds checkpoint artifact `507749d3...92f0` and adapter `44066dd1...72b9`.
 - CPU validation passed 15 evaluator/safety tests, two affected registry regressions, Base/warm dry-runs, 128-prompt tokenizer audit (112--453, no overflow), Ruff, compileall and manifest validation. CUDA/model/generation/training remained zero during Phase A.
 - Next authorized execution is exactly Base dev followed by warm-start dev. Warm-start training is not rerun; GRPO-v2 and hidden test remain blocked.
+
+## 2026-07-22 — Stage P.1 matched dev execution
+
+- Base run `base_dev_grpo_v2_seed42_20260722T060500Z` succeeded once: 128 completions, 12,949 tokens, pass@1 6/128, format 17/128, parseable 16/128, 0.075147 GPU-hours, ¥0.6673, backup `95e7f227...85a8`.
+- Warm-start run `warmstart_dev_grpo_v2_seed42_20260722T060500Z` succeeded once: 128 completions, 13,176 tokens, pass@1 8/128, format 23/128, parseable 20/128, 0.109090 GPU-hours, ¥0.9687, backup `f784b6af...cdc9`.
+- Exact pairing found 5 improvements and 3 regressions; delta +1.5625 pp, paired bootstrap 95% CI [-2.34375,+6.25] pp, McNemar exact p=0.7265625. This is an uncertain dev-only gain plus clearer protocol adherence, not hidden-test evidence.
+- Both archives/checksums and parent GPU release passed; no training/backward/optimizer/checkpoint write occurred. Warm-start was not rerun. Next task is CPU-only GRPO-v2 model-bound runtime freeze, followed by new explicit GPU authorization.

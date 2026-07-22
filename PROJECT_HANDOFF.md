@@ -343,3 +343,7 @@ After publication, the only next task is a separately authorized CPU-only Stage 
 ## Stage P.1 matched dev evaluator freeze
 
 The CPU-only shared evaluator is frozen at config SHA `8501bfb945f85dda895d9278bb5d1d74a5d9c2c0791f9daa7cb0152d25e02528`; runtime registry canonical SHA is `fc1cbf10698528a084406adf7a88f9f64cd02141f63d5c91cb9b025d07997db2`. Fifteen evaluator/safety tests plus two directly affected registry regressions passed. The pinned tokenizer rendered all 128 dev prompts at 112--453 tokens under cap 832 without CUDA. Warm-start training/checkpoint remain immutable. The two separately authorized matched runs are now pending in strict Base then warm-start order; GRPO-v2 and hidden test remain unexecuted.
+
+## Stage P.1 matched dev execution result
+
+Base `base_dev_grpo_v2_seed42_20260722T060500Z` and warm-start `warmstart_dev_grpo_v2_seed42_20260722T060500Z` both completed 128/128 candidate-0 generations with matched IDs/hashes/seeds/prompts. Pass@1 was 6/128 versus 8/128 (+1.5625 pp); format 17/128 versus 23/128; parseable/valid-answer 16/128 versus 20/128. Paired transitions were 5 improved, 3 regressed, 3 unchanged-correct, 117 unchanged-wrong; bootstrap 95% CI [-2.34375,+6.25] pp and McNemar p=0.7265625. The result supports better protocol adherence and only an uncertain positive dev ability change. Both runs/checksums/backups passed and GPU returned to 0 MiB. Warm-start training remains `scientific_training_success`. The unique next task is CPU-only guarded GRPO-v2 runtime freeze; no GRPO-v2 or hidden test is authorized.
