@@ -169,3 +169,7 @@ Stage N freezes a new seed-42 **format/solution warm-start + GRPO-v2 RLVR** prot
 Stage O.2 completed the CPU-only tokenizer and runtime gate. The original 256-token target audit failure is disclosed; the capacity-only amendment uses 928 prompt / 640 active-target gates while retaining the 1,088 actual-sequence ceiling. All 256 amended records pass without truncation. A guarded warm-start command now exists but has not been executed. Secondary nested pass@10 is preregistered as exploratory only.
 
 Stage O.3 supersedes the unexecuted 50-problem pass@10 proposal with a shared 100-problem n=10 contract. Future hidden evaluation reports separate 400-problem candidate-0 accuracy from exact unbiased pass@1/pass@4/pass@10 over the unchanged shared subset; no hidden-test generation has run. See the [pass@k contract](reports/grpo_v2/pass_k_contract.md) and [amendment](reports/grpo_v2/evaluation_contract_amendment.md).
+
+### GRPO-v2 Stage P status
+
+The seed-42 warm-start [`warmstart_grpo_v2_seed42_20260722T051218Z`](reports/grpo_v2/warmstart/warmstart_grpo_v2_seed42_20260722T051218Z/report.md) completed its exact 256-sample/one-epoch/16-step contract and produced a verified adapter-only checkpoint. Base and warm-start matched dev-v2 evaluations are `not_executed_evaluator_unavailable` because this commit has no frozen model-bound dev evaluator; this is not recorded as zero and does not invalidate training. GRPO-v2 and hidden test have not started.

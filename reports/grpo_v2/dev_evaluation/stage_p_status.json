@@ -1,0 +1,17 @@
+{
+  "base_dev": {
+    "generated_tokens": 0,
+    "problems_completed": 0,
+    "reason": "no_frozen_model_bound_dev_v2_evaluator_or_cli_exists_at_authorized_HEAD",
+    "status": "not_executed_evaluator_unavailable"
+  },
+  "grpo_v2_started": false,
+  "hidden_test_started": false,
+  "training_status_unchanged": "scientific_training_success",
+  "warmstart_dev": {
+    "generated_tokens": 0,
+    "problems_completed": 0,
+    "reason": "no_frozen_model_bound_dev_v2_evaluator_or_cli_exists_at_authorized_HEAD",
+    "status": "not_executed_evaluator_unavailable"
+  }
+}

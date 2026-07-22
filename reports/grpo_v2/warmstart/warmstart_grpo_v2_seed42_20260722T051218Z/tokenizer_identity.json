@@ -1,0 +1,14 @@
+{
+  "chat_template_applied_once_per_sample": true,
+  "chat_template_available": true,
+  "class": "Qwen2TokenizerFast",
+  "eos_token_id": 151645,
+  "local_files_only": true,
+  "model_context_length": 131072,
+  "real_runtime_encode_completed_256_samples": true,
+  "repo": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "snapshot": "/root/autodl-tmp/cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "source_audit_path": "reports/grpo_v2/warmstart_target_audit.json",
+  "source_audit_sha256": "ea5f43b67d2308ff63eec94170adb1b75d5d60a95b66063ea76e7a172d055444"
+}

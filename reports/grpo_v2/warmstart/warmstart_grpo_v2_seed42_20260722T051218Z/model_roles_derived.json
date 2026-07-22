@@ -1,0 +1,34 @@
+{
+  "adapter_tensor_count": 224,
+  "base_parameter_count": 1543714304,
+  "base_trainable_parameters": 0,
+  "device": "cuda:0",
+  "dtype": "bfloat16",
+  "frozen_parameter_count": 1543714304,
+  "meta_parameter_count": {
+    "available": false,
+    "raw_key": null,
+    "reason": "runtime_did_not_persist_meta_parameter_count",
+    "value": null
+  },
+  "model_and_lora_assembly_definition": "run_directory_birth_to_model_roles_write",
+  "model_and_lora_assembly_seconds_derived": 0.7240033149719238,
+  "model_repo": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "optimizer_lora_exact_element_match": true,
+  "optimizer_parameter_elements": 4358144,
+  "optimizer_parameter_reference_count": 224,
+  "policy_lora_trainable_parameters": 4358144,
+  "reward_model_trainable_parameters": 0,
+  "snapshot_path": "/root/autodl-tmp/cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "target_module_adapter_tensor_counts": {
+    "k_proj": 56,
+    "o_proj": 56,
+    "q_proj": 56,
+    "v_proj": 56
+  },
+  "total_parameters_including_lora": 1548072448,
+  "trainable_ratio_of_base": 0.0028231545103309477,
+  "trainable_ratio_of_total": 0.0028152067467064694,
+  "value_model_present": false
+}

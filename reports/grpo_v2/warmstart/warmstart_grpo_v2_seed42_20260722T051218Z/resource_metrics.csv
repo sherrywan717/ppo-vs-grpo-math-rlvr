@@ -1,0 +1,13 @@
+timestamp,elapsed_from_monitor_start_seconds,gpu_index,nvidia_smi_memory_used_mib,nvidia_smi_memory_total_mib,gpu_utilization_percent,power_draw_watts,pytorch_current_allocated_bytes,pytorch_peak_allocated_bytes,pytorch_current_reserved_bytes,pytorch_peak_reserved_bytes,pytorch_allocator_available,pytorch_allocator_reason
+2026-07-22T13:13:59.592000+08:00,0.0,0,0,81559,0,50.15,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:04.601000+08:00,5.009,0,1397,81559,5,66.04,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:09.602000+08:00,10.01,0,15167,81559,46,191.3,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:14.602000+08:00,15.01,0,23443,81559,74,247.77,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:19.603000+08:00,20.011,0,0,81559,0,85.45,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:24.603000+08:00,25.011,0,0,81559,0,50.77,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:29.605000+08:00,30.013,0,0,81559,0,50.62,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:34.606000+08:00,35.014,0,0,81559,0,50.58,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:39.608000+08:00,40.016,0,0,81559,0,50.46,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:44.609000+08:00,45.017,0,0,81559,0,50.38,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:49.610000+08:00,50.018,0,0,81559,0,50.31,,,,,False,runtime_did_not_persist_allocator_metrics
+2026-07-22T13:14:54.611000+08:00,55.019,0,0,81559,0,50.31,,,,,False,runtime_did_not_persist_allocator_metrics

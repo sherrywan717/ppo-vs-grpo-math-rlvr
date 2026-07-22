@@ -14,7 +14,7 @@ The next mainline is a separately versioned GRPO-v2 design phase. It must not ed
 
 ## Current Baseline and Milestones
 
-The active branch is `pivot/math-rlvr`. Important milestones are:
+The active improvement branch is `improve/grpo-v2`; portfolio v1 remains frozen on `main`/`v0.1.0-formal-rlvr`. Important milestones are:
 
 - `5a10cbae2abcb066b423b10ff9d327ad1483b75c` — artifact-first Stage D infrastructure, frozen configs, reports, CPU gates, tokenizer audit, trainer builders, and shared PPO/GRPO prompt renderer.
 - `6daca223bd17ddc9201e0b8dc7cdc3c677db9b39` — successful Qwen 0.5B CUDA/model-load sanity report.
@@ -723,3 +723,9 @@ Future warm-start execution uses `math_rlvr.training.warmstart`, exact config/SH
 ### GRPO-v2 shared unbiased pass@k gate
 
 Stage O.3 supersedes the never-executed O.2 50-problem pass@10 design without rewriting history. The active hidden-evaluation subset is the byte-identical 100-problem Stage N pass@4 manifest, sampled once per problem with ten exchangeable candidates. Compute k=1/4/10 using exact `1-C(10-c,k)/C(10,k)` problem estimates, then average across problems. Keep `candidate0_accuracy_all_400` distinct from `unbiased_pass_at_1_subset_100`. Each model has exactly 1,300 rows and the four-model ledger has 5,200. Missing candidate evidence fails closed; test results never select checkpoints or trigger retraining. No Stage O.3 artifact authorizes GPU work.
+
+### GRPO-v2 Stage P warm-start result
+
+Run `warmstart_grpo_v2_seed42_20260722T051218Z` is the immutable seed-42 warm-start `scientific_training_success`: 256 unique samples, one epoch, 64 microsteps, 16 optimizer/global/scheduler steps, and 46,058 active supervised tokens. Checkpoint-16 is policy-adapter-only plus trusted optimizer/scheduler/RNG/runtime/cursor state; its artifact SHA is `507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0`. Never rerun this training to repair reporting or evaluation.
+
+Base and warm-start dev-v2 are `not_executed_evaluator_unavailable`, not zero: the authorized HEAD had no frozen model-bound dev-v2 evaluator. The next task is CPU-only evaluator implementation/freeze, followed by separate GPU authorization for exactly two matched dev runs. Do not start GRPO-v2 or hidden test before matched dev evidence exists.

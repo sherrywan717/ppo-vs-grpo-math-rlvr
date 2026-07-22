@@ -1091,3 +1091,11 @@ This file records operational history and pitfalls that should survive context c
 - The unchanged 100-problem shared subset now uses one n=10 exchangeable candidate batch. Exact per-problem estimates are `1-C(10-c,k)/C(10,k)` for k=1/4/10, followed by problem averaging and problem-level bootstrap intervals.
 - Candidate-0 accuracy uses all 400 problems and remains distinct from subset unbiased pass@1. Future ledgers are 1,300 completions/model and 5,200/four models.
 - Protected training/data/capacity/model/prompt/reward/parser/verifier identities remain unchanged. CUDA/model/generation/Trainer/backward/optimizer/evaluation counts are zero. Commit, backup, and remote SHA are recorded by the final Git state.
+
+## 2026-07-22 — Stage P seed-42 warm-start (GPU)
+
+- `warmstart_grpo_v2_seed42_20260722T051218Z` executed once and completed 256/256 unique samples, one epoch, 64 microsteps, 16 optimizer/global/scheduler steps, and 46,058 active supervised tokens. Status is `scientific_training_success`; no retry occurred.
+- Finite SFT loss: first 2.2638, last 1.9100, mean 2.3387. Grad norm was available for all 16 steps (mean 4.5790). Reward/entropy/KL/canonical pass/advantage/value loss are unavailable because they are not native SFT metrics, never zero-filled.
+- Checkpoint artifact `507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0`; adapter `44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9`. Optimizer state matched all 4,358,144 LoRA elements; GRPO handoff uses only the policy adapter with a fresh optimizer.
+- Runtime backup SHA `6515c49d64a857a5de6d1bb859f0a7a30034ccea00da4a40132091d2faa51592`; postprocess backup SHA `5f0287e4e30f94cb45645fb7f12eec728ea74be68195e3fa8d6904adca85b97e`. Peak VRAM 23,443 MiB; 15.324s / 0.004257 GPU-hours / CNY0.0378; final GPU 0 MiB/no process.
+- Base and warm-start dev-v2 did not run because no frozen model-bound dev evaluator exists. Both are `not_executed_evaluator_unavailable`; no generation occurred. Next decision is CPU-only evaluator implementation/freeze, not GRPO-v2.

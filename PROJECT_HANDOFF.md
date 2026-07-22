@@ -10,10 +10,10 @@ a derived document agree.
 
 ## Verified repository state
 
-- Branch: `pivot/math-rlvr`
-- Stage M publication base HEAD: `48d368a95fe09e2606bbda8671cbfbe8e6261840`
-- Portfolio release: `v0.1.0-formal-rlvr`; publication commit is the commit containing this handoff.
-- Worktree: clean at Stage M start; expected clean after publication.
+- Active branch: `improve/grpo-v2`
+- Stage P authorized base HEAD: `6895fa0a00c82ed0fcef12ba8514b1fc9c14b53e`; the result commit is the commit containing the Stage P handoff below.
+- Portfolio `main` and peeled tag `v0.1.0-formal-rlvr`: `f744b7866f1bdd4380a5597957359b0a953dd686`; both remain unchanged.
+- Worktree: clean at Stage P start; expected clean after the result commit.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -331,3 +331,11 @@ After publication, the only next task is a separately authorized CPU-only Stage 
 - `candidate0_accuracy_all_400` is separate from 100-problem unbiased pass@1. Ledger is 1,300 completions/model and 5,200/four models.
 - Only evaluation/pass@k and propagated registry identities changed. Warm-start/GRPO configs, manifests, curriculum, model, LoRA, prompt/reward/parser/verifier, and capacity remain unchanged. Stage O.3 ran no CUDA/model/generation/training/evaluation.
 - Unique next task remains one separately authorized Stage O warm-start run from `docs/NEXT_TASK.md`; do not start it automatically.
+
+## Stage P warm-start execution
+
+- Run `warmstart_grpo_v2_seed42_20260722T051218Z` executed exactly once from `6895fa0a00c82ed0fcef12ba8514b1fc9c14b53e` and is `scientific_training_success`. Counters are 256 unique samples, one epoch, 64 batches/microsteps, 16 optimizer/global/scheduler steps, and 46,058 supervised tokens.
+- All loss and grad-norm values are finite. Policy LoRA has 4,358,144 trainables; trusted optimizer inspection matched exactly 224 adapter tensors and 4,358,144 elements. No value model, trainable reward model, or base weight checkpoint exists.
+- Checkpoint-16 artifact SHA is `507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0`; adapter SHA is `44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9`. Runtime/postprocess backups are `6515c49d...1592` and `5f0287e4...b97e`.
+- Full-command wall time was 15.324s, peak nvidia-smi VRAM 23,443 MiB, GPU-hours 0.004257, and CNY 0.0378. GPU returned to 0 MiB with no compute process.
+- Base and warm-start dev-v2 were not executed: no frozen model-bound dev evaluator/CLI exists at this HEAD. Their values are unavailable, not zero. Training is not downgraded or rerun. The sole next task is the CPU-only evaluator freeze in `docs/NEXT_TASK.md`; GRPO-v2 remains unauthorized.

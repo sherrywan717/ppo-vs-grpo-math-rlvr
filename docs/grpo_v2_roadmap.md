@@ -24,3 +24,7 @@ The warm-start tokenizer audit is complete. Its original cap failure remains pub
 ## Stage O.3 shared unbiased pass@k amendment
 
 The O.2 50-problem pass@10 design is historical and `superseded_before_any_evaluation`. The active unchanged 100-problem subset uses one n=10 exchangeable batch per problem and exact `1-C(n-c,k)/C(n,k)` estimates for k=1/4/10. Candidate-0 accuracy over all 400 problems remains a distinct binary metric. The ledger is 1,300 completions/model and 5,200/four models; test results still cannot select or retrain anything.
+
+## Stage P execution status
+
+Warm-start `warmstart_grpo_v2_seed42_20260722T051218Z` is complete and immutable: 256 samples, one epoch, 64 microsteps, 16 optimizer/global/scheduler steps, checkpoint-16 artifact `507749d3...92f0`. Base and warm-start dev-v2 remain `not_executed_evaluator_unavailable` because no frozen model-bound dev evaluator existed; no result is represented as zero. The next stage is CPU-only evaluator implementation/freeze, then a new explicit authorization for the two matched dev runs. GRPO-v2 and hidden test remain blocked and unexecuted.

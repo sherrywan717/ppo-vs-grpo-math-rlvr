@@ -1,0 +1,17 @@
+{
+  "base_model_weights_included": false,
+  "credentials_included": false,
+  "postprocess_backup": {
+    "entries": 40,
+    "path": "/root/autodl-fs/math-rlvr-backups/warmstart_grpo_v2_seed42_20260722T051218Z.postprocess.tar.gz",
+    "sha256": "5f0287e4e30f94cb45645fb7f12eec728ea74be68195e3fa8d6904adca85b97e",
+    "verified": true
+  },
+  "run_id": "warmstart_grpo_v2_seed42_20260722T051218Z",
+  "runtime_backup": {
+    "entries": 18,
+    "path": "/root/autodl-fs/math-rlvr-backups/warmstart_grpo_v2_seed42_20260722T051218Z.tar.gz",
+    "sha256": "6515c49d64a857a5de6d1bb859f0a7a30034ccea00da4a40132091d2faa51592",
+    "verified": true
+  }
+}

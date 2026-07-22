@@ -1,11 +1,11 @@
 {
   "base_model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
   "branch": "improve/grpo-v2",
-  "cuda_initialized": false,
+  "cuda_initialized": true,
   "evaluation_contract_amendment": "stage_o3_cpu_only",
   "experiment": "single_seed_grpo_v2",
   "generation_calls": 0,
-  "model_loads": 0,
+  "model_loads": 1,
   "schema_version": 1,
   "seed": 42,
   "stages": {
@@ -16,7 +16,7 @@
       "status": "complete"
     },
     "grpo_v2": {
-      "status": "not_run"
+      "status": "not_run_blocked_on_matched_dev_evaluator"
     },
     "hidden_test": {
       "active_contract": "shared_unbiased_pass_k_n10_v1",
@@ -28,17 +28,35 @@
       "status": "not_run"
     },
     "warmstart": {
+      "adapter_sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
       "capacity_audit": "passed_256_of_256",
+      "checkpoint_artifact_sha256": "507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0",
+      "checkpoint_step": 16,
       "config_sha256": "c8e3e0a52d55f46b201c1b4a95e0f9b2f910ae558e477b55a35d03fd4ec8549a",
       "entrypoint": "math_rlvr.training.warmstart",
-      "status": "not_run"
+      "epochs": 1,
+      "global_steps": 16,
+      "microsteps": 64,
+      "optimizer_steps": 16,
+      "postprocess_backup_sha256": "5f0287e4e30f94cb45645fb7f12eec728ea74be68195e3fa8d6904adca85b97e",
+      "run_id": "warmstart_grpo_v2_seed42_20260722T051218Z",
+      "runtime_backup_sha256": "6515c49d64a857a5de6d1bb859f0a7a30034ccea00da4a40132091d2faa51592",
+      "samples": 256,
+      "scheduler_steps": 16,
+      "status": "scientific_training_success",
+      "supervised_tokens": 46058
     },
     "warmstart_dev": {
-      "status": "not_run"
+      "base_status": "not_executed_evaluator_unavailable",
+      "completion_count": 0,
+      "generated_tokens": 0,
+      "reason": "no_frozen_model_bound_dev_v2_evaluator_or_cli_exists_at_authorized_HEAD",
+      "status": "not_executed_evaluator_unavailable",
+      "warmstart_status": "not_executed_evaluator_unavailable"
     }
   },
-  "status": "warmstart_runtime_frozen_cpu_only",
-  "tokenizer_loads": 1,
-  "training_updates": 0,
+  "status": "warmstart_training_success_dev_evaluator_unavailable",
+  "tokenizer_loads": 2,
+  "training_updates": 16,
   "v1_artifacts_modified": false
 }

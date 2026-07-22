@@ -1,0 +1,51 @@
+{
+  "adapter_sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
+  "artifact_sha256": "507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0",
+  "base_weights_included": false,
+  "checkpoint_path": "/root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16",
+  "checkpoint_step": 16,
+  "files": {
+    "adapter/README.md": {
+      "sha256": "232fc9cec7a8bb6cbef7323b611c4e1d3c7aacace0c71b91f6bc8eb147227f43",
+      "size": 5404
+    },
+    "adapter/adapter_config.json": {
+      "sha256": "85944d74696eb3ffcaaa1faf8b6d34624097035f0fc17b9a3649000bed207776",
+      "size": 1152
+    },
+    "adapter/adapter_model.safetensors": {
+      "sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
+      "size": 17462432
+    },
+    "checkpoint_identity.json": {
+      "sha256": "3bfeae6a46a456494bf059b8271414cd05ccb2f9ab980ed90ec79084742da314",
+      "size": 1053
+    },
+    "optimizer.pt": {
+      "sha256": "9829e6d06d22fcf164b80de08d68d80237e32ab78d92fb9bf81b0decc5d2011a",
+      "size": 35056715
+    },
+    "rng_state.pt": {
+      "sha256": "84d700522ca1be3016d084df9a41332a4ae01fb9644f2cf14dac946a29a2ac1b",
+      "size": 14709
+    },
+    "runtime_state.json": {
+      "sha256": "986a8a44c8cf678e2fb15adc254cf6550d6ec6f84de8d71bed8ef977c92a5391",
+      "size": 218
+    },
+    "scheduler.pt": {
+      "sha256": "6d8ff7096e700a67ee680e67fe52922fca53d2cc5926beb2e43d7228232977f3",
+      "size": 1465
+    },
+    "trainer_state.json": {
+      "sha256": "fc99eae87261189324e6f48c0b5c4e6c4f2d674732469d5187e2463debf15d55",
+      "size": 3408
+    }
+  },
+  "grpo_handoff": {
+    "adapter_role": "policy",
+    "grpo_optimizer_initialization": "fresh_frozen_grpo_v2_contract",
+    "inherit_sft_optimizer_state": false
+  },
+  "validation": "passed_same_run_allowlist_identity_and_inventory"
+}

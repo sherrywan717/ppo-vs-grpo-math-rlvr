@@ -1,0 +1,152 @@
+{
+  "attempt": 1,
+  "automatic_retries": 0,
+  "branch": "improve/grpo-v2",
+  "caps": {
+    "combined": 1088,
+    "prompt": 928,
+    "target_including_eos": 640
+  },
+  "checkpoint": {
+    "adapter_sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
+    "artifact_sha256": "507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0",
+    "base_weights_included": false,
+    "checkpoint_path": "/root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16",
+    "checkpoint_step": 16,
+    "files": {
+      "adapter/README.md": {
+        "sha256": "232fc9cec7a8bb6cbef7323b611c4e1d3c7aacace0c71b91f6bc8eb147227f43",
+        "size": 5404
+      },
+      "adapter/adapter_config.json": {
+        "sha256": "85944d74696eb3ffcaaa1faf8b6d34624097035f0fc17b9a3649000bed207776",
+        "size": 1152
+      },
+      "adapter/adapter_model.safetensors": {
+        "sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
+        "size": 17462432
+      },
+      "checkpoint_identity.json": {
+        "sha256": "3bfeae6a46a456494bf059b8271414cd05ccb2f9ab980ed90ec79084742da314",
+        "size": 1053
+      },
+      "optimizer.pt": {
+        "sha256": "9829e6d06d22fcf164b80de08d68d80237e32ab78d92fb9bf81b0decc5d2011a",
+        "size": 35056715
+      },
+      "rng_state.pt": {
+        "sha256": "84d700522ca1be3016d084df9a41332a4ae01fb9644f2cf14dac946a29a2ac1b",
+        "size": 14709
+      },
+      "runtime_state.json": {
+        "sha256": "986a8a44c8cf678e2fb15adc254cf6550d6ec6f84de8d71bed8ef977c92a5391",
+        "size": 218
+      },
+      "scheduler.pt": {
+        "sha256": "6d8ff7096e700a67ee680e67fe52922fca53d2cc5926beb2e43d7228232977f3",
+        "size": 1465
+      },
+      "trainer_state.json": {
+        "sha256": "fc99eae87261189324e6f48c0b5c4e6c4f2d674732469d5187e2463debf15d55",
+        "size": 3408
+      }
+    },
+    "grpo_handoff": {
+      "adapter_role": "policy",
+      "grpo_optimizer_initialization": "fresh_frozen_grpo_v2_contract",
+      "inherit_sft_optimizer_state": false
+    },
+    "validation": "passed_same_run_allowlist_identity_and_inventory"
+  },
+  "config_path": "configs/grpo_v2/warmstart_seed42.json",
+  "config_sha256": "c8e3e0a52d55f46b201c1b4a95e0f9b2f910ae558e477b55a35d03fd4ec8549a",
+  "contract": {
+    "batch": 4,
+    "batches": 64,
+    "effective_batch": 16,
+    "epochs": 1,
+    "global_steps": 16,
+    "gradient_accumulation": 4,
+    "microsteps": 64,
+    "optimizer_steps": 16,
+    "samples": 256,
+    "scheduler_steps": 16
+  },
+  "counters": {
+    "active_label_tokens": 46058,
+    "batches": 64,
+    "cumulative_supervised_tokens": 46058,
+    "epochs": 1,
+    "global_steps": 16,
+    "microsteps": 64,
+    "optimizer_steps": 16,
+    "samples": 256,
+    "unique_samples": 256
+  },
+  "data_registry_sha256": "9b01b294da8a7953ad482f575924eb53f26f3da714fa63bb5286acb121722933",
+  "dev_evaluation": {
+    "base_dev": {
+      "generated_tokens": 0,
+      "problems_completed": 0,
+      "reason": "no_frozen_model_bound_dev_v2_evaluator_or_cli_exists_at_authorized_HEAD",
+      "status": "not_executed_evaluator_unavailable"
+    },
+    "grpo_v2_started": false,
+    "hidden_test_started": false,
+    "training_status_unchanged": "scientific_training_success",
+    "warmstart_dev": {
+      "generated_tokens": 0,
+      "problems_completed": 0,
+      "reason": "no_frozen_model_bound_dev_v2_evaluator_or_cli_exists_at_authorized_HEAD",
+      "status": "not_executed_evaluator_unavailable"
+    }
+  },
+  "head": "6895fa0a00c82ed0fcef12ba8514b1fc9c14b53e",
+  "manifests": {
+    "dev_v2": "bdf02e1202e564177fea59f80f0b0ac8a36649daf8636ed6dd5bf3e5f6356b80",
+    "test_v2_hidden": "1da04a0093382711d618f515261b417e7df085d8e4fe93ddb34d314868062285",
+    "train_v2": "ca3403ae7b0c1f2689e21aca3283348f89b2ffb65498329e74cc4fa7fde8b664",
+    "warmstart_v2": "a83ffb60c6aecd5e23b980dfe8606fae8321b70bedf0d3e906f3d0d05e7106f7"
+  },
+  "model": {
+    "adapter_tensor_count": 224,
+    "base_parameter_count": 1543714304,
+    "base_trainable_parameters": 0,
+    "device": "cuda:0",
+    "dtype": "bfloat16",
+    "frozen_parameter_count": 1543714304,
+    "meta_parameter_count": {
+      "available": false,
+      "raw_key": null,
+      "reason": "runtime_did_not_persist_meta_parameter_count",
+      "value": null
+    },
+    "model_and_lora_assembly_definition": "run_directory_birth_to_model_roles_write",
+    "model_and_lora_assembly_seconds_derived": 0.7240033149719238,
+    "model_repo": "Qwen/Qwen2.5-1.5B-Instruct",
+    "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "optimizer_lora_exact_element_match": true,
+    "optimizer_parameter_elements": 4358144,
+    "optimizer_parameter_reference_count": 224,
+    "policy_lora_trainable_parameters": 4358144,
+    "reward_model_trainable_parameters": 0,
+    "snapshot_path": "/root/autodl-tmp/cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "target_module_adapter_tensor_counts": {
+      "k_proj": 56,
+      "o_proj": 56,
+      "q_proj": 56,
+      "v_proj": 56
+    },
+    "total_parameters_including_lora": 1548072448,
+    "trainable_ratio_of_base": 0.0028231545103309477,
+    "trainable_ratio_of_total": 0.0028152067467064694,
+    "value_model_present": false
+  },
+  "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+  "prompt_sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+  "reward_sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463",
+  "run_id": "warmstart_grpo_v2_seed42_20260722T051218Z",
+  "status": "scientific_training_success",
+  "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd",
+  "warmstart_contract_sha256": "6cb07b3ffc1e86113e09327f356171f9b8ee99e16f85b0697f61408187cc1f1d"
+}

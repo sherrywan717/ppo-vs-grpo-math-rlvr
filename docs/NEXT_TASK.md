@@ -1,18 +1,14 @@
-# Next task: execute one GRPO-v2 warm-start seed 42 run
+# Next task: CPU-only freeze the matched dev-v2 evaluator
 
-Only a new explicit GPU authorization may execute the frozen warm-start. It must begin from a clean `improve/grpo-v2` worktree and the exact committed config/runtime registry. It does not authorize dev evaluation or GRPO-v2.
+Stage P warm-start training is complete and must not be rerun. The sole blocker is that commit `6895fa0a00c82ed0fcef12ba8514b1fc9c14b53e` has no frozen model-bound dev-v2 evaluator or CLI, so Base and warm-start matched dev evaluations are `not_executed_evaluator_unavailable`.
 
-```bash
-HF_HUB_OFFLINE=1 \
-TRANSFORMERS_OFFLINE=1 \
-PYTHONPATH=src \
-python -m math_rlvr.training.warmstart \
-  --config configs/grpo_v2/warmstart_seed42.json \
-  --run-dir /root/autodl-tmp/runs/math_rlvr/<NEW_WARMSTART_RUN_ID> \
-  --execute \
-  --confirm-grpo-v2-warmstart
-```
+The next separately authorized task is CPU-only: implement and freeze one guarded evaluator for the unchanged 128-problem `dev_v2` manifest, with identical problem order, prompt/parser/verifier, single-candidate sampling and per-problem seeds for Base and checkpoint-16. It must dry-run without model/CUDA and must not run either evaluation. After that, a new explicit GPU authorization is required for exactly the two matched evaluations.
 
-Expected contract: seed42; 256 unique samples; one epoch; batch4/GA4/effective16; 64 microsteps; 16 optimizer/global/scheduler steps; BF16 policy LoRA with 4,358,144 trainables; prompt/target/actual-sequence caps 928/640/1,088; no truncation; checkpoint-16 adapter plus trusted resume state; no full base weights; zero retries. Stop after the warm-start and GPU-release/backup checks.
+Authoritative warm-start input for that future evaluator:
 
-Stage O.3 changes only the future hidden-evaluation contract: the active 100-problem subset uses one shared n=10 candidate batch and exact unbiased pass@1/pass@4/pass@10 estimators. The O.2 50-problem design is superseded before evaluation. This does not change or authorize the warm-start command above.
+- run: `warmstart_grpo_v2_seed42_20260722T051218Z`
+- checkpoint: `/root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16`
+- checkpoint artifact SHA256: `507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0`
+- policy adapter SHA256: `44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9`
+
+Do not start GRPO-v2, hidden test, Base dev, warm-start dev, another warm-start, or any other GPU task automatically.
