@@ -1084,3 +1084,10 @@ This file records operational history and pitfalls that should survive context c
 - Added guarded warm-start CLI/model-bound backend, online exact counters, completion-only collator, adapter-only checkpoint/resume inventory, and fresh-optimizer GRPO handoff. Static policy LoRA trainables remain 4,358,144. No real execution occurred.
 - Added secondary nested pass@10: 50 strict pass@4-subset problems, 25 GSM8K + MATH 2/4/5/7/7, only candidates4–9 added. Historical throughput projects 1,200 additional four-model completions at about CNY10.33, ceiling CNY12.20.
 - Stage O.2 counters: CUDA/model/generation/Trainer/backward/optimizer = 0. Commit, backup, and remote branch are recorded by final Git state.
+
+## 2026-07-22 — Stage O.3 shared unbiased pass@k contract (CPU-only)
+
+- User preregistered a statistical-method amendment before any hidden-test generation or observed test-v2 model result. O.2 history remains immutable; its 50-problem manifest is legacy evidence with status `superseded_before_any_evaluation`.
+- The unchanged 100-problem shared subset now uses one n=10 exchangeable candidate batch. Exact per-problem estimates are `1-C(10-c,k)/C(10,k)` for k=1/4/10, followed by problem averaging and problem-level bootstrap intervals.
+- Candidate-0 accuracy uses all 400 problems and remains distinct from subset unbiased pass@1. Future ledgers are 1,300 completions/model and 5,200/four models.
+- Protected training/data/capacity/model/prompt/reward/parser/verifier identities remain unchanged. CUDA/model/generation/Trainer/backward/optimizer/evaluation counts are zero. Commit, backup, and remote SHA are recorded by the final Git state.

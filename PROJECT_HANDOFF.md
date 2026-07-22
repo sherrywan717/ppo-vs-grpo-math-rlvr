@@ -323,3 +323,11 @@ After publication, the only next task is a separately authorized CPU-only Stage 
 - Checkpoint-16 is policy-adapter-only plus optimizer/scheduler/Python/NumPy/PyTorch CPU/CUDA RNG, trainer/runtime/data cursor, full identities, and SHA inventory. GRPO receives only the adapter and source SHA and starts a fresh GRPO optimizer.
 - Secondary nested pass@10 freezes 50 problems inside pass@4 (GSM8K25; MATH L1–5 2/4/5/7/7), candidates0–9, 1,000 completions/model and 4,000/four models. It is not a selection/tuning metric.
 - No CUDA, model weight load, generation, Trainer, backward, optimizer, warm-start, dev, GRPO, or hidden test ran in Stage O.2. The next task requires explicit authorization for exactly one real warm-start run.
+
+## Stage O.3 shared unbiased pass@k freeze
+
+- The O.2 50-problem pass@10 contract is `superseded_before_any_evaluation`; its manifest moved unchanged to `configs/grpo_v2/manifests/legacy/`. No hidden-test model generation or result existed.
+- Active subset is the unchanged 100-problem Stage N pass@4 manifest (GSM8K 50; MATH 3/8/10/14/15), now sampled once with n=10. Exact unbiased estimates use `1-C(10-c,k)/C(10,k)` for k=1/4/10.
+- `candidate0_accuracy_all_400` is separate from 100-problem unbiased pass@1. Ledger is 1,300 completions/model and 5,200/four models.
+- Only evaluation/pass@k and propagated registry identities changed. Warm-start/GRPO configs, manifests, curriculum, model, LoRA, prompt/reward/parser/verifier, and capacity remain unchanged. Stage O.3 ran no CUDA/model/generation/training/evaluation.
+- Unique next task remains one separately authorized Stage O warm-start run from `docs/NEXT_TASK.md`; do not start it automatically.

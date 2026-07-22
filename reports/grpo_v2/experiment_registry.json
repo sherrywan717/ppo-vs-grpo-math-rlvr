@@ -2,6 +2,7 @@
   "base_model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
   "branch": "improve/grpo-v2",
   "cuda_initialized": false,
+  "evaluation_contract_amendment": "stage_o3_cpu_only",
   "experiment": "single_seed_grpo_v2",
   "generation_calls": 0,
   "model_loads": 0,
@@ -18,7 +19,12 @@
       "status": "not_run"
     },
     "hidden_test": {
-      "pass10_status": "frozen_not_run_secondary_exploratory",
+      "active_contract": "shared_unbiased_pass_k_n10_v1",
+      "evaluation_config_sha256": "fb620ab251c305db7b99ff6d42312da5c19fca5b6efcad1c1e59fd8311371992",
+      "four_models_completions": 5200,
+      "o2_50_problem_pass10_status": "superseded_before_any_evaluation",
+      "pass_k_contract_sha256": "c6c7728de1273dbe87eb73f450ae49b09f03588999a7e9b96c1892e363901cc8",
+      "per_model_completions": 1300,
       "status": "not_run"
     },
     "warmstart": {

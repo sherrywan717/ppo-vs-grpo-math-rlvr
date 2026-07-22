@@ -1,61 +1,175 @@
 {
-  "additional_pass10_candidates_per_model": 300,
+  "aggregation": {
+    "monotonicity": "per_problem_and_aggregate_pass1_le_pass4_le_pass10",
+    "order": "problem_then_arithmetic_mean",
+    "problem_bootstrap_95": {
+      "samples": 10000,
+      "seed": 42
+    },
+    "standard_error": true
+  },
   "candidate0_problem_count": 400,
-  "completions_per_model": 1000,
-  "extra_nested_candidates": 300,
-  "math_level_reporting": {
-    "1": {
-      "denominator": 3,
-      "interval": "wilson_95",
-      "status": "diagnostic_only_small_n"
+  "completion_ledger": {
+    "four_models": 5200,
+    "independent_design_four_models": 7200,
+    "independent_design_per_model": 1800,
+    "non_subset_candidate0": 300,
+    "per_model": 1300,
+    "shared_subset_candidates": 1000
+  },
+  "evidence_fields": [
+    "problem_id",
+    "content_hash",
+    "model_identity",
+    "checkpoint_identity",
+    "batch_seed",
+    "candidate_index",
+    "completion_text",
+    "token_ids",
+    "completion_mask",
+    "completion_token_count",
+    "canonical_verifier_status",
+    "verifier_detail",
+    "canonical_correctness",
+    "eos",
+    "truncation",
+    "generated_tokens",
+    "generation_time"
+  ],
+  "formula": {
+    "c_definition": "count of canonical VERIFIED_PASS among all ten exchangeable candidates",
+    "definition": "1 - C(n-c,k) / C(n,k)",
+    "implementation": "exact_integer_combinations_then_fraction_then_float",
+    "k_values": [
+      1,
+      4,
+      10
+    ],
+    "missing_candidates": "available=false with reason; critical evidence loss fails closed",
+    "n": 10
+  },
+  "future_artifacts": [
+    "pass_k_candidate_evidence.jsonl",
+    "pass_k_per_problem.csv",
+    "pass_k_aggregate.csv",
+    "pass_k_pairwise_comparison.csv"
+  ],
+  "math_reporting": {
+    "candidate0_all_400_math_levels": {
+      "1": 3,
+      "2": 33,
+      "3": 43,
+      "4": 59,
+      "5": 62
     },
-    "2": {
-      "denominator": 33,
-      "interval": "wilson_95",
-      "status": "diagnostic"
-    },
-    "3": {
-      "denominator": 43,
-      "interval": "wilson_95",
-      "status": "diagnostic"
-    },
-    "4": {
-      "denominator": 59,
-      "interval": "wilson_95",
-      "status": "diagnostic"
-    },
-    "5": {
-      "denominator": 62,
-      "interval": "wilson_95",
-      "status": "diagnostic"
+    "level_1_status": "diagnostic_only_small_n",
+    "shared_subset_math_levels": {
+      "1": 3,
+      "2": 8,
+      "3": 10,
+      "4": 14,
+      "5": 15
     }
   },
-  "math_macro": "diagnostic_unweighted_level_macro",
-  "math_primary": "200-problem micro_average",
+  "metrics": {
+    "candidate0_accuracy_all_400": {
+      "binary": true,
+      "candidate_index": 0,
+      "paired_methods": [
+        "improvement_regression",
+        "paired_bootstrap",
+        "mcnemar"
+      ],
+      "problem_denominator": 400
+    },
+    "unbiased_pass_at_10_subset_100": {
+      "k": 10,
+      "n": 10,
+      "problem_denominator": 100
+    },
+    "unbiased_pass_at_1_subset_100": {
+      "distinct_from_candidate0_accuracy_all_400": true,
+      "k": 1,
+      "n": 10,
+      "problem_denominator": 100
+    },
+    "unbiased_pass_at_4_subset_100": {
+      "k": 4,
+      "n": 10,
+      "problem_denominator": 100
+    }
+  },
   "models": [
     "base",
     "old_grpo_v1_seed42_checkpoint32",
     "warmstart_only",
     "selected_grpo_v2"
   ],
-  "nested_candidate_rows": 400,
-  "nested_pass10_problem_count": 50,
-  "nested_pass4_problem_count": 100,
-  "nested_pass_at_4": {
-    "candidate0_shared": true,
-    "denominator": 100,
-    "numerator": "problems with any canonical pass among candidates 0..3"
+  "paired_comparison": {
+    "candidate0": "binary improvement/regression, paired bootstrap, McNemar",
+    "same_problem_candidate_seed_sampling_identity_required": true,
+    "unbiased_pass_k": "problem-level paired bootstrap; McNemar forbidden for continuous estimates"
   },
-  "pass10_candidate_rows": 500,
-  "pass10_checkpoint_selection_forbidden": true,
-  "pass10_retraining_trigger_forbidden": true,
-  "pass10_semantics": "secondary_exploratory_nested_inference_scaling_only",
-  "pass_at_1": {
-    "denominator": 400,
-    "numerator": "candidate_0 canonical passes"
+  "pass_k_shared_n10_problem_count": 100,
+  "pass_k_shared_n10_subset": {
+    "gsm8k": 50,
+    "level_1_status": "diagnostic_only_small_n",
+    "math500": 50,
+    "math_levels": {
+      "1": 3,
+      "2": 8,
+      "3": 10,
+      "4": 14,
+      "5": 15
+    },
+    "path": "configs/grpo_v2/manifests/pass4_nested_subset.json",
+    "sha256": "86864437418a1a112b6385991bdba83617b0cc66f85ec6c7032f0ee79763a553"
   },
-  "schema_version": 1,
+  "sampling": {
+    "automatic_retries": 0,
+    "candidate_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "exchangeable_draws": true,
+    "max_completion_length": 256,
+    "num_return_sequences": 10,
+    "one_generate_call_per_problem": true,
+    "per_problem_batch_seed": {
+      "evaluation_seed": 42,
+      "inputs": [
+        "problem_id",
+        "content_hash"
+      ],
+      "method": "sha256_first_64_bits_masked_to_63_bits",
+      "namespace": "grpo_v2/pass_k_shared_n10",
+      "shared_across_models": true
+    },
+    "temperature": 0.8,
+    "top_k": null,
+    "top_p": 0.95
+  },
+  "schema_version": 2,
   "seed": 42,
-  "test_may_trigger_retraining": false,
-  "total_four_model_completions": 4000
+  "shared_candidates_per_problem": 10,
+  "status": "frozen_not_run",
+  "supersedes": {
+    "hidden_test_generations_observed": 0,
+    "legacy_manifest_path": "configs/grpo_v2/manifests/legacy/pass10_nested_subset_o2.json",
+    "legacy_manifest_sha256": "8c66f5b83fb1c0382248252aa5bcf7971bbfd6b1aedda2c3f2705d8e3622c199",
+    "old_contract": "50_problem_nested_pass10_o2",
+    "old_four_model_completions": 4000,
+    "old_per_model_completions": 1000,
+    "reason": "user_preregistered_statistical_method_amendment_before_evaluation",
+    "status": "superseded_before_any_evaluation"
+  },
+  "test_may_trigger_retraining": false
 }

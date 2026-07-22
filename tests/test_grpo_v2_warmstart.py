@@ -4,7 +4,6 @@ from pathlib import Path
 
 import pytest
 
-from math_rlvr.grpo_v2_contract import validate_nested_success
 from math_rlvr.training import warmstart_runtime as runtime
 from math_rlvr.training.warmstart import main
 from math_rlvr.training.warmstart_runtime import (
@@ -268,30 +267,6 @@ def test_checkpoint_allowlist_inventory_and_grpo_handoff(tmp_path, monkeypatch):
     (checkpoint / "model.safetensors").write_bytes(b"forbidden")
     with pytest.raises(WarmstartContractError, match="allowlist"):
         validate_checkpoint(checkpoint, expected_config_sha="cfg")
-
-
-def test_nested_pass10_subset_and_monotonicity():
-    pass4 = json.loads((ROOT / "configs/grpo_v2/manifests/pass4_nested_subset.json").read_text())[
-        "problems"
-    ]
-    pass10 = json.loads((ROOT / "configs/grpo_v2/manifests/pass10_nested_subset.json").read_text())[
-        "problems"
-    ]
-    assert len(pass10) == 50 and {r["problem_id"] for r in pass10} < {
-        r["problem_id"] for r in pass4
-    }
-    assert sum(r["source"] == "gsm8k" for r in pass10) == 25
-    assert {
-        i: sum(r["source"] == "math" and r["difficulty"] == str(i) for r in pass10)
-        for i in range(1, 6)
-    } == {1: 2, 2: 4, 3: 5, 4: 7, 5: 7}
-    assert validate_nested_success([False, False, False, False, True] + [False] * 5) == {
-        "success_at_1": False,
-        "success_at_4": False,
-        "success_at_10": True,
-    }
-    with pytest.raises(ValueError):
-        validate_nested_success([False] * 9)
 
 
 def test_postprocess_gpu_release_contract():

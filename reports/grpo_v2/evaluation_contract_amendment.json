@@ -1,0 +1,85 @@
+{
+  "active": {
+    "contract": "shared_unbiased_pass_k_n10_v1",
+    "four_models_completions": 5200,
+    "k": [
+      1,
+      4,
+      10
+    ],
+    "n": 10,
+    "per_model_completions": 1300,
+    "problem_count": 100,
+    "subset_path": "configs/grpo_v2/manifests/pass4_nested_subset.json",
+    "subset_sha256": "86864437418a1a112b6385991bdba83617b0cc66f85ec6c7032f0ee79763a553"
+  },
+  "amendment": "stage_o3_shared_unbiased_pass_k",
+  "batch_seed_contract": {
+    "evaluation_seed": 42,
+    "inputs": [
+      "problem_id",
+      "content_hash"
+    ],
+    "method": "sha256_first_64_bits_masked_to_63_bits",
+    "namespace": "grpo_v2/pass_k_shared_n10",
+    "shared_across_models": true
+  },
+  "hidden_test_generation_calls": 0,
+  "observed_test_v2_model_results": false,
+  "protected_sha256_unchanged": {
+    "configs/grpo_v2/curriculum.json": "7f7dcfa1218828e72dd6d42783bc2c790897c7e2a8f2f84d59ce2189710e3b41",
+    "configs/grpo_v2/grpo_v2_seed42.json": "059553888fdc997a5b9f214fde526d4be8c309ca84abe212c243fd74305b1b66",
+    "configs/grpo_v2/manifests/dev_v2.jsonl": "bdf02e1202e564177fea59f80f0b0ac8a36649daf8636ed6dd5bf3e5f6356b80",
+    "configs/grpo_v2/manifests/pass4_nested_subset.json": "86864437418a1a112b6385991bdba83617b0cc66f85ec6c7032f0ee79763a553",
+    "configs/grpo_v2/manifests/test_v2_hidden.jsonl": "1da04a0093382711d618f515261b417e7df085d8e4fe93ddb34d314868062285",
+    "configs/grpo_v2/manifests/train_v2.jsonl": "ca3403ae7b0c1f2689e21aca3283348f89b2ffb65498329e74cc4fa7fde8b664",
+    "configs/grpo_v2/manifests/warmstart_v2.jsonl": "a83ffb60c6aecd5e23b980dfe8606fae8321b70bedf0d3e906f3d0d05e7106f7",
+    "configs/grpo_v2/warmstart_seed42.json": "c8e3e0a52d55f46b201c1b4a95e0f9b2f910ae558e477b55a35d03fd4ec8549a"
+  },
+  "reason": "user_preregistered_statistical_method_revision_before_any_hidden_evaluation",
+  "result_driven_tuning": false,
+  "schema_version": 1,
+  "scientific_identity_unchanged": {
+    "capacity": [
+      928,
+      640,
+      1088
+    ],
+    "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+    "prompt_sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "reward_sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463",
+    "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd"
+  },
+  "sha_changes": {
+    "data_registry": {
+      "new": "9b01b294da8a7953ad482f575924eb53f26f3da714fa63bb5286acb121722933",
+      "old": "6b30e688167864288447ca19cf9ad79c0c5158c4fbd2c0178f84156c8ab332ca"
+    },
+    "evaluation_config": {
+      "new": "fb620ab251c305db7b99ff6d42312da5c19fca5b6efcad1c1e59fd8311371992",
+      "old": "3411f8db6694bd92034aa3193e2bbf6ad71b0166bf27e7e2ef73fff8a40ac9f8"
+    },
+    "pass_k_config": {
+      "new": "c6c7728de1273dbe87eb73f450ae49b09f03588999a7e9b96c1892e363901cc8",
+      "old": null
+    },
+    "pass_k_report": {
+      "new": "9e7abd6167644993c52fd77a8f62d0b517a5f6e48fb3bab57ea3a3a910943cad",
+      "old": "8cc549b1fae0dcda00e43f025b1f49844482b48eff7512a978b83003dc89aa2a"
+    },
+    "runtime_registry": {
+      "classification": "identity_only_transitive_change",
+      "new": "6a7e63afa30b825131be343f8cb68439b818d861c8ea526fa3ac0e766b31dcd8",
+      "old": "691d878c7bae28f99f1a704dd7e1c1a70476f499321cd440838e234b0238d5c1"
+    }
+  },
+  "status": "frozen_not_run",
+  "superseded": {
+    "contract": "o2_50_problem_nested_pass10",
+    "historical_commit": "079206eff019b28aa02dd604ecc3869e802e0213",
+    "legacy_manifest_path": "configs/grpo_v2/manifests/legacy/pass10_nested_subset_o2.json",
+    "legacy_manifest_sha256": "8c66f5b83fb1c0382248252aa5bcf7971bbfd6b1aedda2c3f2705d8e3622c199",
+    "status": "superseded_before_any_evaluation"
+  }
+}

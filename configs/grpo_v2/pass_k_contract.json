@@ -30,54 +30,6 @@
     "missing_candidates": "available=false with reason; critical evidence loss fails closed",
     "n": 10
   },
-  "future_artifacts": [
-    "pass_k_candidate_evidence.jsonl",
-    "pass_k_per_problem.csv",
-    "pass_k_aggregate.csv",
-    "pass_k_pairwise_comparison.csv"
-  ],
-  "historical_throughput_cost_plan": {
-    "batching_note": "one n=10 call avoids repeated prompt tokenization/prefill and scheduling, but all ten candidates still require decode compute",
-    "ceiling_seconds_per_completion": 4.1006275,
-    "expected_seconds_per_completion": 3.4944832314034175,
-    "historical_800_completion_wall_seconds": [
-      2105.207755368203,
-      3280.502,
-      3001.05
-    ],
-    "shared_design": {
-      "four_models": {
-        "ceiling_cost_cny": 52.597382066666675,
-        "ceiling_gpu_hours": 5.923128611111111,
-        "ceiling_wall_seconds": 21323.263,
-        "completions": 5200,
-        "expected_cost_cny": 44.82257158146785,
-        "expected_gpu_hours": 5.047586889804937,
-        "expected_wall_seconds": 18171.312803297773
-      },
-      "per_model": {
-        "ceiling_cost_cny": 13.149345516666669,
-        "ceiling_gpu_hours": 1.4807821527777778,
-        "ceiling_wall_seconds": 5330.81575,
-        "completions": 1300,
-        "expected_cost_cny": 11.205642895366962,
-        "expected_gpu_hours": 1.2618967224512343,
-        "expected_wall_seconds": 4542.828200824443
-      }
-    },
-    "versus_independent_7200": {
-      "ceiling_saved_cost_cny": 20.229762333333333,
-      "expected_saved_cost_cny": 17.23945060825686,
-      "expected_saved_gpu_hours": 1.9413795730018986,
-      "saved_completions": 2000
-    },
-    "versus_o2_4000": {
-      "additional_completions": 1200,
-      "ceiling_additional_cost_cny": 12.137857400000001,
-      "expected_additional_cost_cny": 10.343670364954116,
-      "expected_additional_gpu_hours": 1.1648277438011392
-    }
-  },
   "implementation": "math_rlvr.grpo_v2_contract.unbiased_pass_at_k",
   "level_1_status": "diagnostic_only_small_n",
   "metrics": {
@@ -113,16 +65,6 @@
     "same_problem_candidate_seed_sampling_identity_required": true,
     "unbiased_pass_k": "problem-level paired bootstrap; McNemar forbidden for continuous estimates"
   },
-  "plot_contract": [
-    "unbiased pass@1/pass@4/pass@10",
-    "accuracy vs number of candidates",
-    "accuracy vs generated tokens",
-    "accuracy vs GPU-hours",
-    "accuracy vs CNY",
-    "per-domain pass@k",
-    "MATH Level pass@k",
-    "four-model comparison"
-  ],
   "sampling": {
     "automatic_retries": 0,
     "candidate_indices": [

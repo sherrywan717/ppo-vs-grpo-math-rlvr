@@ -64,15 +64,13 @@ def test_selection_key_ignores_gold_and_is_stable():
 def test_hidden_evaluation_ledger_and_small_n_contract():
     contract = json.loads((ROOT / "configs/grpo_v2/evaluation.json").read_text())
     assert contract["candidate0_problem_count"] == 400
-    assert contract["nested_pass4_problem_count"] == 100
-    assert contract["extra_nested_candidates"] == 300
-    assert contract["nested_candidate_rows"] == 400
-    assert contract["completions_per_model"] == 1000
-    assert contract["total_four_model_completions"] == 4000
-    assert contract["nested_pass10_problem_count"] == 50
-    assert contract["pass10_candidate_rows"] == 500
-    assert contract["math_level_reporting"]["1"]["denominator"] == 3
-    assert contract["math_level_reporting"]["1"]["status"] == "diagnostic_only_small_n"
+    assert contract["pass_k_shared_n10_problem_count"] == 100
+    assert contract["shared_candidates_per_problem"] == 10
+    assert contract["completion_ledger"]["per_model"] == 1300
+    assert contract["completion_ledger"]["four_models"] == 5200
+    assert contract["supersedes"]["status"] == "superseded_before_any_evaluation"
+    assert contract["math_reporting"]["shared_subset_math_levels"]["1"] == 3
+    assert contract["math_reporting"]["level_1_status"] == "diagnostic_only_small_n"
     lo, hi = wilson_interval(1, 3)
     assert lo < 1 / 3 < hi and hi - lo > 0.5
 

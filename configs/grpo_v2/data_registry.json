@@ -1,4 +1,18 @@
 {
+  "evaluation_contract": {
+    "pass_k_contract_path": "configs/grpo_v2/pass_k_contract.json",
+    "pass_k_contract_sha256": "c6c7728de1273dbe87eb73f450ae49b09f03588999a7e9b96c1892e363901cc8",
+    "path": "configs/grpo_v2/evaluation.json",
+    "sha256": "fb620ab251c305db7b99ff6d42312da5c19fca5b6efcad1c1e59fd8311371992"
+  },
+  "legacy_pass10_nested_subset_o2": {
+    "active": false,
+    "count": 50,
+    "path": "configs/grpo_v2/manifests/legacy/pass10_nested_subset_o2.json",
+    "sha256": "8c66f5b83fb1c0382248252aa5bcf7971bbfd6b1aedda2c3f2705d8e3622c199",
+    "status": "superseded_before_any_evaluation",
+    "superseded_by": "pass_k_shared_n10_subset"
+  },
   "manifests": {
     "dev_v2": {
       "count": 128,
@@ -21,19 +35,15 @@
       "sha256": "a83ffb60c6aecd5e23b980dfe8606fae8321b70bedf0d3e906f3d0d05e7106f7"
     }
   },
-  "nested_subset": {
+  "pass_k_shared_n10_subset": {
+    "active": true,
+    "candidate_count_per_problem": 10,
     "count": 100,
+    "identity": "pass_k_shared_n10_subset",
     "path": "configs/grpo_v2/manifests/pass4_nested_subset.json",
     "sha256": "86864437418a1a112b6385991bdba83617b0cc66f85ec6c7032f0ee79763a553"
   },
-  "pass10_nested_subset": {
-    "count": 50,
-    "path": "configs/grpo_v2/manifests/pass10_nested_subset.json",
-    "relationship": "strict_subset_of_pass4_nested_subset",
-    "scientific_status": "secondary_exploratory",
-    "sha256": "8c66f5b83fb1c0382248252aa5bcf7971bbfd6b1aedda2c3f2705d8e3622c199"
-  },
-  "registry_sha256": "8ed1e54ea2d81e89f338160f891891bd83eb61f31684cb79383626beac4cb097",
+  "registry_sha256": "cd849ef5eb34f1e88562bdbbb3b13184c3d82b54f57b24d3e18e47586ed7e8e3",
   "schema_version": 1,
   "selection_seed": 42,
   "sources": {

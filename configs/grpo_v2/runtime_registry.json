@@ -1,12 +1,12 @@
 {
-  "registry_sha256": "5493f8fe029b428978e68580608b896f28acc4a8a30f2dae67cc1f45a222ea58",
+  "registry_sha256": "2dc3231f294ca9395ebe928d5408a73c1c50ee5986863a1b5bfde56c6730edcc",
   "schema_version": 1,
   "warmstart": {
     "capacity_amendment": "post_freeze_capacity_amendment",
     "config_path": "configs/grpo_v2/warmstart_seed42.json",
     "config_sha256": "c8e3e0a52d55f46b201c1b4a95e0f9b2f910ae558e477b55a35d03fd4ec8549a",
     "data_registry_path": "configs/grpo_v2/data_registry.json",
-    "data_registry_sha256": "6b30e688167864288447ca19cf9ad79c0c5158c4fbd2c0178f84156c8ab332ca",
+    "data_registry_sha256": "9b01b294da8a7953ad482f575924eb53f26f3da714fa63bb5286acb121722933",
     "dataset_order_sha256": "23ca192e8ef99df9ba0c56885a1e9bdd6c46bf292dbc66e73f96b37859927f9d",
     "expected_branch": "improve/grpo-v2",
     "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
@@ -15,6 +15,7 @@
     "reward_sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463",
     "train_manifest_path": "configs/grpo_v2/manifests/train_v2.jsonl",
     "train_manifest_sha256": "ca3403ae7b0c1f2689e21aca3283348f89b2ffb65498329e74cc4fa7fde8b664",
+    "transitive_identity_change": "evaluation_registry_only_no_training_field_change",
     "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd",
     "warmstart_manifest_path": "configs/grpo_v2/manifests/warmstart_v2.jsonl",
     "warmstart_manifest_sha256": "a83ffb60c6aecd5e23b980dfe8606fae8321b70bedf0d3e906f3d0d05e7106f7"
