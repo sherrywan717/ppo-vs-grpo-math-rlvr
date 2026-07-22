@@ -26,7 +26,14 @@
     "path": "configs/grpo_v2/manifests/pass4_nested_subset.json",
     "sha256": "86864437418a1a112b6385991bdba83617b0cc66f85ec6c7032f0ee79763a553"
   },
-  "registry_sha256": "fe5ff611c35cb46bf31005a1018e34aeffb175397f2140ede6cbb2f1d6fc44a2",
+  "pass10_nested_subset": {
+    "count": 50,
+    "path": "configs/grpo_v2/manifests/pass10_nested_subset.json",
+    "relationship": "strict_subset_of_pass4_nested_subset",
+    "scientific_status": "secondary_exploratory",
+    "sha256": "8c66f5b83fb1c0382248252aa5bcf7971bbfd6b1aedda2c3f2705d8e3622c199"
+  },
+  "registry_sha256": "8ed1e54ea2d81e89f338160f891891bd83eb61f31684cb79383626beac4cb097",
   "schema_version": 1,
   "selection_seed": 42,
   "sources": {

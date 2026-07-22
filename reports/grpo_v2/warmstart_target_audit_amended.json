@@ -1,0 +1,61 @@
+{
+  "audit_count": 256,
+  "backward_calls": 0,
+  "caps": {
+    "actual_combined": 1088,
+    "prompt": 928,
+    "target_including_eos": 640
+  },
+  "cuda_initialized_after": false,
+  "failures": {
+    "assistant_target_label_mismatch": 0,
+    "canonical_gold_mismatch": 0,
+    "combined_over_cap": 0,
+    "dev_test_overlap": 0,
+    "invalid_envelope": 0,
+    "missing_eos": 0,
+    "prompt_active_labels": 0,
+    "prompt_over_cap": 0,
+    "source_hash_order_drift": 0,
+    "target_over_cap": 0,
+    "truncation": 0
+  },
+  "generation_calls": 0,
+  "margins_at_observed_max": {
+    "combined": 69,
+    "prompt": 14,
+    "target": 31
+  },
+  "model_weight_loads": 0,
+  "optimizer_steps": 0,
+  "original_o1_audit_status": "blocked_frozen_length_caps_exceeded",
+  "original_o1_files_preserved": true,
+  "status": "passed",
+  "summary": {
+    "active_target_token_count_including_eos": {
+      "max": 609,
+      "mean": 179.9140625,
+      "median": 156.5,
+      "min": 55,
+      "p95": 363,
+      "p99": 497
+    },
+    "combined_token_count": {
+      "max": 1019,
+      "mean": 338.41015625,
+      "median": 310.5,
+      "min": 185,
+      "p95": 539,
+      "p99": 733
+    },
+    "prompt_token_count": {
+      "max": 914,
+      "mean": 158.49609375,
+      "median": 147.0,
+      "min": 109,
+      "p95": 225,
+      "p99": 317
+    }
+  },
+  "trainer_calls": 0
+}

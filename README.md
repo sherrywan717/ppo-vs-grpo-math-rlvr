@@ -165,3 +165,5 @@ No license has been selected for this repository; no `LICENSE` file is included.
 ## GRPO-v2 preregistered improvement branch
 
 Stage N freezes a new seed-42 **format/solution warm-start + GRPO-v2 RLVR** protocol on `improve/grpo-v2`; no GPU execution has occurred. It expands RL coverage to 512 unique prompts and 128 updates while retaining the v1 model, prompt, reward, parser/verifier, sampling, LoRA, and 256-token completion cap. The hidden test is strictly disjoint from all v1/core data and uses a genuine nested pass@4 pool. See the [design decision](reports/grpo_v2/design_decision.md), [data freeze](reports/grpo_v2/data_freeze_report.md), and [roadmap](docs/grpo_v2_roadmap.md). Portfolio-v1 results remain unchanged.
+
+Stage O.2 completed the CPU-only tokenizer and runtime gate. The original 256-token target audit failure is disclosed; the capacity-only amendment uses 928 prompt / 640 active-target gates while retaining the 1,088 actual-sequence ceiling. All 256 amended records pass without truncation. A guarded warm-start command now exists but has not been executed. Secondary nested pass@10 is preregistered as exploratory only.

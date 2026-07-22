@@ -1,0 +1,88 @@
+{
+  "derived": [
+    "marginal_gain_1_to_4",
+    "marginal_gain_4_to_10",
+    "incremental_generated_tokens",
+    "incremental_wall_time",
+    "gpu_hours",
+    "cost_cny",
+    "correct_per_1000_tokens",
+    "correct_per_cny"
+  ],
+  "four_models_total_completions": 4000,
+  "historical_throughput_cost_plan": {
+    "expected_extra_cost_cny": 10.330137031620781,
+    "expected_extra_gpu_hours": 1.1634388549122503,
+    "expected_extra_wall_seconds": 4188.379877684101,
+    "expected_seconds_per_completion": 3.490316564736751,
+    "extra_completions_total": 1200,
+    "observed_throughput_range_cost_cny": [
+      7.79,
+      12.139
+    ],
+    "planning_ceiling_cost_cny": 12.2,
+    "source_800_completion_wall_seconds": [
+      2105.207755368203,
+      3280.502,
+      3001.05
+    ]
+  },
+  "per_model": {
+    "candidate0_rows": 400,
+    "extra_pass10_rows": 300,
+    "extra_pass4_rows": 300,
+    "total_completions": 1000
+  },
+  "primary": {
+    "candidate0_pass1": {
+      "candidate_indices": [
+        0
+      ],
+      "problems": 400
+    },
+    "nested_pass4": {
+      "candidate_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "problems": 100
+    }
+  },
+  "required_monotonicity": "success_at_1 <= success_at_4 <= success_at_10",
+  "same_50_problem_metrics": [
+    "success_at_1",
+    "success_at_4",
+    "success_at_10"
+  ],
+  "schema_version": 1,
+  "secondary": {
+    "nested_pass10": {
+      "candidate_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "level_1_status": "diagnostic_only_small_n",
+      "math_levels": {
+        "1": 2,
+        "2": 4,
+        "3": 5,
+        "4": 7,
+        "5": 7
+      },
+      "problems": 50,
+      "status": "secondary_exploratory"
+    }
+  },
+  "seed": 42,
+  "selection_or_retraining_use": false
+}

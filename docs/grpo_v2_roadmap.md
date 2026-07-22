@@ -16,3 +16,7 @@ Core manifests have zero content/source overlap with each other and all v1 manif
 ## Attribution
 
 A warmstart-only gain belongs to supervised warm-start. Only a selected v2 gain over warmstart supports incremental RLVR benefit. Format gains without canonical gains are protocol-adherence gains, not math-reasoning gains. One seed cannot establish general superiority.
+
+## Stage O.2 frozen execution boundary
+
+The warm-start tokenizer audit is complete. Its original cap failure remains public, followed by the authorized 928/640/1,088 capacity amendment and 256/256 pass. The next separately authorized stage is exactly one guarded seed-42 warm-start; dev evaluation remains a later authorization. Secondary nested pass@10 adds inference-scale diagnosis only and cannot affect training or checkpoint selection.

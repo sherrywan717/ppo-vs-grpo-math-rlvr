@@ -1,0 +1,66 @@
+{
+  "amendment": "post_freeze_capacity_amendment",
+  "audit_sha256": "4a6a4ad0cb6adb477278b6948ef5a928d861e0e978046e93d7305f99141397be",
+  "new_config_sha256": "c8e3e0a52d55f46b201c1b4a95e0f9b2f910ae558e477b55a35d03fd4ec8549a",
+  "new_values": {
+    "max_prompt_length": 928,
+    "max_sequence_length": 1088,
+    "max_target_length": 640
+  },
+  "new_warmstart_contract_sha256": "6cb07b3ffc1e86113e09327f356171f9b8ee99e16f85b0697f61408187cc1f1d",
+  "non_capacity_identity_sha256_new": "102e754bb930bb8c8102cadca44c19d55d7f4793bf685c9a40bda672e761836b",
+  "non_capacity_identity_sha256_old": "102e754bb930bb8c8102cadca44c19d55d7f4793bf685c9a40bda672e761836b",
+  "observed": {
+    "actual_combined_max": 1019,
+    "combined_margin": 69,
+    "prompt_margin": 14,
+    "prompt_max": 914,
+    "target_including_eos_max": 609,
+    "target_margin": 31
+  },
+  "old_config_sha256": "f3a68c204f356932e037c08ae87aa539aaac4b932aa9e982d2de6cb928763c35",
+  "old_values": {
+    "max_prompt_length": 832,
+    "max_sequence_length": 1088,
+    "max_target_length": 256
+  },
+  "old_warmstart_contract_sha256": "8de472421e2fd7f1a900fdda981cb76605de195e77e0b57c8c5a95f9504742c2",
+  "reason": "observed prompt max 914 and active target including EOS max 609 exceeded separate frozen caps without exceeding actual combined 1088 ceiling",
+  "scientific_identity_unchanged": {
+    "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+    "prompt_sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "reward_sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463",
+    "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd"
+  },
+  "status": "passed_256_record_reaudit",
+  "unchanged_contract": {
+    "epochs": 1,
+    "gradient_accumulation": 4,
+    "lora": {
+      "alpha": 32,
+      "dropout": 0,
+      "rank": 16,
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj"
+      ]
+    },
+    "max_sequence_length": 1088,
+    "microbatch": 4,
+    "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "optimizer_steps": 16,
+    "samples": 256
+  },
+  "unchanged_sha256": {
+    "configs/grpo_v2/curriculum.json": "7f7dcfa1218828e72dd6d42783bc2c790897c7e2a8f2f84d59ce2189710e3b41",
+    "configs/grpo_v2/evaluation.json": "77815567821e2154f22a045a7f3ec87907530fe3ea6966c6349c52d6d23003c1",
+    "configs/grpo_v2/grpo_v2_seed42.json": "059553888fdc997a5b9f214fde526d4be8c309ca84abe212c243fd74305b1b66",
+    "configs/grpo_v2/manifests/dev_v2.jsonl": "bdf02e1202e564177fea59f80f0b0ac8a36649daf8636ed6dd5bf3e5f6356b80",
+    "configs/grpo_v2/manifests/test_v2_hidden.jsonl": "1da04a0093382711d618f515261b417e7df085d8e4fe93ddb34d314868062285",
+    "configs/grpo_v2/manifests/train_v2.jsonl": "ca3403ae7b0c1f2689e21aca3283348f89b2ffb65498329e74cc4fa7fde8b664",
+    "configs/grpo_v2/manifests/warmstart_v2.jsonl": "a83ffb60c6aecd5e23b980dfe8606fae8321b70bedf0d3e906f3d0d05e7106f7"
+  }
+}

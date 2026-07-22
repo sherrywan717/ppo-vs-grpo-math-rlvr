@@ -18,17 +18,21 @@
       "status": "not_run"
     },
     "hidden_test": {
+      "pass10_status": "frozen_not_run_secondary_exploratory",
       "status": "not_run"
     },
     "warmstart": {
+      "capacity_audit": "passed_256_of_256",
+      "config_sha256": "c8e3e0a52d55f46b201c1b4a95e0f9b2f910ae558e477b55a35d03fd4ec8549a",
+      "entrypoint": "math_rlvr.training.warmstart",
       "status": "not_run"
     },
     "warmstart_dev": {
       "status": "not_run"
     }
   },
-  "status": "protocol_frozen_cpu_only",
-  "tokenizer_loads": 0,
+  "status": "warmstart_runtime_frozen_cpu_only",
+  "tokenizer_loads": 1,
   "training_updates": 0,
   "v1_artifacts_modified": false
 }

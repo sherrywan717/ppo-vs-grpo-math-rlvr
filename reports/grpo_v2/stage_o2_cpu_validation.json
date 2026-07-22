@@ -1,0 +1,57 @@
+{
+  "capacity_amendment": "post_freeze_capacity_amendment",
+  "counters": {
+    "backward_calls": 0,
+    "cuda_initialized": false,
+    "generation_calls": 0,
+    "model_weight_loads": 0,
+    "optimizer_steps": 0,
+    "trainer_calls": 0
+  },
+  "nested_pass10": {
+    "additional_completions_four_models": 1200,
+    "expected_additional_cost_cny": 10.330137031620781,
+    "expected_additional_gpu_hours": 1.1634388549122503,
+    "four_model_completions": 4000,
+    "math_level_counts": [2, 4, 5, 7, 7],
+    "per_model_completions": 1000,
+    "problems": 50,
+    "status": "secondary_exploratory"
+  },
+  "reaudit": {
+    "audit_count": 256,
+    "combined_max": 1019,
+    "combined_p95": 539,
+    "combined_p99": 733,
+    "failures": 0,
+    "prompt_max": 914,
+    "prompt_p95": 225,
+    "prompt_p99": 317,
+    "status": "passed",
+    "target_including_eos_max": 609,
+    "target_p95": 363,
+    "target_p99": 497,
+    "truncation": 0
+  },
+  "runtime_contract": {
+    "effective_batch": 16,
+    "epochs": 1,
+    "gradient_accumulation": 4,
+    "microbatch": 4,
+    "microsteps": 64,
+    "optimizer_global_scheduler_steps": 16,
+    "samples": 256,
+    "trainable_parameters": 4358144
+  },
+  "status": "passed_cpu_only",
+  "verification": {
+    "compileall": "passed",
+    "diff_check": "passed",
+    "dry_run": "passed_no_model_or_training",
+    "large_files_over_50_mib": 0,
+    "manifest_and_contract_validation": "passed",
+    "ruff": "passed",
+    "secret_matches": 0,
+    "targeted_pytest": "16_passed"
+  }
+}

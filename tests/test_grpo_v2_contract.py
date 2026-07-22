@@ -67,8 +67,10 @@ def test_hidden_evaluation_ledger_and_small_n_contract():
     assert contract["nested_pass4_problem_count"] == 100
     assert contract["extra_nested_candidates"] == 300
     assert contract["nested_candidate_rows"] == 400
-    assert contract["completions_per_model"] == 700
-    assert contract["total_four_model_completions"] == 2800
+    assert contract["completions_per_model"] == 1000
+    assert contract["total_four_model_completions"] == 4000
+    assert contract["nested_pass10_problem_count"] == 50
+    assert contract["pass10_candidate_rows"] == 500
     assert contract["math_level_reporting"]["1"]["denominator"] == 3
     assert contract["math_level_reporting"]["1"]["status"] == "diagnostic_only_small_n"
     lo, hi = wilson_interval(1, 3)

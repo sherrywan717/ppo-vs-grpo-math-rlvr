@@ -7,9 +7,10 @@
     "max_vram_gib": 24,
     "max_wall_time_seconds": 2700,
     "target_token_audit": {
-      "available": false,
-      "reason": "Stage N forbids loading the pinned tokenizer; required before Stage O GPU execution",
-      "value": null
+      "audit_path": "reports/grpo_v2/warmstart_target_audit_amended.json",
+      "available": true,
+      "reason": null,
+      "value": "passed_256_of_256"
     }
   },
   "checkpoint": {
@@ -51,8 +52,9 @@
     "separate_token_ledger": true
   },
   "prompt": {
-    "max_prompt_length": 832,
-    "max_target_length": 256,
+    "max_prompt_length": 928,
+    "max_sequence_length": 1088,
+    "max_target_length": 640,
     "version": "prompt_v2_formal_math"
   },
   "schema_version": 1,

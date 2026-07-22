@@ -1,24 +1,16 @@
-# Next task: Stage O GRPO-v2 warm-start execution
+# Next task: execute one GRPO-v2 warm-start seed 42 run
 
-Stage N is complete and CPU-only. The single next task requires new explicit authorization: implement/verify the model-bound warm-start entrypoint, perform the pinned local-tokenizer target-length audit, and execute exactly one seed-42 one-epoch warm-start from `configs/grpo_v2/warmstart_seed42.json`.
-
-Frozen intended command (not executable or authorized in Stage N):
+Only a new explicit GPU authorization may execute the frozen warm-start. It must begin from a clean `improve/grpo-v2` worktree and the exact committed config/runtime registry. It does not authorize dev evaluation or GRPO-v2.
 
 ```bash
-HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src \
-python -m math_rlvr.training.warmstart_v2 \
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYTHONPATH=src \
+python -m math_rlvr.training.warmstart \
   --config configs/grpo_v2/warmstart_seed42.json \
-  --execute --confirm-grpo-v2-warmstart
+  --run-dir /root/autodl-tmp/runs/math_rlvr/<NEW_WARMSTART_RUN_ID> \
+  --execute \
+  --confirm-grpo-v2-warmstart
 ```
 
-Before GPU execution, Stage O must add or verify that exact guarded entrypoint without altering the frozen data/scientific contract, audit all 256 rendered target lengths with the pinned local tokenizer, and confirm every target fits 256 tokens. If any target is over cap, stop for user adjudication; do not truncate or silently alter data. Stage O does not authorize GRPO-v2, dev checkpoint selection, or hidden test.
-
-Future GRPO command, requiring a separate authorization after warm-start/dev evidence is complete:
-
-```bash
-HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src \
-python -m math_rlvr.training.grpo_v2 \
-  --config configs/grpo_v2/grpo_v2_seed42.json \
-  --warmstart-checkpoint <TRUSTED_WARMSTART_CHECKPOINT> \
-  --execute --confirm-formal-grpo-v2
-```
+Expected contract: seed42; 256 unique samples; one epoch; batch4/GA4/effective16; 64 microsteps; 16 optimizer/global/scheduler steps; BF16 policy LoRA with 4,358,144 trainables; prompt/target/actual-sequence caps 928/640/1,088; no truncation; checkpoint-16 adapter plus trusted resume state; no full base weights; zero retries. Stop after the warm-start and GPU-release/backup checks.

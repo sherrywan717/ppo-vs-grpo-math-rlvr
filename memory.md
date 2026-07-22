@@ -1076,3 +1076,11 @@ This file records operational history and pitfalls that should survive context c
 - After v1 exclusion, MATH500 capacity is 3/50/65/88/94. The preregistered hidden-test allocation is 3/33/43/59/62; nested MATH subset is 3/8/10/14/15. Level 1 is diagnostic-only small-n.
 - Froze a 256-example, one-epoch seed-42 warm-start and 128-update GRPO-v2 contract: 2,048 completions, 524,288 generated-token cap, checkpoints/dev at 32/64/96/128. Test stays sealed; only dev may select.
 - Stage N execution counters: CUDA/model/tokenizer/generation/train/backward/optimizer = 0. Commit/backup/GitHub branch SHA are recorded by Git and the final handoff after validation.
+
+## 2026-07-22 — Stage O.1/O.2 warm-start tokenizer and runtime freeze
+
+- O.1 offline pinned-tokenizer audit found 48/256 active targets over 256 and one prompt over 832; observed maxima were target 609 including EOS, prompt 914, combined 1,019. Original CSV/JSON/Markdown/figures remain preserved.
+- User-authorized `post_freeze_capacity_amendment` changed only prompt/target gates to 928/640; combined cap stayed 1,088. Full amended audit passed 256/256 with zero truncation, label leakage, EOS loss, gold mismatch, or split drift.
+- Added guarded warm-start CLI/model-bound backend, online exact counters, completion-only collator, adapter-only checkpoint/resume inventory, and fresh-optimizer GRPO handoff. Static policy LoRA trainables remain 4,358,144. No real execution occurred.
+- Added secondary nested pass@10: 50 strict pass@4-subset problems, 25 GSM8K + MATH 2/4/5/7/7, only candidates4–9 added. Historical throughput projects 1,200 additional four-model completions at about CNY10.33, ceiling CNY12.20.
+- Stage O.2 counters: CUDA/model/generation/Trainer/backward/optimizer = 0. Commit, backup, and remote branch are recorded by final Git state.

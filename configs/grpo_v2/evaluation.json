@@ -1,6 +1,7 @@
 {
+  "additional_pass10_candidates_per_model": 300,
   "candidate0_problem_count": 400,
-  "completions_per_model": 700,
+  "completions_per_model": 1000,
   "extra_nested_candidates": 300,
   "math_level_reporting": {
     "1": {
@@ -38,12 +39,17 @@
     "selected_grpo_v2"
   ],
   "nested_candidate_rows": 400,
+  "nested_pass10_problem_count": 50,
   "nested_pass4_problem_count": 100,
   "nested_pass_at_4": {
     "candidate0_shared": true,
     "denominator": 100,
     "numerator": "problems with any canonical pass among candidates 0..3"
   },
+  "pass10_candidate_rows": 500,
+  "pass10_checkpoint_selection_forbidden": true,
+  "pass10_retraining_trigger_forbidden": true,
+  "pass10_semantics": "secondary_exploratory_nested_inference_scaling_only",
   "pass_at_1": {
     "denominator": 400,
     "numerator": "candidate_0 canonical passes"
@@ -51,5 +57,5 @@
   "schema_version": 1,
   "seed": 42,
   "test_may_trigger_retraining": false,
-  "total_four_model_completions": 2800
+  "total_four_model_completions": 4000
 }

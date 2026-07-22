@@ -1,0 +1,712 @@
+{
+  "backward_calls": 0,
+  "by_domain_level": {
+    "gsm8k": {
+      "active_target": {
+        "max": 329,
+        "mean": 136.078125,
+        "median": 128.0,
+        "min": 56,
+        "p90": 191,
+        "p95": 233,
+        "p99": 306
+      },
+      "combined": {
+        "max": 521,
+        "mean": 294.0234375,
+        "median": 282.5,
+        "min": 198,
+        "p90": 373,
+        "p95": 398,
+        "p99": 488
+      },
+      "count": 128,
+      "prompt": {
+        "max": 242,
+        "mean": 157.9453125,
+        "median": 156.0,
+        "min": 125,
+        "p90": 184,
+        "p95": 192,
+        "p99": 203
+      }
+    },
+    "math": {
+      "active_target": {
+        "max": 609,
+        "mean": 223.75,
+        "median": 198.0,
+        "min": 55,
+        "p90": 363,
+        "p95": 431,
+        "p99": 517
+      },
+      "combined": {
+        "max": 1019,
+        "mean": 382.796875,
+        "median": 354.0,
+        "min": 185,
+        "p90": 539,
+        "p95": 616,
+        "p99": 775
+      },
+      "count": 128,
+      "prompt": {
+        "max": 914,
+        "mean": 159.046875,
+        "median": 136.0,
+        "min": 109,
+        "p90": 212,
+        "p95": 278,
+        "p99": 478
+      }
+    },
+    "math_level_1": {
+      "active_target": {
+        "max": 333,
+        "mean": 166.25,
+        "median": 152.0,
+        "min": 55,
+        "p90": 271,
+        "p95": 321,
+        "p99": 333
+      },
+      "combined": {
+        "max": 1019,
+        "mean": 326.4375,
+        "median": 298.0,
+        "min": 185,
+        "p90": 413,
+        "p95": 476,
+        "p99": 1019
+      },
+      "count": 32,
+      "prompt": {
+        "max": 914,
+        "mean": 160.1875,
+        "median": 130.0,
+        "min": 109,
+        "p90": 153,
+        "p95": 315,
+        "p99": 914
+      }
+    },
+    "math_level_2": {
+      "active_target": {
+        "max": 447,
+        "mean": 215.95833333333334,
+        "median": 182.0,
+        "min": 87,
+        "p90": 349,
+        "p95": 369,
+        "p99": 447
+      },
+      "combined": {
+        "max": 775,
+        "mean": 376.25,
+        "median": 336.0,
+        "min": 233,
+        "p90": 553,
+        "p95": 613,
+        "p99": 775
+      },
+      "count": 48,
+      "prompt": {
+        "max": 478,
+        "mean": 160.29166666666666,
+        "median": 138.5,
+        "min": 112,
+        "p90": 225,
+        "p95": 270,
+        "p99": 478
+      }
+    },
+    "math_level_3": {
+      "active_target": {
+        "max": 609,
+        "mean": 269.875,
+        "median": 257.0,
+        "min": 83,
+        "p90": 463,
+        "p95": 497,
+        "p99": 609
+      },
+      "combined": {
+        "max": 733,
+        "mean": 426.9166666666667,
+        "median": 414.5,
+        "min": 199,
+        "p90": 612,
+        "p95": 693,
+        "p99": 733
+      },
+      "count": 48,
+      "prompt": {
+        "max": 317,
+        "mean": 157.04166666666666,
+        "median": 141.5,
+        "min": 112,
+        "p90": 252,
+        "p95": 278,
+        "p99": 317
+      }
+    }
+  },
+  "caps": {
+    "combined_contract": 1088,
+    "prompt": 832,
+    "target_including_eos": 256
+  },
+  "checks": {
+    "assistant_target_labels_exact": true,
+    "canonical_gold_verified": true,
+    "chat_template_once": true,
+    "eos_label_active": true,
+    "prompt_labels_minus_100": true,
+    "silent_truncation_performed": false,
+    "trusted_target_rebuilt_exactly": true,
+    "warmstart_subset_of_train": true,
+    "zero_dev_test_v1_overlap": true
+  },
+  "completion_only_label_evidence": [
+    {
+      "active_labels": 83,
+      "active_without_eos_decodes_exact_target": true,
+      "eos_active": true,
+      "off_by_one": false,
+      "padding_test": "covered_by_targeted_test_pending_due_cap_blocker",
+      "problem_id": "gsm8k:openai/gsm8k:train:5980",
+      "prompt_tokens_ignored": 144,
+      "response_boundary_index": 144,
+      "sample_kind": "gsm8k"
+    },
+    {
+      "active_labels": 167,
+      "active_without_eos_decodes_exact_target": true,
+      "eos_active": true,
+      "off_by_one": false,
+      "padding_test": "covered_by_targeted_test_pending_due_cap_blocker",
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4020",
+      "prompt_tokens_ignored": 130,
+      "response_boundary_index": 130,
+      "sample_kind": "math_level_1"
+    },
+    {
+      "active_labels": 181,
+      "active_without_eos_decodes_exact_target": true,
+      "eos_active": true,
+      "off_by_one": false,
+      "padding_test": "covered_by_targeted_test_pending_due_cap_blocker",
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:1098",
+      "prompt_tokens_ignored": 129,
+      "response_boundary_index": 129,
+      "sample_kind": "math_level_3"
+    }
+  ],
+  "count": 256,
+  "cuda_initialized_after": false,
+  "cuda_initialized_before": false,
+  "generation_calls": 0,
+  "model_weight_loads": 0,
+  "optimizer_steps": 0,
+  "over_prompt_count": 1,
+  "over_prompt_records": [
+    {
+      "combined_token_count": 1019,
+      "dataset": "math",
+      "math_level": 1,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4567",
+      "prompt_cap_margin": -82,
+      "prompt_token_count": 914
+    }
+  ],
+  "over_target_count": 48,
+  "over_target_records": [
+    {
+      "active_label_token_count": 284,
+      "combined_token_count": 480,
+      "dataset": "gsm8k",
+      "math_level": null,
+      "problem_id": "gsm8k:openai/gsm8k:train:3126",
+      "target_cap_margin": -28,
+      "target_token_count": 283
+    },
+    {
+      "active_label_token_count": 329,
+      "combined_token_count": 521,
+      "dataset": "gsm8k",
+      "math_level": null,
+      "problem_id": "gsm8k:openai/gsm8k:train:6608",
+      "target_cap_margin": -73,
+      "target_token_count": 328
+    },
+    {
+      "active_label_token_count": 306,
+      "combined_token_count": 483,
+      "dataset": "gsm8k",
+      "math_level": null,
+      "problem_id": "gsm8k:openai/gsm8k:train:3715",
+      "target_cap_margin": -50,
+      "target_token_count": 305
+    },
+    {
+      "active_label_token_count": 321,
+      "combined_token_count": 445,
+      "dataset": "math",
+      "math_level": 1,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:6169",
+      "target_cap_margin": -65,
+      "target_token_count": 320
+    },
+    {
+      "active_label_token_count": 271,
+      "combined_token_count": 382,
+      "dataset": "math",
+      "math_level": 1,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:2118",
+      "target_cap_margin": -15,
+      "target_token_count": 270
+    },
+    {
+      "active_label_token_count": 333,
+      "combined_token_count": 476,
+      "dataset": "math",
+      "math_level": 1,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4900",
+      "target_cap_margin": -77,
+      "target_token_count": 332
+    },
+    {
+      "active_label_token_count": 269,
+      "combined_token_count": 397,
+      "dataset": "math",
+      "math_level": 1,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:5389",
+      "target_cap_margin": -13,
+      "target_token_count": 268
+    },
+    {
+      "active_label_token_count": 271,
+      "combined_token_count": 408,
+      "dataset": "math",
+      "math_level": 1,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4703",
+      "target_cap_margin": -15,
+      "target_token_count": 270
+    },
+    {
+      "active_label_token_count": 291,
+      "combined_token_count": 413,
+      "dataset": "math",
+      "math_level": 1,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:1615",
+      "target_cap_margin": -35,
+      "target_token_count": 290
+    },
+    {
+      "active_label_token_count": 355,
+      "combined_token_count": 636,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:7106",
+      "target_cap_margin": -99,
+      "target_token_count": 354
+    },
+    {
+      "active_label_token_count": 267,
+      "combined_token_count": 403,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:263",
+      "target_cap_margin": -11,
+      "target_token_count": 266
+    },
+    {
+      "active_label_token_count": 447,
+      "combined_token_count": 584,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4356",
+      "target_cap_margin": -191,
+      "target_token_count": 446
+    },
+    {
+      "active_label_token_count": 297,
+      "combined_token_count": 775,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:3315",
+      "target_cap_margin": -41,
+      "target_token_count": 296
+    },
+    {
+      "active_label_token_count": 413,
+      "combined_token_count": 553,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4103",
+      "target_cap_margin": -157,
+      "target_token_count": 412
+    },
+    {
+      "active_label_token_count": 329,
+      "combined_token_count": 500,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:7499",
+      "target_cap_margin": -73,
+      "target_token_count": 328
+    },
+    {
+      "active_label_token_count": 341,
+      "combined_token_count": 467,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:6280",
+      "target_cap_margin": -85,
+      "target_token_count": 340
+    },
+    {
+      "active_label_token_count": 309,
+      "combined_token_count": 427,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:388",
+      "target_cap_margin": -53,
+      "target_token_count": 308
+    },
+    {
+      "active_label_token_count": 281,
+      "combined_token_count": 442,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4800",
+      "target_cap_margin": -25,
+      "target_token_count": 280
+    },
+    {
+      "active_label_token_count": 343,
+      "combined_token_count": 476,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:1358",
+      "target_cap_margin": -87,
+      "target_token_count": 342
+    },
+    {
+      "active_label_token_count": 369,
+      "combined_token_count": 514,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:7008",
+      "target_cap_margin": -113,
+      "target_token_count": 368
+    },
+    {
+      "active_label_token_count": 349,
+      "combined_token_count": 533,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:5198",
+      "target_cap_margin": -93,
+      "target_token_count": 348
+    },
+    {
+      "active_label_token_count": 271,
+      "combined_token_count": 452,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:3689",
+      "target_cap_margin": -15,
+      "target_token_count": 270
+    },
+    {
+      "active_label_token_count": 313,
+      "combined_token_count": 436,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:1624",
+      "target_cap_margin": -57,
+      "target_token_count": 312
+    },
+    {
+      "active_label_token_count": 343,
+      "combined_token_count": 613,
+      "dataset": "math",
+      "math_level": 2,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:2718",
+      "target_cap_margin": -87,
+      "target_token_count": 342
+    },
+    {
+      "active_label_token_count": 485,
+      "combined_token_count": 616,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4059",
+      "target_cap_margin": -229,
+      "target_token_count": 484
+    },
+    {
+      "active_label_token_count": 361,
+      "combined_token_count": 535,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4172",
+      "target_cap_margin": -105,
+      "target_token_count": 360
+    },
+    {
+      "active_label_token_count": 497,
+      "combined_token_count": 698,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:6762",
+      "target_cap_margin": -241,
+      "target_token_count": 496
+    },
+    {
+      "active_label_token_count": 363,
+      "combined_token_count": 484,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4910",
+      "target_cap_margin": -107,
+      "target_token_count": 362
+    },
+    {
+      "active_label_token_count": 517,
+      "combined_token_count": 693,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4309",
+      "target_cap_margin": -261,
+      "target_token_count": 516
+    },
+    {
+      "active_label_token_count": 275,
+      "combined_token_count": 532,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:6352",
+      "target_cap_margin": -19,
+      "target_token_count": 274
+    },
+    {
+      "active_label_token_count": 277,
+      "combined_token_count": 408,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:713",
+      "target_cap_margin": -21,
+      "target_token_count": 276
+    },
+    {
+      "active_label_token_count": 263,
+      "combined_token_count": 396,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:210",
+      "target_cap_margin": -7,
+      "target_token_count": 262
+    },
+    {
+      "active_label_token_count": 275,
+      "combined_token_count": 421,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:1564",
+      "target_cap_margin": -19,
+      "target_token_count": 274
+    },
+    {
+      "active_label_token_count": 431,
+      "combined_token_count": 612,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:3730",
+      "target_cap_margin": -175,
+      "target_token_count": 430
+    },
+    {
+      "active_label_token_count": 347,
+      "combined_token_count": 472,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:6067",
+      "target_cap_margin": -91,
+      "target_token_count": 346
+    },
+    {
+      "active_label_token_count": 367,
+      "combined_token_count": 538,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4373",
+      "target_cap_margin": -111,
+      "target_token_count": 366
+    },
+    {
+      "active_label_token_count": 291,
+      "combined_token_count": 495,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4021",
+      "target_cap_margin": -35,
+      "target_token_count": 290
+    },
+    {
+      "active_label_token_count": 369,
+      "combined_token_count": 495,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:5805",
+      "target_cap_margin": -113,
+      "target_token_count": 368
+    },
+    {
+      "active_label_token_count": 337,
+      "combined_token_count": 507,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:6229",
+      "target_cap_margin": -81,
+      "target_token_count": 336
+    },
+    {
+      "active_label_token_count": 399,
+      "combined_token_count": 524,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:5664",
+      "target_cap_margin": -143,
+      "target_token_count": 398
+    },
+    {
+      "active_label_token_count": 323,
+      "combined_token_count": 436,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:6739",
+      "target_cap_margin": -67,
+      "target_token_count": 322
+    },
+    {
+      "active_label_token_count": 261,
+      "combined_token_count": 539,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:438",
+      "target_cap_margin": -5,
+      "target_token_count": 260
+    },
+    {
+      "active_label_token_count": 609,
+      "combined_token_count": 733,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4311",
+      "target_cap_margin": -353,
+      "target_token_count": 608
+    },
+    {
+      "active_label_token_count": 317,
+      "combined_token_count": 468,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:953",
+      "target_cap_margin": -61,
+      "target_token_count": 316
+    },
+    {
+      "active_label_token_count": 349,
+      "combined_token_count": 514,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:3681",
+      "target_cap_margin": -93,
+      "target_token_count": 348
+    },
+    {
+      "active_label_token_count": 289,
+      "combined_token_count": 436,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:1051",
+      "target_cap_margin": -33,
+      "target_token_count": 288
+    },
+    {
+      "active_label_token_count": 277,
+      "combined_token_count": 404,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:459",
+      "target_cap_margin": -21,
+      "target_token_count": 276
+    },
+    {
+      "active_label_token_count": 463,
+      "combined_token_count": 581,
+      "dataset": "math",
+      "math_level": 3,
+      "problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:6841",
+      "target_cap_margin": -207,
+      "target_token_count": 462
+    }
+  ],
+  "required_minimum_caps": {
+    "actual_combined_sequence": 1019,
+    "prompt": 914,
+    "target_including_eos": 609
+  },
+  "status": "blocked_frozen_length_caps_exceeded",
+  "summary": {
+    "active_label_token_count": {
+      "max": 609,
+      "mean": 179.9140625,
+      "median": 156.5,
+      "min": 55,
+      "p90": 323,
+      "p95": 363,
+      "p99": 497
+    },
+    "combined_token_count": {
+      "max": 1019,
+      "mean": 338.41015625,
+      "median": 310.5,
+      "min": 185,
+      "p90": 495,
+      "p95": 539,
+      "p99": 733
+    },
+    "prompt_token_count": {
+      "max": 914,
+      "mean": 158.49609375,
+      "median": 147.0,
+      "min": 109,
+      "p90": 191,
+      "p95": 225,
+      "p99": 317
+    },
+    "target_token_count": {
+      "max": 608,
+      "mean": 178.9140625,
+      "median": 155.5,
+      "min": 54,
+      "p90": 322,
+      "p95": 362,
+      "p99": 496
+    }
+  },
+  "tokenizer": {
+    "class": "Qwen2TokenizerFast",
+    "eos_token_id": 151645,
+    "local_files_only": true,
+    "model_context_length": 131072,
+    "repo": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "snapshot": "/root/autodl-tmp/cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+  },
+  "trainer_calls": 0
+}

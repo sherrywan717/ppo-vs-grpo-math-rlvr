@@ -314,3 +314,12 @@ After publication, the only next task is a separately authorized CPU-only Stage 
 - GRPO-v2: warmstart adapter initialization, 128 updates, 512 expected microsteps, 2,048 completions, 524,288-token cap; checkpoints/dev at 32/64/96/128. Only dev selects via canonical pass, parseable, format, truncation, then earlier step.
 - Hidden test remains unexecuted. Future four-model comparison is Base / old v1 GRPO42 / warmstart-only / selected v2, 700 completions each with genuine nested pass@4.
 - Unique next task is Stage O: explicit GPU authorization plus the model-bound warm-start entrypoint/token-length preflight. Do not start it automatically.
+
+## Stage O.2 warm-start capacity/runtime freeze
+
+- Stage O.1 failure evidence is preserved: 48/256 targets exceeded 256 and one prompt exceeded 832; no truncation occurred.
+- Authorized capacity-only amendment: prompt 928, active target including EOS 640, actual sequence 1,088 unchanged. Full retokenization passed 256/256; observed maxima remain 914/609/1,019.
+- Guarded CLI/runtime is frozen at `python -m math_rlvr.training.warmstart`: seed42, 256 samples, one epoch, microbatch4, GA4, effective batch16, 64 microsteps, and 16 optimizer/global/scheduler steps. Static policy LoRA trainables are 4,358,144.
+- Checkpoint-16 is policy-adapter-only plus optimizer/scheduler/Python/NumPy/PyTorch CPU/CUDA RNG, trainer/runtime/data cursor, full identities, and SHA inventory. GRPO receives only the adapter and source SHA and starts a fresh GRPO optimizer.
+- Secondary nested pass@10 freezes 50 problems inside pass@4 (GSM8K25; MATH L1–5 2/4/5/7/7), candidates0–9, 1,000 completions/model and 4,000/four models. It is not a selection/tuning metric.
+- No CUDA, model weight load, generation, Trainer, backward, optimizer, warm-start, dev, GRPO, or hidden test ran in Stage O.2. The next task requires explicit authorization for exactly one real warm-start run.

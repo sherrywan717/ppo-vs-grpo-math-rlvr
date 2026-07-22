@@ -68,6 +68,22 @@ def wilson_interval(
     return centre - radius, centre + radius
 
 
+def validate_nested_success(candidate_correctness: list[bool]) -> dict[str, bool]:
+    """Validate one problem's shared candidate-0 nested k=1/4/10 pool."""
+    if len(candidate_correctness) != 10 or any(
+        type(value) is not bool for value in candidate_correctness
+    ):
+        raise ValueError("nested pass@10 requires exactly ten boolean candidates")
+    success = {
+        "success_at_1": candidate_correctness[0],
+        "success_at_4": any(candidate_correctness[:4]),
+        "success_at_10": any(candidate_correctness),
+    }
+    if not (success["success_at_1"] <= success["success_at_4"] <= success["success_at_10"]):
+        raise ValueError("nested pass@k monotonicity failed")
+    return success
+
+
 def read_jsonl(path: Path) -> list[dict]:
     return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
