@@ -707,3 +707,9 @@ checksums, and backup SHA
 verified; GPU returned to 0 MiB/no process. The only next queue item is separately
 authorized GRPO seed-123 checkpoint-32 final evaluation. Never start it, PPO123, final
 aggregation, seed2026, baseline, or training automatically.
+
+### GRPO-v2 Stage N frozen contract
+
+Portfolio v1 remains immutable on `main`/`v0.1.0-formal-rlvr`. The versioned `improve/grpo-v2` experiment uses seed 42 only: a 256-example, one-epoch format/solution warm-start followed by 128 GRPO updates, 2,048 training completions, and a 524,288-token cap. It preserves the v1 model revision, prompt, reward, parser/verifier, sampling, completion cap, and policy LoRA. Checkpoints/dev occur at 32/64/96/128; only the frozen 128-problem `dev_v2` lexicographic rule may select a checkpoint.
+
+The new core manifests are strictly hash- and source-identity-disjoint from all v1 data. MATH500 hidden-test capacity after exclusion is 3/50/65/88/94, so the preregistered test allocation is 3/33/43/59/62 and nested subset allocation is 3/8/10/14/15. Level 1 is `diagnostic_only_small_n`. Candidate 0 is shared between 400-problem pass@1 and the 100-problem nested pass@4 subset; each evaluated model has 700 completions. Hidden test is frozen before training and must never influence prompt, reward, curriculum, hyperparameters, checkpoint selection, or another training attempt. Public execution manifests contain no gold/solution; trusted verifier data stays outside Git. No Stage N artifact authorizes tokenizer/model loading, CUDA, generation, warm-start, GRPO, dev, or hidden-test execution.

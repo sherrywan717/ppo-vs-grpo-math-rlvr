@@ -1,0 +1,14 @@
+{
+  "available_by_level": {
+    "1": 3,
+    "2": 50,
+    "3": 65,
+    "4": 88,
+    "5": 94
+  },
+  "available_total": 300,
+  "equal_40_each_feasible": false,
+  "math500_total": 500,
+  "reason": "Only three unseen Level-1 records remain after strict v1 exclusion.",
+  "v1_used": 200
+}

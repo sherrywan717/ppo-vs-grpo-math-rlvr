@@ -1067,3 +1067,12 @@ This file records operational history and pitfalls that should survive context c
 - Portfolio figures are regenerated only from committed CSV/JSON by `scripts/build_portfolio_v1.py`. Full checkpoints, model cache, optimizer state, credentials, and large archives remain outside GitHub.
 - Release tag: `v0.1.0-formal-rlvr`. The publication commit, archive path/SHA, remote verification, and GitHub URL are recorded by Git/release artifacts rather than inferred here.
 - Next decision: separately authorized CPU-only Stage N GRPO-v2 design freeze; the published held-out test is prohibited for tuning.
+
+## 2026-07-22 — Stage N single-seed GRPO-v2 protocol frozen (CPU-only)
+
+- Created `improve/grpo-v2` from portfolio v1 commit `f744b7866f1bdd4380a5597957359b0a953dd686`; main and tag `v0.1.0-formal-rlvr` were not changed.
+- V1 audit found final FORMAT_ERROR 604/800, PARSE_ERROR 34/800, WRONG_ANSWER 113/800, VERIFIED_PASS 49/800; 64/800 truncated and every truncated row was a format error. Training/final format was 54.6875%/24.5%. Reward signal existed in 101/128 nonzero-variance groups; 27/128 were zero-advantage/all-equal. No parser/verifier/reward correctness defect was found.
+- Froze train_v2 512, warmstart_v2 256 (train subset), dev_v2 128, test_v2_hidden 400. All core content/source overlaps with each other and every v1 manifest are zero. Trusted gold/targets are outside Git at `/root/autodl-tmp/datasets/math_rlvr/grpo_v2/trusted`.
+- After v1 exclusion, MATH500 capacity is 3/50/65/88/94. The preregistered hidden-test allocation is 3/33/43/59/62; nested MATH subset is 3/8/10/14/15. Level 1 is diagnostic-only small-n.
+- Froze a 256-example, one-epoch seed-42 warm-start and 128-update GRPO-v2 contract: 2,048 completions, 524,288 generated-token cap, checkpoints/dev at 32/64/96/128. Test stays sealed; only dev may select.
+- Stage N execution counters: CUDA/model/tokenizer/generation/train/backward/optimizer = 0. Commit/backup/GitHub branch SHA are recorded by Git and the final handoff after validation.

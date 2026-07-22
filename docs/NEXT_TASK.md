@@ -1,15 +1,24 @@
-# Next task: Stage N GRPO-v2 CPU-only design freeze
+# Next task: Stage O GRPO-v2 warm-start execution
 
-Portfolio v1 freezes the current scientific result. All four formal training/checkpoint-validation runs are complete; held-out final evaluation is complete for Base/PPO/GRPO at seed 42. GRPO seed-123 and PPO seed-123 final evaluations are deliberately `deferred_not_executed` and must not be inferred or represented as zero.
+Stage N is complete and CPU-only. The single next task requires new explicit authorization: implement/verify the model-bound warm-start entrypoint, perform the pinned local-tokenizer target-length audit, and execute exactly one seed-42 one-epoch warm-start from `configs/grpo_v2/warmstart_seed42.json`.
 
-The only next task after Stage M publication is a separately authorized **CPU-only** GRPO-v2 design freeze:
+Frozen intended command (not executable or authorized in Stage N):
 
-- create a new versioned experiment identity; never edit portfolio-v1 configs or artifacts;
-- use training/validation evidence only for design and selection; the published held-out test is forbidden for tuning;
-- pre-register candidate changes, budgets, seeds, selection/stopping rules, and artifact contracts;
-- preserve safe parser/verifier behavior, per-candidate evidence, token accounting, null/unavailable semantics, and model/cache/checkpoint publication boundaries;
-- produce no CUDA initialization, model/tokenizer loading, generation, training, validation, or final evaluation without a later explicit authorization.
+```bash
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src \
+python -m math_rlvr.training.warmstart_v2 \
+  --config configs/grpo_v2/warmstart_seed42.json \
+  --execute --confirm-grpo-v2-warmstart
+```
 
-Planning entry point: `docs/grpo_v2_roadmap.md`.
+Before GPU execution, Stage O must add or verify that exact guarded entrypoint without altering the frozen data/scientific contract, audit all 256 rendered target lengths with the pinned local tokenizer, and confirm every target fits 256 tokens. If any target is over cap, stop for user adjudication; do not truncate or silently alter data. Stage O does not authorize GRPO-v2, dev checkpoint selection, or hidden test.
 
-Stage M itself authorizes only CPU-side portfolio audit, documentation, packaging, Git commit/tag, and GitHub publication. It does not authorize any GPU task.
+Future GRPO command, requiring a separate authorization after warm-start/dev evidence is complete:
+
+```bash
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src \
+python -m math_rlvr.training.grpo_v2 \
+  --config configs/grpo_v2/grpo_v2_seed42.json \
+  --warmstart-checkpoint <TRUSTED_WARMSTART_CHECKPOINT> \
+  --execute --confirm-formal-grpo-v2
+```

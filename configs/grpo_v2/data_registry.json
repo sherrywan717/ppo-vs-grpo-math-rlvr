@@ -1,0 +1,85 @@
+{
+  "manifests": {
+    "dev_v2": {
+      "count": 128,
+      "path": "configs/grpo_v2/manifests/dev_v2.jsonl",
+      "sha256": "bdf02e1202e564177fea59f80f0b0ac8a36649daf8636ed6dd5bf3e5f6356b80"
+    },
+    "test_v2_hidden": {
+      "count": 400,
+      "path": "configs/grpo_v2/manifests/test_v2_hidden.jsonl",
+      "sha256": "1da04a0093382711d618f515261b417e7df085d8e4fe93ddb34d314868062285"
+    },
+    "train_v2": {
+      "count": 512,
+      "path": "configs/grpo_v2/manifests/train_v2.jsonl",
+      "sha256": "ca3403ae7b0c1f2689e21aca3283348f89b2ffb65498329e74cc4fa7fde8b664"
+    },
+    "warmstart_v2": {
+      "count": 256,
+      "path": "configs/grpo_v2/manifests/warmstart_v2.jsonl",
+      "sha256": "a83ffb60c6aecd5e23b980dfe8606fae8321b70bedf0d3e906f3d0d05e7106f7"
+    }
+  },
+  "nested_subset": {
+    "count": 100,
+    "path": "configs/grpo_v2/manifests/pass4_nested_subset.json",
+    "sha256": "86864437418a1a112b6385991bdba83617b0cc66f85ec6c7032f0ee79763a553"
+  },
+  "registry_sha256": "fe5ff611c35cb46bf31005a1018e34aeffb175397f2140ede6cbb2f1d6fc44a2",
+  "schema_version": 1,
+  "selection_seed": 42,
+  "sources": {
+    "gsm_test": {
+      "arrow_sha256": "45965b000311d1550e5619b60b5bf31cf76edebfd8b8eddc62a876fbf8c9be95",
+      "dataset_id": "openai/gsm8k",
+      "revision": "740312add88f781978c0658806c59bc2815b9866",
+      "source_split": "test"
+    },
+    "gsm_train": {
+      "arrow_sha256": "6146bca074f4c6c5e07de7e96cc968adab3833dbdafeda21830f27558eea3d9b",
+      "dataset_id": "openai/gsm8k",
+      "revision": "740312add88f781978c0658806c59bc2815b9866",
+      "source_split": "train"
+    },
+    "math500": {
+      "arrow_sha256": "ff2663846092b986df3026f53904030cbaf8e061c9f978d319a7bd86b3a04ea4",
+      "dataset_id": "HuggingFaceH4/MATH-500",
+      "revision": "6e4ed1a2a79af7d8630a6b768ec859cb5af4d3be",
+      "source_split": "test"
+    },
+    "math_train": {
+      "arrow_sha256": "b98718a059d1f2750b03bf1db5841445e5a06236375e2789e3a09852bd286507",
+      "dataset_id": "DigitalLearningGmbH/MATH-lighteval",
+      "revision": "0530c78699ea5e8eb5530600900e1f328b48acad",
+      "source_split": "train"
+    }
+  },
+  "trusted_runtime": {
+    "files": {
+      "dev_v2_trusted.jsonl": {
+        "sha256": "2b1739b7ec64f53f3772f5ea975b8d0466d632cb13dce00e133926e88d30b328",
+        "size": 74326
+      },
+      "test_v2_hidden_trusted.jsonl": {
+        "sha256": "690f7dfce0c73b2bdf0541f3fe888da8bfa3696f1a918a029627ff002c7fd2e4",
+        "size": 255508
+      },
+      "train_v2_trusted.jsonl": {
+        "sha256": "8d1f359397504980c06034df1303956b5bad7caf1da34fde6f00061f807fd8dc",
+        "size": 303829
+      },
+      "warmstart_targets.jsonl": {
+        "sha256": "3e761964079ea824477777fc5bd50bca2ca55241e2fdf15ad0c0139747326542",
+        "size": 157015
+      },
+      "warmstart_v2_trusted.jsonl": {
+        "sha256": "f0eb9cee2de010a4a02ce294e19003e80c710e607881c2ae6afa1fe043a6b217",
+        "size": 152407
+      }
+    },
+    "git_public": false,
+    "path": "/root/autodl-tmp/datasets/math_rlvr/grpo_v2/trusted"
+  },
+  "v1_excluded_content_hash_count": 704
+}

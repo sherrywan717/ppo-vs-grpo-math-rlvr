@@ -1,0 +1,16 @@
+{
+  "denominator": 800,
+  "interpretation": "The dominant observed failure is strict-format failure; among parseable outputs, wrong answers remain substantial. Truncation explains 64/604 format errors, not the majority.",
+  "nontruncated_format_error": 540,
+  "status_counts": {
+    "FORMAT_ERROR": 604,
+    "INVALID_EXPRESSION": 0,
+    "INVALID_NUMBER_USAGE": 0,
+    "PARSE_ERROR": 34,
+    "RESOURCE_LIMIT": 0,
+    "VERIFIED_PASS": 49,
+    "WRONG_ANSWER": 113
+  },
+  "truncated": 64,
+  "truncated_format_error": 64
+}

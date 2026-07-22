@@ -1,0 +1,87 @@
+{
+  "budget": {
+    "max_cost_cny": 17.76,
+    "max_generated_tokens": 524288,
+    "max_gpu_hours": 2.0,
+    "max_vram_gib": 24,
+    "max_wall_time_seconds": 7200
+  },
+  "checkpoint_steps": [
+    32,
+    64,
+    96,
+    128
+  ],
+  "data": {
+    "curriculum": "configs/grpo_v2/curriculum.json",
+    "dev_manifest": "configs/grpo_v2/manifests/dev_v2.jsonl",
+    "each_prompt_occurrences": 1,
+    "manifest": "configs/grpo_v2/manifests/train_v2.jsonl",
+    "unique_prompts": 512
+  },
+  "dev_validation": {
+    "candidates_per_problem": 1,
+    "problems_per_step": 128,
+    "steps": [
+      32,
+      64,
+      96,
+      128
+    ],
+    "training_budget_scope": false
+  },
+  "experiment": "grpo_v2_seed42",
+  "generation": {
+    "generation_batch_size": 16,
+    "num_generations": 4,
+    "temperature": 0.8,
+    "top_p": 0.95
+  },
+  "initial_adapter": "warmstart_only_checkpoint",
+  "lora": {
+    "alpha": 32,
+    "dropout": 0,
+    "rank": 16,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ]
+  },
+  "model": {
+    "dtype": "bfloat16",
+    "local_files_only": true,
+    "repo": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+  },
+  "old_grpo_v1_checkpoint_forbidden": true,
+  "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+  "prompt": {
+    "max_completion_length": 256,
+    "max_prompt_length": 832,
+    "sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "version": "prompt_v2_formal_math"
+  },
+  "reward": {
+    "policy": "shaped_v3_domain",
+    "sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463"
+  },
+  "schema_version": 1,
+  "seed": 42,
+  "training": {
+    "completions_per_prompt": 4,
+    "completions_per_update": 16,
+    "expected_microsteps": 512,
+    "global_steps": 128,
+    "gradient_accumulation_steps": 4,
+    "learning_rate": 1e-05,
+    "optimizer_steps": 128,
+    "per_device_batch_size": 4,
+    "prompts_per_update": 4,
+    "training_completions": 2048,
+    "trl_version": "0.24.0",
+    "updates": 128
+  },
+  "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd"
+}

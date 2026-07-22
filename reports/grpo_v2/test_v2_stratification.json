@@ -1,0 +1,847 @@
+{
+  "available_after_v1_exclusion": {
+    "1": 3,
+    "2": 50,
+    "3": 65,
+    "4": 88,
+    "5": 94
+  },
+  "level_1_reporting": "diagnostic_only_small_n",
+  "nested_namespace": "grpo_v2/pass4_nested/math500/level_<n>",
+  "nested_selected": {
+    "1": 3,
+    "2": 8,
+    "3": 10,
+    "4": 14,
+    "5": 15
+  },
+  "selected_records": {
+    "1": [
+      {
+        "content_hash": "c667b151ed654a873320e97c14d0cde3592c566c59f054b06c16d4d4d8dd6554",
+        "source_problem_id": "test/algebra/24.json"
+      },
+      {
+        "content_hash": "08306232ef9ba7aa229594b9a52f8dcebd100aae1b7197cc844ad8f9725b7604",
+        "source_problem_id": "test/algebra/841.json"
+      },
+      {
+        "content_hash": "1e70b4456ea54b6e71d0e7a9028b39069525b4708c37712c61a44e8b7bc897dd",
+        "source_problem_id": "test/algebra/2551.json"
+      }
+    ],
+    "2": [
+      {
+        "content_hash": "96a8c62f9c87bbfff30264a58b632f2c04c9d82d372f5d46375b443f9fce7756",
+        "source_problem_id": "test/intermediate_algebra/128.json"
+      },
+      {
+        "content_hash": "883f43c19b123b8c72e3d0d075cef74b37c60004886f7dd847885a82c10e3d59",
+        "source_problem_id": "test/counting_and_probability/199.json"
+      },
+      {
+        "content_hash": "b8f8d2320ad189ea99d29b0d158a4bb9fa0493022b0e1875887c77dee794403d",
+        "source_problem_id": "test/number_theory/521.json"
+      },
+      {
+        "content_hash": "24416ee05263b73165332aa78aa027b367e8f545063c7d3bd366bcc499bd4163",
+        "source_problem_id": "test/counting_and_probability/116.json"
+      },
+      {
+        "content_hash": "2d9df14078786bfcd91433283285053acf7b702801a930a3cf156eb377820b3f",
+        "source_problem_id": "test/geometry/846.json"
+      },
+      {
+        "content_hash": "e87c54273a4f6dc89bfc4191c23d3b02ffeb9e83b41b2d4da53333d2a57680e6",
+        "source_problem_id": "test/prealgebra/1924.json"
+      },
+      {
+        "content_hash": "de0c58f09875d127f60e0f6e54b7d8233c7e491ca21748170203e75992bb69dd",
+        "source_problem_id": "test/algebra/2251.json"
+      },
+      {
+        "content_hash": "d4b934f6ede28d754dca241dab782e30d45181563e0fec2568661c79a2ea2aab",
+        "source_problem_id": "test/intermediate_algebra/860.json"
+      },
+      {
+        "content_hash": "bdd65b73583a54845a9beeec149f43e5f2b9706bf42b7c75091921e96d12b029",
+        "source_problem_id": "test/intermediate_algebra/991.json"
+      },
+      {
+        "content_hash": "4b5b19174e5d447f39bb448405603118f1afc674a7de7e5899f57dde205b390c",
+        "source_problem_id": "test/geometry/1108.json"
+      },
+      {
+        "content_hash": "8d5123e585877d549228fefd7175b72fc222c3aa63d3c0e140ab607a8f0dce1e",
+        "source_problem_id": "test/geometry/248.json"
+      },
+      {
+        "content_hash": "dbb138122c014ce8fa6e74fdf8a127cb606a36500777942f84eb2398bf464044",
+        "source_problem_id": "test/number_theory/931.json"
+      },
+      {
+        "content_hash": "44174d8b3df5f07b9a7029a6a3a178f7322805e379a27efcb36651a65c89abf6",
+        "source_problem_id": "test/algebra/2157.json"
+      },
+      {
+        "content_hash": "5b1d584cfe23d7dfff67df8a57030f07ab525f50d4dbe0cb7cb63ae686a80456",
+        "source_problem_id": "test/intermediate_algebra/428.json"
+      },
+      {
+        "content_hash": "8e0aeeb8ecbef2cef641bdf7c1b7f14501661a016a31bcf4c20cfe3685ca5761",
+        "source_problem_id": "test/prealgebra/1622.json"
+      },
+      {
+        "content_hash": "a4a92af384d88e0b330c09d9a483219e971a0242983ce732018b96f980308e32",
+        "source_problem_id": "test/prealgebra/505.json"
+      },
+      {
+        "content_hash": "36fd071c1bb427b553af4b7c8dd35d50872c597b264451825e5c8c160b03f641",
+        "source_problem_id": "test/algebra/109.json"
+      },
+      {
+        "content_hash": "2ca7e059eeb0b7ddaa9a268c68ce111e0895dfc485cd682f7e9d032902cadf61",
+        "source_problem_id": "test/prealgebra/2019.json"
+      },
+      {
+        "content_hash": "72453fd38664cb1a115c3011235f3cf5edb04a8a07511836212cc3ada4723c00",
+        "source_problem_id": "test/prealgebra/930.json"
+      },
+      {
+        "content_hash": "34876d45164544f1eda8f7427218694990e7c3f173219cd5bb52107dbb429526",
+        "source_problem_id": "test/prealgebra/1113.json"
+      },
+      {
+        "content_hash": "d9f531b9527df401c846d979a358299336d33012e319ebcc9f83a4dcda7f3297",
+        "source_problem_id": "test/algebra/2214.json"
+      },
+      {
+        "content_hash": "8339ed01e1fdb09585a342573fc3727147415b7354b73ad4d03faa5ffb5133e2",
+        "source_problem_id": "test/prealgebra/1114.json"
+      },
+      {
+        "content_hash": "ea88ff699f5e513c7405e0f14ed2efa9fcd24aca33b24f9104e473cf398eb950",
+        "source_problem_id": "test/geometry/73.json"
+      },
+      {
+        "content_hash": "18a164d5c1185eefb6867f8376ec89146e57adc2b06f35c87e94f5c23f64ad67",
+        "source_problem_id": "test/prealgebra/572.json"
+      },
+      {
+        "content_hash": "707c6d6754da13d7309321574496d7d8aff61a2b7c392078ff495fa64464620b",
+        "source_problem_id": "test/counting_and_probability/666.json"
+      },
+      {
+        "content_hash": "af2fadb634c99ff95acd815906f568366fd4ea205a093d31128e8cce8ebd3d23",
+        "source_problem_id": "test/intermediate_algebra/623.json"
+      },
+      {
+        "content_hash": "7fc009d3f808cafe82a80e1a5bf838cb6b652f1852bf15aa8b4942cc04dae6b7",
+        "source_problem_id": "test/intermediate_algebra/1168.json"
+      },
+      {
+        "content_hash": "6195174aabf201f980ec3ad6dab33d49f8000c45f2b6af357b819784239790b1",
+        "source_problem_id": "test/number_theory/914.json"
+      },
+      {
+        "content_hash": "9a3b9c3b817662b61710869e877eec8e2ad2dbd7e84ad3ab2f37b3686cbdf2c8",
+        "source_problem_id": "test/algebra/1349.json"
+      },
+      {
+        "content_hash": "d43b5b59260aea9d76381878a40b954e6adb57f23b3a01baa7f7f3ae3ecf31d0",
+        "source_problem_id": "test/number_theory/410.json"
+      },
+      {
+        "content_hash": "7f218e0dec56d367fe24c53e4636286b021dee4f2eeb3a39327b9a737055ccf9",
+        "source_problem_id": "test/precalculus/285.json"
+      },
+      {
+        "content_hash": "dbd323191fa41977bd69a09e763a5c5e9749943b9f0e15a034dcda31efc785be",
+        "source_problem_id": "test/algebra/2476.json"
+      },
+      {
+        "content_hash": "1abaefe281529653aa738324cef55620674d86b4766d839517195e41e5f9f79b",
+        "source_problem_id": "test/algebra/346.json"
+      }
+    ],
+    "3": [
+      {
+        "content_hash": "3c62a0acc21bacf15955570d349d1d629a8efa5b471fdc1810e7aa11beebc98a",
+        "source_problem_id": "test/algebra/1936.json"
+      },
+      {
+        "content_hash": "b5dc33c4111f2507692619135c211b649f219138335e03292fd1430f7b744e21",
+        "source_problem_id": "test/number_theory/89.json"
+      },
+      {
+        "content_hash": "dd48d65e326606be4a9cc720b0f88c453bcbb8ebe2375d08f2095e9e237d3559",
+        "source_problem_id": "test/algebra/2584.json"
+      },
+      {
+        "content_hash": "1a7c478bb9ae0d789f05b85f3851b478c3b246284803ba33eaacfeaf69f9788a",
+        "source_problem_id": "test/algebra/661.json"
+      },
+      {
+        "content_hash": "87a738fd2c06a2eb754aad16e7c870fcf812630c54a2f3fc161e72e76de79023",
+        "source_problem_id": "test/intermediate_algebra/1566.json"
+      },
+      {
+        "content_hash": "28f0bde5896e1f46c2dafb4994cb83863c24fb56e56eb403d1661c2a23872f23",
+        "source_problem_id": "test/number_theory/864.json"
+      },
+      {
+        "content_hash": "98ba12c744ebd5e7b722191548244577d50a17b43612052e793c518a95d1cb34",
+        "source_problem_id": "test/algebra/1035.json"
+      },
+      {
+        "content_hash": "24b6ac402f7f606fdcce34353e99d3bebd58adfe580fa59ce3fb2b2a7211facb",
+        "source_problem_id": "test/intermediate_algebra/1365.json"
+      },
+      {
+        "content_hash": "2757934eba88176712167714d3ef77595145e39b284276bf69a90239f4c0ce66",
+        "source_problem_id": "test/precalculus/477.json"
+      },
+      {
+        "content_hash": "4dc2dc42c8067b961df704bc49cde92de7d7ee83d27726af976aaa6c47aca301",
+        "source_problem_id": "test/algebra/1457.json"
+      },
+      {
+        "content_hash": "b498a7ba21bcc97cf811785c1e167a24fef69a7bcdc68c6fb2a4ca4dbbb05a8e",
+        "source_problem_id": "test/precalculus/826.json"
+      },
+      {
+        "content_hash": "4b89940b5a1505a235806a5371a5cdefa3808e6b6791ac3ec0ff6a41ffef82b9",
+        "source_problem_id": "test/number_theory/691.json"
+      },
+      {
+        "content_hash": "18d8d61436e049f1421ce801b6e8507b8f8b498a398faef7f5cdd8fa88ba00c7",
+        "source_problem_id": "test/geometry/967.json"
+      },
+      {
+        "content_hash": "d2abc39647ebd5cc878c15827188cf2f0f8acb39cd7cb3b892d89756f851df79",
+        "source_problem_id": "test/geometry/347.json"
+      },
+      {
+        "content_hash": "e560d5cf6d3fecc5979608e05b6c4a5850dde9d7eaee8be4ea39a800ebbf70a3",
+        "source_problem_id": "test/geometry/178.json"
+      },
+      {
+        "content_hash": "a84932033f605f1e33eebe36924a19a048ee4645dbcaac80637eab1431150963",
+        "source_problem_id": "test/intermediate_algebra/1247.json"
+      },
+      {
+        "content_hash": "9546fca3a130ae853006a70506b78843900f13aa03c9cea0869c641b8494a821",
+        "source_problem_id": "test/algebra/425.json"
+      },
+      {
+        "content_hash": "db0260fbb016dccdbd6adbad0e4db44c8ab78df7d21069fc6522d1a2ef1f115d",
+        "source_problem_id": "test/geometry/843.json"
+      },
+      {
+        "content_hash": "ca9cbef015dfaab22b1a6944f39b7e09b2a7619b3e7a5ec8464ad82ebde36dbf",
+        "source_problem_id": "test/prealgebra/1227.json"
+      },
+      {
+        "content_hash": "e8bbc51e4f0cedba36262f97fad41f97059c8e6ad037d851dd35f3afe17cd5e3",
+        "source_problem_id": "test/number_theory/45.json"
+      },
+      {
+        "content_hash": "d3610a7a7451457588e70f4ab41af1c4a50615e72de3ebbd4fc4dccd4a209d27",
+        "source_problem_id": "test/intermediate_algebra/834.json"
+      },
+      {
+        "content_hash": "fdc8aba1c1ade2de891c8acfc7e126e96fde232077c7c1b25ac07b4cb18aee37",
+        "source_problem_id": "test/precalculus/1300.json"
+      },
+      {
+        "content_hash": "a0041119ec9c197cc1c1b835edcf14d955d028d54d04976a7a26007c2e2f3c46",
+        "source_problem_id": "test/intermediate_algebra/894.json"
+      },
+      {
+        "content_hash": "0d469d0ece1c8db42727fa34c3215748c1501be4108630edd9b0dfdaa3de4e4e",
+        "source_problem_id": "test/algebra/1275.json"
+      },
+      {
+        "content_hash": "fbe8ea1d8aa2cbd759604fceec4984e5ab6e65c5088e5d337c1caaa6e5b63455",
+        "source_problem_id": "test/number_theory/22.json"
+      },
+      {
+        "content_hash": "d0cd918ebadbb111038940120117972835f0768f559d4eb6c662f84e1659e958",
+        "source_problem_id": "test/prealgebra/631.json"
+      },
+      {
+        "content_hash": "d32a3fa07b18122a86c8d037617dbade753b37f7034e0a975f68abb1436cb03f",
+        "source_problem_id": "test/intermediate_algebra/199.json"
+      },
+      {
+        "content_hash": "0df325974e409586a6ce013bb6b8b114b78a1a03ce0e4e0226065a770ad8d89e",
+        "source_problem_id": "test/precalculus/1201.json"
+      },
+      {
+        "content_hash": "746a8f87097718e59867d0bf42db8a53283e76aec18b6741587f738f933924a4",
+        "source_problem_id": "test/prealgebra/1995.json"
+      },
+      {
+        "content_hash": "b18bba5824f91f211731ff2c9b89a88c01a3e92da6ca19a12afec4857f7d2c71",
+        "source_problem_id": "test/prealgebra/1730.json"
+      },
+      {
+        "content_hash": "63fb0c19be9bfc02dd48ad3466d54f5e77cc37b67348eae9701a55a225d676db",
+        "source_problem_id": "test/prealgebra/846.json"
+      },
+      {
+        "content_hash": "4ad5306cd6ea3bade159a4f48a3168f9d311560e3d355b13afcf18be2163f5eb",
+        "source_problem_id": "test/number_theory/183.json"
+      },
+      {
+        "content_hash": "76bb173b20d420b66bfe27e1889971ef7996fda0e8e7d9e62babcbee756a8c7c",
+        "source_problem_id": "test/algebra/1547.json"
+      },
+      {
+        "content_hash": "116237dfe3dbfe5ab5abe7232eb2173e4b8098866be7f88dccbd86841925d947",
+        "source_problem_id": "test/number_theory/203.json"
+      },
+      {
+        "content_hash": "5b79ff26844cbbaf20af06a5a3c0e981e9275b1280c406e998bfb0dd9d17dee4",
+        "source_problem_id": "test/number_theory/1201.json"
+      },
+      {
+        "content_hash": "a862cde66761d9868dd8b9772b8e8f8cfaa3b5e060ffd85c029747e85906bcd5",
+        "source_problem_id": "test/intermediate_algebra/1555.json"
+      },
+      {
+        "content_hash": "24cffc732716cb8fa513f4d53152b8b0974478515dfbfdaee2834aefa1e84e07",
+        "source_problem_id": "test/prealgebra/1787.json"
+      },
+      {
+        "content_hash": "0c31b4a5e4c8e6300627ddce15766cdf97d478b068e1a5ec39e357245c7a2e37",
+        "source_problem_id": "test/intermediate_algebra/1123.json"
+      },
+      {
+        "content_hash": "6f0e66a3f1cbf2455e070788e8dfb0a31023b42b73dbcef74d45fa56addb2cff",
+        "source_problem_id": "test/algebra/2102.json"
+      },
+      {
+        "content_hash": "3dd318b44a98a85d7e2e1c9d1b32f4ca7ead1c3ebc1fb5743ab96d514198227e",
+        "source_problem_id": "test/precalculus/96.json"
+      },
+      {
+        "content_hash": "22d4c2de98f5c342269a40dee7ee961b412d88e6c2e4160a2975830d287ad777",
+        "source_problem_id": "test/number_theory/847.json"
+      },
+      {
+        "content_hash": "afef14ae390476d33d9cf9d2bcb05d36b6ff0ce58de153e1d1b77a333436eb1b",
+        "source_problem_id": "test/algebra/2159.json"
+      },
+      {
+        "content_hash": "a03b6b4ae366f63075788e91dd77283f2636f4ac7aac947cf11879b4645b3f4d",
+        "source_problem_id": "test/algebra/2046.json"
+      }
+    ],
+    "4": [
+      {
+        "content_hash": "630b81af5acbffeeaa41714c421ed9baeaf824fe75e91675eb36cef88db583d5",
+        "source_problem_id": "test/prealgebra/874.json"
+      },
+      {
+        "content_hash": "9c713fb13ae435bf4724e8d10d645e070a203cd44b89cb13b8f6f14cc03ee5e7",
+        "source_problem_id": "test/geometry/483.json"
+      },
+      {
+        "content_hash": "4ad774d03e1d7ae9f60595652d6705f1ec3ea7c5c4ac2ef779d9048275d14120",
+        "source_problem_id": "test/algebra/1960.json"
+      },
+      {
+        "content_hash": "e86aeb48607d14cfa677a15408cba4ee2828f5f22a0a36f920360512e12a53db",
+        "source_problem_id": "test/geometry/538.json"
+      },
+      {
+        "content_hash": "a89fbb80da4fb26595fece88fff11e8d0bf0bc093a23f81f5e3fde5874b4f25b",
+        "source_problem_id": "test/geometry/353.json"
+      },
+      {
+        "content_hash": "ee7c7225248fbed1c2a2467e526eb29fd9493884ec6bb85382dd1d53ee0f5ea7",
+        "source_problem_id": "test/prealgebra/2086.json"
+      },
+      {
+        "content_hash": "2c3d89ca5aca2bca673678dd4c431bc926d7f20324bd7651652a26a8744da0b0",
+        "source_problem_id": "test/algebra/2391.json"
+      },
+      {
+        "content_hash": "108f81538ad8d2c1b443eea4d499c27eb4d3214407e7f9629b4015fec26a9977",
+        "source_problem_id": "test/precalculus/1313.json"
+      },
+      {
+        "content_hash": "45e5f7656e796fc9615c51e6b506388b5b94104754f72874bfd2c5bc5fd16fc7",
+        "source_problem_id": "test/intermediate_algebra/1992.json"
+      },
+      {
+        "content_hash": "09bee343ecbddf16ca90c5b9a8d3f997a4dba6f948d31e8a0a787c1878c21173",
+        "source_problem_id": "test/counting_and_probability/1114.json"
+      },
+      {
+        "content_hash": "234b319021dcf2a640fe9e5bd8c2650d15b10b08b088521c23cc99fb1ededaf5",
+        "source_problem_id": "test/intermediate_algebra/1063.json"
+      },
+      {
+        "content_hash": "d7d47865fbb51ce6ea28fedee3cb83510ce12e96f388af7fdb303810ee2b743d",
+        "source_problem_id": "test/algebra/2058.json"
+      },
+      {
+        "content_hash": "20299b976dc21ef187537d023989ebed6117486aaef3fcdc22be51b47bc9000d",
+        "source_problem_id": "test/algebra/2570.json"
+      },
+      {
+        "content_hash": "9b85603bc31a20300a1bae15663aad93309ecaa4d23de1d5291eee9dc713a0c7",
+        "source_problem_id": "test/counting_and_probability/119.json"
+      },
+      {
+        "content_hash": "7402b093e77ab835f3b04b716db0c7f7278821bfe49c39a3fd138d563e45f328",
+        "source_problem_id": "test/number_theory/1287.json"
+      },
+      {
+        "content_hash": "10dc53719ddbe492b9c68390c86b546bcdce649ebed204ffe88704730fa7e58a",
+        "source_problem_id": "test/prealgebra/260.json"
+      },
+      {
+        "content_hash": "83233254b974f8d3b13d0a0f21ee0cfbe98af6302047d00bc98844bfc503fa5e",
+        "source_problem_id": "test/prealgebra/1865.json"
+      },
+      {
+        "content_hash": "86dafa426d0346e1f4abba7b8a579538abd8690f808e3035fe01fa0a727855a3",
+        "source_problem_id": "test/number_theory/357.json"
+      },
+      {
+        "content_hash": "3e3197b5f708b6264111ecf32a3bdda55cfc213d3b2eec5d429f49903216fe35",
+        "source_problem_id": "test/prealgebra/2057.json"
+      },
+      {
+        "content_hash": "30257ce512a9dbe4ce54665865cbef81235971574bf2ddf89c2eecd7980ac380",
+        "source_problem_id": "test/algebra/101.json"
+      },
+      {
+        "content_hash": "0c7d885aab7f7eb7d77ab47bd165af83b8a8ff150f4cbb3a7fc225284d19e0f1",
+        "source_problem_id": "test/prealgebra/2037.json"
+      },
+      {
+        "content_hash": "b248cb4aff92956c863cd25ac11e50f3c8c87cb35e296bd162a9bccf75cdeda6",
+        "source_problem_id": "test/precalculus/920.json"
+      },
+      {
+        "content_hash": "57d488b1dac9c9215bb4b73f4366bc6ecd4f8afa13d12fd92bb18f6fa2102192",
+        "source_problem_id": "test/number_theory/753.json"
+      },
+      {
+        "content_hash": "eeedc13aafaaa1c00efc9435dd3f5744c2941a8614a27d0b937a2c699be68b1c",
+        "source_problem_id": "test/precalculus/989.json"
+      },
+      {
+        "content_hash": "2bf992caa662143d177dcb9aade5131039abfaf56ef05038d9e681f2ddae982c",
+        "source_problem_id": "test/counting_and_probability/10.json"
+      },
+      {
+        "content_hash": "cb95bc64c75cf167609883ccefcf227b838f7982d39863ff23e01225f62c69b1",
+        "source_problem_id": "test/number_theory/488.json"
+      },
+      {
+        "content_hash": "4c1c2d962a0e65a5ea2f0e8cbbb01afb30c151d1fd463da969ffacc758afc600",
+        "source_problem_id": "test/counting_and_probability/803.json"
+      },
+      {
+        "content_hash": "7cc8cf550e3ca3744c2621ffd8fea55f9b9f93b1078f1bd6fa10384155fe3071",
+        "source_problem_id": "test/algebra/972.json"
+      },
+      {
+        "content_hash": "b85cd3a0d61d8d2a88e1862437ba131cc5e0f2e499361dd42851c1b0ff752e34",
+        "source_problem_id": "test/prealgebra/153.json"
+      },
+      {
+        "content_hash": "cf3312d83cf0bc46f670f0629bb528881ae7b4349ae3403477e8cf8410a04349",
+        "source_problem_id": "test/geometry/473.json"
+      },
+      {
+        "content_hash": "7295bd92760d8036f479403b4f3f0910f6171d1cf704e207d3b38091b6154a98",
+        "source_problem_id": "test/precalculus/1281.json"
+      },
+      {
+        "content_hash": "7d0252905263dd2bba4d2dc375f948b73bb80917dba90cf593b2348432bc9cf6",
+        "source_problem_id": "test/precalculus/927.json"
+      },
+      {
+        "content_hash": "8d14c583b8a876ea701c4fe492a956705120229a851ca60e317d887c46693d3b",
+        "source_problem_id": "test/prealgebra/1572.json"
+      },
+      {
+        "content_hash": "2bf2a416429c8a87b93c6bb88bb8e550282e70d4380b166e218979a358068a7d",
+        "source_problem_id": "test/algebra/1199.json"
+      },
+      {
+        "content_hash": "3c77f3abead87cb6dbf179ceb8ad0bfb90edca4d496497c26f5192da835514e4",
+        "source_problem_id": "test/prealgebra/1233.json"
+      },
+      {
+        "content_hash": "9d135f320cbe07b91a24dbea9b4800942e7db04809ffd517e53fc909b5699202",
+        "source_problem_id": "test/counting_and_probability/377.json"
+      },
+      {
+        "content_hash": "71fc61f49bcfcd8f97a9d577f20b4788ecf7438d6d1c4391e03dea1e0aa1ee20",
+        "source_problem_id": "test/intermediate_algebra/776.json"
+      },
+      {
+        "content_hash": "5c91e3632a6bed3d9e79a9734fadd4b7c2229a1c22fed53f22490d3e59d2e822",
+        "source_problem_id": "test/prealgebra/1356.json"
+      },
+      {
+        "content_hash": "9a5554ea743dbc9ca66a248b32640de567a4166b3ad3c53cb93186d2432db959",
+        "source_problem_id": "test/intermediate_algebra/121.json"
+      },
+      {
+        "content_hash": "a8c4001358470f25b52d80a35b8eb6fb4586acd3d8d6f541552ac6128333ac79",
+        "source_problem_id": "test/counting_and_probability/430.json"
+      },
+      {
+        "content_hash": "543fa2b4f0fe3ef6e47b0df772c211e965c77e314d1bd3411ca7a0917ccf0d72",
+        "source_problem_id": "test/intermediate_algebra/190.json"
+      },
+      {
+        "content_hash": "3cbf37a65f1d222ac94afd99bec656c1133650bd2fcb3c6dc4b2839a9c722d8d",
+        "source_problem_id": "test/counting_and_probability/339.json"
+      },
+      {
+        "content_hash": "5b62e67bc3275b555bbc5f63931ecd51f95514fc937179719d29765ab30cb7f8",
+        "source_problem_id": "test/intermediate_algebra/1797.json"
+      },
+      {
+        "content_hash": "db31d840f82d7f2e48b99f87a515138983fa0f1a327959d11b7f131d9509cde6",
+        "source_problem_id": "test/intermediate_algebra/90.json"
+      },
+      {
+        "content_hash": "4aec4eb79c20b8094becded481106789f70f435bb09e5d5b3e4cecc42709209b",
+        "source_problem_id": "test/intermediate_algebra/207.json"
+      },
+      {
+        "content_hash": "42517366b010dd6bc635944a2a50c9c24aa6d2cfa3cb624241d537901abb42a0",
+        "source_problem_id": "test/algebra/1578.json"
+      },
+      {
+        "content_hash": "e670b2f65bcd4b8c080cc99ba748e180708051bfde97139641b1a1bddb605811",
+        "source_problem_id": "test/number_theory/72.json"
+      },
+      {
+        "content_hash": "9377eb1958837bb77d9dd90909661e2a6994100cd480fd140e2f2ae2cebc2fa0",
+        "source_problem_id": "test/algebra/1184.json"
+      },
+      {
+        "content_hash": "29b2b39dd7862f9d7f8b6ffdae797146c10db99f7444470cca6735f77f68bc4a",
+        "source_problem_id": "test/number_theory/516.json"
+      },
+      {
+        "content_hash": "f79eb3696da414f81aed80fa09876c8923ba7fc50d7772a3860a6b50cd1ec3b8",
+        "source_problem_id": "test/number_theory/417.json"
+      },
+      {
+        "content_hash": "d308b5bba1d4e73849d002ef0e34971abb949b8aff2e8418d943a625de7ddb33",
+        "source_problem_id": "test/algebra/2257.json"
+      },
+      {
+        "content_hash": "c6f83b0877a24b7bc56d8527f929bf4cdeac67e82acae627356f0d55542d839b",
+        "source_problem_id": "test/algebra/187.json"
+      },
+      {
+        "content_hash": "3d1f09ed5cfd53dce0cdfa464313ae23908a90c6fb2ce32ec3d3e2ba3f403ac0",
+        "source_problem_id": "test/prealgebra/1388.json"
+      },
+      {
+        "content_hash": "eee898cfa2cd6785e81b35ccba0f2a6afd4ade980b9840a039ba311389aaf62a",
+        "source_problem_id": "test/number_theory/1172.json"
+      },
+      {
+        "content_hash": "ced521d94764b4a34fa453c5cbbbca6c49fcdc1de4ca77df22b8f56842d3f563",
+        "source_problem_id": "test/intermediate_algebra/345.json"
+      },
+      {
+        "content_hash": "06d5aeabb535b6a990b29e1f5210e010d81f9f767a3bbe9e9b07c62c1ca02c08",
+        "source_problem_id": "test/intermediate_algebra/2146.json"
+      },
+      {
+        "content_hash": "2107ef2300b1d606532e730eb76a5a05f318301952feccce6fc850f8dfd0b1ad",
+        "source_problem_id": "test/geometry/627.json"
+      },
+      {
+        "content_hash": "a1eed86ee4ad8031aadf7cd1e868f0dd482f167ff97021ffd7e8d9ad7d2c36cd",
+        "source_problem_id": "test/number_theory/156.json"
+      },
+      {
+        "content_hash": "c4af92bf4d3d000a98d44373023a052abb284bf4a40506768b2bf6e8e10a3634",
+        "source_problem_id": "test/intermediate_algebra/362.json"
+      }
+    ],
+    "5": [
+      {
+        "content_hash": "1b433f190997c8e32f4e9eedd258a223d3b078b579f7d9f36af376c7758af330",
+        "source_problem_id": "test/geometry/947.json"
+      },
+      {
+        "content_hash": "90a95247aec2a715cbeef36fec4abb1c5f87b7c17ebb81925c5c7553edb833b5",
+        "source_problem_id": "test/intermediate_algebra/1408.json"
+      },
+      {
+        "content_hash": "324f53c548e3de45cebb96d69a90c47419ba36b321b2d17c38a50e9db87724b7",
+        "source_problem_id": "test/counting_and_probability/731.json"
+      },
+      {
+        "content_hash": "cbe5b6b45a9ab948e501098998aa78238b6bba38c736fed72b1f4627e92be1ed",
+        "source_problem_id": "test/algebra/1339.json"
+      },
+      {
+        "content_hash": "289d8fe784375878da79526995cda91ef3c5ab390666785a565749a4e1886ff1",
+        "source_problem_id": "test/geometry/561.json"
+      },
+      {
+        "content_hash": "e0cb6d0fac527a8382f237a40f6b2b70ee77a704c29e20935051adca0d6c0749",
+        "source_problem_id": "test/intermediate_algebra/1350.json"
+      },
+      {
+        "content_hash": "3141b266e79ac91fa04daa8a05d7f45ff1e342775c0a400beff188dae36cef06",
+        "source_problem_id": "test/intermediate_algebra/2022.json"
+      },
+      {
+        "content_hash": "86e623556487463df80bb6d1389a8fc87bee1c11350e95cece986d6de199b6ad",
+        "source_problem_id": "test/algebra/305.json"
+      },
+      {
+        "content_hash": "ea0162ad089adfef4c4e88eb4724eb71a554c2c06af372221ccae12f1c3c58bc",
+        "source_problem_id": "test/intermediate_algebra/1806.json"
+      },
+      {
+        "content_hash": "f83aecab9faccb6cedc6d78501eea1a0b61e6d8223c5de4b7db4fad115cab3f0",
+        "source_problem_id": "test/precalculus/323.json"
+      },
+      {
+        "content_hash": "7aa14269cd71381f3fc1e67ddb47062684de596b7be35d08b3330760b84da84c",
+        "source_problem_id": "test/geometry/826.json"
+      },
+      {
+        "content_hash": "f2c81f01ec95c73fe6d732a62834d10a8beaa5df52fce5cdfd7ed8ff4765efee",
+        "source_problem_id": "test/algebra/1143.json"
+      },
+      {
+        "content_hash": "d4e914d360a34942f21e2a635cd2c97d3b6cec1a1f2ced16de22d6fd1b5712d0",
+        "source_problem_id": "test/counting_and_probability/1003.json"
+      },
+      {
+        "content_hash": "86429feba2dedf48c00f61e50ce8ca2b363200be9899a459f15d92a4777219ed",
+        "source_problem_id": "test/algebra/686.json"
+      },
+      {
+        "content_hash": "c09864a50ddd773b8cfabe1fb93b33274debdbfaf2c4810b7fe8ff3b05af6ec6",
+        "source_problem_id": "test/number_theory/838.json"
+      },
+      {
+        "content_hash": "869fd921a94c4dc548f1307b94171cc8bbedb55e0b6c15b1bbae33694aee357b",
+        "source_problem_id": "test/prealgebra/1044.json"
+      },
+      {
+        "content_hash": "5b28247e26c2d9090300441920ef75a720e23c8d0d67cefd5e85a809a4fb6a5a",
+        "source_problem_id": "test/algebra/2486.json"
+      },
+      {
+        "content_hash": "d4b549c0bfc69f158a7321f31f6fd555a634f8340b961a9c34a3e0bfeb09f814",
+        "source_problem_id": "test/intermediate_algebra/966.json"
+      },
+      {
+        "content_hash": "4090b3789beffe7291a8785d097b3708693ebb7d35b88ca80fdffdccf177f9ca",
+        "source_problem_id": "test/intermediate_algebra/960.json"
+      },
+      {
+        "content_hash": "05eb5a170e9f052e5fe71a386076276423eafd190de2cfb91fafcd66052e65ad",
+        "source_problem_id": "test/algebra/1078.json"
+      },
+      {
+        "content_hash": "c26fe5040bbc76a5dd9ce3e7ab88746690c285a5d63535edfaa42942d2bbeae0",
+        "source_problem_id": "test/precalculus/398.json"
+      },
+      {
+        "content_hash": "4d7f93151214ef76ee274075e65b7909e274c5796237f7ab5ff33a78210f3ebd",
+        "source_problem_id": "test/counting_and_probability/216.json"
+      },
+      {
+        "content_hash": "a3f40663ba19390b7e8930b5eb10435bf1dcb1168e14bd129538559aa2248cb4",
+        "source_problem_id": "test/number_theory/737.json"
+      },
+      {
+        "content_hash": "1e6f33c6a63e30c44fb5fa0ea4cb73aba2f02b6da43b9f5b12df027b6bfba18b",
+        "source_problem_id": "test/precalculus/1202.json"
+      },
+      {
+        "content_hash": "2f7c46ab9eda1c840450269cd3a8e54caac133e23b24bc337be1e40b7b4eb427",
+        "source_problem_id": "test/intermediate_algebra/2152.json"
+      },
+      {
+        "content_hash": "a9c13cf2e9bc7dd51bb4df54ad21ecbc33d950896d1570770ad29c56a8b32a16",
+        "source_problem_id": "test/intermediate_algebra/662.json"
+      },
+      {
+        "content_hash": "252b4d1703b0590f2120c1974f09a4acfdf908bfd35f08db0c6b5028c712449e",
+        "source_problem_id": "test/intermediate_algebra/1454.json"
+      },
+      {
+        "content_hash": "5a8c50102096a59a2269523fa98a58a819166ba5fe15b9c31ff0d673d502ffef",
+        "source_problem_id": "test/algebra/733.json"
+      },
+      {
+        "content_hash": "de0a9f551aff79abd55f05e13e76f8e75ba4d32e1f1989412dec8cca48c2c9f8",
+        "source_problem_id": "test/precalculus/902.json"
+      },
+      {
+        "content_hash": "b102f75a46486226d9e1c0433f44db429637c0350b00be0764e44974ae745b24",
+        "source_problem_id": "test/intermediate_algebra/1508.json"
+      },
+      {
+        "content_hash": "aa943667a0cba9f82b627fb2eab06a7a6a26b62f7c7573e707a238aec3940412",
+        "source_problem_id": "test/prealgebra/1512.json"
+      },
+      {
+        "content_hash": "8f00399e3534c9da2113886c525c158c02fd180f51bfd70fac0e3f56f25fc454",
+        "source_problem_id": "test/algebra/1031.json"
+      },
+      {
+        "content_hash": "4539e8f79c081acd742a98f13b9b636dbca5368299391923899d53524c6be857",
+        "source_problem_id": "test/intermediate_algebra/158.json"
+      },
+      {
+        "content_hash": "68c9e3705000687eb211d176032ec01f32a57c153a049479f1fe834be1933a7c",
+        "source_problem_id": "test/intermediate_algebra/582.json"
+      },
+      {
+        "content_hash": "45d2328486552db28d6670c5057c6133f8bc36860e0d9793ea4beb8781a9d4fa",
+        "source_problem_id": "test/intermediate_algebra/1354.json"
+      },
+      {
+        "content_hash": "8e69fc01349a975d21852aa5e5f9b6971e8d8ed8b1153c2a3dbb5ee704687db4",
+        "source_problem_id": "test/algebra/1837.json"
+      },
+      {
+        "content_hash": "66777c6b1d130f4578f69bdd5f473be8ccae353f57bfe9d871a591d218de42dd",
+        "source_problem_id": "test/prealgebra/1930.json"
+      },
+      {
+        "content_hash": "6fe518888bc76580a2aeb6b8fd2b694d8798390d52b92aa85ae64dd43b64a4ed",
+        "source_problem_id": "test/counting_and_probability/1009.json"
+      },
+      {
+        "content_hash": "88bd1d429ff4da88607a105612c2de0c8e98bd61cfdfa852a96a537fea183c3b",
+        "source_problem_id": "test/geometry/880.json"
+      },
+      {
+        "content_hash": "7c500c083448945bdc64d76afd1212ae3b3d466c1c63b3a200cea838459b7ac3",
+        "source_problem_id": "test/intermediate_algebra/117.json"
+      },
+      {
+        "content_hash": "a224416f5ecf4319987341af7f12df6fcd64ac8ac4d4734119c50f6a78570bbf",
+        "source_problem_id": "test/number_theory/1002.json"
+      },
+      {
+        "content_hash": "cd12e854a059eefc9afad021db0273281c48689ea0067f8d15a531d5d26a9ca7",
+        "source_problem_id": "test/algebra/2264.json"
+      },
+      {
+        "content_hash": "cdaeb4bf71f691123c54b932ef3a3c576c391ab5541bdf75dcc68a7d07c22764",
+        "source_problem_id": "test/algebra/2780.json"
+      },
+      {
+        "content_hash": "903fe0386b797588abbdc6315dcf170b0a878876a95a30d484927022749f09b0",
+        "source_problem_id": "test/intermediate_algebra/1388.json"
+      },
+      {
+        "content_hash": "dbb4f569f90ecb0e70cc9018a48eac2afdf673b43edaf40e1b84e935a889db31",
+        "source_problem_id": "test/precalculus/1172.json"
+      },
+      {
+        "content_hash": "50d8fc4d7e16382c89e0c967824011ce3ddf9e079ab5d9eb3bf5c0f4e27c6779",
+        "source_problem_id": "test/counting_and_probability/870.json"
+      },
+      {
+        "content_hash": "21279e30be06ebf289ecddd205b0da335cb415458f60c5480c344528208c5abd",
+        "source_problem_id": "test/counting_and_probability/188.json"
+      },
+      {
+        "content_hash": "81b70497c6720b0f8ab402cc02759bf5b47be7d8ef594ba3d9980b793a0f297f",
+        "source_problem_id": "test/intermediate_algebra/956.json"
+      },
+      {
+        "content_hash": "f5538ac4bbbed1cd94cb48388a62763bc5a610d9e6dbcffb78a5d7e00cdd358e",
+        "source_problem_id": "test/geometry/965.json"
+      },
+      {
+        "content_hash": "9f3b9f8d7ae2958e0245eb06db8341a7ec0d7597903466a87448caabbacfeb92",
+        "source_problem_id": "test/number_theory/427.json"
+      },
+      {
+        "content_hash": "02e1cce4311336f46f2ed863de85a180175c3403ae8893f7d208dfa63ca53c85",
+        "source_problem_id": "test/intermediate_algebra/1166.json"
+      },
+      {
+        "content_hash": "72d9cb6397e8c5fbb05c81136ce7e62b4868f23a7b57767a72656459c9f52579",
+        "source_problem_id": "test/intermediate_algebra/964.json"
+      },
+      {
+        "content_hash": "3cd65d338d7fdcc9f98ac26f3d00b30e7c306c752f8ad5402ffd9d3d42a7161b",
+        "source_problem_id": "test/intermediate_algebra/1279.json"
+      },
+      {
+        "content_hash": "74aae40cecc02fdb9b81983d7c59f3e49deb75ac612e06fbc60932a56d318834",
+        "source_problem_id": "test/counting_and_probability/525.json"
+      },
+      {
+        "content_hash": "0809a483e113340db8da3c4f16443001d12ab90d03150053e819ee5539dae187",
+        "source_problem_id": "test/algebra/2176.json"
+      },
+      {
+        "content_hash": "50a5b8ab9633632f633228c39452b71f5cf1958d3df6a8d742ec126d7a179a61",
+        "source_problem_id": "test/intermediate_algebra/183.json"
+      },
+      {
+        "content_hash": "370853d31f3eb7810e1ec7f622a324b75a45fb158b0d3c85e5c637c0db2c7aa0",
+        "source_problem_id": "test/geometry/817.json"
+      },
+      {
+        "content_hash": "32b099c0f5aec3b10ea80afc88f7628f5ba4e58fd4f73b5697bd9fa7a3547c44",
+        "source_problem_id": "test/prealgebra/1558.json"
+      },
+      {
+        "content_hash": "4f1949500aa128e907a2d121d9d04911ac3bf5dd006c3077b58e9a80c4019500",
+        "source_problem_id": "test/intermediate_algebra/1197.json"
+      },
+      {
+        "content_hash": "c35f86042debe14eaf00fab25666128bf54d5923ace657db10e5dee5731e9ae3",
+        "source_problem_id": "test/geometry/702.json"
+      },
+      {
+        "content_hash": "1bddb019d1673cb800e4698926cf93a08ad6cc885c21dddc420cf7dd62141beb",
+        "source_problem_id": "test/number_theory/1128.json"
+      },
+      {
+        "content_hash": "61fa726557a0a170f0b087abb186823595b389dac193ae78834df761bc24530f",
+        "source_problem_id": "test/precalculus/44.json"
+      }
+    ]
+  },
+  "selection_seed": 42,
+  "source_revision": "6e4ed1a2a79af7d8630a6b768ec859cb5af4d3be",
+  "test_namespace": "grpo_v2/test_v2_hidden/math500/level_<n>",
+  "test_selected": {
+    "1": 3,
+    "2": 33,
+    "3": 43,
+    "4": 59,
+    "5": 62
+  },
+  "unselected": {
+    "1": 0,
+    "2": 17,
+    "3": 22,
+    "4": 29,
+    "5": 32
+  }
+}

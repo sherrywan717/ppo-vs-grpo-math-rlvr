@@ -1,28 +1,18 @@
 # GRPO-v2 roadmap
 
-GRPO-v2 is a new, explicitly versioned improvement phase. It does not rewrite portfolio v1 and receives no implicit GPU authorization.
+GRPO-v2 is a versioned single-seed improvement experiment on `improve/grpo-v2`; it never rewrites portfolio v1. Stage N freezes data and science only and authorizes no GPU work.
 
-## Goal
+## Frozen sequence
 
-Improve canonical mathematical correctness and output reliability while preserving the public comparison's artifact-first standards and GRPO's resource advantage.
+1. **Stage O:** seed-42 format/solution warm-start, 256 examples, one epoch, followed by one independent 128-problem dev evaluation.
+2. **GRPO-v2:** initialize from warmstart-only adapter; 128 updates over 512 unique prompts, 2,048 completions, 524,288 generated-token cap; checkpoint/dev at 32/64/96/128.
+3. **Selection:** dev-only lexicographic maximum canonical pass, parseable, format; minimum truncation; then earlier checkpoint.
+4. **One sealed final stage:** compare Base, old GRPO-v1 seed42 checkpoint-32, warmstart-only, and selected v2. Each model produces 400 candidate-0 outputs plus 300 additional candidates for the fixed nested subset.
 
-## CPU-only design phase
+## Data and test protection
 
-1. Freeze a new experiment identity (`grpo_v2`) rather than editing v1 configs.
-2. Use only training and validation evidence for hypotheses; the published held-out test is off-limits for tuning.
-3. Pre-register allowed changes, candidate configurations, selection rule, budgets, and stopping rule.
-4. Keep the v1 model revision, parser/verifier safety, per-candidate evidence, token accounting, and null/unavailable semantics unless a change is explicitly disclosed.
-5. Focus on observed training/validation failure modes: format compliance, parseability, truncation, within-group reward variance, and zero-advantage groups.
-6. Run CPU fake paths and tokenizer/prompt audits before requesting a bounded GPU pilot.
+Core manifests have zero content/source overlap with each other and all v1 manifests. MATH500 unseen capacity is 3/50/65/88/94; hidden test uses 3/33/43/59/62 and nested MATH uses 3/8/10/14/15. Level 1 is diagnostic-only small-n. Public manifests omit gold/solution. Hidden-test results cannot trigger retraining, prompt/reward changes, curriculum edits, hyperparameter changes, or another attempt.
 
-## Candidate research directions
+## Attribution
 
-- Curriculum or sampling changes based only on train/validation difficulty, never test outcomes.
-- A versioned prompt/reward intervention that improves parseable outputs without rewarding incorrect mathematics.
-- Length-aware generation controls within a pre-registered completion budget.
-- Group construction that preserves within-group learning signal.
-- More seeds or a larger validation set before stronger claims.
-
-## Promotion criteria
-
-A candidate must improve pre-registered validation metrics across seeds without identity drift, evidence loss, unsafe checkpoints, or unacceptable format/truncation trade-offs. Only then should a separately authorized fixed final evaluation be considered.
+A warmstart-only gain belongs to supervised warm-start. Only a selected v2 gain over warmstart supports incremental RLVR benefit. Format gains without canonical gains are protocol-adherence gains, not math-reasoning gains. One seed cannot establish general superiority.

@@ -1,0 +1,55 @@
+{
+  "candidate0_problem_count": 400,
+  "completions_per_model": 700,
+  "extra_nested_candidates": 300,
+  "math_level_reporting": {
+    "1": {
+      "denominator": 3,
+      "interval": "wilson_95",
+      "status": "diagnostic_only_small_n"
+    },
+    "2": {
+      "denominator": 33,
+      "interval": "wilson_95",
+      "status": "diagnostic"
+    },
+    "3": {
+      "denominator": 43,
+      "interval": "wilson_95",
+      "status": "diagnostic"
+    },
+    "4": {
+      "denominator": 59,
+      "interval": "wilson_95",
+      "status": "diagnostic"
+    },
+    "5": {
+      "denominator": 62,
+      "interval": "wilson_95",
+      "status": "diagnostic"
+    }
+  },
+  "math_macro": "diagnostic_unweighted_level_macro",
+  "math_primary": "200-problem micro_average",
+  "models": [
+    "base",
+    "old_grpo_v1_seed42_checkpoint32",
+    "warmstart_only",
+    "selected_grpo_v2"
+  ],
+  "nested_candidate_rows": 400,
+  "nested_pass4_problem_count": 100,
+  "nested_pass_at_4": {
+    "candidate0_shared": true,
+    "denominator": 100,
+    "numerator": "problems with any canonical pass among candidates 0..3"
+  },
+  "pass_at_1": {
+    "denominator": 400,
+    "numerator": "candidate_0 canonical passes"
+  },
+  "schema_version": 1,
+  "seed": 42,
+  "test_may_trigger_retraining": false,
+  "total_four_model_completions": 2800
+}

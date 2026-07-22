@@ -303,3 +303,14 @@ GRPO seed-123 and PPO seed-123 final evaluations are `deferred_not_executed`. Th
 ## Unique next task
 
 After publication, the only next task is a separately authorized CPU-only Stage N GRPO-v2 design freeze. It must create a new versioned identity and may not tune against the published held-out test. No GPU task is authorized. See `docs/NEXT_TASK.md` and `docs/grpo_v2_roadmap.md`.
+
+## Stage N GRPO-v2 CPU-only design freeze
+
+- Active improvement branch: `improve/grpo-v2`; base HEAD `f744b7866f1bdd4380a5597957359b0a953dd686`; the Stage N commit is the commit containing this handoff. Portfolio v1 main/tag and all v1 artifacts are unchanged.
+- No CUDA, model/tokenizer load, generation, Trainer, backward, optimizer, warm-start, GRPO, dev, or hidden-test execution occurred.
+- New manifests: train/warmstart/dev/test = 512/256/128/400. Core split and all-v1 content/source overlap counts are zero. Public execution manifests omit gold; trusted verifier/target records live under `/root/autodl-tmp/datasets/math_rlvr/grpo_v2/trusted`.
+- Strictly unseen MATH500 capacity is 3/50/65/88/94; frozen hidden-test allocation is 3/33/43/59/62 and nested subset is 3/8/10/14/15. The three Level-1 rows are included and marked diagnostic-only small-n.
+- Warm-start: seed 42, 256 examples, one epoch, effective batch 16, 16 optimizer/scheduler steps, adapter-only checkpoint, then one separate 128-problem dev evaluation.
+- GRPO-v2: warmstart adapter initialization, 128 updates, 512 expected microsteps, 2,048 completions, 524,288-token cap; checkpoints/dev at 32/64/96/128. Only dev selects via canonical pass, parseable, format, truncation, then earlier step.
+- Hidden test remains unexecuted. Future four-model comparison is Base / old v1 GRPO42 / warmstart-only / selected v2, 700 completions each with genuine nested pass@4.
+- Unique next task is Stage O: explicit GPU authorization plus the model-bound warm-start entrypoint/token-length preflight. Do not start it automatically.

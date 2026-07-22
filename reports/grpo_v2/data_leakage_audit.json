@@ -1,0 +1,20 @@
+{
+  "core_cross_split_overlap_counts": {
+    "dev_v2_vs_all_v1": 0,
+    "dev_v2_vs_test_v2_hidden": 0,
+    "test_v2_hidden_vs_all_v1": 0,
+    "train_v2_vs_all_v1": 0,
+    "train_v2_vs_dev_v2": 0,
+    "train_v2_vs_test_v2_hidden": 0
+  },
+  "intentional_subsets": {
+    "pass4_nested_within_test_v2_hidden": 100,
+    "warmstart_v2_within_train_v2": 256
+  },
+  "source_identity_overlap_counts": {
+    "dev_v2_vs_all_v1": 0,
+    "test_v2_hidden_vs_all_v1": 0,
+    "train_v2_vs_all_v1": 0
+  },
+  "status": "passed"
+}

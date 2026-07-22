@@ -1,0 +1,33 @@
+{
+  "allowed_split": "dev_v2",
+  "candidate_steps": [
+    32,
+    64,
+    96,
+    128
+  ],
+  "lexicographic": [
+    {
+      "direction": "max",
+      "metric": "canonical_pass_at_1"
+    },
+    {
+      "direction": "max",
+      "metric": "parseable_rate"
+    },
+    {
+      "direction": "max",
+      "metric": "format_rate"
+    },
+    {
+      "direction": "min",
+      "metric": "truncation_rate"
+    },
+    {
+      "direction": "min",
+      "metric": "checkpoint_step"
+    }
+  ],
+  "schema_version": 1,
+  "test_selection_forbidden": true
+}

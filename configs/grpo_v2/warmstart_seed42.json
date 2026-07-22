@@ -1,0 +1,69 @@
+{
+  "budget": {
+    "max_cost_cny": 6.66,
+    "max_gpu_hours": 0.75,
+    "max_prompt_plus_target_tokens": 278528,
+    "max_target_tokens": 65536,
+    "max_vram_gib": 24,
+    "max_wall_time_seconds": 2700,
+    "target_token_audit": {
+      "available": false,
+      "reason": "Stage N forbids loading the pinned tokenizer; required before Stage O GPU execution",
+      "value": null
+    }
+  },
+  "checkpoint": {
+    "adapter_only": true,
+    "base_weights_forbidden": true,
+    "steps": [
+      16
+    ],
+    "trusted_resume_state": true
+  },
+  "data": {
+    "epochs": 1,
+    "manifest": "configs/grpo_v2/manifests/warmstart_v2.jsonl",
+    "samples": 256,
+    "shuffle": "deterministic_frozen_order",
+    "trusted_targets": "/root/autodl-tmp/datasets/math_rlvr/grpo_v2/trusted/warmstart_targets.jsonl"
+  },
+  "experiment": "grpo_v2_warmstart_seed42",
+  "lora": {
+    "alpha": 32,
+    "dropout": 0,
+    "rank": 16,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ]
+  },
+  "model": {
+    "dtype": "bfloat16",
+    "local_files_only": true,
+    "repo": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+  },
+  "post_warmstart_dev": {
+    "candidates_per_problem": 1,
+    "problems": 128,
+    "separate_token_ledger": true
+  },
+  "prompt": {
+    "max_prompt_length": 832,
+    "max_target_length": 256,
+    "version": "prompt_v2_formal_math"
+  },
+  "schema_version": 1,
+  "seed": 42,
+  "training": {
+    "effective_batch_size": 16,
+    "gradient_accumulation_steps": 4,
+    "learning_rate": 1e-05,
+    "optimizer_steps": 16,
+    "per_device_batch_size": 4,
+    "scheduler_steps": 16,
+    "trainable_parameter_count": 4358144
+  }
+}

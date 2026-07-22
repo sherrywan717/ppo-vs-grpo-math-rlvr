@@ -1,0 +1,17 @@
+{
+  "compileall": "passed",
+  "contract_dry_run": "passed",
+  "cuda_initialized": false,
+  "deterministic_rebuild": "byte_identical",
+  "formal_manifest_validation": "passed",
+  "generation_calls": 0,
+  "model_or_tokenizer_loaded": false,
+  "pytest": {
+    "failed": 0,
+    "passed": 7,
+    "scope": "tests/test_grpo_v2_contract.py"
+  },
+  "ruff": "passed",
+  "status": "passed",
+  "training_updates": 0
+}
