@@ -28,6 +28,8 @@ generated no completion, and performed no Trainer, backward, or optimizer operat
 - The collator independently checks prompt <=928 and target including EOS <=640,
   then checks the actual combined sequence <=1,088 without tokenizer truncation.
   Prompt, system, user, and assistant-prefix labels are -100; assistant target and
+- Each consumed batch atomically persists ordered sample IDs, exact counters, and
+  cumulative active/supervised tokens before later checkpoint finalization.
   EOS are active; padding labels are -100.
 - The CLI requires the exact config path/SHA, a new run directory, `--execute`, and
   `--confirm-grpo-v2-warmstart`. Model imports remain behind that boundary.

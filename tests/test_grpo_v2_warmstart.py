@@ -138,7 +138,10 @@ def test_budget_guard_exact_and_fail_closed():
         if (batch + 1) % 4 == 0:
             guard.record_optimizer_step((batch + 1) // 4)
     guard.record_epoch()
-    assert guard.finalize()["samples"] == 256
+    result = guard.finalize()
+    assert result["samples"] == result["unique_samples"] == 256
+    assert result["active_label_tokens"] == 640
+    assert result["cumulative_supervised_tokens"] == 640
     incomplete = WarmstartBudgetGuard(
         samples=255, batches=64, microsteps=64, optimizer_steps=16, global_steps=16, epochs=1
     )

@@ -199,6 +199,19 @@ class WarmstartBudgetGuard:
         if self.epochs > 1:
             raise WarmstartContractError("warm-start epoch budget exceeded")
 
+    def snapshot(self) -> dict[str, int]:
+        return {
+            "samples": self.samples,
+            "unique_samples": len(self.seen_sample_ids),
+            "batches": self.batches,
+            "microsteps": self.microsteps,
+            "optimizer_steps": self.optimizer_steps,
+            "global_steps": self.global_steps,
+            "epochs": self.epochs,
+            "active_label_tokens": self.active_label_tokens,
+            "cumulative_supervised_tokens": self.active_label_tokens,
+        }
+
     def finalize(self) -> dict[str, int]:
         actual = (
             self.samples,
@@ -210,7 +223,7 @@ class WarmstartBudgetGuard:
         )
         if actual != (256, 64, 64, 16, 16, 1):
             raise WarmstartContractError(f"incomplete warm-start counters: {actual}")
-        return {key: value for key, value in self.__dict__.items() if key != "seen_sample_ids"}
+        return self.snapshot()
 
 
 def require_execution_environment() -> dict[str, str]:

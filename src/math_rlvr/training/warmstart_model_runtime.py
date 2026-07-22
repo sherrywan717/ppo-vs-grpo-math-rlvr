@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import random
 import time
@@ -23,7 +24,9 @@ from math_rlvr.training.warmstart_runtime import (
 
 def _atomic_json(path: Path, value: object) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+    temporary.write_text(
+        json.dumps(value, allow_nan=False, indent=2, sort_keys=True) + "\n"
+    )
     os.replace(temporary, path)
 
 
@@ -133,12 +136,26 @@ def execute_real_warmstart(
 
     guard = WarmstartBudgetGuard()
     metric_rows: list[dict[str, Any]] = []
+    sample_prefix: list[str] = []
+
+    def persist_runtime_prefix() -> None:
+        _atomic_json(
+            run_dir / "runtime_state_prefix.json",
+            {
+                "counters": guard.snapshot(),
+                "dataset_order_sha256": identity["dataset_order_sha256"],
+                "sample_ids": sample_prefix,
+            },
+        )
 
     def collator(batch):
+        sample_ids = [row["problem_id"] for row in batch]
         guard.record_batch(
-            sample_ids=[row["problem_id"] for row in batch],
+            sample_ids=sample_ids,
             active_label_tokens=sum(row["active_label_tokens"] for row in batch),
         )
+        sample_prefix.extend(sample_ids)
+        persist_runtime_prefix()
         payload = completion_only_collate(batch, pad_token_id=tokenizer.pad_token_id)
         return {key: torch.tensor(value, dtype=torch.long) for key, value in payload.items()}
 
@@ -157,6 +174,7 @@ def execute_real_warmstart(
     class EvidenceCallback(TrainerCallback):
         def on_step_end(self, args, state, control, **kwargs):
             guard.record_optimizer_step(int(state.global_step))
+            persist_runtime_prefix()
             return control
 
         def on_epoch_end(self, args, state, control, **kwargs):
@@ -165,15 +183,20 @@ def execute_real_warmstart(
 
         def on_log(self, args, state, control, logs=None, **kwargs):
             logs = dict(logs or {})
+            grad_norm = logs.get("grad_norm")
+            if grad_norm is not None:
+                grad_norm = float(grad_norm)
+                if not math.isfinite(grad_norm):
+                    raise WarmstartContractError("non-finite warm-start grad norm")
             metric_rows.append(
                 {
                     "global_step": int(state.global_step),
                     "loss": logs.get("loss"),
                     "learning_rate": logs.get("learning_rate"),
-                    "grad_norm": logs.get("grad_norm"),
-                    "grad_norm_available": logs.get("grad_norm") is not None,
+                    "grad_norm": grad_norm,
+                    "grad_norm_available": grad_norm is not None,
                     "grad_norm_reason": None
-                    if logs.get("grad_norm") is not None
+                    if grad_norm is not None
                     else "trainer_did_not_expose_metric",
                     "wall_time_seconds": time.monotonic() - started,
                 }
@@ -278,9 +301,7 @@ def execute_real_warmstart(
             {
                 "status": "failure",
                 "reason": str(exc),
-                "counters": {
-                    key: value for key, value in guard.__dict__.items() if key != "seen_sample_ids"
-                },
+                "counters": guard.snapshot(),
             },
         )
         backup = backup_warmstart_run(run_dir, failure=True)

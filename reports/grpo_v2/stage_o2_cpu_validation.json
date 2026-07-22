@@ -37,6 +37,7 @@
     "effective_batch": 16,
     "epochs": 1,
     "gradient_accumulation": 4,
+    "incremental_prefix": "atomic_per_consumed_batch",
     "microbatch": 4,
     "microsteps": 64,
     "optimizer_global_scheduler_steps": 16,
