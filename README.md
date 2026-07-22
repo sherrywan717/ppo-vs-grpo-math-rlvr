@@ -1,316 +1,163 @@
-# PPO vs GRPO for Few-Shot Math RLVR at 1.5B
+# PPO vs GRPO for Few-Shot Math RLVR at 1.5B: Sample Efficiency, Stability, and Generalization
 
-A reproducible comparison of PPO and GRPO sample efficiency, stability, and generalization on `Qwen/Qwen2.5-1.5B-Instruct`. Formal training uses GSM8K and MATH Level 1–3; evaluation uses GSM8K test and MATH500. Countdown is smoke/verifier-only and is never a headline benchmark.
+Artifact-first, reproducible reinforcement learning with verifiable rewards (RLVR) on `Qwen/Qwen2.5-1.5B-Instruct`.
 
-## Frozen design
+> Under the same model, data, prompt, policy LoRA, sampling, reward, parser/verifier, 32-update, 512-completion, and token budgets, GRPO raised seed-42 held-out pass@1 from 4.0% (Base) to 7.0%, while PPO reached 3.75%; GRPO also used substantially less peak VRAM and lower training-plus-validation cost.
 
-The active formal suite uses PPO/GRPO at seeds `42` and `123`; seed `2026` remains `reserved_not_scheduled`. Both algorithms share the frozen manifests and 2-GSM8K/2-MATH update order, `prompt_v2_formal_math`, BF16 policy LoRA (`r=16`, alpha 32, dropout 0; q/k/v/o projections), four responses per prompt, temperature 0.8, top-p 0.95, amended prompt capacity 832, completion length 256, and one domain-aware reward policy. Comparisons align actual completions and generated tokens, not trainer steps.
+This headline is a **single-seed paired result**. GRPO's validation direction is consistent across seeds 42 and 123, but GRPO123 and PPO123 final tests are `deferred_not_executed`. The evidence does not establish universal algorithm superiority.
 
-Formal reward `shaped_v3_domain` is fixed: answer block 0.05, strict protocol 0.05, domain-valid answer 0.10, and canonical correctness 0.80. Countdown exact-number-usage is not applied to GSM8K or MATH. Formal pass metrics use only canonical verifier status; infrastructure errors abort.
+## Results at a glance
 
-PPO uses a separate sequence-classification value model from the policy checkpoint,
-value LoRA `r=8`, alpha 16 on q/v projections, and a trainable scalar head. The
-guarded runner completed the accepted one-update Qwen 0.5B smoke
-`ppo_single_update_qwen25_05b_20260714T051538Z`. Its scientific/execution status is
-`execution_success/nonessential_telemetry_warning`; it must not be rerun.
+The final protocol uses independent candidate pools: pass@1 evaluates 400 problems once; pass@4 evaluates a fixed, separate 100-problem subset with four candidates each. They are not nested metrics.
 
-## Data and layout
+| Seed-42 held-out test | Base | PPO checkpoint-32 | GRPO checkpoint-32 |
+|---|---:|---:|---:|
+| Sampled pass@1 | 16/400 (4.00%) | 15/400 (3.75%) | 28/400 (7.00%) |
+| Independent pass@4 | 10/100 (10.00%) | 9/100 (9.00%) | 14/100 (14.00%) |
+| Format-valid candidates | 13.50% | 14.00% | 24.50% |
+| Parseable candidates | 12.00% | 12.25% | 20.25% |
+| Truncated candidates | 10.00% | 10.00% | 8.00% |
 
-Frozen manifests live under `/root/autodl-tmp/datasets/math_rlvr/manifests`; Hugging Face cache is `/root/autodl-tmp/cache/huggingface`. `src/math_rlvr/` contains schema, prompt, verifiers, rewards, rollout accounting, metrics, and preflight entry points. `src/math_rlvr/execution/` is retained only as legacy/out-of-scope history and is not imported by the math pipeline.
+| Paired seed-42 pass@1 comparison | Delta | Improved / regressed | Paired bootstrap 95% CI | Exact McNemar p |
+|---|---:|---:|---:|---:|
+| Base → GRPO | +3.00 pp | 15 / 3 | [+1.00, +5.00] pp | 0.00754 |
+| PPO → GRPO | +3.25 pp | 16 / 3 | [+1.25, +5.50] pp | 0.00443 |
 
-The output contract is exactly one `<reasoning>...</reasoning>` block followed by exactly one terminal `<answer>...</answer>` block. Only answer content is verified. Verifiers never call `eval`, `exec`, dynamic imports, subprocesses, or generated code.
+Pass@4 deltas are positive (+4 pp vs Base; +5 pp vs PPO), but both confidence intervals cross zero. They are reported as an encouraging trend, not a confirmed improvement.
 
-## GRPO single-update smoke contract
+![Held-out pass metrics](reports/formal_1p5b/figures/portfolio_final_pass_metrics.png)
 
-The checked-in GRPO smoke YAML is the configuration source of truth: two unique prompts, four generations per prompt, generation batch 8, micro-batch 2, gradient accumulation 4, one iteration, one global/optimizer step, eight completions, and a 1,024 generated-token hard cap. TRL 0.24.0 must infer `steps_per_generation=4`; never configure both that field and `generation_batch_size`. This is an integration smoke contract, not a formal experiment result.
+![Paired transitions](reports/formal_1p5b/figures/portfolio_paired_transitions.png)
 
-## Shared smoke prompt
+### Two-seed checkpoint validation
 
-The Qwen 0.5B PPO and GRPO smoke configs select the same frozen
-`prompt_v1_strict_concise` renderer. Its candidate status is `approved_for_smoke`, but
-its production status is `not_approved`: the matched generation-only diagnostic raised
-complete-envelope compliance from 0% to 25% and created nonzero reward variance in both
-Countdown groups, while valid-expression, number-usage, pass@1, and pass@4 remained 0.
-`prompt_v0_grpo_smoke` remains unchanged for historical replay, and main/formal 1.5B
-configs do not activate v1.
+Each validation point is one frozen candidate for each of 64 held-out validation problems. The step-32 results are PPO42 2/64, PPO123 3/64, GRPO42 5/64, and GRPO123 6/64.
 
-PPO and GRPO must resolve and report the same `prompt_version`, `prompt_sha256`, and
-`renderer_version`; rendering the same `MathProblem` must be byte-identical. See
-`docs/smoke-prompt-fairness.md`. Both current one-update smoke paths have now used
-this identity; any new GPU execution still requires separate explicit authorization.
+![Validation curves](reports/formal_1p5b/figures/portfolio_validation_curves.png)
 
-## Guarded GRPO execution
+| Formal run | Step-32 validation | Peak VRAM | GPU-hours | Cost (CNY, ¥8.88/GPU-h) |
+|---|---:|---:|---:|---:|
+| PPO seed 42 | 2/64 | 51.9 GiB | 0.4802 | ¥4.26 |
+| PPO seed 123 | 3/64 | 52.6 GiB | 0.4262 | ¥3.78 |
+| GRPO seed 42 | 5/64 | 10.9 GiB | 0.3305 | ¥2.93 |
+| GRPO seed 123 | 6/64 | 8.5 GiB | 0.3094 | ¥2.75 |
 
-The default GRPO CLI is dry-run only. `--execute` by itself still fails closed. The only real smoke path requires the frozen smoke config and both flags:
+Resource rows include formal training plus the four checkpoint validations. PPO42 validation was recovered in separate processes after a cadence bug, so its wall-time scope is disclosed rather than treated as identical process overhead.
 
-```bash
-PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.grpo --config configs/smoke/grpo.yaml --execute --confirm-single-update
-```
+## Evidence-backed figures
 
-Before delayed model imports, the CLI requires a clean `pivot/math-rlvr` worktree, the fixed local revision, and the complete batching/budget contract. `trl_compat.py` is the sole TRL 0.24.0 private-hook shim and exact token accounting uses completion IDs/masks, not decode/re-tokenize. The artifact state is fail-closed: success requires complete artifacts, adapter-only checkpoint inventory, tar backup, and verified SHA256. It never advances to PPO automatically.
+Every portfolio figure is rebuilt by [`scripts/build_portfolio_v1.py`](scripts/build_portfolio_v1.py) from committed CSV/JSON—not from chat text or hand-entered chart values.
 
-## Guarded PPO single-update contract
+| Question | Figure |
+|---|---|
+| Final Base/PPO/GRPO pass@1 and pass@4 | [held-out pass metrics](reports/formal_1p5b/figures/portfolio_final_pass_metrics.png) |
+| Paired improvements and regressions | [paired transitions](reports/formal_1p5b/figures/portfolio_paired_transitions.png) |
+| PPO/GRPO validation by checkpoint | [validation curves](reports/formal_1p5b/figures/portfolio_validation_curves.png) |
+| Four-run reward and canonical pass | [training curves](reports/formal_1p5b/figures/portfolio_training_curves.png) |
+| GRPO within-group learning signal | [reward-group variance](reports/formal_1p5b/figures/portfolio_reward_group_variance.png) |
+| Format, parseability, and truncation | [output behavior](reports/formal_1p5b/figures/portfolio_format_parseable_truncation.png) |
+| Peak memory | [VRAM comparison](reports/formal_1p5b/figures/portfolio_peak_vram.png) |
+| Wall time, GPU-hours, and cost | [resource comparison](reports/formal_1p5b/figures/portfolio_resource_costs.png) |
+| MATH500 Level 1–5 | [difficulty breakdown](reports/formal_1p5b/figures/portfolio_math500_levels.png) |
+| Canonical verifier outcomes | [RewardStatus distribution](reports/formal_1p5b/figures/portfolio_reward_status.png) |
 
-The PPO smoke YAML resolves under TRL 0.24.0 to four fixed Countdown dataset rows,
-`total_episodes=4`, rollout batch 4, one response per row, one PPO epoch, one
-minibatch, one optimizer/update/global step, four total completions, and a 512-token
-hard cap. The shared-schema `generation.num_generations=4` is explicitly recorded as
-ignored for PPO: TRL PPO does not consume it and does not multiply the rollout into 16
-responses. The shim applies the configured `top_p=0.95`, because TRL PPO otherwise
-constructs its internal generation config with top-p 1.0.
+## Fair comparison contract
 
-Policy and value backbones are distinct objects loaded local-only from the same
-validated Qwen 0.5B snapshot. The optimizer must exactly contain policy LoRA plus value
-LoRA/scalar-head parameters. The frozen reference is the policy base with its PEFT
-adapter disabled; the verifier reward model has zero parameters. The sole
-`checkpoint-1` contains separate policy adapter, value adapter, and scalar-head
-safetensors plus JSON metadata, never base-model or optimizer weights.
+- **Model:** `Qwen/Qwen2.5-1.5B-Instruct`, revision `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`, BF16, local-only.
+- **Data:** identical frozen GSM8K/MATH training and 64-problem validation manifests; MATH500 is held out from training.
+- **Prompt:** `prompt_v2_formal_math`; one system/user chat followed by an open assistant turn.
+- **Output:** one `<reasoning>...</reasoning>` block followed by one terminal `<answer>...</answer>` block.
+- **Reward:** `shaped_v3_domain`: answer block 0.05, strict protocol 0.05, domain-valid answer 0.10, canonical correctness 0.80.
+- **Verification:** shared strict parser plus canonical GSM8K/MATH verifier; infrastructure errors fail closed.
+- **Policy LoRA:** r=16, alpha=32, dropout=0 on q/k/v/o. PPO additionally requires its algorithm-specific value adapter/head.
+- **Sampling:** temperature 0.8, top-p 0.95, 832 prompt tokens, 256 completion tokens.
+- **Budget:** 32 updates, 512 training completions, 131,072 generated-token hard cap, checkpoint/validation at 8/16/24/32.
+- **Final test:** fixed checkpoint-32 only; 400×1 pass@1 pool plus an independent fixed 100×4 pass@4 pool.
+- **No leakage:** test is never used for prompt changes, tuning, stopping, or checkpoint selection.
 
-The default PPO CLI remains a dry-run. The accepted historical smoke used the frozen
-config, clean branch, both offline variables, fixed snapshot, and both flags:
+See [experiment design](docs/experiment_design.md), [methodology](docs/methodology.md), and the frozen [experiment plan](reports/formal_1p5b/experiment_plan.md).
 
-```bash
-PYTHONPATH=src HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 python -m math_rlvr.training.ppo --config configs/smoke/ppo.yaml --execute --confirm-single-update
-```
+## Reproduce the workflow
 
-This exact smoke was run once and must not be retried. The command remains documentation
-of the guarded entry point, not authorization for another GPU run.
-
-## CPU-only checks
-
-```bash
-python -m compileall src tests
-ruff check .
-pytest -q
-python scripts/check_env.py
-python scripts/validate_manifests.py
-make smoke-ppo
-make smoke-grpo
-make main-ppo
-make main-grpo
-```
-
-All four commands shown above are static preflights and do not train. The guarded real
-entry points require separate dual-confirmation authorization; the CPU gates do not
-load a model or initialize CUDA.
-
-## Metrics
-
-Both runs record pass@1/pass@4; GSM8K, MATH500, and per-Level accuracy; format, parse,
-expression, and number-usage validity; reward, completions, generated tokens,
-completion length, wall time, KL, entropy, peak VRAM, GPU-hours, and CNY cost. The
-guarded PPO smoke normalizes only metrics exposed by reviewed TRL 0.24.0 keys,
-including policy/value loss, KL, entropy, clip fraction, ratio, reward mean, and
-learning rate. The sole nullable nonessential telemetry allowlist currently contains
-`val/ratio_var`: a non-finite value becomes `null`, `available=false`, and retains its
-raw key, classification, and reason. It is never fabricated as zero. Any non-finite
-required or unreviewed metric still fails closed.
-
-## GRPO evidence and checkpoint safety
-
-The single-update runner uses the Trainer-created top-level `checkpoint-1` as its sole authoritative checkpoint. It never performs a second manual `save_model`. The exact `training_args.bin` basename is accepted only as non-symlink regular trainer metadata directly under that checkpoint, capped at 1 MiB and hashed without deserialization; arbitrary `.bin` files remain forbidden.
-
-The sole TRL 0.24.0 shim binds completion IDs/masks, exact mask-derived token counts, Unicode decoded text, exact verifier input, and ordered reward results into eight JSONL records. Missing or reordered evidence fails closed. The frozen config resolves to `beta=0.0`, so KL is represented as unavailable with `null` and an explicit reason. PyTorch allocator peaks are recorded separately from nvidia-smi. See `docs/artifact-schema.md` and `docs/checkpoint-safety.md`.
-
-## Guarded generation-only prompt diagnostic
-
-The independent v0/v1 diagnostic defaults to a CPU-only static preflight:
+Install the pinned environment from [`pyproject.toml`](pyproject.toml), prepare the datasets documented in [REPRODUCIBILITY.md](REPRODUCIBILITY.md), and keep model caches/runs outside the repository.
 
 ```bash
-PYTHONPATH=src python -m math_rlvr.evaluation.prompt_ab --config configs/diagnostics/prompt_ab.yaml
+python -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
+
+PYTHONPATH=src python scripts/check_env.py
+PYTHONPATH=src python scripts/validate_manifests.py
+
+# CPU-only preflight: omit --execute and confirmation.
+PYTHONPATH=src python -m math_rlvr.training.ppo \
+  --config configs/formal_1p5b/resolved/ppo_seed_42.json
+PYTHONPATH=src python -m math_rlvr.training.grpo \
+  --config configs/formal_1p5b/resolved/grpo_seed_42.json
 ```
 
-Real generation is not authorized by the training flags. It requires both
-`--generate-only --confirm-prompt-diagnostic`, a clean worktree, offline mode, and the
-exact local Qwen 0.5B snapshot. It uses the BF16 base model in eval/inference mode with
-all parameters frozen, matched seeds across prompt variants, 16 completions, and a 2,048
-token cap. Trainer, LoRA, train, backward, optimizer, checkpoint/model writes, retries,
-and automatic v1 activation are fail-closed.
+Real paid runs require explicit authorization, an exact local snapshot, a clean worktree, and both offline variables:
 
-The candidate decision is diagnostic only: v1 must improve complete-envelope rate, yield
-at least one envelope, avoid higher truncation, and create nonzero within-problem reward
+```bash
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src \
+python -m math_rlvr.training.ppo \
+  --config configs/formal_1p5b/resolved/ppo_seed_42.json \
+  --execute --confirm-formal-ppo
 
-`docs/prompt-diagnostic-artifact-schema.md`. A versioned capability manifest must prove
-paired artifacts, per-problem rewards, allocator evidence, failure backup, post-worker
-GPU verification, and cross-file consistency before the fixed worker may start. The
-non-CUDA parent launches one fixed spawned worker, then verifies PID exit, absence from
-the nvidia-smi compute list, and restoration to baseline before final backup/publication.
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src \
+python -m math_rlvr.training.grpo \
+  --config configs/formal_1p5b/resolved/grpo_seed_42.json \
+  --execute --confirm-formal-grpo
+```
 
-## Staged smoke reward v2
+Checkpoint validation and final evaluation use placeholders rather than private run IDs:
 
-After the first v1 GRPO smoke demonstrated a successful execution pipeline but zero
-within-group reward variance, the two 0.5B smoke configs now select the shared
-`shaped_v2_staged` policy. This is a public post-smoke intervention, not a rewrite of
-the historical run and not an activation for main/formal 1.5B experiments.
+```bash
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src \
+python -m math_rlvr.evaluation.formal \
+  --config configs/formal_1p5b/evaluation.json \
+  --phase validation --algorithm <ppo|grpo> --seed <SEED> --mode <ppo|grpo> \
+  --checkpoint-step <8|16|24|32> --checkpoint <TRUSTED_CHECKPOINT_DIR> \
+  --run-dir <NEW_VALIDATION_RUN_DIR> --execute --confirm-formal-evaluation
 
-The staged scalar components are answer block 0.05, strict protocol 0.05, safe valid
-expression 0.05, exact Countdown number use 0.05, and canonical correctness 0.80.
-Canonical `RewardStatus`, strict format metrics, pass@1/pass@4, expression validity,
-number-usage accuracy, and the sparse policy remain unchanged. `RESOURCE_LIMIT` gets
-no partial score; `INFRA_ERROR` aborts. Only an original strict canonical
-`VERIFIED_PASS` reaches 1.0.
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src \
+python -m math_rlvr.evaluation.formal \
+  --config configs/formal_1p5b/evaluation.json \
+  --phase final --algorithm <ppo|grpo> --seed <SEED> --mode <ppo|grpo> \
+  --checkpoint-step 32 --checkpoint <TRUSTED_CHECKPOINT_32> \
+  --run-dir <NEW_FINAL_RUN_DIR> --execute --confirm-formal-evaluation
 
-PPO and GRPO smoke configs resolve the same reward version, component weights, and
-policy SHA256. Both accepted current technical smokes used this identity; this does not
-authorize another GPU execution.
+python scripts/build_portfolio_v1.py
+```
 
+Exact same-run resume is restricted to project-created checkpoints whose run/config/model/suite identities and manifest hashes match. Use `--resume-checkpoint <TRUSTED_SAME_RUN_CHECKPOINT>` only with the original training command and never deserialize external checkpoints. See [checkpoint safety](docs/checkpoint-safety.md).
 
-## Stage D technical-smoke conclusion
+## Safety and artifact integrity
 
-The accepted PPO run `ppo_single_update_qwen25_05b_20260714T051538Z` and GRPO run
-`grpo_single_update_qwen25_05b_20260713T122258Z` both completed a real single update
-with the fixed Qwen 0.5B revision, `prompt_v1_strict_concise`,
-`shaped_v2_staged`, nonzero reward variation, and safe adapter-only checkpoints.
-Stage D technical smoke is complete.
+Generated model text is parsed as data and never executed. The verifier uses AST/Fraction-based arithmetic and `math-verify`; it does not use `eval`, `exec`, dynamic imports, generated-code execution, or subprocess execution. The pipeline does not require Docker or Modal. Credentials, environment dumps, Hugging Face cache, base weights, full checkpoints, optimizer state, and large run archives are excluded from Git. Public summaries use `null`/`available=false`/reason for unavailable metrics—never invented zeros.
 
-These single-update smokes validate execution, evidence, reward integration, and
-checkpoint paths only. They do not prove task learning or that PPO is better than
-GRPO. The runs are not an algorithm-effect comparison because PPO used four prompts
-with one response each while GRPO used two prompts with four responses each, and their
-completion/token budgets differ. See `reports/stage_d/smoke_readiness_matrix.md` for
-the evidence matrix and the planning-only matched 0.5B pilot proposal.
+Browse the [artifact index](ARTIFACT_INDEX.md), [release manifest](release/portfolio_v1_manifest.json), [reproducibility guide](REPRODUCIBILITY.md), and [engineering postmortem](docs/engineering_postmortem.md).
 
+## Limitations
 
-## Matched 0.5B pilot freeze
+- The policy is only 1.5B parameters and each run uses 32 updates / 512 training completions.
+- Validation contains 64 problems; integer counts matter more than smooth-looking percentages.
+- Only seed 42 has the complete Base/PPO/GRPO final-test comparison. Seed-123 final evaluations are `deferred_not_executed`.
+- Pass@1 and pass@4 use independent candidate pools and cannot be treated as nested.
+- PPO and GRPO losses are algorithm-specific; native entropy definitions are not directly comparable across algorithms.
+- Two training seeds do not support a general statistical-significance claim.
+- Held-out test results may not be used to tune the proposed GRPO-v2 phase.
+- Some optional TRL telemetry is unavailable and is explicitly represented as such.
 
-`Matched 0.5B pilot - not the final benchmark`
+Full caveats: [docs/limitations.md](docs/limitations.md).
 
-The CPU-only pilot freeze selects the first four Countdown train records in original
-order and matches PPO/GRPO at four responses per prompt, 16 completions, a 2,048-token
-hard cap, one optimizer/global update, policy LoRA, sampling, and seeds 42/123/2026.
-The ordered manifest SHA256 is
-`0235210e038bc27ebf2e7218691f36f09c8e11f0bbc743f46a5318a279f6bc1f`.
-Six committed resolved JSON configs are authorized by exact path and SHA; temporary CLI
-seed overrides are forbidden. Parser and Countdown verifier identities are derived
-from canonical semantic JSON, not comments or Markdown.
+## Project map
 
-The two execution-contract blockers are resolved CPU-only. PPO now replaces the TRL
-0.24.0 shuffled loader immediately after Trainer construction with an explicit
-single-device `SequentialSampler` loader, prepared by the existing Trainer Accelerator.
-The prepared batch and the iterator consumed by `train()` must both match the 16
-prompt-major episode identities. PPO and GRPO finalization select immutable 4/8/16
-evidence profiles only from exact config path/SHA256 allowlists; online overflow and
-final under/over counts fail closed without weakening Stage D.
+- [`src/math_rlvr/`](src/math_rlvr/) — prompt, rewards, verifiers, training/evaluation entry points, accounting, and artifact contracts.
+- [`configs/formal_1p5b/`](configs/formal_1p5b/) — frozen model, data, training, and evaluation identities.
+- [`reports/formal_1p5b/`](reports/formal_1p5b/) — reports, machine-readable metrics, figures, checksums, and run registry.
+- [`reports/formal_1p5b/13_seed42_final_comparison.md`](reports/formal_1p5b/13_seed42_final_comparison.md) — complete seed-42 final comparison.
+- [`docs/interview_guide.md`](docs/interview_guide.md) — concise technical discussion guide.
+- [`release/remote_artifacts.md`](release/remote_artifacts.md) — large artifacts retained outside GitHub.
 
-This makes the six pilot commands technically ready for a future separately authorized
-GPU suite; it does not authorize or execute them. The existing `--execute
---confirm-single-update` controls, clean/offline/snapshot gates, fixed ordering and zero
-retry policy remain. See `reports/pilot_0p5b/execution_contract_fix.md` and
-`reports/pilot_0p5b/plan.md`. A matched pilot is execution/aggregation evidence only;
-it cannot prove learning or PPO/GRPO superiority.
-
-### Matched 0.5B pilot result
-
-The six-run matched PPO/GRPO pilot is complete. It validates matched execution,
-single-update budgets, checkpoint safety, and aggregatable artifacts; it is not the
-final benchmark and does not establish learning or algorithm superiority. All six
-runs had zero canonical pass@1/pass@4. See
-`reports/pilot_0p5b/final_report.md` for the three-seed results and limitations.
-
-## Stage E formal 1.5B freeze
-
-Stage E freezes the CPU-only formal experiment at
-`Qwen/Qwen2.5-1.5B-Instruct` revision
-`989aa7980e4cf806f80c7fef2b1adb7bc71aa306`. No weights or tokenizer were downloaded or
-loaded, CUDA was not initialized, and no generation or training occurred. The six
-resolved descriptors under `configs/formal_1p5b/resolved/` bind seeds 42/123/2026,
-the same prompt/reward/parser/verifier/data identities, 32 updates, 512 completions,
-a 131,072-token cap, and checkpoints at steps 8/16/24/32.
-
-PPO derives rollout batch 16 from microbatch 4 and GA4, with one PPO epoch and one
-minibatch per update. GRPO uses generation batch 16, four generations, microbatch 4,
-GA4, and no dataset shuffle. Both have exactly 32 optimizer/global steps. PPO's
-separate value base, rank-8 q/v adapter, and scalar head are an explicit algorithmic
-cost difference; they are never presented as a matched model architecture.
-
-The frozen baseline/final protocol uses GSM8K test 200 and MATH500 200 for pass@1 plus
-fixed 50+50 subsets for pass@4. Test data is used only for the shared base baseline and
-fixed step-32 final evaluation, never for prompt, reward, hyperparameter, or checkpoint
-selection. See `reports/formal_1p5b/experiment_plan.md`. Model download, CUDA sanity, and the
-two-seed baseline are now complete; every training run remains separately authorized.
-
-### Formal 1.5B four-run amendment
-
-The original six-run Stage E decision remains preserved at commit `499fea9f`. The
-active portfolio-scale comparison now uses PPO/GRPO for seeds 42 and 123 only, with a
-seed-42 review before seed 123 and four fixed step-32 final evaluations. The two
-seed-2026 descriptors remain frozen as `reserved_not_scheduled` and are excluded from
-the active queue, costs, and statistics. Two seeds support transparent raw results,
-mean, sample SD, paired deltas, and problem-level bootstrap intervals—not a claim of
-statistical significance or general algorithm superiority.
-
-The formal CPU runtime is frozen in `math_rlvr.training.formal_runtime` and
-`math_rlvr.evaluation.formal_runtime`. Fake PPO and GRPO runs exercise all 32 updates,
-512 ordered completions, four checkpoints/validations, same-run resume continuity,
-overflow failure, backup, and baseline/final artifact finalization. This does not
-authorize or claim a 1.5B model load or training result.
-
-
-## Current formal 1.5B status
-
-The pinned Qwen 1.5B snapshot download and local-only BF16 CUDA/model-load sanity are
-complete. The frozen base baseline also completed successfully for seeds 42 and 123;
-results and CSV-derived figures are in
-[`reports/formal_1p5b/01_baseline_results.md`](reports/formal_1p5b/01_baseline_results.md).
-
-Two earlier seed-42 engineering attempts are preserved unchanged: one failed reward-
-evidence serialization at 0/800 and one hit the historical 512-token prompt cap at
-642/800. Both are explicitly excluded from scientific statistics. The public
-post-freeze capacity amendment and full audit are documented in
-[`reports/formal_1p5b/prompt_length_amendment.md`](reports/formal_1p5b/prompt_length_amendment.md).
-
-Two formal PPO seed-42 attempts remain immutable engineering failures as individual
-runs. Stage H.3 has now recovered all four checkpoint validations from the second
-attempt's trusted checkpoints without rerunning or resuming training. The transparent
-composite is `scientifically_complete_with_recovered_validation`; its 32-update
-training and checkpoint curves are in
-[`reports/formal_1p5b/03_ppo_training.md`](reports/formal_1p5b/03_ppo_training.md).
-Stage H.4 corrected prospective valid-answer telemetry without changing optimization.
-Stage I completed formal GRPO seed 42, and Stage J completed formal GRPO seed 123
-without changing the frozen contract. Both runs have 32 updates, 512 training
-completions, safe checkpoints, and four frozen validations. Reports are in
-[`04_grpo_training.md`](reports/formal_1p5b/04_grpo_training.md),
-[`06_grpo_seed123_training.md`](reports/formal_1p5b/06_grpo_seed123_training.md), and
-[`07_grpo_seed_stability.md`](reports/formal_1p5b/07_grpo_seed_stability.md). The
-two-seed review is descriptive, not a significance or superiority claim. PPO seed 123
-is also complete; current execution status is maintained below and in
-[`docs/NEXT_TASK.md`](docs/NEXT_TASK.md).
-
-
-### Stage K formal PPO seed-123 result
-
-`ppo_formal_1p5b_seed123_20260720T043732Z` completed 32 updates, 512 training
-completions, 51,969 rollout tokens, four safe checkpoints, and four frozen 64-problem
-validations in one attempt. Validation pass@1 was 3.1250%, 4.6875%, 4.6875%, and
-4.6875%; pass@4 is unavailable under the one-candidate protocol. The backup verified,
-and the GPU returned to 0 MiB/no process.
-
-All four active PPO/GRPO training runs are now complete. See
-[`08_ppo_seed123_training.md`](reports/formal_1p5b/08_ppo_seed123_training.md),
-[`09_ppo_seed_stability.md`](reports/formal_1p5b/09_ppo_seed_stability.md), and
-[`10_four_run_training_validation_aggregate.md`](reports/formal_1p5b/10_four_run_training_validation_aggregate.md).
-The comparison remains descriptive: two seeds do not establish significance. Stage L1
-subsequently completed the first fixed step-32 held-out final evaluation, as recorded
-below.
-
-### Stage L1 PPO seed-42 held-out final evaluation
-
-[`11_ppo_seed42_final_evaluation.md`](reports/formal_1p5b/11_ppo_seed42_final_evaluation.md)
-records the fixed checkpoint-32 result: 800 completions, 98,018 tokens, sampled pass@1
-3.75%, and independent-pool pass@4 9.0%. Matching seed-42 base values are 4.0% and
-10.0%; paired intervals span zero, so the result is descriptive rather than evidence of
-a general gain. The first process was interrupted by a host outage at 429 rows and is
-preserved and excluded; the successful run started from zero and reused none of it.
-GPU release and both backups verified. The next separately authorized stage is GRPO
-seed-42 checkpoint-32 final evaluation; no other final evaluation starts automatically.
-
-### Stage L2 GRPO seed-42 held-out final evaluation
-
-[`12_grpo_seed42_final_evaluation.md`](reports/formal_1p5b/12_grpo_seed42_final_evaluation.md)
-records 800/800 completions and 94,288 tokens from the fixed GRPO checkpoint-32:
-sampled pass@1 7.0% and independent pass@4 14.0%. The matched three-way analysis in
-[`13_seed42_final_comparison.md`](reports/formal_1p5b/13_seed42_final_comparison.md)
-finds GRPO42 +3.0 points versus Base and +3.25 versus PPO42 on pass@1; the one-seed
-result does not establish general superiority. All checksums and the persistent backup
-verified, and GPU release was 0 MiB/no process. The next separately authorized stage is
-GRPO seed-123 checkpoint-32 final evaluation.
+No license has been selected for this repository; no `LICENSE` file is included.

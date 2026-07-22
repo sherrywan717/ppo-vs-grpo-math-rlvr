@@ -2,9 +2,9 @@
 
 本文定义 Math RLVR 正式项目最终必须交付的证据、分析与 GitHub 结构。它是
 portfolio 交付合同，不授权模型下载、CUDA、评测或训练，也不改变已经冻结的
-实验配置。当前 0.5B matched pilot、1.5B snapshot/CUDA sanity 和 frozen base
-baseline 已完成；唯一有效 next task 以 `docs/NEXT_TASK.md` 为准，当前为 Stage H
-formal PPO seed 42。
+实验配置。当前四个 1.5B formal training/checkpoint-validation runs 和 seed-42 Base/PPO/GRPO
+final comparison 已完成；GRPO123/PPO123 final evaluation 为 `deferred_not_executed`。
+唯一有效 next task 以 `docs/NEXT_TASK.md` 为准。
 
 ## 1. 最终项目必须回答的问题
 

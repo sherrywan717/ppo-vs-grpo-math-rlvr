@@ -11,9 +11,9 @@ a derived document agree.
 ## Verified repository state
 
 - Branch: `pivot/math-rlvr`
-- Stage L2 execution base HEAD: `fbd2e5c0cdfa2d7d7c1e0cd951ff2ea2c6ecb794`
-- Stage L2 result: the commit containing this handoff and the GRPO42 final reports.
-- Worktree: clean at Stage L2 start; expected clean after the result commit.
+- Stage M publication base HEAD: `48d368a95fe09e2606bbda8671cbfbe8e6261840`
+- Portfolio release: `v0.1.0-formal-rlvr`; publication commit is the commit containing this handoff.
+- Worktree: clean at Stage M start; expected clean after publication.
 - Model: `Qwen/Qwen2.5-1.5B-Instruct`
 - Revision: `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`
 - Canonical local snapshot:
@@ -294,13 +294,12 @@ All Base/PPO/GRPO candidate identities match. GRPO minus Base pass@1 is +3.0 poi
 Both independent-pass@4 intervals span zero. This one-seed result is not a general
 algorithm-superiority claim and did not affect any scientific setting.
 
+## Stage M portfolio freeze
+
+Portfolio v1 publishes the frozen four-run training/validation evidence and the complete seed-42 Base/PPO/GRPO final comparison. The headline sampled pass@1 is Base 4.0%, PPO 3.75%, and GRPO 7.0%. GRPO versus Base is +3.0 points with paired bootstrap 95% CI [+1.0,+5.0] and exact McNemar p=0.00754; GRPO versus PPO is +3.25 points with CI [+1.25,+5.5] and p=0.00443. Positive pass@4 deltas remain trends because their intervals cross zero.
+
+GRPO seed-123 and PPO seed-123 final evaluations are `deferred_not_executed`. Their completed training and 64-problem checkpoint-validation evidence remains public, but no final-test value is inferred. Model caches, complete checkpoints/optimizer state, credentials, and large runtime archives remain outside GitHub and are indexed in `release/remote_artifacts.md`.
+
 ## Unique next task
 
-The only next task is a separately authorized GRPO seed-123 checkpoint-32 held-out
-final evaluation under the same frozen protocol. Do not start it automatically.
-PPO123 final evaluation, CPU final aggregation, seed 2026, baseline reruns, and training
-remain unauthorized. Exact scope is in `docs/NEXT_TASK.md`.
-
-All historical runs and successful baselines remain immutable. Missing or unreliable
-metrics remain null/unavailable with reasons; noncritical telemetry and presentation
-issues are warnings only.
+After publication, the only next task is a separately authorized CPU-only Stage N GRPO-v2 design freeze. It must create a new versioned identity and may not tune against the published held-out test. No GPU task is authorized. See `docs/NEXT_TASK.md` and `docs/grpo_v2_roadmap.md`.

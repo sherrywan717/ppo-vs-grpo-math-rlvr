@@ -1,0 +1,16 @@
+# Remote-only artifacts
+
+GitHub contains the Git-safe evidence layer. The following large runtime artifacts remain on the AutoDL persistent volume and are deliberately excluded from Git and the static portfolio package. Paths are provenance records, not portable download URLs.
+
+| Run ID | Remote archive | Archive SHA256 | Checkpoint-32 artifact manifest SHA256 | Why excluded |
+|---|---|---|---|---|
+| `baseline_formal_1p5b_seed42_20260718T125833Z` | `/root/autodl-fs/math-rlvr-backups/baseline_formal_1p5b_seed42_20260718T125833Z.tar.gz` | `77105f38c67ecb773edc54cedb63fe489df1298155d2eabbe0cf07e7b7cd5a13` | not_applicable | Full generation runtime archive |
+| `baseline_formal_1p5b_seed123_20260718T133624Z` | `/root/autodl-fs/math-rlvr-backups/baseline_formal_1p5b_seed123_20260718T133624Z.tar.gz` | `e473075db8123664c13a3d77e8c9960be108fe881aa5deef88c04660bff2edf0` | not_applicable | Full generation runtime archive |
+| `ppo_formal_1p5b_seed42_20260719T131800Z` | `/root/autodl-fs/math-rlvr-backups/ppo_formal_1p5b_seed42_20260719T131800Z.failure.tar.gz` | `f63812afed44cdc9f0fcafdf0931454548da1a4ce145840ebf91bb6fa5a6d7c5` | `18534747eb6bb1c0945676c7490fce29c90e1f67bff939bd9318ee1101ee1952` | Full checkpoint/optimizer/RNG runtime state; original post-training status remains immutable |
+| `grpo_formal_1p5b_seed42_20260720T031006Z` | `/root/autodl-fs/math-rlvr-backups/grpo_formal_1p5b_seed42_20260720T031006Z.tar.gz` | `b584363595f99c1d3b61a7b6cc088cdda7ac38a29169058df7b30cd38bea5023` | `c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a` | Full checkpoint/optimizer/RNG runtime state |
+| `grpo_formal_1p5b_seed123_20260720T035927Z` | `/root/autodl-fs/math-rlvr-backups/grpo_formal_1p5b_seed123_20260720T035927Z.tar.gz` | `e78eb0719bc93c1076bd06e50037cc453cbaa5103cf1e1fbfc9e8151212e521a` | `25cfad2d234530e7d0e17ea7156d3c98fb8bd96ce2d09bbf49ab9a6d026b343a` | Full checkpoint/optimizer/RNG runtime state; final test deferred |
+| `ppo_formal_1p5b_seed123_20260720T043732Z` | `/root/autodl-fs/math-rlvr-backups/ppo_formal_1p5b_seed123_20260720T043732Z.tar.gz` | `689924eaa4392a4806f9d1adaa2bbf890b76d6813a6edfeafc2ca50213bc63c0` | `61b0364c79317bec1391e1087d680c8eced17c7ec66190254534ef887ba650b1` | Full checkpoint/optimizer/RNG runtime state; final test deferred |
+| `ppo_final_formal_1p5b_seed42_20260721T022152Z` | `/root/autodl-fs/math-rlvr-backups/ppo_final_formal_1p5b_seed42_20260721T022152Z.tar.gz` | `04fcb03b22ab74e865e2627c0e02460b62c6c731e2245d054aefe5ff6b562fc1` | `18534747eb6bb1c0945676c7490fce29c90e1f67bff939bd9318ee1101ee1952` | Full final-evaluation runtime archive |
+| `grpo_final_formal_1p5b_seed42_20260721T034104Z` | `/root/autodl-fs/math-rlvr-backups/grpo_final_formal_1p5b_seed42_20260721T034104Z.tar.gz` | `97be0c2f1931690fb631dec557eb17201df12b177810c0b270192c46e6920e48` | `c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a` | Full final-evaluation runtime archive |
+
+The canonical Hugging Face snapshot at `/root/autodl-tmp/cache/huggingface` is also excluded. It contains the pinned Qwen base weights and is reproducible from the public repository ID plus revision; individual multi-gigabyte weight hashes are intentionally not duplicated in Git. No archive or model weight is copied into the GitHub repository or portfolio tarball.

@@ -1057,3 +1057,13 @@ This file records operational history and pitfalls that should survive context c
 - No training, resume, backward, optimizer, baseline/PPO rerun, seed-123 evaluation,
   or scientific-config change occurred. The next queue position is separately
   authorized GRPO seed-123 checkpoint-32 final evaluation.
+
+## Stage M portfolio v1 freeze and publication
+
+- Publication base: branch `pivot/math-rlvr`, HEAD `48d368a95fe09e2606bbda8671cbfbe8e6261840`, clean worktree.
+- Public frozen headline: seed-42 Base/PPO/GRPO pass@1 4.0%/3.75%/7.0%; pass@4 10.0%/9.0%/14.0%. GRPO pass@1 paired deltas are +3.0 pp versus Base and +3.25 pp versus PPO; pass@4 intervals cross zero.
+- Step-32 validation correct counts: PPO42 2/64, PPO123 3/64, GRPO42 5/64, GRPO123 6/64.
+- GRPO123/PPO123 training and validation remain complete; their final tests are `deferred_not_executed` and excluded from final-test claims.
+- Portfolio figures are regenerated only from committed CSV/JSON by `scripts/build_portfolio_v1.py`. Full checkpoints, model cache, optimizer state, credentials, and large archives remain outside GitHub.
+- Release tag: `v0.1.0-formal-rlvr`. The publication commit, archive path/SHA, remote verification, and GitHub URL are recorded by Git/release artifacts rather than inferred here.
+- Next decision: separately authorized CPU-only Stage N GRPO-v2 design freeze; the published held-out test is prohibited for tuning.

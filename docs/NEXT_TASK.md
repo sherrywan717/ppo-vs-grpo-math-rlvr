@@ -1,31 +1,15 @@
-# Next task: Stage L3 formal GRPO seed-123 final evaluation
+# Next task: Stage N GRPO-v2 CPU-only design freeze
 
-Status: all four active formal training/checkpoint-validation results are complete.
-Fixed checkpoint-32 held-out final evaluations are complete for PPO seed 42 and GRPO
-seed 42. Stage L2 run `grpo_final_formal_1p5b_seed42_20260721T034104Z` completed
-800/800 candidates and is included in the scientific aggregate.
+Portfolio v1 freezes the current scientific result. All four formal training/checkpoint-validation runs are complete; held-out final evaluation is complete for Base/PPO/GRPO at seed 42. GRPO seed-123 and PPO seed-123 final evaluations are deliberately `deferred_not_executed` and must not be inferred or represented as zero.
 
-The only next task is a separately authorized fixed checkpoint-32 final evaluation:
+The only next task after Stage M publication is a separately authorized **CPU-only** GRPO-v2 design freeze:
 
-- algorithm: GRPO
-- seed: 123
-- training run: `grpo_formal_1p5b_seed123_20260720T035927Z`
-- checkpoint: trusted `checkpoint-32` policy adapter
-- evaluation config: `configs/formal_1p5b/evaluation.json`
-- evaluation config canonical SHA256:
-  `d8ba5ab80ab0553d2ec7246fb4876956dcbc5dd0bcf8642fd33c4ec19da6fe44`
-- frozen protocol: 400 test problems plus the independent fixed 100-problem pass@4
-  pool, 800 completions
-- checkpoint choice: fixed at step 32 before training; validation/test cannot change it
+- create a new versioned experiment identity; never edit portfolio-v1 configs or artifacts;
+- use training/validation evidence only for design and selection; the published held-out test is forbidden for tuning;
+- pre-register candidate changes, budgets, seeds, selection/stopping rules, and artifact contracts;
+- preserve safe parser/verifier behavior, per-candidate evidence, token accounting, null/unavailable semantics, and model/cache/checkpoint publication boundaries;
+- produce no CUDA initialization, model/tokenizer loading, generation, training, validation, or final evaluation without a later explicit authorization.
 
-Before execution require a new explicit GPU authorization, clean worktree, exact
-checkpoint/config/suite/model/prompt/reward/parser/verifier identities, local-only
-snapshot, idle H800, and a new run ID. That authorization must freeze the exact command,
-one-attempt scope, progress, failure, artifact, and backup contracts.
+Planning entry point: `docs/grpo_v2_roadmap.md`.
 
-Preserve Base, PPO42, and GRPO42 final evidence and backups. Do not run PPO seed-123
-final evaluation, CPU final aggregation, seed 2026, baseline, training, or any automatic
-retry/next stage.
-
-This file authorizes no CUDA initialization, model loading, generation, evaluation, or
-training.
+Stage M itself authorizes only CPU-side portfolio audit, documentation, packaging, Git commit/tag, and GitHub publication. It does not authorize any GPU task.

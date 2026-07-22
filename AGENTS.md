@@ -6,6 +6,12 @@ This repository is the artifact-first Math RLVR project. Its goal is a reproduci
 
 Never advance to a new paid/GPU stage implicitly. Model download, CUDA initialization, model loading, generation, and PPO/GRPO updates each require the user's explicit scope. A successful stage does not authorize the next stage.
 
+## Portfolio v1 and current mainline
+
+Portfolio v1 freezes four completed formal training/checkpoint-validation runs and the seed-42 Base/PPO/GRPO held-out comparison. GRPO123 and PPO123 final evaluations are `deferred_not_executed`; never infer them from validation or encode them as zero. Public headline claims must remain limited to the paired seed-42 result and the descriptive two-seed validation direction. Pass@1 and pass@4 use independent candidate pools.
+
+The next mainline is a separately versioned GRPO-v2 design phase. It must not edit v1 artifacts/configs or tune from the published held-out test. Credentials, model cache, full checkpoints, optimizer state, and large run archives never enter GitHub. Every public figure must be reproducible from committed CSV/JSON. See `docs/PORTFOLIO_DELIVERABLES.md`, `ARTIFACT_INDEX.md`, and `docs/grpo_v2_roadmap.md`.
+
 ## Current Baseline and Milestones
 
 The active branch is `pivot/math-rlvr`. Important milestones are:

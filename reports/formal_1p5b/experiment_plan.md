@@ -457,3 +457,11 @@ paired bootstrap 95% CI [+1.0,+5.0]; GRPO minus PPO is +3.25 points with CI
 descriptive for one training seed and did not select a checkpoint or change any frozen
 variable. The next queue position is GRPO seed-123 checkpoint-32 final evaluation and
 requires separate authorization.
+
+## Stage M portfolio-v1 publication amendment
+
+The project mainline intentionally defers the two remaining seed-123 checkpoint-32 final evaluations. Their status is `deferred_not_executed`, not failure and not zero. The completed four-run training/checkpoint-validation matrix and the complete seed-42 Base/PPO/GRPO held-out comparison form portfolio v1.
+
+This publication decision changes no scientific model, data, prompt, reward, parser/verifier, LoRA, sampling, training budget, checkpoint, candidate pool, or stored result. Pass@1 remains 400 problems × one candidate and pass@4 remains an independent fixed 100-problem × four-candidate pool. All figures are regenerated from saved CSV/JSON.
+
+The next phase, if separately authorized, is a new GRPO-v2 identity designed using training/validation evidence only. Portfolio-v1 test outcomes cannot tune it. No deferred final result may be inferred from the 64-problem validation.
