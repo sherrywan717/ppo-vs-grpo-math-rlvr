@@ -173,3 +173,7 @@ Stage O.3 supersedes the unexecuted 50-problem pass@10 proposal with a shared 10
 ### GRPO-v2 Stage P status
 
 The seed-42 warm-start [`warmstart_grpo_v2_seed42_20260722T051218Z`](reports/grpo_v2/warmstart/warmstart_grpo_v2_seed42_20260722T051218Z/report.md) completed its exact 256-sample/one-epoch/16-step contract and produced a verified adapter-only checkpoint. Base and warm-start matched dev-v2 evaluations are `not_executed_evaluator_unavailable` because this commit has no frozen model-bound dev evaluator; this is not recorded as zero and does not invalidate training. GRPO-v2 and hidden test have not started.
+
+### Stage P.1 evaluator status
+
+A single guarded matched dev-v2 evaluator is frozen for the 128-problem Base versus warm-start comparison. It uses identical candidate-0 sampling and evidence identities in both modes; warm-start is bound to the immutable checkpoint-16 adapter. CPU gates passed without CUDA. The next execution is Base dev followed by warm-start dev; GRPO-v2 and hidden test remain unexecuted.

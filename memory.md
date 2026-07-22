@@ -1099,3 +1099,10 @@ This file records operational history and pitfalls that should survive context c
 - Checkpoint artifact `507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0`; adapter `44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9`. Optimizer state matched all 4,358,144 LoRA elements; GRPO handoff uses only the policy adapter with a fresh optimizer.
 - Runtime backup SHA `6515c49d64a857a5de6d1bb859f0a7a30034ccea00da4a40132091d2faa51592`; postprocess backup SHA `5f0287e4e30f94cb45645fb7f12eec728ea74be68195e3fa8d6904adca85b97e`. Peak VRAM 23,443 MiB; 15.324s / 0.004257 GPU-hours / CNY0.0378; final GPU 0 MiB/no process.
 - Base and warm-start dev-v2 did not run because no frozen model-bound dev evaluator exists. Both are `not_executed_evaluator_unavailable`; no generation occurred. Next decision is CPU-only evaluator implementation/freeze, not GRPO-v2.
+
+## 2026-07-22 — Stage P.1 matched dev evaluator freeze
+
+- Added one shared guarded Base/warm-start dev-v2 evaluator and config raw SHA `8501bfb945f85dda895d9278bb5d1d74a5d9c2c0791f9daa7cb0152d25e02528`. Runtime registry canonical SHA is `fc1cbf10698528a084406adf7a88f9f64cd02141f63d5c91cb9b025d07997db2`.
+- The evaluator fixes 128 candidate-0 completions, identical plan/order/seeds/sampling, 32,768-token ceiling, inference-only roles, incremental evidence, verified backup, and parent post-worker GPU release. Base forbids adapters; warm-start binds checkpoint artifact `507749d3...92f0` and adapter `44066dd1...72b9`.
+- CPU validation passed 15 evaluator/safety tests, two affected registry regressions, Base/warm dry-runs, 128-prompt tokenizer audit (112--453, no overflow), Ruff, compileall and manifest validation. CUDA/model/generation/training remained zero during Phase A.
+- Next authorized execution is exactly Base dev followed by warm-start dev. Warm-start training is not rerun; GRPO-v2 and hidden test remain blocked.

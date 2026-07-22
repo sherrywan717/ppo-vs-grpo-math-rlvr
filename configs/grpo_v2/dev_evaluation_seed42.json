@@ -1,0 +1,87 @@
+{
+  "budget": {
+    "automatic_retries": 0,
+    "candidates_per_problem": 1,
+    "max_generated_tokens": 32768,
+    "max_vram_gib": 24,
+    "max_wall_time_seconds": 1800,
+    "total_completions": 128,
+    "unique_problems": 128
+  },
+  "dev": {
+    "domain_counts": {
+      "gsm8k": 64,
+      "math": 64
+    },
+    "manifest": "configs/grpo_v2/manifests/dev_v2.jsonl",
+    "manifest_sha256": "bdf02e1202e564177fea59f80f0b0ac8a36649daf8636ed6dd5bf3e5f6356b80",
+    "math_level_counts": {
+      "1": 16,
+      "2": 24,
+      "3": 24
+    },
+    "trusted_manifest": "/root/autodl-tmp/datasets/math_rlvr/grpo_v2/trusted/dev_v2_trusted.jsonl",
+    "trusted_manifest_sha256": "2b1739b7ec64f53f3772f5ea975b8d0466d632cb13dce00e133926e88d30b328"
+  },
+  "experiment": "grpo_v2_matched_dev_seed42",
+  "metrics": {
+    "candidate0_pass_at_1": true,
+    "pass_at_10": {
+      "available": false,
+      "reason": "dev_protocol_one_candidate_per_problem",
+      "value": null
+    },
+    "pass_at_4": {
+      "available": false,
+      "reason": "dev_protocol_one_candidate_per_problem",
+      "value": null
+    }
+  },
+  "model": {
+    "dtype": "bfloat16",
+    "local_files_only": true,
+    "repo": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+  },
+  "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+  "prompt": {
+    "max_completion_length": 256,
+    "max_prompt_length": 832,
+    "renderer": "math_rlvr.prompt.chat_template.v1",
+    "sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "version": "prompt_v2_formal_math"
+  },
+  "reward": {
+    "policy": "shaped_v3_domain",
+    "sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463"
+  },
+  "sampling": {
+    "candidate_index": 0,
+    "do_sample": true,
+    "per_problem_seed_namespace": "grpo_v2/dev_v2/single_candidate",
+    "temperature": 0.8,
+    "top_p": 0.95
+  },
+  "schema_version": 1,
+  "seed": 42,
+  "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd",
+  "warmstart_checkpoint": {
+    "adapter_sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
+    "artifact_sha256": "507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0",
+    "config_sha256": "c8e3e0a52d55f46b201c1b4a95e0f9b2f910ae558e477b55a35d03fd4ec8549a",
+    "lora": {
+      "alpha": 32,
+      "dropout": 0,
+      "rank": 16,
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj"
+      ]
+    },
+    "path": "/root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16",
+    "role": "policy",
+    "run_id": "warmstart_grpo_v2_seed42_20260722T051218Z"
+  }
+}

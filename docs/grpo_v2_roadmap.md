@@ -28,3 +28,7 @@ The O.2 50-problem pass@10 design is historical and `superseded_before_any_evalu
 ## Stage P execution status
 
 Warm-start `warmstart_grpo_v2_seed42_20260722T051218Z` is complete and immutable: 256 samples, one epoch, 64 microsteps, 16 optimizer/global/scheduler steps, checkpoint-16 artifact `507749d3...92f0`. Base and warm-start dev-v2 remain `not_executed_evaluator_unavailable` because no frozen model-bound dev evaluator existed; no result is represented as zero. The next stage is CPU-only evaluator implementation/freeze, then a new explicit authorization for the two matched dev runs. GRPO-v2 and hidden test remain blocked and unexecuted.
+
+## Stage P.1 matched dev evaluator
+
+The shared evaluator is frozen at `configs/grpo_v2/dev_evaluation_seed42.json` (raw SHA `8501bfb9...2528`). It evaluates 128 ordered dev-v2 problems with one candidate each, identical per-problem seeds, prompt/parser/verifier/reward and sampling for Base and warm-start. The only model-state difference is the exact immutable checkpoint-16 policy adapter. Pass@4/pass@10 are unavailable by protocol. Phase A CPU gates passed; Phase B runs Base then warm-start once each. GRPO-v2 and hidden test remain unauthorized.

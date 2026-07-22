@@ -16,7 +16,7 @@
       "status": "complete"
     },
     "grpo_v2": {
-      "status": "not_run_blocked_on_matched_dev_evaluator"
+      "status": "not_run_blocked_on_matched_dev_results"
     },
     "hidden_test": {
       "active_contract": "shared_unbiased_pass_k_n10_v1",
@@ -47,15 +47,15 @@
       "supervised_tokens": 46058
     },
     "warmstart_dev": {
-      "base_status": "not_executed_evaluator_unavailable",
-      "completion_count": 0,
-      "generated_tokens": 0,
-      "reason": "no_frozen_model_bound_dev_v2_evaluator_or_cli_exists_at_authorized_HEAD",
-      "status": "not_executed_evaluator_unavailable",
-      "warmstart_status": "not_executed_evaluator_unavailable"
+      "base_run_id": "base_dev_grpo_v2_seed42_20260722T060500Z",
+      "completion_count_per_run": 128,
+      "evaluator_config_sha256": "8501bfb945f85dda895d9278bb5d1d74a5d9c2c0791f9daa7cb0152d25e02528",
+      "generated_tokens": null,
+      "status": "evaluator_frozen_runs_authorized_pending_execution",
+      "warmstart_run_id": "warmstart_dev_grpo_v2_seed42_20260722T060500Z"
     }
   },
-  "status": "warmstart_training_success_dev_evaluator_unavailable",
+  "status": "warmstart_training_success_dev_evaluator_frozen",
   "tokenizer_loads": 2,
   "training_updates": 16,
   "v1_artifacts_modified": false

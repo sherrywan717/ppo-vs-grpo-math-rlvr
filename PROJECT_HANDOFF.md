@@ -339,3 +339,7 @@ After publication, the only next task is a separately authorized CPU-only Stage 
 - Checkpoint-16 artifact SHA is `507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0`; adapter SHA is `44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9`. Runtime/postprocess backups are `6515c49d...1592` and `5f0287e4...b97e`.
 - Full-command wall time was 15.324s, peak nvidia-smi VRAM 23,443 MiB, GPU-hours 0.004257, and CNY 0.0378. GPU returned to 0 MiB with no compute process.
 - Base and warm-start dev-v2 were not executed: no frozen model-bound dev evaluator/CLI exists at this HEAD. Their values are unavailable, not zero. Training is not downgraded or rerun. The sole next task is the CPU-only evaluator freeze in `docs/NEXT_TASK.md`; GRPO-v2 remains unauthorized.
+
+## Stage P.1 matched dev evaluator freeze
+
+The CPU-only shared evaluator is frozen at config SHA `8501bfb945f85dda895d9278bb5d1d74a5d9c2c0791f9daa7cb0152d25e02528`; runtime registry canonical SHA is `fc1cbf10698528a084406adf7a88f9f64cd02141f63d5c91cb9b025d07997db2`. Fifteen evaluator/safety tests plus two directly affected registry regressions passed. The pinned tokenizer rendered all 128 dev prompts at 112--453 tokens under cap 832 without CUDA. Warm-start training/checkpoint remain immutable. The two separately authorized matched runs are now pending in strict Base then warm-start order; GRPO-v2 and hidden test remain unexecuted.

@@ -1,6 +1,19 @@
 {
-  "registry_sha256": "2dc3231f294ca9395ebe928d5408a73c1c50ee5986863a1b5bfde56c6730edcc",
+  "registry_sha256": "fc1cbf10698528a084406adf7a88f9f64cd02141f63d5c91cb9b025d07997db2",
   "schema_version": 1,
+  "dev_evaluation": {
+    "config_path": "configs/grpo_v2/dev_evaluation_seed42.json",
+    "config_sha256": "8501bfb945f85dda895d9278bb5d1d74a5d9c2c0791f9daa7cb0152d25e02528",
+    "data_registry_path": "configs/grpo_v2/data_registry.json",
+    "data_registry_sha256": "cd849ef5eb34f1e88562bdbbb3b13184c3d82b54f57b24d3e18e47586ed7e8e3",
+    "dev_manifest_path": "configs/grpo_v2/manifests/dev_v2.jsonl",
+    "dev_manifest_sha256": "bdf02e1202e564177fea59f80f0b0ac8a36649daf8636ed6dd5bf3e5f6356b80",
+    "expected_branch": "improve/grpo-v2",
+    "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "status": "frozen_not_run",
+    "trusted_manifest_path": "/root/autodl-tmp/datasets/math_rlvr/grpo_v2/trusted/dev_v2_trusted.jsonl",
+    "trusted_manifest_sha256": "2b1739b7ec64f53f3772f5ea975b8d0466d632cb13dce00e133926e88d30b328"
+  },
   "warmstart": {
     "capacity_amendment": "post_freeze_capacity_amendment",
     "config_path": "configs/grpo_v2/warmstart_seed42.json",
