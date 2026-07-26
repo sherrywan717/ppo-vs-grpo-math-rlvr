@@ -239,7 +239,10 @@ class CompletionEvidenceRecorder:
             raise TRLContractError("GRPO evidence requires a GRPO execution profile")
         self.contract = expected_contract
         self.expected_completions = expected_contract.expected_completions
-        self.multi_batch = expected_contract.profile == "grpo_formal_1p5b"
+        self.multi_batch = expected_contract.profile in {
+            "grpo_formal_1p5b",
+            "grpo_v2_1p5b",
+        }
         self._reward_records: list[dict[str, Any]] = []
         self._completion_records: list[dict[str, Any]] = []
 
@@ -428,6 +431,7 @@ def guarded_trainer_class(
     guard,
     evidence_recorder: CompletionEvidenceRecorder,
     checkpoint_callback=None,
+    update_callback=None,
     *,
     step_offset=0,
 ):
@@ -452,6 +456,12 @@ def guarded_trainer_class(
             return checkpoint_callback(
                 self, step_offset + int(self.state.global_step)
             )
+
+        def log(self, logs, start_time=None):
+            result = super().log(logs, start_time)
+            if "loss" in logs and update_callback is not None:
+                update_callback(self, step_offset + int(self.state.global_step))
+            return result
 
         def _generate_and_score_completions(self, inputs):
             payload = super()._generate_and_score_completions(inputs)

@@ -164,20 +164,25 @@ No license has been selected for this repository; no `LICENSE` file is included.
 
 ## GRPO-v2 preregistered improvement branch
 
-Stage N freezes a new seed-42 **format/solution warm-start + GRPO-v2 RLVR** protocol on `improve/grpo-v2`; no GPU execution has occurred. It expands RL coverage to 512 unique prompts and 128 updates while retaining the v1 model, prompt, reward, parser/verifier, sampling, LoRA, and 256-token completion cap. The hidden test is strictly disjoint from all v1/core data and uses a genuine nested pass@4 pool. See the [design decision](reports/grpo_v2/design_decision.md), [data freeze](reports/grpo_v2/data_freeze_report.md), and [roadmap](docs/grpo_v2_roadmap.md). Portfolio-v1 results remain unchanged.
+The `improve/grpo-v2` branch freezes a seed-42 **format/solution warm-start + GRPO-v2 RLVR** protocol. Warm-start and matched dev have run; GRPO-v2 and hidden test have not. It expands RL coverage to 512 unique prompts and 128 updates while retaining the v1 model, prompt, reward, parser/verifier, sampling, LoRA, and 256-token completion cap. The hidden test is strictly disjoint from all v1/core data and uses a genuine nested pass@4 pool. See the [design decision](reports/grpo_v2/design_decision.md), [data freeze](reports/grpo_v2/data_freeze_report.md), and [roadmap](docs/grpo_v2_roadmap.md). Portfolio-v1 results remain unchanged.
 
-Stage O.2 completed the CPU-only tokenizer and runtime gate. The original 256-token target audit failure is disclosed; the capacity-only amendment uses 928 prompt / 640 active-target gates while retaining the 1,088 actual-sequence ceiling. All 256 amended records pass without truncation. A guarded warm-start command now exists but has not been executed. Secondary nested pass@10 is preregistered as exploratory only.
+Stage O.2 completed the tokenizer/runtime gate. The original 256-token target audit failure is disclosed; the capacity-only amendment uses 928 prompt / 640 active-target gates while retaining the 1,088 actual-sequence ceiling. All 256 amended records pass without truncation, and the guarded warm-start later completed successfully. Secondary nested pass@10 is preregistered as exploratory only.
 
 Stage O.3 supersedes the unexecuted 50-problem pass@10 proposal with a shared 100-problem n=10 contract. Future hidden evaluation reports separate 400-problem candidate-0 accuracy from exact unbiased pass@1/pass@4/pass@10 over the unchanged shared subset; no hidden-test generation has run. See the [pass@k contract](reports/grpo_v2/pass_k_contract.md) and [amendment](reports/grpo_v2/evaluation_contract_amendment.md).
 
 ### GRPO-v2 Stage P status
 
-The seed-42 warm-start [`warmstart_grpo_v2_seed42_20260722T051218Z`](reports/grpo_v2/warmstart/warmstart_grpo_v2_seed42_20260722T051218Z/report.md) completed its exact 256-sample/one-epoch/16-step contract and produced a verified adapter-only checkpoint. Base and warm-start matched dev-v2 evaluations are `not_executed_evaluator_unavailable` because this commit has no frozen model-bound dev evaluator; this is not recorded as zero and does not invalidate training. GRPO-v2 and hidden test have not started.
+The seed-42 warm-start [`warmstart_grpo_v2_seed42_20260722T051218Z`](reports/grpo_v2/warmstart/warmstart_grpo_v2_seed42_20260722T051218Z/report.md) completed its exact 256-sample/one-epoch/16-step contract and produced a verified adapter-only checkpoint. Base and warm-start matched dev-v2 evaluations subsequently completed at 6/128 and 8/128. GRPO-v2 and hidden test have not started.
 
 ### Stage P.1 evaluator status
 
-A single guarded matched dev-v2 evaluator is frozen for the 128-problem Base versus warm-start comparison. It uses identical candidate-0 sampling and evidence identities in both modes; warm-start is bound to the immutable checkpoint-16 adapter. CPU gates passed without CUDA. The next execution is Base dev followed by warm-start dev; GRPO-v2 and hidden test remain unexecuted.
+A single guarded matched dev-v2 evaluator is frozen for the 128-problem Base versus warm-start comparison. It uses identical candidate-0 sampling and evidence identities in both modes; warm-start is bound to the immutable checkpoint-16 adapter. Both matched runs completed once. GRPO-v2 and hidden test remain unexecuted.
 
 ### GRPO-v2 matched dev result
 
 The frozen matched evaluation completed once per mode: Base achieved 6/128 candidate-0 pass@1 and warm-start 8/128. Format validity improved from 17/128 to 23/128. Five problems improved and three regressed; the +1.5625 pp paired delta has a bootstrap 95% interval of [-2.34375,+6.25] pp, so it is an uncertain dev-only gain rather than evidence of hidden-test superiority. [Full results](reports/grpo_v2/stage_p1_dev_results.md). GRPO-v2 and hidden test have not started.
+
+
+### GRPO-v2 Stage Q runtime freeze
+
+The guarded model-bound seed-42 runtime is now CPU/fake validated. It loads only the immutable warm-start policy adapter, initializes a fresh GRPO optimizer/scheduler, enforces 128 updates/512 microsteps/2,048 completions and writes adapter-only trusted checkpoints plus independent dev evaluations at 32/64/96/128. Hidden test remains sealed. The exact future command is in [`docs/NEXT_TASK.md`](docs/NEXT_TASK.md); no GRPO-v2 GPU run has started.

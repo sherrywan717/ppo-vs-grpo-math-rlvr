@@ -1,7 +1,19 @@
-# Next task: CPU-only freeze the guarded 128-update GRPO-v2 runtime
+# Next task: execute the frozen seed-42 GRPO-v2 run
 
-Stage P warm-start and both Stage P.1 matched dev evaluations are complete and immutable. Base achieved 6/128 candidate-0 pass@1; warm-start achieved 8/128 with a +1.5625 pp paired delta whose bootstrap interval includes zero. This supports protocol-following improvement and only an uncertain dev gain.
+Stage Q has frozen the guarded model-bound runtime. The sole next task, only after new explicit GPU authorization, is one seed-42 GRPO-v2 run from the immutable warm-start checkpoint-16 adapter. Do not run it implicitly.
 
-The sole next task is CPU-only: implement and freeze the model-bound GRPO-v2 CLI/runtime from `configs/grpo_v2/grpo_v2_seed42.json`, initialized only from warm-start checkpoint-16 policy adapter SHA `44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9`. It must preserve the pre-registered 128-update/2,048-completion/524,288-token contract, incremental evidence, checkpoints/dev at 32/64/96/128, fresh GRPO optimizer, exact resume and adapter-only safety.
+Frozen command:
 
-Do not execute GRPO-v2, rerun warm-start/dev, access hidden test, or initialize CUDA during that freeze. A later real GRPO-v2 run requires new explicit GPU authorization.
+```bash
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYTHONPATH=src \
+python -m math_rlvr.training.grpo_v2 \
+  --config configs/grpo_v2/grpo_v2_seed42.json \
+  --warmstart-checkpoint /root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16 \
+  --run-dir /root/autodl-tmp/runs/math_rlvr/<NEW_GRPO_V2_RUN_ID> \
+  --execute \
+  --confirm-grpo-v2
+```
+
+Contract: seed 42; 128 updates; 512 microsteps; 512 unique curriculum prompts once; 2,048 completions; 524,288 training-token cap; checkpoints and independent 128-problem dev at 32/64/96/128. The initial policy loads only the warm-start adapter; GRPO initializes a fresh optimizer/scheduler. Hidden test remains sealed. Automatic retry is zero.

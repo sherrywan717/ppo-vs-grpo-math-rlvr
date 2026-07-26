@@ -36,3 +36,7 @@ The shared evaluator is frozen at `configs/grpo_v2/dev_evaluation_seed42.json` (
 ## Stage P.1 result and next gate
 
 Matched Base and warm-start dev-v2 runs both completed 128/128. Base pass@1 was 6/128 and warm-start 8/128; format improved 17/128 to 23/128. The paired +1.5625 pp pass@1 delta has 95% bootstrap CI [-2.34375,+6.25] pp and McNemar p=0.7265625, so the gain is uncertain and dev-only. The warm-start is eligible for explicit GRPO-v2 review because format and pass@1 did not decline, but the repository still lacks a frozen model-bound 128-update GRPO-v2 runner. The next stage is CPU-only runtime freeze; hidden test remains sealed.
+
+## Stage Q guarded GRPO-v2 runtime
+
+The model-bound runtime is frozen and CPU/fake validated. It initializes the v2 policy from only the immutable warm-start adapter, creates a fresh GRPO optimizer/scheduler, consumes the frozen 512-prompt curriculum once over 128 updates, persists primary evidence per update, and writes trusted same-run checkpoints at 32/64/96/128. The same frozen matched dev protocol runs independently at those steps and alone selects a checkpoint. Hidden test remains inaccessible. A real run still requires separate explicit GPU authorization.

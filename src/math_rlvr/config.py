@@ -48,6 +48,7 @@ def validate_training_config(config: dict[str, Any], algorithm: str, scope=None)
         raise ValueError("policy LoRA contract mismatch")
     is_pilot = config.get("pilot", {}).get("family") == "matched_0p5b_v1"
     is_formal = config.get("formal", {}).get("family") == "formal_1p5b_v1"
+    is_grpo_v2 = config.get("grpo_v2", {}).get("family") == "grpo_v2_seed42_v1"
     if scope is None and config.get("validated_experiment_scope") is not None:
         from math_rlvr.training.execution_contract import validated_scope_from_config
 
@@ -64,9 +65,9 @@ def validate_training_config(config: dict[str, Any], algorithm: str, scope=None)
     is_smoke = (scope is not None and scope.scope.value == "stage_d_smoke") or (
         scope is None and model.get("name_or_path") == SMOKE_MODEL and not is_pilot
     )
-    completion_length = 128 if is_smoke or is_pilot else 256 if is_formal else 384
+    completion_length = 128 if is_smoke or is_pilot else 256 if is_formal or is_grpo_v2 else 384
     expected = {
-        "max_prompt_length": 832 if is_formal else 512,
+        "max_prompt_length": 832 if is_formal or is_grpo_v2 else 512,
         "max_completion_length": completion_length,
         "temperature": 0.8,
         "top_p": 0.95,
@@ -105,6 +106,10 @@ def validate_training_config(config: dict[str, Any], algorithm: str, scope=None)
         from math_rlvr.training.formal import validate_formal_config_content
 
         validate_formal_config_content(config, algorithm)
+    if is_grpo_v2:
+        from math_rlvr.training.grpo_v2_runtime import validate_normalized_training_config
+
+        validate_normalized_training_config(config)
     if algorithm == "ppo":
         value = config.get("value_model", {})
         required = {

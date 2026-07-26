@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "stage": "Q",
+  "status": "cpu_runtime_freeze_complete",
+  "execution_base_head": "b5d52ce158fa2208fc1ee00cdbf9254b39c37bdc",
+  "branch": "improve/grpo-v2",
+  "config_path": "configs/grpo_v2/grpo_v2_seed42.json",
+  "config_sha256": "059553888fdc997a5b9f214fde526d4be8c309ca84abe212c243fd74305b1b66",
+  "runtime_registry_sha256": "43ef900265e37a355d7edf271384a5f7c84166a17b378034349c344228dab3fa",
+  "warmstart_checkpoint_artifact_sha256": "507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0",
+  "warmstart_adapter_sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
+  "optimizer_handoff": {
+    "policy_adapter_loaded": true,
+    "sft_optimizer_inherited": false,
+    "grpo_optimizer": "fresh"
+  },
+  "training_contract": {
+    "seed": 42,
+    "unique_problems": 512,
+    "updates": 128,
+    "microsteps": 512,
+    "prompts_per_update": 4,
+    "completions_per_prompt": 4,
+    "completions": 2048,
+    "generated_token_cap": 524288
+  },
+  "checkpoint_steps": [
+    32,
+    64,
+    96,
+    128
+  ],
+  "resume_steps": [
+    32,
+    64,
+    96
+  ],
+  "dev": {
+    "steps": [
+      32,
+      64,
+      96,
+      128
+    ],
+    "problems_per_step": 128,
+    "candidates_per_problem": 1,
+    "separate_from_training_budget": true
+  },
+  "checkpoint_selection": [
+    "canonical_pass",
+    "parseable",
+    "format",
+    "lowest_truncation",
+    "earlier_checkpoint"
+  ],
+  "hidden_test_accesses": 0,
+  "evidence": {
+    "incremental_after_each_update": true,
+    "checkpoint_after_update_evidence": true,
+    "optional_metrics": "null_unavailable_reason"
+  },
+  "validation": {
+    "pytest_passed": 49,
+    "full_pytest_run": false,
+    "ruff": "passed",
+    "compileall": "passed",
+    "dry_run": "passed",
+    "manifest_validation": "passed",
+    "git_diff_check": "passed",
+    "secret_large_file_audit": "passed"
+  },
+  "stage_q_counters": {
+    "cuda_initialized": false,
+    "model_loads": 0,
+    "tokenizer_loads": 0,
+    "generation_calls": 0,
+    "trainer_calls": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0
+  },
+  "frozen_identity_changes": {
+    "runtime_registry": "expected",
+    "source_and_tests": "expected",
+    "train_manifest": false,
+    "dev_manifest": false,
+    "hidden_test_manifest": false,
+    "curriculum": false,
+    "grpo_config": false,
+    "prompt": false,
+    "reward": false,
+    "parser": false,
+    "verifier": false,
+    "model_revision": false,
+    "pass_k_contract": false
+  }
+}

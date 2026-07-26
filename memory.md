@@ -1113,3 +1113,10 @@ This file records operational history and pitfalls that should survive context c
 - Warm-start run `warmstart_dev_grpo_v2_seed42_20260722T060500Z` succeeded once: 128 completions, 13,176 tokens, pass@1 8/128, format 23/128, parseable 20/128, 0.109090 GPU-hours, ¥0.9687, backup `f784b6af...cdc9`.
 - Exact pairing found 5 improvements and 3 regressions; delta +1.5625 pp, paired bootstrap 95% CI [-2.34375,+6.25] pp, McNemar exact p=0.7265625. This is an uncertain dev-only gain plus clearer protocol adherence, not hidden-test evidence.
 - Both archives/checksums and parent GPU release passed; no training/backward/optimizer/checkpoint write occurred. Warm-start was not rerun. Next task is CPU-only GRPO-v2 model-bound runtime freeze, followed by new explicit GPU authorization.
+
+## 2026-07-26 — Stage Q guarded GRPO-v2 runtime freeze (CPU-only)
+
+- Added the dual-confirmation `math_rlvr.training.grpo_v2` entrypoint, exact frozen config/registry/warm-start identity checks, delayed model-bound assembly, fresh GRPO optimizer evidence, and no SFT optimizer inheritance. Config SHA remains `059553888fdc997a5b9f214fde526d4be8c309ca84abe212c243fd74305b1b66`; runtime registry canonical SHA is `43ef900265e37a355d7edf271384a5f7c84166a17b378034349c344228dab3fa`.
+- Frozen execution is 512 unique curriculum prompts once, 128 updates, 512 microsteps, 2,048 completions, and a 524,288-token cap. Primary completion/metric prefixes persist atomically after every update before checkpoints.
+- Checkpoints 32/64/96/128 are policy-adapter-only plus trusted optimizer/scheduler/RNG/runtime/cursor/prefix state. Same-run exact resume is permitted at 32/64/96; continuous128 and 64+resume fake state matched. Four 128-problem single-candidate dev ledgers are isolated from training budgets; selection is dev-only; hidden test access is zero.
+- 49 targeted tests, affected Ruff/compileall, dry-run, check_env, manifest validation, diff/secret/large-file audits passed. Stage Q CUDA/model/tokenizer/generation/Trainer/backward/optimizer counts are zero. Full pytest was intentionally not run. Commit, backup and remote branch SHA are recorded by final Git state.

@@ -737,3 +737,7 @@ The frozen shared evaluator `math_rlvr.evaluation.grpo_v2_dev` is the only autho
 ### GRPO-v2 matched dev result
 
 Base dev run `base_dev_grpo_v2_seed42_20260722T060500Z` and warm-start dev run `warmstart_dev_grpo_v2_seed42_20260722T060500Z` are immutable scientific successes with 128/128 single-candidate completions each. Candidate-0 pass@1 was 6/128 for Base and 8/128 for warm-start; format was 17/128 versus 23/128. The paired delta is +1.5625 pp with bootstrap 95% CI [-2.34375, +6.25] pp and exact McNemar p=0.7265625. Interpret this as improved protocol adherence and a small uncertain dev gain, not hidden-test proof. Never rerun either dev evaluation or the warm-start to improve these outcomes.
+
+### GRPO-v2 Stage Q model-bound runtime gate
+
+The only frozen GRPO-v2 training entrypoint is `math_rlvr.training.grpo_v2` with exact config `configs/grpo_v2/grpo_v2_seed42.json` SHA `059553888fdc997a5b9f214fde526d4be8c309ca84abe212c243fd74305b1b66`, exact warm-start checkpoint artifact `507749d3...92f0`, policy adapter `44066dd1...72b9`, and dual confirmation. It loads only the warm-start policy adapter and initializes a fresh GRPO optimizer/scheduler; SFT optimizer state is forbidden. Training is 512 unique curriculum prompts once, 128 updates/512 microsteps/2,048 completions, with a 524,288-token cap and checkpoint/dev cadence 32/64/96/128. Same-run resume is limited to 32/64/96. Hidden test cannot enter training or dev-only checkpoint selection. Stage Q was CPU-only and does not authorize execution.

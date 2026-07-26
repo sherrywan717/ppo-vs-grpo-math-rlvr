@@ -79,6 +79,10 @@ def execute_dev_worker(
     model_source,
     run_dir: Path,
     environment: dict[str, str],
+    adapter_directory: Path | None = None,
+    evidence_mode: str | None = None,
+    checkpoint_step: int | None = None,
+    backup_path: Path | None = None,
 ) -> dict[str, Any]:
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer, LogitsProcessor
@@ -96,6 +100,7 @@ def execute_dev_worker(
             require_finite_logits(bool(torch.isfinite(scores).all()))
             return scores
 
+    record_mode = evidence_mode or mode
     command = (
         "HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src "
         "python -m math_rlvr.evaluation.grpo_v2_dev "
@@ -106,7 +111,7 @@ def execute_dev_worker(
         command += f" --checkpoint {config['warmstart_checkpoint']['path']}"
     manager = ArtifactManager(
         "grpo_v2_dev_evaluation",
-        mode,
+        record_mode,
         FORMAL_REPO_ID,
         42,
         command,
@@ -120,7 +125,7 @@ def execute_dev_worker(
     manager.write_json(
         "evaluation_identity.json",
         {
-            "mode": mode,
+            "mode": record_mode,
             "config_sha256": identity["config_sha256"],
             "data_registry_sha256": identity["data_registry_sha256"],
             "dev_manifest_sha256": identity["dev_manifest_sha256"],
@@ -154,12 +159,15 @@ def execute_dev_worker(
             torch_dtype=torch.bfloat16,
             attn_implementation="eager",
         )
-        if mode == "warmstart":
+        if mode == "warmstart" or adapter_directory is not None:
             from peft import PeftModel
 
+            selected_adapter = adapter_directory or (
+                Path(config["warmstart_checkpoint"]["path"]) / "adapter"
+            )
             model = PeftModel.from_pretrained(
                 model,
-                str(Path(config["warmstart_checkpoint"]["path"]) / "adapter"),
+                str(selected_adapter),
                 local_files_only=True,
                 is_trainable=False,
             )
@@ -184,9 +192,11 @@ def execute_dev_worker(
         manager.write_json(
             "model_roles.json",
             {
-                "mode": mode,
-                "adapter_loaded": mode == "warmstart",
-                "adapter_role": "policy" if mode == "warmstart" else None,
+                "mode": record_mode,
+                "adapter_loaded": mode == "warmstart" or adapter_directory is not None,
+                "adapter_role": (
+                    "policy" if mode == "warmstart" or adapter_directory is not None else None
+                ),
                 "parameters_require_grad": 0,
                 "total_parameters": sum(parameter.numel() for parameter in model.parameters()),
                 "meta_parameters": meta_parameters,
@@ -245,9 +255,11 @@ def execute_dev_worker(
                     not eos and len(completion_ids) == config["prompt"]["max_completion_length"]
                 ),
                 evaluation=evaluation,
-                mode=mode,
+                mode=evidence_mode or mode,
                 checkpoint_identity=checkpoint_identity,
             )
+            if checkpoint_step is not None:
+                row["checkpoint_step"] = checkpoint_step
             peak_gib = torch.cuda.max_memory_reserved(0) / (1024**3)
             guard.record(row, peak_vram_gib=peak_gib)
             manager.append_jsonl("completions.jsonl", row)
@@ -273,7 +285,7 @@ def execute_dev_worker(
         manager.write_text(
             "report.md",
             "# GRPO-v2 matched dev evaluation\n\n"
-            f"- Mode: {mode}\n- Problems/completions: 128/128\n"
+            f"- Mode: {record_mode}\n- Problems/completions: 128/128\n"
             "- Protocol: one candidate per problem; pass@4/pass@10 unavailable.\n"
             "- Training/backward/optimizer/checkpoint writes: 0.\n",
         )
@@ -282,6 +294,13 @@ def execute_dev_worker(
             counters=counters,
             summary={"aggregate_metrics": aggregate, "resource_summary": resource_summary},
         )
+        backup = None
+        if backup_path is not None:
+            from math_rlvr.training.formal_runtime import create_formal_backup
+
+            backup = create_formal_backup(run_dir, backup_path)
+            manager.write_json("backup_manifest.json", {"verified": True, **backup})
+            manager.checksums()
         return {
             "status": "success",
             "run_id": run_dir.name,
@@ -290,6 +309,8 @@ def execute_dev_worker(
             "aggregate": aggregate,
             "resource_summary": resource_summary,
             "pytorch_allocator": allocator_summary,
+            "completion_rows": rows,
+            "backup": backup,
         }
     except BaseException as exc:
         manager.finalize(

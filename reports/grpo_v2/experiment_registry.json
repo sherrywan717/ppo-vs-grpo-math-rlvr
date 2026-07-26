@@ -16,7 +16,29 @@
       "status": "complete"
     },
     "grpo_v2": {
-      "status": "not_run_blocked_on_model_bound_runtime_freeze"
+      "status": "runtime_frozen_awaiting_explicit_gpu_authorization",
+      "entrypoint": "math_rlvr.training.grpo_v2",
+      "config_sha256": "059553888fdc997a5b9f214fde526d4be8c309ca84abe212c243fd74305b1b66",
+      "runtime_registry_sha256": "43ef900265e37a355d7edf271384a5f7c84166a17b378034349c344228dab3fa",
+      "updates": 128,
+      "microsteps": 512,
+      "training_completions": 2048,
+      "generated_token_cap": 524288,
+      "checkpoint_steps": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "dev_steps": [
+        32,
+        64,
+        96,
+        128
+      ],
+      "warmstart_adapter_sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
+      "sft_optimizer_inherited": false,
+      "hidden_test_accesses": 0
     },
     "hidden_test": {
       "active_contract": "shared_unbiased_pass_k_n10_v1",
@@ -65,8 +87,17 @@
       "warmstart_run_id": "warmstart_dev_grpo_v2_seed42_20260722T060500Z"
     }
   },
-  "status": "warmstart_and_matched_dev_complete_grpo_v2_runtime_pending",
+  "status": "warmstart_dev_complete_grpo_v2_runtime_frozen",
   "tokenizer_loads": 2,
   "training_updates": 16,
-  "v1_artifacts_modified": false
+  "v1_artifacts_modified": false,
+  "stage_q_cpu_counters": {
+    "cuda_initialized": false,
+    "model_loads": 0,
+    "tokenizer_loads": 0,
+    "generation_calls": 0,
+    "trainer_calls": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0
+  }
 }

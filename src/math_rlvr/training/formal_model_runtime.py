@@ -99,6 +99,10 @@ def _normal_completion_rows(records, contract):
             row["completion_mask"] = list(row.pop("response_mask"))
         row["raw_completion"] = row.get("verifier_input", row.get("decoded_completion"))
         row["update"] = index // contract.completions_per_update + 1
+        if getattr(contract, "profile", None) == "grpo_v2_1p5b":
+            row["curriculum_position"] = index // 4 + 1
+            row["curriculum_update"] = index // contract.completions_per_update + 1
+            row["curriculum_slot"] = (index // 4) % 4
         if row.get("pair_key") != contract.pair_keys[index]:
             raise FormalRuntimeError("formal trainer completion order drift")
         normalized.append(row)
@@ -592,10 +596,20 @@ def _write_checkpoint(
         contract,
         start_update=start_update,
     )
-    metrics = [dict(row) for row in metric_prefix] + [
-        {"update": update, **row}
-        for update, row in enumerate(suffix_metrics, start=start_update)
-    ]
+    normalized_suffix = []
+    for update, row in enumerate(suffix_metrics, start=start_update):
+        evidence = {"update": update, **row}
+        if getattr(contract, "profile", None) == "grpo_v2_1p5b":
+            evidence.update(
+                {
+                    "optimizer_step": update,
+                    "global_step": update,
+                    "microsteps": update * 4,
+                    "cumulative_completions": update * contract.completions_per_update,
+                }
+            )
+        normalized_suffix.append(evidence)
+    metrics = [dict(row) for row in metric_prefix] + normalized_suffix
     if len(metrics) != global_step:
         raise FormalRuntimeError("formal checkpoint metric prefix is incomplete")
     online_counters = online_guard.snapshot()
