@@ -214,8 +214,14 @@ def execute_dev_worker(
             encoded = tokenizer(
                 prompt, return_tensors="pt", add_special_tokens=False, truncation=False
             )
-            if int(encoded["input_ids"].shape[1]) > config["prompt"]["max_prompt_length"]:
+            prompt_tokens = int(encoded["input_ids"].shape[1])
+            if prompt_tokens > config["prompt"]["max_prompt_length"]:
                 raise DevEvaluationContractError("dev prompt exceeds frozen max length")
+            if (
+                prompt_tokens + config["prompt"]["max_completion_length"]
+                > config["prompt"]["max_sequence_length"]
+            ):
+                raise DevEvaluationContractError("dev prompt exceeds frozen sequence ceiling")
             encoded = {key: value.to(device) for key, value in encoded.items()}
             torch.manual_seed(expected["generation_seed"])
             torch.cuda.manual_seed_all(expected["generation_seed"])

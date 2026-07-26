@@ -745,3 +745,17 @@ The only frozen GRPO-v2 training entrypoint is `math_rlvr.training.grpo_v2` with
 ### GRPO-v2 first formal attempt prompt-cap failure
 
 Run `grpo_v2_seed42_20260726T030733Z` is an immutable engineering failure before training: frozen curriculum problem `math:DigitalLearningGmbH/MATH-lighteval:train:4567` has a 914-token prompt and exceeded the frozen GRPO-v2 cap 832. Counters are zero updates/completions/tokens; no Trainer, optimizer, checkpoint, dev evaluation, or hidden-test access occurred. The verified failure backup is `3fa2cbb730c5a72faa83cd35172873ce367537e19fc705d890c8d9bce4748fb8` and GPU returned to 0 MiB/no process. Exclude the run from scientific analysis and never retry it without a separately authorized CPU-only capacity amendment followed by new GPU authorization.
+
+### GRPO-v2 prompt/context capacity reconciliation
+
+The immutable first Stage R attempt `grpo_v2_seed42_20260726T030733Z` remains an
+engineering failure before training and is excluded from science. The CPU-only Stage
+R.1 audit replayed the exact pinned tokenizer and renderer over all 512 curriculum and
+128 dev prompts. The actual maximum is 918 tokens; two prompts exceed the stale 832
+cap. The deterministic capacity-only amendment freezes GRPO-v2 prompt/completion/
+sequence limits at 928/256/1,184. Train/dev/hidden manifests, curriculum order, warm-
+start adapter, model, prompt semantics, reward, parser/verifier, LoRA, sampling and all
+training budgets are unchanged. The real CLI must complete this full 512+128 audit
+before CUDA, model/adapter loading, Trainer/optimizer construction or generation. A
+new GPU run still requires explicit authorization; never resume or reuse the failed
+attempt.

@@ -29,6 +29,10 @@ from math_rlvr.training.grpo_v2_runtime import (
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def fake_capacity_probe(**_kwargs):
+    return {"summary": {"status": "passed", "training": {"count": 512}, "dev": {"count": 128}}}
+
+
 def metric(reward=0.1):
     return {
         "reward_mean": reward,
@@ -141,7 +145,14 @@ def test_trl_024_batch_update_contract_is_statically_derived(tmp_path):
 
 def test_cli_dry_run_and_dual_confirmation(tmp_path, monkeypatch):
     checkpoint = str(WARMSTART_CHECKPOINT)
-    assert main(["--config", str(CONFIG_PATH), "--warmstart-checkpoint", checkpoint]) == 0
+    assert (
+        main(
+            ["--config", str(CONFIG_PATH), "--warmstart-checkpoint", checkpoint],
+            snapshot_probe=lambda: object(),
+            capacity_probe=fake_capacity_probe,
+        )
+        == 0
+    )
     with pytest.raises(RuntimeError, match="requires"):
         main(
             [
@@ -179,6 +190,7 @@ def test_cli_dry_run_and_dual_confirmation(tmp_path, monkeypatch):
             execute_fn=execute_fn,
             environment_probe=lambda: {"branch": "improve/grpo-v2"},
             snapshot_probe=lambda: object(),
+            capacity_probe=fake_capacity_probe,
         )
         == 0
     )
@@ -201,6 +213,7 @@ def test_cli_dry_run_and_dual_confirmation(tmp_path, monkeypatch):
             },
             environment_probe=lambda: {"branch": "improve/grpo-v2"},
             snapshot_probe=lambda: object(),
+            capacity_probe=fake_capacity_probe,
         )
 
 

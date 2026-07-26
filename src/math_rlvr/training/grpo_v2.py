@@ -24,6 +24,7 @@ def main(
     execute_fn=None,
     environment_probe=None,
     snapshot_probe=None,
+    capacity_probe=None,
 ) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, required=True)
@@ -36,6 +37,25 @@ def main(
 
     design, identity, contract = load_contract(args.config)
     warmstart = validate_initial_checkpoint(args.warmstart_checkpoint, identity)
+    if args.execute and not args.confirm_grpo_v2:
+        raise RuntimeError("GRPO-v2 requires --execute --confirm-grpo-v2")
+    if not args.execute and args.confirm_grpo_v2:
+        raise RuntimeError("GRPO-v2 confirmation is invalid without --execute")
+    if snapshot_probe is None:
+        from math_rlvr.training.warmstart_runtime import require_local_snapshot
+
+        snapshot_probe = require_local_snapshot
+    model_source = snapshot_probe()
+    if capacity_probe is None:
+        from math_rlvr.training.grpo_v2_capacity import run_pre_model_capacity_preflight
+
+        capacity_probe = run_pre_model_capacity_preflight
+    capacity = capacity_probe(
+        design=design,
+        identity=identity,
+        contract=contract,
+        model_source=model_source,
+    )
     dry_run = {
         "status": "dry_run",
         "config_path": str(CONFIG_PATH),
@@ -55,7 +75,9 @@ def main(
         "dev_problems_per_step": 128,
         "dev_budget_isolated": True,
         "hidden_test_accesses": 0,
-        "model_or_tokenizer_loads": 0,
+        "prompt_capacity_preflight": capacity["summary"],
+        "model_weight_loads": 0,
+        "tokenizer_loads": 1,
         "cuda_initialized": False,
         "generation_calls": 0,
         "train_calls": 0,
@@ -63,12 +85,8 @@ def main(
         "optimizer_steps_executed": 0,
     }
     if not args.execute:
-        if args.confirm_grpo_v2:
-            raise RuntimeError("GRPO-v2 confirmation is invalid without --execute")
         print(json.dumps(dry_run, sort_keys=True))
         return 0
-    if not args.confirm_grpo_v2:
-        raise RuntimeError("GRPO-v2 requires --execute --confirm-grpo-v2")
     if args.run_dir is None:
         raise GRPOV2ContractError("GRPO-v2 execute requires --run-dir")
     if args.resume_checkpoint is None:
@@ -80,11 +98,6 @@ def main(
         run_dir = args.run_dir.resolve(strict=True)
         validated_resume = validate_resume_checkpoint(args.resume_checkpoint, contract, run_dir)
     environment = (environment_probe or require_execution_environment)()
-    if snapshot_probe is None:
-        from math_rlvr.training.warmstart_runtime import require_local_snapshot
-
-        snapshot_probe = require_local_snapshot
-    model_source = snapshot_probe()
     if execute_fn is None:
         from math_rlvr.training.grpo_v2_supervisor import execute_supervised_grpo_v2
 

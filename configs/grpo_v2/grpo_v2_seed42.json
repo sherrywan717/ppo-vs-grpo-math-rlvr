@@ -59,9 +59,10 @@
   "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
   "prompt": {
     "max_completion_length": 256,
-    "max_prompt_length": 832,
+    "max_prompt_length": 928,
     "sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
-    "version": "prompt_v2_formal_math"
+    "version": "prompt_v2_formal_math",
+    "max_sequence_length": 1184
   },
   "reward": {
     "policy": "shaped_v3_domain",

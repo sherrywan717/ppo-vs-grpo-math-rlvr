@@ -50,7 +50,30 @@
       "offending_problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4567",
       "offending_prompt_tokens": 914,
       "frozen_max_prompt_length": 832,
-      "backup_sha256": "3fa2cbb730c5a72faa83cd35172873ce367537e19fc705d890c8d9bce4748fb8"
+      "backup_sha256": "3fa2cbb730c5a72faa83cd35172873ce367537e19fc705d890c8d9bce4748fb8",
+      "capacity_reconciliation": {
+        "status": "cpu_validated_not_run",
+        "amendment": "post_freeze_prompt_context_capacity_reconciliation",
+        "old_max_prompt_length": 832,
+        "max_prompt_length": 928,
+        "max_completion_length": 256,
+        "max_sequence_length": 1184,
+        "training_prompts_audited": 512,
+        "dev_prompts_audited": 128,
+        "old_cap_overflows": 2,
+        "new_cap_overflows": 0,
+        "truncations": 0,
+        "max_prompt_tokens": 918,
+        "max_combined_potential": 1174,
+        "model_context_window": 32768,
+        "config_sha256": "ce3883b0326492b9109963e8d95496936aa3b3b8670cb9d3b4e9346f65c8cc93",
+        "dev_config_sha256": "cafd9f4945a31a9befcf90ae1524107e086f0820178447e8b5767cf19c2ffa59",
+        "runtime_registry_sha256": "fad035928e6fdc285ec290d295f4d481700c04ac7f5639f41d3e3ac8a0451beb",
+        "runtime_registry_raw_sha256": "32d83b2ac2e7bb64cbab3d09cec3f2834baca0e46df416e9c407ebf7bcf3fd3b",
+        "capacity_audit_identity_sha256": "0868361e0c79e11a7e70f267927ac27e341e48a9c08fbecdec6995da47854e31",
+        "hidden_test_accesses": 0
+      },
+      "next_status": "fresh_run_not_authorized"
     },
     "hidden_test": {
       "active_contract": "shared_unbiased_pass_k_n10_v1",
@@ -99,7 +122,7 @@
       "warmstart_run_id": "warmstart_dev_grpo_v2_seed42_20260722T060500Z"
     }
   },
-  "status": "grpo_v2_attempt_failed_before_training_prompt_capacity_blocker",
+  "status": "grpo_v2_capacity_reconciled_awaiting_new_gpu_authorization",
   "tokenizer_loads": 2,
   "training_updates": 16,
   "v1_artifacts_modified": false,
@@ -115,6 +138,16 @@
   "stage_r_counters": {
     "cuda_initialized": true,
     "model_loads": 1,
+    "tokenizer_loads": 1,
+    "generation_calls": 0,
+    "trainer_calls": 0,
+    "backward_calls": 0,
+    "optimizer_steps": 0,
+    "hidden_test_accesses": 0
+  },
+  "stage_r1_cpu_counters": {
+    "cuda_initialized": false,
+    "model_loads": 0,
     "tokenizer_loads": 1,
     "generation_calls": 0,
     "trainer_calls": 0,

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "stage": "R.1",
+  "status": "passed",
+  "cpu_only": true,
+  "targeted_pytest": {
+    "tests": 38,
+    "passed": 38,
+    "failed": 0,
+    "files": [
+      "tests/test_grpo_v2_capacity.py",
+      "tests/test_grpo_v2_training_runtime.py",
+      "tests/test_grpo_v2_dev.py",
+      "tests/test_grpo_v2_dev_safety.py"
+    ]
+  },
+  "ruff": {
+    "status": "passed",
+    "scope": "affected files only"
+  },
+  "compileall": {
+    "status": "passed",
+    "scope": "affected modules/tests only"
+  },
+  "grpo_v2_dry_run": {
+    "status": "passed",
+    "training_prompts": 512,
+    "dev_prompts": 128,
+    "cuda_initialized": false,
+    "model_weight_loads": 0,
+    "generation_calls": 0,
+    "trainer_constructions": 0,
+    "optimizer_initializations": 0
+  },
+  "manifest_validation": {
+    "grpo_v2": "passed",
+    "project_manifests": "passed"
+  },
+  "runtime_registry_validation": "passed",
+  "check_env": {
+    "status": "passed",
+    "cuda_initialized": false,
+    "model_or_tokenizer_loaded_in_check_process": false,
+    "generated_code_execution": false
+  },
+  "git_diff_check": "passed",
+  "secret_scan": {
+    "status": "passed",
+    "matches": 0
+  },
+  "large_file_scan": {
+    "status": "passed",
+    "files_over_50_mib": 0
+  },
+  "model_or_training_state_scan": {
+    "status": "passed",
+    "matches": 0
+  },
+  "full_pytest_run": false,
+  "reason": "Stage R.1 explicitly limits validation to affected targeted tests",
+  "historical_failure_artifacts_unchanged": true,
+  "hidden_test_accesses": 0
+}

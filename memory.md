@@ -1128,3 +1128,15 @@ This file records operational history and pitfalls that should survive context c
 - Counters are 0 updates, 0 microsteps, 0 optimizer/global steps, 0 completions/tokens, 0 checkpoints/dev, and 0 hidden-test accesses. Model/tokenizer and warm policy adapter loading were reached; Trainer and fresh GRPO optimizer construction were not.
 - Failure backup SHA `3fa2cbb730c5a72faa83cd35172873ce367537e19fc705d890c8d9bce4748fb8` verified with 17 entries, no model weights/checkpoints. Worker monitor recorded 2.088978s, 4 MiB peak nvidia-smi, 0.000580272 GPU-hours, ¥0.005153. GPU returned to 0 MiB/no process.
 - Run is excluded from scientific analysis. The next decision is a separately authorized CPU-only capacity reconciliation; Stage R must not be resumed or retried from this attempt.
+
+## 2026-07-26 — Stage R.1 CPU-only GRPO-v2 capacity reconciliation
+
+- Preserved failed run `grpo_v2_seed42_20260726T030733Z` and backup SHA
+  `3fa2cbb730c5a72faa83cd35172873ce367537e19fc705d890c8d9bce4748fb8` unchanged; it remains excluded.
+- Replayed the pinned local Qwen tokenizer and exact GRPO-v2 renderer for all 512 training and 128 dev prompts. CUDA stayed uninitialized; model-weight/generation/Trainer/backward/optimizer counts were zero.
+- Training lengths: min 109, mean 155.79296875, median 146, p90 184, p95 209, p99 315, max 918. Dev lengths: min 112, mean 151.921875, median 145, p90 180, p95 201, p99 276, max 453.
+- Old cap 832 overflowed for two rows: curriculum 23 (`...:4207`, 918 tokens) and curriculum 83 (`...:4567`, 914 tokens). Cap 928 and final cap overflow counts are zero; truncation is zero.
+- Frozen capacity is now 928 prompt / 256 completion / 1,184 sequence ceiling. Maximum potential combined length is 1,174; model context is 32,768.
+- New GRPO config SHA `ce3883b0326492b9109963e8d95496936aa3b3b8670cb9d3b4e9346f65c8cc93`; new dev config SHA `cafd9f4945a31a9befcf90ae1524107e086f0820178447e8b5767cf19c2ffa59`; runtime registry canonical/raw SHA `fad035928e6fdc285ec290d295f4d481700c04ac7f5639f41d3e3ac8a0451beb` / `32d83b2ac2e7bb64cbab3d09cec3f2834baca0e46df416e9c407ebf7bcf3fd3b`; capacity audit identity `0868361e0c79e11a7e70f267927ac27e341e48a9c08fbecdec6995da47854e31`.
+- Train/dev/hidden manifests, curriculum, warm-start checkpoint/adapter, model, prompt, reward, parser, verifier, LoRA, sampling, budgets and shared n=10 pass@k contract remain byte-identical.
+- Next decision: user may separately authorize one new Stage R attempt from update 0. Stage R.1 itself authorizes no GPU execution.

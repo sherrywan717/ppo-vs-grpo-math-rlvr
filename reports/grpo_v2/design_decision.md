@@ -11,3 +11,7 @@ The frozen design now has one guarded model-bound implementation. A new run star
 ## Stage R execution boundary
 
 The first frozen GRPO-v2 command failed before optimization because one immutable train prompt measured 914 tokens against the registered 832-token cap. This is an engineering capacity mismatch, not a scientific result. No data, order, prompt, reward, parser/verifier, sampling, completion budget, or hidden-test identity was changed. Any capacity amendment must be explicit, CPU-audited and versioned before a new GPU authorization.
+
+## Post-freeze Stage R.1 capacity amendment
+
+The first Stage R attempt exposed a propagation defect before training: GRPO-v2 retained prompt cap 832 although the warm-start audit had already established prompts above that limit. Stage R.1 therefore replayed the exact tokenizer/renderer over the complete 512-train/128-dev universe before changing capacity. Maximum prompt length is 918; the predeclared `max(928, ceil(max/32)*32)` rule selects 928. Completion remains 256 and explicit sequence ceiling becomes 1,184. The model context is 32,768 and no row truncates. This amendment changes capacity identities only and does not change any scientific sample, order, text, optimization setting, or hidden-test contract. See [the full amendment](prompt_capacity_amendment.md).

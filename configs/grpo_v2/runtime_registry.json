@@ -1,9 +1,9 @@
 {
-  "registry_sha256": "43ef900265e37a355d7edf271384a5f7c84166a17b378034349c344228dab3fa",
+  "registry_sha256": "fad035928e6fdc285ec290d295f4d481700c04ac7f5639f41d3e3ac8a0451beb",
   "schema_version": 1,
   "dev_evaluation": {
     "config_path": "configs/grpo_v2/dev_evaluation_seed42.json",
-    "config_sha256": "8501bfb945f85dda895d9278bb5d1d74a5d9c2c0791f9daa7cb0152d25e02528",
+    "config_sha256": "cafd9f4945a31a9befcf90ae1524107e086f0820178447e8b5767cf19c2ffa59",
     "data_registry_path": "configs/grpo_v2/data_registry.json",
     "data_registry_sha256": "cd849ef5eb34f1e88562bdbbb3b13184c3d82b54f57b24d3e18e47586ed7e8e3",
     "dev_manifest_path": "configs/grpo_v2/manifests/dev_v2.jsonl",
@@ -12,7 +12,10 @@
     "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
     "status": "frozen_not_run",
     "trusted_manifest_path": "/root/autodl-tmp/datasets/math_rlvr/grpo_v2/trusted/dev_v2_trusted.jsonl",
-    "trusted_manifest_sha256": "2b1739b7ec64f53f3772f5ea975b8d0466d632cb13dce00e133926e88d30b328"
+    "trusted_manifest_sha256": "2b1739b7ec64f53f3772f5ea975b8d0466d632cb13dce00e133926e88d30b328",
+    "max_prompt_length": 928,
+    "max_completion_length": 256,
+    "max_sequence_length": 1184
   },
   "warmstart": {
     "capacity_amendment": "post_freeze_capacity_amendment",
@@ -35,7 +38,7 @@
   },
   "grpo_v2": {
     "config_path": "configs/grpo_v2/grpo_v2_seed42.json",
-    "config_sha256": "059553888fdc997a5b9f214fde526d4be8c309ca84abe212c243fd74305b1b66",
+    "config_sha256": "ce3883b0326492b9109963e8d95496936aa3b3b8670cb9d3b4e9346f65c8cc93",
     "data_registry_path": "configs/grpo_v2/data_registry.json",
     "data_registry_raw_sha256": "9b01b294da8a7953ad482f575924eb53f26f3da714fa63bb5286acb121722933",
     "data_registry_sha256": "cd849ef5eb34f1e88562bdbbb3b13184c3d82b54f57b24d3e18e47586ed7e8e3",
@@ -73,6 +76,14 @@
     "checkpoint_selection": "canonical_pass_parseable_format_truncation_earlier",
     "hidden_test_access": "forbidden",
     "expected_branch": "improve/grpo-v2",
-    "status": "frozen_not_run"
+    "status": "capacity_reconciled_not_run",
+    "capacity_amendment": "post_freeze_prompt_context_capacity_reconciliation",
+    "old_max_prompt_length": 832,
+    "max_prompt_length": 928,
+    "max_completion_length": 256,
+    "max_sequence_length": 1184,
+    "capacity_audit_path": "reports/grpo_v2/prompt_capacity_audit.json",
+    "capacity_audit_file_sha256": "92aabc8e18c942835c75a260e1fc1f4e1b641133ee82bb5b426ead5cc60483bd",
+    "capacity_audit_identity_sha256": "0868361e0c79e11a7e70f267927ac27e341e48a9c08fbecdec6995da47854e31"
   }
 }

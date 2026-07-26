@@ -62,8 +62,10 @@ def _training_rows(design, normalized, contract, tokenizer, *, completed_updates
             tokenizer, problem, normalized, scope=ExperimentScope.MAIN_FORMAL
         )
         prompt_ids = tokenizer(rendered, add_special_tokens=False, truncation=False)["input_ids"]
-        if len(prompt_ids) > 832:
+        if len(prompt_ids) > contract.max_prompt_length:
             raise GRPOV2ContractError("GRPO-v2 train prompt exceeds frozen cap")
+        if len(prompt_ids) + contract.max_completion_length > contract.max_sequence_length:
+            raise GRPOV2ContractError("GRPO-v2 train prompt exceeds frozen sequence ceiling")
         prompt_hash = __import__("hashlib").sha256(rendered.encode()).hexdigest()
         result.append(
             {

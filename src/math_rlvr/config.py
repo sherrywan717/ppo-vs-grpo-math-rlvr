@@ -67,11 +67,13 @@ def validate_training_config(config: dict[str, Any], algorithm: str, scope=None)
     )
     completion_length = 128 if is_smoke or is_pilot else 256 if is_formal or is_grpo_v2 else 384
     expected = {
-        "max_prompt_length": 832 if is_formal or is_grpo_v2 else 512,
+        "max_prompt_length": 928 if is_grpo_v2 else 832 if is_formal else 512,
         "max_completion_length": completion_length,
         "temperature": 0.8,
         "top_p": 0.95,
     }
+    if is_grpo_v2:
+        expected["max_sequence_length"] = 1184
     if algorithm == "grpo" or not (is_pilot or is_formal):
         expected["num_generations"] = 4
     if any(generation.get(key) != value for key, value in expected.items()):

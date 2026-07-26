@@ -357,3 +357,24 @@ The guarded `math_rlvr.training.grpo_v2` entrypoint now binds the immutable warm
 ## Stage R GRPO-v2 first attempt
 
 Run `grpo_v2_seed42_20260726T030733Z` executed exactly once from `b738221a2b6df90ac5b2b895b27e9fac2e12525e` and failed before training because frozen prompt `math:DigitalLearningGmbH/MATH-lighteval:train:4567` is 914 tokens versus GRPO-v2 cap 832. It has 0 updates/microsteps/optimizer/global steps, 0 completions/tokens, no checkpoint/dev, and no hidden-test access. The immutable failure archive SHA is `3fa2cbb730c5a72faa83cd35172873ce367537e19fc705d890c8d9bce4748fb8`; all raw checksums passed and GPU ended at 0 MiB/no compute process. Warm-start and matched dev successes remain unchanged. The unique next task is the CPU-only capacity reconciliation in `docs/NEXT_TASK.md`; no retry is authorized.
+
+## Stage R.1 GRPO-v2 capacity reconciliation
+
+Stage R.1 completed CPU-only on `improve/grpo-v2`; the result commit is the commit
+containing this handoff. The pinned Qwen tokenizer and exact runtime renderer replayed
+512 training plus 128 dev prompts with CUDA uninitialized and zero model-weight loads,
+generation, Trainer constructions or optimizer steps. Training prompt statistics are
+min 109, mean 155.793, median 146, p90 184, p95 209, p99 315 and max 918; dev max is
+453. The old 832 cap overflowed for two training prompts, including the historical
+914-token failure row. The actual maximum is
+`math:DigitalLearningGmbH/MATH-lighteval:train:4207` at curriculum 23/update 6/slot 2.
+
+The deterministic amendment is prompt 928, completion 256 unchanged, and explicit
+sequence ceiling 1,184. Final overflow and truncation counts are zero; maximum potential
+combined length is 1,174 versus Qwen context 32,768. GRPO config SHA is
+`ce3883b0326492b9109963e8d95496936aa3b3b8670cb9d3b4e9346f65c8cc93`, dev config SHA is `cafd9f4945a31a9befcf90ae1524107e086f0820178447e8b5767cf19c2ffa59`, runtime registry canonical SHA is
+`fad035928e6fdc285ec290d295f4d481700c04ac7f5639f41d3e3ac8a0451beb` (raw `32d83b2ac2e7bb64cbab3d09cec3f2834baca0e46df416e9c407ebf7bcf3fd3b`), and audit identity is `0868361e0c79e11a7e70f267927ac27e341e48a9c08fbecdec6995da47854e31`. All data,
+curriculum, hidden-test, warm-start, model/prompt/reward/parser/verifier/LoRA/sampling,
+budget and pass@k identities remain unchanged. The failed Stage R run and backup remain
+immutable/excluded. The unique next task is a separately authorized fresh Stage R GRPO-v2
+run from update 0; no GPU work is authorized by this handoff.

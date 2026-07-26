@@ -105,7 +105,9 @@ class GRPOV2Contract:
     expected_completions: int = 2048
     completions_per_update: int = 16
     prompts_per_update: int = 4
+    max_prompt_length: int = 928
     max_completion_length: int = 256
+    max_sequence_length: int = 1184
     token_cap: int = 524_288
     checkpoint_steps: tuple[int, ...] = CHECKPOINT_STEPS
     validation_steps: tuple[int, ...] = CHECKPOINT_STEPS
@@ -196,8 +198,9 @@ def load_contract(
     } or config.get("prompt") != {
         "version": PROMPT_V2_FORMAL_MATH,
         "sha256": PROMPT_V2_SHA256,
-        "max_prompt_length": 832,
+        "max_prompt_length": 928,
         "max_completion_length": 256,
+        "max_sequence_length": 1184,
     }:
         raise GRPOV2ContractError("GRPO-v2 prompt/sampling identity mismatch")
     expected_training = {
@@ -325,8 +328,9 @@ def normalized_training_config(config: dict[str, Any], contract: GRPOV2Contract)
         "reward_policy_version": FORMAL_REWARD_VERSION,
         "reward_policy_sha256": FORMAL_REWARD_SHA256,
         "generation": {
-            "max_prompt_length": 832,
+            "max_prompt_length": 928,
             "max_completion_length": 256,
+            "max_sequence_length": 1184,
             "num_generations": 4,
             "generation_batch_size": 16,
             "temperature": 0.8,

@@ -109,8 +109,9 @@ def load_dev_contract(
         "version": PROMPT_V2_FORMAL_MATH,
         "sha256": PROMPT_V2_SHA256,
         "renderer": PROMPT_RENDERER_VERSION,
-        "max_prompt_length": 832,
+        "max_prompt_length": 928,
         "max_completion_length": 256,
+        "max_sequence_length": 1184,
     }:
         raise DevEvaluationContractError("dev evaluation prompt identity mismatch")
     contracts = formal_parser_verifier_metadata()
