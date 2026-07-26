@@ -164,7 +164,7 @@ No license has been selected for this repository; no `LICENSE` file is included.
 
 ## GRPO-v2 preregistered improvement branch
 
-The `improve/grpo-v2` branch freezes a seed-42 **format/solution warm-start + GRPO-v2 RLVR** protocol. Warm-start and matched dev have run; GRPO-v2 and hidden test have not. It expands RL coverage to 512 unique prompts and 128 updates while retaining the v1 model, prompt, reward, parser/verifier, sampling, LoRA, and 256-token completion cap. The hidden test is strictly disjoint from all v1/core data and uses a genuine nested pass@4 pool. See the [design decision](reports/grpo_v2/design_decision.md), [data freeze](reports/grpo_v2/data_freeze_report.md), and [roadmap](docs/grpo_v2_roadmap.md). Portfolio-v1 results remain unchanged.
+The `improve/grpo-v2` branch freezes a seed-42 **format/solution warm-start + GRPO-v2 RLVR** protocol. Warm-start and matched dev have run; two GRPO-v2 attempts stopped before any training update, and hidden test has not run. It expands RL coverage to 512 unique prompts and 128 updates while retaining the v1 model, prompt, reward, parser/verifier, sampling, LoRA, and 256-token completion cap. The hidden test is strictly disjoint from all v1/core data and uses a genuine nested pass@4 pool. See the [design decision](reports/grpo_v2/design_decision.md), [data freeze](reports/grpo_v2/data_freeze_report.md), and [roadmap](docs/grpo_v2_roadmap.md). Portfolio-v1 results remain unchanged.
 
 Stage O.2 completed the tokenizer/runtime gate. The original 256-token target audit failure is disclosed; the capacity-only amendment uses 928 prompt / 640 active-target gates while retaining the 1,088 actual-sequence ceiling. All 256 amended records pass without truncation, and the guarded warm-start later completed successfully. Secondary nested pass@10 is preregistered as exploratory only.
 
@@ -192,3 +192,10 @@ The guarded model-bound seed-42 runtime is now CPU/fake validated. It loads only
 Run [`grpo_v2_seed42_20260726T030733Z`](reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T030733Z/report.md) stopped before training: one frozen curriculum prompt is 914 tokens versus the GRPO-v2 cap 832. It produced zero updates/completions/tokens and no checkpoint or dev result, is excluded from scientific analysis, and was not retried. The verified failure backup contains no model weights; GPU was fully released. The next step is CPU-only capacity reconciliation, not hidden-test evaluation.
 
 Stage R.1 then audited all 512 training and 128 dev prompts with the pinned tokenizer and exact renderer. The true maximum is 918 tokens; the deterministic capacity-only amendment freezes prompt/completion/sequence limits at 928/256/1,184 with zero overflow or truncation. The guarded CLI performs this audit before CUDA/model/Trainer work. Scientific data, curriculum, model, prompt/reward/verifier, LoRA, sampling and budgets are unchanged. [Audit and amendment](reports/grpo_v2/prompt_capacity_amendment.md). A fresh GPU run requires separate authorization.
+
+The fresh Stage R.2 run
+[`grpo_v2_seed42_20260726T034649Z`](reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T034649Z/report.md)
+passed that full preflight, then stopped before training because the Trainer optimizer
+was not yet initialized when its state was audited. It also has zero updates,
+completions and tokens and is excluded from science. The next task is a bounded
+CPU-only optimizer-lifecycle repair; hidden test remains sealed.

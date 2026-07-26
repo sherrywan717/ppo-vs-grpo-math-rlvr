@@ -15,3 +15,12 @@ The first frozen GRPO-v2 command failed before optimization because one immutabl
 ## Post-freeze Stage R.1 capacity amendment
 
 The first Stage R attempt exposed a propagation defect before training: GRPO-v2 retained prompt cap 832 although the warm-start audit had already established prompts above that limit. Stage R.1 therefore replayed the exact tokenizer/renderer over the complete 512-train/128-dev universe before changing capacity. Maximum prompt length is 918; the predeclared `max(928, ceil(max/32)*32)` rule selects 928. Completion remains 256 and explicit sequence ceiling becomes 1,184. The model context is 32,768 and no row truncates. This amendment changes capacity identities only and does not change any scientific sample, order, text, optimization setting, or hidden-test contract. See [the full amendment](prompt_capacity_amendment.md).
+
+## Stage R.2 execution boundary
+
+The post-amendment run passed the full prompt preflight but failed before training
+because the Trainer had not yet created its optimizer when the runtime audited
+`optimizer.state`. This is an initialization-lifecycle defect, not a learning result.
+No scientific identity changed, no update/completion/token/checkpoint/dev result
+exists, and hidden test remained inaccessible. A separate CPU-only repair is required
+before any newly authorized attempt.

@@ -759,3 +759,17 @@ training budgets are unchanged. The real CLI must complete this full 512+128 aud
 before CUDA, model/adapter loading, Trainer/optimizer construction or generation. A
 new GPU run still requires explicit authorization; never resume or reuse the failed
 attempt.
+
+### GRPO-v2 Stage R.2 optimizer-initialization failure
+
+Run `grpo_v2_seed42_20260726T034649Z` is a second immutable engineering failure
+before training and is excluded from science. The full 512-train/128-dev capacity
+preflight passed, then Trainer construction returned with `trainer.optimizer` still
+unset; the runtime's fresh-optimizer audit accessed `.state` and stopped before
+`train()`, generation, backward, optimizer/global steps, completions, checkpoints or
+dev. Counters and hidden-test accesses are zero. The verified failure backup SHA is
+`7c4a7c367723c47c13d0b3d4f4810478196716f69a39f4c27761ef88a28d1f50`;
+GPU returned to 0 MiB/no process. Never resume, combine or scientifically aggregate
+either Stage R attempt. The only next task is a separately authorized CPU-only narrow
+diagnosis and repair of the Trainer/fresh-optimizer initialization boundary; no GPU
+retry or hidden-test work is authorized.

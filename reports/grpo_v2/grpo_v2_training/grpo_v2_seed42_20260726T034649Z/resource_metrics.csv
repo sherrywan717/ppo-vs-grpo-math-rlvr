@@ -1,0 +1,7 @@
+metric,value,unit,available,reason
+worker_monitor_wall_time,3.8588433377444744,seconds,true,
+peak_nvidia_smi_memory,3597.0,MiB,true,
+mean_gpu_utilization,1.8181818181818181,percent,true,
+gpu_hours,0.001071900927151243,GPU-hours,true,
+cost,0.009518480233103038,CNY,true,
+training_generated_tokens,,tokens,false,no_successful_training_update

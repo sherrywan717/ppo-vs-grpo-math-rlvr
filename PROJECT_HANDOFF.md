@@ -378,3 +378,23 @@ curriculum, hidden-test, warm-start, model/prompt/reward/parser/verifier/LoRA/sa
 budget and pass@k identities remain unchanged. The failed Stage R run and backup remain
 immutable/excluded. The unique next task is a separately authorized fresh Stage R GRPO-v2
 run from update 0; no GPU work is authorized by this handoff.
+
+## Stage R.2 GRPO-v2 fresh attempt
+
+- Authorized start: branch `improve/grpo-v2`, HEAD
+  `999faa507fbca3bbb97e3bd37253e0f2a972f45b`, clean worktree.
+- Run `grpo_v2_seed42_20260726T034649Z` executed once with no retry. The reconciled
+  512-training/128-dev capacity preflight passed at 928/256/1,184 with no overflow,
+  truncation or hidden-test access.
+- The run then stopped before training: Trainer construction returned with
+  `trainer.optimizer` unset, and the fresh-optimizer audit attempted to read its
+  `.state`. Status is `engineering_failure_before_training_optimizer_state_uninitialized`.
+- Counters are zero updates/microsteps/optimizer/global steps, zero completions/tokens,
+  and zero checkpoints/dev. No scientific result exists and this run is excluded.
+- All raw checksums and failure archive SHA
+  `7c4a7c367723c47c13d0b3d4f4810478196716f69a39f4c27761ef88a28d1f50`
+  passed. Archive contains no checkpoint/model weights. GPU ended at 0 MiB/no process.
+- Frozen config/data/curriculum/model/prompt/reward/parser/verifier/LoRA/sampling and
+  budgets remain unchanged. The unique next task is CPU-only diagnosis and minimal
+  repair of this initialization boundary. No retry or hidden-test execution is
+  authorized.

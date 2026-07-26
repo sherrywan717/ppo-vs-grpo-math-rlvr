@@ -1,19 +1,19 @@
-# Next task: separately authorize a fresh Stage R GRPO-v2 seed-42 run
+# Next task: CPU-only GRPO-v2 optimizer-initialization repair
 
-Stage R.1 is complete. The exact pinned tokenizer/runtime renderer passed all 512 training and 128 dev prompts before model-bound execution. Capacity is frozen at prompt 928, completion 256 and sequence ceiling 1,184. GRPO config SHA is `ce3883b0326492b9109963e8d95496936aa3b3b8670cb9d3b4e9346f65c8cc93` and runtime registry canonical SHA is `fad035928e6fdc285ec290d295f4d481700c04ac7f5639f41d3e3ac8a0451beb`. The immutable failed run `grpo_v2_seed42_20260726T030733Z` must not be resumed or reused.
+Stage R.2 run `grpo_v2_seed42_20260726T034649Z` passed the complete capacity
+preflight, then failed before training because Trainer construction returned with
+`trainer.optimizer` unset and the runtime immediately inspected
+`trainer.optimizer.state`. It has zero updates, completions, tokens, checkpoints and
+dev evaluations and is excluded from science. The earlier capacity-failure run also
+remains immutable/excluded.
 
-No GPU work is currently authorized. After explicit authorization, create a new run ID and execute exactly once from update 0:
+The sole next task requires new explicit CPU-only authorization:
 
-```bash
-HF_HUB_OFFLINE=1 \
-TRANSFORMERS_OFFLINE=1 \
-PYTHONPATH=src \
-python -m math_rlvr.training.grpo_v2 \
-  --config configs/grpo_v2/grpo_v2_seed42.json \
-  --warmstart-checkpoint /root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16 \
-  --run-dir /root/autodl-tmp/runs/math_rlvr/<NEW_GRPO_V2_RUN_ID> \
-  --execute \
-  --confirm-grpo-v2
-```
+1. reproduce the Trainer optimizer lifecycle with a bounded fake/static test;
+2. move fresh-optimizer creation or its audit to the correct lifecycle boundary;
+3. prove no SFT optimizer/scheduler state is inherited;
+4. prove the optimizer parameter set equals policy-LoRA trainables;
+5. run only directly affected CPU tests/dry-run and preserve both failed runs.
 
-The future run remains 128 updates, 512 microsteps, 512 unique curriculum prompts, 2,048 completions, 524,288 training-token cap, and checkpoint/dev cadence 32/64/96/128. Hidden test remains inaccessible. Do not launch it without new explicit GPU authorization.
+Do not run GRPO-v2, dev evaluation or hidden test. A further GPU attempt requires a
+separate authorization after a committed, backed-up, clean CPU repair.

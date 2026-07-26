@@ -48,3 +48,12 @@ The model-bound runtime is frozen and CPU/fake validated. It initializes the v2 
 ## Stage R.1 capacity reconciliation
 
 The pinned tokenizer and exact runtime renderer audited all 512 training and 128 dev prompts. The actual maximum is 918 tokens, so the preregistered rule freezes prompt cap 928; completion remains 256 and the explicit sequence ceiling is 1,184. Old-cap overflows were two; new-cap overflows and truncations are zero. The execute path now completes this exact audit before CUDA, model/adapter load, Trainer/optimizer construction or generation. Config SHA is `ce3883b0326492b9109963e8d95496936aa3b3b8670cb9d3b4e9346f65c8cc93` and runtime registry canonical SHA is `fad035928e6fdc285ec290d295f4d481700c04ac7f5639f41d3e3ac8a0451beb`. No data, curriculum, hidden test, warm-start state, model, prompt, reward/parser/verifier, LoRA, sampling or budget changed. A fresh GRPO-v2 run still requires separate GPU authorization.
+
+## Stage R.2 initialization result
+
+Fresh run `grpo_v2_seed42_20260726T034649Z` passed the reconciled 512+128 prompt
+preflight, but failed before training when the post-constructor fresh-optimizer audit
+accessed `.state` on an optimizer that had not yet been created. All training,
+completion, checkpoint, dev and hidden-test counters are zero. The run is immutable
+and excluded. The next gate is a narrow CPU-only optimizer-lifecycle repair; no GPU
+retry or hidden evaluation is authorized.

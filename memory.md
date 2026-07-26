@@ -1140,3 +1140,25 @@ This file records operational history and pitfalls that should survive context c
 - New GRPO config SHA `ce3883b0326492b9109963e8d95496936aa3b3b8670cb9d3b4e9346f65c8cc93`; new dev config SHA `cafd9f4945a31a9befcf90ae1524107e086f0820178447e8b5767cf19c2ffa59`; runtime registry canonical/raw SHA `fad035928e6fdc285ec290d295f4d481700c04ac7f5639f41d3e3ac8a0451beb` / `32d83b2ac2e7bb64cbab3d09cec3f2834baca0e46df416e9c407ebf7bcf3fd3b`; capacity audit identity `0868361e0c79e11a7e70f267927ac27e341e48a9c08fbecdec6995da47854e31`.
 - Train/dev/hidden manifests, curriculum, warm-start checkpoint/adapter, model, prompt, reward, parser, verifier, LoRA, sampling, budgets and shared n=10 pass@k contract remain byte-identical.
 - Next decision: user may separately authorize one new Stage R attempt from update 0. Stage R.1 itself authorizes no GPU execution.
+
+## 2026-07-26 — Stage R.2 GRPO-v2 initialization failure
+
+- `grpo_v2_seed42_20260726T034649Z` executed once from
+  `999faa507fbca3bbb97e3bd37253e0f2a972f45b`; automatic retries were zero.
+- The complete 512-training/128-dev prompt preflight passed with frozen
+  928/256/1,184 capacity, zero truncation and zero hidden-test access.
+- Warm-start checkpoint/adapter identity matched and SFT optimizer inheritance stayed
+  false. Trainer construction returned before its optimizer existed; the runtime then
+  read `trainer.optimizer.state` and raised
+  `AttributeError: 'NoneType' object has no attribute 'state'`.
+- The run has 0 updates, 0 microsteps, 0 optimizer/global steps, 0 completions/tokens,
+  no checkpoint and no dev evaluation. It is an immutable engineering failure excluded
+  from scientific statistics; neither Stage R failure may be resumed or combined.
+- Raw checksums passed. Failure backup:
+  `/root/autodl-fs/math-rlvr-backups/grpo_v2_seed42_20260726T034649Z.failure.tar.gz`,
+  SHA `7c4a7c367723c47c13d0b3d4f4810478196716f69a39f4c27761ef88a28d1f50`.
+  Peak nvidia-smi memory was 3,597 MiB; measured 0.001071901 GPU-hours / ¥0.009518.
+  GPU returned to 0 MiB with no compute process.
+- Next decision: separately authorize a bounded CPU-only diagnosis and minimal repair
+  of fresh optimizer creation/audit timing. No GPU retry or hidden-test work is
+  authorized.
