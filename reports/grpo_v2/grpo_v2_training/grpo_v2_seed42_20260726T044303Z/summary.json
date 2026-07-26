@@ -1,0 +1,248 @@
+{
+  "backup": {
+    "archive": "/root/autodl-fs/math-rlvr-backups/grpo_v2_seed42_20260726T044303Z.tar.gz",
+    "entries": 75,
+    "postrelease_archive": "/root/autodl-fs/math-rlvr-backups/grpo_v2_seed42_20260726T044303Z.postrelease.tar.gz",
+    "postrelease_entries": 77,
+    "postrelease_sha256": "52ccacdccfd07259993ae3075301fdbb50ab00e628954871809ac8319e239fcb",
+    "postrelease_verified": true,
+    "sha256": "af88cd652ef1ff1a23ff34a728fafb24e62c55ac68b83472575dea90c3d2a6f2",
+    "verified": true
+  },
+  "checkpoint_artifacts": [
+    {
+      "adapter_sha256": "35e7f625dab50ae54548f31af2263c4580e6d73918b6ba273040f10fbd9a0d94",
+      "artifact_manifest_sha256": "f766ef4d76c7ce5dc1f84f58bbc7014f3eb3b50461d1dbb4248610c7395e90e6",
+      "base_weights_included": false,
+      "completion_prefix_count": 512,
+      "metric_prefix_count": 32,
+      "step": 32
+    },
+    {
+      "adapter_sha256": "6ba77baa9d29859b6ededf4a9250d06ab9c49e58782d74ab2e835e38b1efbe70",
+      "artifact_manifest_sha256": "bc76c75ed83ce990f09a5fd33026fdd7573cd57fa385f49f78f1a6749b025019",
+      "base_weights_included": false,
+      "completion_prefix_count": 1024,
+      "metric_prefix_count": 64,
+      "step": 64
+    },
+    {
+      "adapter_sha256": "0ebfe5752fb066273692512bd8c3ef23bda4d58786bdfc017aa6aca75fa57080",
+      "artifact_manifest_sha256": "73bb15a32911f490216be2a80eb0d112be0f79236a6d461fd81fbd0579639246",
+      "base_weights_included": false,
+      "completion_prefix_count": 1536,
+      "metric_prefix_count": 96,
+      "step": 96
+    },
+    {
+      "adapter_sha256": "bf33454a79d53057cfca73b115a7ae74b18d93b3167d5788d8f375b9b9ad1528",
+      "artifact_manifest_sha256": "e6f2db7d4a7c190224ae761ebcb8783653426cc4206262705f46f61414cfc0ae",
+      "base_weights_included": false,
+      "completion_prefix_count": 2048,
+      "metric_prefix_count": 128,
+      "step": 128
+    }
+  ],
+  "counters": {
+    "completions": 2048,
+    "dev_completions": 512,
+    "dev_tokens": 53609,
+    "generated_tokens": 230675,
+    "global_steps": 128,
+    "microsteps": 512,
+    "optimizer_steps": 128,
+    "updates": 128
+  },
+  "dev": [
+    {
+      "canonical_pass_rate": 0.1796875,
+      "checkpoint_step": 32,
+      "correct_numerator": 23,
+      "format_rate": 0.5,
+      "generated_tokens": 13679,
+      "parseable_rate": 0.4453125,
+      "problem_denominator": 128,
+      "run_id": "grpo_v2_dev_seed42_checkpoint32_grpo_v2_seed42_20260726T044303Z",
+      "truncation_rate": 0.0546875
+    },
+    {
+      "canonical_pass_rate": 0.2109375,
+      "checkpoint_step": 64,
+      "correct_numerator": 27,
+      "format_rate": 0.625,
+      "generated_tokens": 13613,
+      "parseable_rate": 0.5390625,
+      "problem_denominator": 128,
+      "run_id": "grpo_v2_dev_seed42_checkpoint64_grpo_v2_seed42_20260726T044303Z",
+      "truncation_rate": 0.0390625
+    },
+    {
+      "canonical_pass_rate": 0.2578125,
+      "checkpoint_step": 96,
+      "correct_numerator": 33,
+      "format_rate": 0.7265625,
+      "generated_tokens": 13418,
+      "parseable_rate": 0.6171875,
+      "problem_denominator": 128,
+      "run_id": "grpo_v2_dev_seed42_checkpoint96_grpo_v2_seed42_20260726T044303Z",
+      "truncation_rate": 0.03125
+    },
+    {
+      "canonical_pass_rate": 0.21875,
+      "checkpoint_step": 128,
+      "correct_numerator": 28,
+      "format_rate": 0.75,
+      "generated_tokens": 12899,
+      "parseable_rate": 0.65625,
+      "problem_denominator": 128,
+      "run_id": "grpo_v2_dev_seed42_checkpoint128_grpo_v2_seed42_20260726T044303Z",
+      "truncation_rate": 0.0390625
+    }
+  ],
+  "entropy": {
+    "available_updates": 128,
+    "definition": "H=-sum_v softmax(logits)_v * log_softmax(logits)_v (nats)",
+    "first": 0.29409221559762955,
+    "last": 0.29213695228099823,
+    "mean": 0.26221068295126315,
+    "raw_key": "entropy"
+  },
+  "grad_norm": {
+    "available_updates": 128,
+    "first": 0.554767906665802,
+    "last": 0.2501632571220398,
+    "mean": 0.4189642887795344
+  },
+  "hidden_test_accesses": 0,
+  "launcher": {
+    "exit_code": 1,
+    "gpu_release_verified": true,
+    "manual_parent_termination_required": true,
+    "post_release_evidence": "post_worker_gpu_release_manual.json",
+    "scientific_finalization_preceded_ipc_block": true,
+    "status": "launcher_ipc_manual_termination_after_scientific_finalization",
+    "worker_result_transport": "multiprocessing_queue_oversized_payload_block"
+  },
+  "launcher_status": "launcher_ipc_manual_termination_after_scientific_finalization",
+  "loss": {
+    "first": -0.0306,
+    "last": -0.0129,
+    "max": 0.2233,
+    "mean": 0.01250859375,
+    "min": -0.1859
+  },
+  "model_roles": {
+    "base_trainable_parameters": 0,
+    "grpo_optimizer_initialization": "fresh",
+    "initial_policy_adapter_sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
+    "lifecycle": "native_first_update_verified",
+    "optimizer_exact_role_match": true,
+    "optimizer_parameter_tensors": 224,
+    "optimizer_state_entries_after_first_update": 224,
+    "optimizer_state_entries_before_training": 0,
+    "policy_trainable_parameters": 4358144,
+    "reward_trainable_parameters": 0,
+    "sft_optimizer_state_loaded": false
+  },
+  "optional_metrics": {
+    "clip_fraction": {
+      "available_updates": 128,
+      "mean": 0.0,
+      "raw_key": "clip_ratio/region_mean"
+    },
+    "kl": {
+      "available": false,
+      "available_updates": 0,
+      "reason": "GRPO beta=0.0; reference-model KL is not computed",
+      "value": null
+    },
+    "ratio": {
+      "available": false,
+      "available_updates": 0,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric",
+      "value": null
+    },
+    "ratio_variance": {
+      "available": false,
+      "available_updates": 0,
+      "reason": "reviewed TRL 0.24.0 per-update log row did not expose this metric",
+      "value": null
+    }
+  },
+  "pytorch_allocator": {
+    "available": true,
+    "device_index": 0,
+    "device_label": "cuda:0",
+    "device_name": "NVIDIA H800 PCIe",
+    "exception_message": null,
+    "exception_type": null,
+    "failure_phase": null,
+    "max_memory_allocated": {
+      "bytes": 5556246528,
+      "mib": 5298.849609375
+    },
+    "max_memory_reserved": {
+      "bytes": 11077156864,
+      "mib": 10564.0
+    },
+    "memory_allocated": {
+      "bytes": 3207989760,
+      "mib": 3059.37744140625
+    },
+    "memory_reserved": {
+      "bytes": 11077156864,
+      "mib": 10564.0
+    },
+    "requested_device": {
+      "callable": false,
+      "is_bool": false,
+      "is_function": false,
+      "is_int": false,
+      "is_string": true,
+      "is_torch_device": false,
+      "safe_repr": "'cuda:0'",
+      "type": "builtins.str"
+    },
+    "state": "finalized",
+    "unavailable_reason": null
+  },
+  "reward": {
+    "mean": 0.3900634765625,
+    "population_std": 0.38421000761966234
+  },
+  "reward_groups": {
+    "all_equal_count": 145,
+    "all_zero_count": 6,
+    "count": 512,
+    "nonzero_variance_count": 367,
+    "zero_advantage_count": 145,
+    "zero_variance_count": 145
+  },
+  "run_id": "grpo_v2_seed42_20260726T044303Z",
+  "scientific_status": "scientific_training_and_dev_success",
+  "selected_checkpoint_step": 96,
+  "selection_rule": [
+    "canonical_pass",
+    "parseable",
+    "format",
+    "truncation",
+    "earlier"
+  ],
+  "training_rates": {
+    "canonical_pass": 0.27880859375,
+    "eos": 0.95751953125,
+    "format": 0.84375,
+    "parseable": 0.75439453125,
+    "truncation": 0.04248046875,
+    "valid_answer": 0.7998046875
+  },
+  "training_resource": {
+    "available": true,
+    "estimated_cost_cny": 2.624028074435145,
+    "gpu_hours": 0.29549865703098477,
+    "mean_gpu_utilization": 44.50239520958084,
+    "peak_vram_mb": 11247.0
+  },
+  "training_token_cap": 524288,
+  "unique_training_problems": 512
+}

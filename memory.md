@@ -1180,3 +1180,25 @@ This file records operational history and pitfalls that should survive context c
   generation, GRPO, dev or hidden-test execution.
 - Frozen config/data/curriculum/scientific SHA and immutable Stage R/R.2 failure
   evidence remain unchanged. 下一步直接重新授权真实GRPO-v2训练。
+
+## 2026-07-26 — Stage R.4 GRPO-v2 seed-42 scientific training success
+
+- `grpo_v2_seed42_20260726T044303Z` executed the frozen GPU command once with no
+  retry. It completed 512 unique prompts, 128 updates, 512 microsteps, 128 optimizer/
+  global steps, 2,048 completions and 230,675 training rollout tokens.
+- Checkpoints 32/64/96/128 are adapter-only and include trusted GRPO optimizer,
+  scheduler, RNG, counters, curriculum cursor, evidence prefixes and SHA inventories.
+  Dev pass@1 was 23/128, 27/128, 33/128 and 28/128; the frozen rule selected
+  checkpoint-96.
+- Training mean reward was 0.390063; canonical pass 27.8809%, format 84.3750%,
+  parseable 75.4395%, truncation 4.2480%. Of 512 reward groups, 367 had nonzero
+  variance and 145 had zero advantage. Training used 0.295499 GPU-hours, CNY2.6240,
+  and peak nvidia-smi VRAM 11,247 MiB.
+- Scientific evidence, checkpoints, dev rows, summary and full backup SHA
+  `af88cd652ef1ff1a23ff34a728fafb24e62c55ac68b83472575dea90c3d2a6f2`; the non-overwriting post-release archive SHA is `52ccacdccfd07259993ae3075301fdbb50ab00e628954871809ac8319e239fcb` completed
+  before the worker blocked returning an oversized result via multiprocessing IPC.
+  The completed worker and stuck parent were terminated without retry. GPU ended at
+  0 MiB/no compute process. Scientific status remains success; launcher status is
+  disclosed separately as manual termination after scientific finalization.
+- Hidden-test accesses remain zero. The next task is CPU-only implementation/freeze
+  of its narrow four-model evaluator, not hidden-test execution itself.

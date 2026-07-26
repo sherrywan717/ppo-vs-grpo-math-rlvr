@@ -1,21 +1,17 @@
-# Next task: directly reauthorize one fresh GRPO-v2 seed-42 run
+# Next task: freeze the four-model GRPO-v2 hidden-test evaluator
 
-Stage R.3 is complete. The native lazy optimizer lifecycle is now correctly audited:
-constructor-time `optimizer=None` is accepted, exact policy-LoRA/fresh state is checked
-at `on_train_begin`, and first-step state/scheduler/counters are checked at
-`on_step_end`. No SFT optimizer or scheduler is inherited. Frozen scientific
-identities and both immutable failed attempts are unchanged.
+Stage R.4 scientific training and matched dev are complete. Run
+`grpo_v2_seed42_20260726T044303Z` finished 128 updates, 2,048 completions and four
+dev evaluations. The preregistered dev rule selected checkpoint-96 (33/128).
+Training must not be rerun.
 
-下一步直接重新授权真实GRPO-v2训练。
+The only next task is CPU-only implementation and contract freeze for one narrow
+model-bound hidden-test evaluator covering Base, old GRPO-v1 seed42, warmstart-only,
+and selected GRPO-v2 checkpoint-96. It must implement the already frozen 400-problem
+candidate-0 ledger and shared 100-problem n=10 unbiased pass@1/pass@4/pass@10
+contract. No hidden-test generation is authorized by this document.
 
-After new explicit GPU authorization, create a unique run ID and execute exactly once
-from update 0:
-
-```bash
-HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONPATH=src python -m math_rlvr.training.grpo_v2   --config configs/grpo_v2/grpo_v2_seed42.json   --warmstart-checkpoint /root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16   --run-dir /root/autodl-tmp/runs/math_rlvr/<NEW_GRPO_V2_RUN_ID>   --execute   --confirm-grpo-v2
-```
-
-The run remains 128 updates, 512 microsteps, 512 unique prompts, 2,048 completions,
-524,288 training-token cap, and checkpoint/dev cadence 32/64/96/128. Do not resume or
-reuse either failed run. Hidden test remains sealed. This document does not authorize
-the GPU command by itself.
+The evaluator must also avoid returning large primary evidence through a
+join-before-read multiprocessing queue. Stage R.4 scientific artifacts finalized
+successfully, but its launcher required manual termination after IPC transport
+blocked; GPU release was independently verified.

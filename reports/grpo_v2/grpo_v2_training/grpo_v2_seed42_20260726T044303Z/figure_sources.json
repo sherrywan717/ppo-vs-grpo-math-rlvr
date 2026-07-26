@@ -1,0 +1,32 @@
+{
+  "completion_length_truncation.png": [
+    "update_metrics.csv"
+  ],
+  "dev_checkpoint_curve.png": [
+    "dev_checkpoint_metrics.csv"
+  ],
+  "dev_correct_counts.png": [
+    "dev_checkpoint_metrics.csv"
+  ],
+  "dev_domain_level.png": [
+    "dev_checkpoint_metrics.csv"
+  ],
+  "optimization_metrics.png": [
+    "update_metrics.csv"
+  ],
+  "resource_timeline.png": [
+    "resource_metrics.csv"
+  ],
+  "reward_group_signal.png": [
+    "reward_group_statistics.csv"
+  ],
+  "selected_dev_status_distribution.png": [
+    "status_distribution.csv"
+  ],
+  "training_outcome_rates.png": [
+    "update_metrics.csv"
+  ],
+  "training_reward.png": [
+    "update_metrics.csv"
+  ]
+}

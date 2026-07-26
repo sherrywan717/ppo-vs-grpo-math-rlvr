@@ -1,0 +1,33 @@
+{
+  "run_id": "grpo_v2_seed42_20260726T044303Z",
+  "recorded_at_utc": "2026-07-26T06:06:48Z",
+  "record_type": "manual_post_supervisor_release_evidence",
+  "scientific_status": "scientific_training_and_dev_success",
+  "launcher_status": "launcher_ipc_manual_termination_after_scientific_finalization",
+  "launcher_exit_code": 1,
+  "launcher_exit_interpretation": "The worker had finalized training, four dev evaluations, checkpoints, primary evidence, summary, and verified backup before blocking while returning an oversized result through multiprocessing IPC. The completed worker and then the blocked parent launcher were terminated without retry.",
+  "training_rerun_performed": false,
+  "gpu": {
+    "memory_used_mib": 0,
+    "utilization_percent": 0,
+    "compute_process_count": 0,
+    "probe": "nvidia-smi"
+  },
+  "processes": {
+    "worker_pid": 39729,
+    "worker_present": false,
+    "parent_pid": 39664,
+    "parent_present": false,
+    "resource_tracker_pid": 39724,
+    "resource_tracker_present": false
+  },
+  "end_to_end_launcher": {
+    "start_utc": "2026-07-26T04:43:03Z",
+    "release_complete_utc": "2026-07-26T06:06:48Z",
+    "wall_seconds": 5025,
+    "gpu_hours_if_billed_for_full_launcher_wall": 1.3958333333333333,
+    "cost_cny_if_billed_for_full_launcher_wall": 12.395,
+    "note": "This includes post-finalization IPC waiting and is not the training-only GPU usage metric."
+  },
+  "primary_evidence_unchanged": true
+}

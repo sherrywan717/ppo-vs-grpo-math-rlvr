@@ -1,0 +1,5 @@
+metric,value,available,reason,available_updates,total_updates,raw_key
+kl,,false,GRPO beta=0.0; reference-model KL is not computed,0,128,
+ratio,,false,reviewed TRL 0.24.0 per-update log row did not expose this metric,0,128,
+ratio_variance,,false,reviewed TRL 0.24.0 per-update log row did not expose this metric,0,128,
+clip_fraction,0.0,true,,128,128,clip_ratio/region_mean

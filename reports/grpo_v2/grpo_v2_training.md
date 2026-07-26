@@ -11,3 +11,14 @@ updates/completions/tokens and no checkpoint/dev result, is excluded from scienc
 was not retried. Its verified failure archive SHA is
 `7c4a7c367723c47c13d0b3d4f4810478196716f69a39f4c27761ef88a28d1f50`;
 GPU returned to 0 MiB/no process.
+
+The third fresh attempt,
+[`grpo_v2_seed42_20260726T044303Z`](grpo_v2_training/grpo_v2_seed42_20260726T044303Z/report.md),
+is the scientific training and matched-dev success: 128 updates, 2,048 completions,
+230,675 training tokens, four trusted checkpoints and 512 isolated dev completions.
+Dev pass@1 at steps 32/64/96/128 was 23/128, 27/128, 33/128 and 28/128; the frozen
+rule selected checkpoint-96. Scientific artifacts and the verified full backup
+completed before an oversized multiprocessing result blocked launcher IPC. The
+completed worker and stuck parent were terminated without retry; post-release GPU
+state was 0 MiB/no process. This launcher issue does not alter the immutable
+scientific result.

@@ -1,0 +1,6 @@
+phase,checkpoint_step,unique_problems,completions_per_problem,completion_count,generated_tokens,token_budget_scope,training_token_cap
+training,,512,4,2048,230675,training_rollout,524288
+dev,32,128,1,128,13679,dev_excluded_from_training,
+dev,64,128,1,128,13613,dev_excluded_from_training,
+dev,96,128,1,128,13418,dev_excluded_from_training,
+dev,128,128,1,128,12899,dev_excluded_from_training,

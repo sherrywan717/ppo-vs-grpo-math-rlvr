@@ -1,0 +1,132 @@
+{
+  "files": [
+    {
+      "path": "backup_manifest.json",
+      "sha256": "6dc3ecd42606525e480d494c0c379cc0fd2b09a4054fa7265c7e017cb2de11e4",
+      "size_bytes": 475
+    },
+    {
+      "path": "checkpoint_inventory.json",
+      "sha256": "0336e826c370de519ace9074fa635010cae2f30ca9e66632f3509a959d693045",
+      "size_bytes": 10756
+    },
+    {
+      "path": "completions.jsonl",
+      "sha256": "92410a07dbdaf359827bc9b7a93940fbaac24e22bd3fcbea30f68b416eb67089",
+      "size_bytes": 8169009
+    },
+    {
+      "path": "dev_checkpoint_metrics.csv",
+      "sha256": "f79eebd47b5bd432487e7740fbe9a8fd43c955d32b6f745bf45f4a61291e08ca",
+      "size_bytes": 2959
+    },
+    {
+      "path": "dev_validation.jsonl",
+      "sha256": "04c49a2871af0130f5b1c7dd84672d3908f8c7f2f1c8802a5932e66ef1446753",
+      "size_bytes": 1945952
+    },
+    {
+      "path": "figure_sources.json",
+      "sha256": "e7e893db1d3f705858b5b97decf3fd3135ac5f6a1578e9138411868c10ba15d3",
+      "size_bytes": 670
+    },
+    {
+      "path": "figures/completion_length_truncation.png",
+      "sha256": "4cb6b7618a2502a4529e72c1e101095a50b7d4fbb77da5a7501fb875440fd95f",
+      "size_bytes": 147670
+    },
+    {
+      "path": "figures/dev_checkpoint_curve.png",
+      "sha256": "1c94907d012154bf27aecdd99d551f1adb46627116ccd3af508adac47b330766",
+      "size_bytes": 62409
+    },
+    {
+      "path": "figures/dev_correct_counts.png",
+      "sha256": "f7eaf4a880b40bfc80100092cf67e6265b94df5280d5287adf6b8c360ea320dd",
+      "size_bytes": 44008
+    },
+    {
+      "path": "figures/dev_domain_level.png",
+      "sha256": "65e1f96b44a13122c0d71069101b474659d3b576a7701bce69e011febde49e4d",
+      "size_bytes": 44134
+    },
+    {
+      "path": "figures/optimization_metrics.png",
+      "sha256": "4871ef65a7eb858f9879762a3c68214e593ab0f2a59eba121a85626303729a84",
+      "size_bytes": 240477
+    },
+    {
+      "path": "figures/resource_timeline.png",
+      "sha256": "8a2b9c82a5bc89e37ef6fee758f6a4a727f30e41f9226946ac4b0ffc78f8d3f6",
+      "size_bytes": 117879
+    },
+    {
+      "path": "figures/reward_group_signal.png",
+      "sha256": "1beee9ffa9606c108d4a8a29da01207df041746df34ec06153104cf05005c001",
+      "size_bytes": 188921
+    },
+    {
+      "path": "figures/selected_dev_status_distribution.png",
+      "sha256": "1f3ca7b0d978f21c8e589e368ca8c901b03b02fb2960ceebe35d0bdd19de3634",
+      "size_bytes": 48354
+    },
+    {
+      "path": "figures/training_outcome_rates.png",
+      "sha256": "acde9fba345ec8a94ea57174e944a4a82bd82f8fb0e94683805293c408c5e61d",
+      "size_bytes": 215379
+    },
+    {
+      "path": "figures/training_reward.png",
+      "sha256": "e00bc9d29a0856d045604ad6b99432c3698ba070e4f54674d6d48f85cd273d4b",
+      "size_bytes": 123932
+    },
+    {
+      "path": "optional_metric_availability.csv",
+      "sha256": "916705995ff0dccb4ab1baa37ade9d56cc2be5421afdd87cf2f8aa44f3639ecc",
+      "size_bytes": 378
+    },
+    {
+      "path": "post_worker_gpu_release_manual.json",
+      "sha256": "0e279c56ce81deec484467109afc8401d908581c7b0d8d7a87503dec0c7a704e",
+      "size_bytes": 1445
+    },
+    {
+      "path": "report.md",
+      "sha256": "5470519a2f84e629804e6b2e1d7d4d5cdf70e055b522f89aed6a2494c1a27680",
+      "size_bytes": 4078
+    },
+    {
+      "path": "resource_metrics.csv",
+      "sha256": "8924319c83af1fd2d574bf398b561e8633d9474dcb499a29bba9bfa96af4cbc8",
+      "size_bytes": 300976
+    },
+    {
+      "path": "reward_group_statistics.csv",
+      "sha256": "e8fa8abd0058000479c6c62c6fe207eae774d30ee92e3765cf516de5485dd7af",
+      "size_bytes": 22964
+    },
+    {
+      "path": "sample_ledger.csv",
+      "sha256": "7e5d5e97036accf22f57784e2f8c10b2c6f4d49e493c1261dd050b0baef2b838",
+      "size_bytes": 397
+    },
+    {
+      "path": "status_distribution.csv",
+      "sha256": "9e3b46bb32e2fdfc4a7eb31f067ec25ccedd18253c6623e13e952f4c3b88ddf8",
+      "size_bytes": 819
+    },
+    {
+      "path": "summary.json",
+      "sha256": "fe8b1a2688f6f775c9b6e4fa3831e1e3342696734927bab0a33ef5897b5578cb",
+      "size_bytes": 7779
+    },
+    {
+      "path": "update_metrics.csv",
+      "sha256": "027a8b8c349995aea41369b51ed5041b011300385ef1d9797fbfe11b8f3e7c94",
+      "size_bytes": 57772
+    }
+  ],
+  "run_id": "grpo_v2_seed42_20260726T044303Z",
+  "scientific_status": "scientific_training_and_dev_success",
+  "source_run": "/root/autodl-tmp/runs/math_rlvr/grpo_v2_seed42_20260726T044303Z"
+}

@@ -418,3 +418,28 @@ run from update 0; no GPU work is authorized by this handoff.
   Both failed Stage R runs remain immutable/excluded.
 - 下一步直接重新授权真实GRPO-v2训练。No additional CPU preparation stage is
   required; this handoff does not itself authorize GPU execution.
+
+## Stage R.4 GRPO-v2 scientific result
+
+Run `grpo_v2_seed42_20260726T044303Z` completed 512/512 unique curriculum prompts,
+128/128 updates, 512/512 microsteps, 128/128 optimizer/global steps, 2,048/2,048
+completions and 230,675/524,288 training tokens. Dev remained separate at four
+checkpoints with 512 completions and 53,609 tokens; hidden-test accesses were zero.
+
+Dev canonical pass was 23/128, 27/128, 33/128 and 28/128 at steps 32/64/96/128.
+The preregistered lexicographic rule therefore selected checkpoint-96. The warm-start
+adapter SHA remained `44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9`;
+the GRPO optimizer/scheduler were newly initialized and exact policy-LoRA role checks
+passed. All checkpoints are adapter-only with trusted optimizer/scheduler/RNG/counter/
+cursor/prefix inventories.
+
+Scientific artifacts and backup SHA
+`af88cd652ef1ff1a23ff34a728fafb24e62c55ac68b83472575dea90c3d2a6f2`; the non-overwriting post-release archive SHA is `52ccacdccfd07259993ae3075301fdbb50ab00e628954871809ac8319e239fcb` finalized
+successfully. Afterwards, the worker blocked transporting an oversized finalized
+result through multiprocessing IPC. It and the stuck parent were terminated without
+retry; GPU release is 0 MiB/no compute process. The scientific status is
+`scientific_training_and_dev_success`; launcher status is separately
+`launcher_ipc_manual_termination_after_scientific_finalization`.
+
+The sole next task is CPU-only implementation/freeze of the four-model hidden-test
+evaluator. Hidden-test generation is still unauthorized and has never run.

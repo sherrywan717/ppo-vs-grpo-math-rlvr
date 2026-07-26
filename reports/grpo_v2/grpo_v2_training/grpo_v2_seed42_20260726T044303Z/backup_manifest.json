@@ -1,0 +1,10 @@
+{
+  "archive": "/root/autodl-fs/math-rlvr-backups/grpo_v2_seed42_20260726T044303Z.tar.gz",
+  "entries": 75,
+  "postrelease_archive": "/root/autodl-fs/math-rlvr-backups/grpo_v2_seed42_20260726T044303Z.postrelease.tar.gz",
+  "postrelease_entries": 77,
+  "postrelease_sha256": "52ccacdccfd07259993ae3075301fdbb50ab00e628954871809ac8319e239fcb",
+  "postrelease_verified": true,
+  "sha256": "af88cd652ef1ff1a23ff34a728fafb24e62c55ac68b83472575dea90c3d2a6f2",
+  "verified": true
+}

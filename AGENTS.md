@@ -786,3 +786,23 @@ state, or use Accelerate wrapper object identity as evidence. A one-step tiny CP
 Trainer and focused tests passed with CUDA uninitialized. Frozen science/config SHA
 and both failed runs are unchanged. 下一步直接重新授权真实GRPO-v2训练；no GPU work is
 authorized by this repair itself.
+
+### GRPO-v2 Stage R.4 scientific training and dev success
+
+Run `grpo_v2_seed42_20260726T044303Z` completed the frozen contract: 512 unique
+curriculum prompts, 128 updates, 512 microsteps, 2,048 completions, 230,675 training
+tokens, four trusted adapter-only checkpoints, and four isolated 128-problem dev
+evaluations. The frozen dev rule selected checkpoint-96 at 33/128 canonical pass;
+checkpoint-128 was 28/128. Hidden-test accesses remain zero.
+
+The warm-start policy adapter was loaded without SFT optimizer/scheduler state. The
+native GRPO optimizer was fresh, matched exactly the 4,358,144 policy-LoRA trainables,
+and materialized its AdamW state at the first update. Training/dev primary evidence and
+the verified full backup completed before the worker blocked returning an oversized
+result through multiprocessing IPC. The worker and parent were then terminated without
+retry; post-release evidence shows 0 MiB and no compute process. Record this as a
+launcher engineering issue after scientific finalization, not as a training failure or
+normal launcher exit. Do not rerun training.
+
+The next task is a separately authorized CPU-only implementation/freeze of the narrow
+four-model hidden-test evaluator. The hidden test itself remains unauthorized.
