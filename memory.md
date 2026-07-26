@@ -1120,3 +1120,11 @@ This file records operational history and pitfalls that should survive context c
 - Frozen execution is 512 unique curriculum prompts once, 128 updates, 512 microsteps, 2,048 completions, and a 524,288-token cap. Primary completion/metric prefixes persist atomically after every update before checkpoints.
 - Checkpoints 32/64/96/128 are policy-adapter-only plus trusted optimizer/scheduler/RNG/runtime/cursor/prefix state. Same-run exact resume is permitted at 32/64/96; continuous128 and 64+resume fake state matched. Four 128-problem single-candidate dev ledgers are isolated from training budgets; selection is dev-only; hidden test access is zero.
 - 49 targeted tests, affected Ruff/compileall, dry-run, check_env, manifest validation, diff/secret/large-file audits passed. Stage Q CUDA/model/tokenizer/generation/Trainer/backward/optimizer counts are zero. Full pytest was intentionally not run. Commit, backup and remote branch SHA are recorded by final Git state.
+
+## 2026-07-26 — Stage R GRPO-v2 seed-42 attempt stopped before training
+
+- Run `grpo_v2_seed42_20260726T030733Z` executed the frozen command once from commit `b738221a2b6df90ac5b2b895b27e9fac2e12525e`; no retry occurred.
+- Dataset rendering found frozen curriculum problem `math:DigitalLearningGmbH/MATH-lighteval:train:4567` at 914 prompt tokens, above the frozen GRPO cap 832. It is curriculum position 83, update 21, slot 2. Existing Stage O audit already preserves this measurement.
+- Counters are 0 updates, 0 microsteps, 0 optimizer/global steps, 0 completions/tokens, 0 checkpoints/dev, and 0 hidden-test accesses. Model/tokenizer and warm policy adapter loading were reached; Trainer and fresh GRPO optimizer construction were not.
+- Failure backup SHA `3fa2cbb730c5a72faa83cd35172873ce367537e19fc705d890c8d9bce4748fb8` verified with 17 entries, no model weights/checkpoints. Worker monitor recorded 2.088978s, 4 MiB peak nvidia-smi, 0.000580272 GPU-hours, ¥0.005153. GPU returned to 0 MiB/no process.
+- Run is excluded from scientific analysis. The next decision is a separately authorized CPU-only capacity reconciliation; Stage R must not be resumed or retried from this attempt.

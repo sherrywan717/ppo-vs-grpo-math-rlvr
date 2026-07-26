@@ -40,3 +40,7 @@ Matched Base and warm-start dev-v2 runs both completed 128/128. Base pass@1 was 
 ## Stage Q guarded GRPO-v2 runtime
 
 The model-bound runtime is frozen and CPU/fake validated. It initializes the v2 policy from only the immutable warm-start adapter, creates a fresh GRPO optimizer/scheduler, consumes the frozen 512-prompt curriculum once over 128 updates, persists primary evidence per update, and writes trusted same-run checkpoints at 32/64/96/128. The same frozen matched dev protocol runs independently at those steps and alone selects a checkpoint. Hidden test remains inaccessible. A real run still requires separate explicit GPU authorization.
+
+## Stage R first attempt
+
+`grpo_v2_seed42_20260726T030733Z` stopped before training when immutable curriculum position 83 rendered to 914 prompt tokens under the frozen GRPO cap 832. No update, completion, checkpoint, dev evaluation, or hidden-test access occurred, and the attempt was not retried. Warm-start and matched dev remain valid. A separately authorized CPU-only capacity reconciliation is required before any new GRPO-v2 GPU attempt.

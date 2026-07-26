@@ -7,3 +7,7 @@ The final hidden evaluation compares Base, old GRPO-v1 checkpoint-32, warmstart-
 ## Stage Q executable experiment plan
 
 The frozen design now has one guarded model-bound implementation. A new run starts from the warm-start checkpoint-16 policy adapter only, initializes a fresh GRPO optimizer/scheduler, and follows the 512-position curriculum without shuffle. Updates/checkpoints/dev are 128 and 32/64/96/128; training and dev ledgers are disjoint. Only same-run checkpoints 32/64/96 can resume. The final checkpoint selection rule and sealed hidden-test contract are unchanged. Stage Q adds execution wiring, not a scientific amendment.
+
+## Stage R execution boundary
+
+The first frozen GRPO-v2 command failed before optimization because one immutable train prompt measured 914 tokens against the registered 832-token cap. This is an engineering capacity mismatch, not a scientific result. No data, order, prompt, reward, parser/verifier, sampling, completion budget, or hidden-test identity was changed. Any capacity amendment must be explicit, CPU-audited and versioned before a new GPU authorization.

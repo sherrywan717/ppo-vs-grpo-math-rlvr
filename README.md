@@ -172,7 +172,7 @@ Stage O.3 supersedes the unexecuted 50-problem pass@10 proposal with a shared 10
 
 ### GRPO-v2 Stage P status
 
-The seed-42 warm-start [`warmstart_grpo_v2_seed42_20260722T051218Z`](reports/grpo_v2/warmstart/warmstart_grpo_v2_seed42_20260722T051218Z/report.md) completed its exact 256-sample/one-epoch/16-step contract and produced a verified adapter-only checkpoint. Base and warm-start matched dev-v2 evaluations subsequently completed at 6/128 and 8/128. GRPO-v2 and hidden test have not started.
+The seed-42 warm-start [`warmstart_grpo_v2_seed42_20260722T051218Z`](reports/grpo_v2/warmstart/warmstart_grpo_v2_seed42_20260722T051218Z/report.md) completed its exact 256-sample/one-epoch/16-step contract and produced a verified adapter-only checkpoint. Base and warm-start matched dev-v2 evaluations subsequently completed at 6/128 and 8/128. The first GRPO-v2 attempt stopped before training on a frozen prompt-cap mismatch; hidden test has not started.
 
 ### Stage P.1 evaluator status
 
@@ -186,3 +186,7 @@ The frozen matched evaluation completed once per mode: Base achieved 6/128 candi
 ### GRPO-v2 Stage Q runtime freeze
 
 The guarded model-bound seed-42 runtime is now CPU/fake validated. It loads only the immutable warm-start policy adapter, initializes a fresh GRPO optimizer/scheduler, enforces 128 updates/512 microsteps/2,048 completions and writes adapter-only trusted checkpoints plus independent dev evaluations at 32/64/96/128. Hidden test remains sealed. The exact future command is in [`docs/NEXT_TASK.md`](docs/NEXT_TASK.md); no GRPO-v2 GPU run has started.
+
+### Stage R GRPO-v2 attempt
+
+Run [`grpo_v2_seed42_20260726T030733Z`](reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T030733Z/report.md) stopped before training: one frozen curriculum prompt is 914 tokens versus the GRPO-v2 cap 832. It produced zero updates/completions/tokens and no checkpoint or dev result, is excluded from scientific analysis, and was not retried. The verified failure backup contains no model weights; GPU was fully released. The next step is CPU-only capacity reconciliation, not hidden-test evaluation.

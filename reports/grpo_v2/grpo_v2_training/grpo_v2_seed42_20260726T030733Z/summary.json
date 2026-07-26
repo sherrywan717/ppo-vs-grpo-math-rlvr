@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "stage": "R",
+  "run_id": "grpo_v2_seed42_20260726T030733Z",
+  "status": "engineering_failure_before_training_prompt_capacity_mismatch",
+  "included_in_scientific_analysis": false,
+  "attempt": 1,
+  "automatic_retries": 0,
+  "failure": {
+    "exception_type": "GRPOV2ContractError",
+    "reason": "GRPO-v2 train prompt exceeds frozen cap",
+    "frozen_max_prompt_length": 832,
+    "offending_problem_id": "math:DigitalLearningGmbH/MATH-lighteval:train:4567",
+    "curriculum_position": 83,
+    "curriculum_update": 21,
+    "curriculum_slot": 2,
+    "observed_prompt_tokens": 914,
+    "evidence_source": "reports/grpo_v2/warmstart_target_lengths_amended.csv",
+    "required_action": "separately_authorized_CPU_only_capacity_contract_reconciliation"
+  },
+  "frozen_identity": {
+    "git_head": "b738221a2b6df90ac5b2b895b27e9fac2e12525e",
+    "config_sha256": "059553888fdc997a5b9f214fde526d4be8c309ca84abe212c243fd74305b1b66",
+    "runtime_registry_sha256": "43ef900265e37a355d7edf271384a5f7c84166a17b378034349c344228dab3fa",
+    "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "warmstart_checkpoint_sha256": "507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0",
+    "warmstart_adapter_sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9"
+  },
+  "counters": {
+    "updates": 0,
+    "microsteps": 0,
+    "optimizer_steps": 0,
+    "global_steps": 0,
+    "unique_prompts": 0,
+    "training_completions": 0,
+    "training_generated_tokens": 0,
+    "checkpoints": 0,
+    "dev_evaluations": 0,
+    "dev_completions": 0,
+    "hidden_test_accesses": 0
+  },
+  "assembly": {
+    "local_model_and_tokenizer_load_attempted": true,
+    "warmstart_policy_adapter_loaded_before_prompt_preflight": true,
+    "trainer_constructed": false,
+    "fresh_grpo_optimizer_initialized": false,
+    "sft_optimizer_or_scheduler_loaded": false
+  },
+  "metrics": {
+    "reward_mean": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "reward_std": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "canonical_pass": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "format": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "parseable": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "valid_answer": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "loss": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "entropy": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "grad_norm": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "kl": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "ratio": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "clip_fraction": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "eos_rate": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "truncation_rate": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    },
+    "duplicate_rate": {
+      "value": null,
+      "available": false,
+      "reason": "no_successful_training_update"
+    }
+  },
+  "resources": {
+    "worker_monitor_wall_time_seconds": 2.0889781191945076,
+    "peak_nvidia_smi_memory_mib": 4.0,
+    "mean_gpu_utilization_pct": 0.0,
+    "gpu_hours": 0.0005802716997762521,
+    "cost_cny_at_8_88_per_hour": 0.005152812694013119
+  },
+  "artifacts": {
+    "raw_run_path": "/root/autodl-tmp/runs/math_rlvr/grpo_v2_seed42_20260726T030733Z",
+    "raw_checksums_verified": true,
+    "backup_path": "/root/autodl-fs/math-rlvr-backups/grpo_v2_seed42_20260726T030733Z.failure.tar.gz",
+    "backup_sha256": "3fa2cbb730c5a72faa83cd35172873ce367537e19fc705d890c8d9bce4748fb8",
+    "backup_entries": 17,
+    "backup_contains_model_weights": false,
+    "backup_contains_checkpoints": false
+  },
+  "gpu_release": {
+    "post_worker_memory_mib": 0,
+    "no_compute_process": true,
+    "worker_pid_exited": true,
+    "parent_cuda_initialized": false
+  },
+  "primary_evidence_sha256": {
+    "final_summary.json": "bc23fcb92e120b6ee7961a4b6795462bf5364924ba14d0561e7d08b883cb164e",
+    "runtime_identity.json": "4a33196aee89cb55e20f55543576c90de1d58cc96c1034c1e1a0101914854815",
+    "resource_metrics.csv": "9f31e6ea7296b4adf655ee2b18921db02feb2f7c2cfca5861c86cab86b16c297",
+    "post_worker_gpu_release.json": "bc54c91d1168be072c97d7bfac6dd8166d9e0a870f89a90888267ee326e17e56",
+    "checksums.sha256": "153075939279ef1d43683c43f1d814abbe54b43f68ce750171972e592ebf4a47"
+  }
+}
