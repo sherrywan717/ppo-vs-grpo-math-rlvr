@@ -451,3 +451,216 @@ def test_historical_warmstart_checkpoint_hashes_unchanged():
     adapter = WARMSTART_CHECKPOINT / "adapter/adapter_model.safetensors"
     assert manifest["artifact_sha256"] == EXPECTED_CHECKPOINT_ARTIFACT_SHA256
     assert hashlib.sha256(adapter.read_bytes()).hexdigest() == EXPECTED_ADAPTER_SHA256
+
+
+def _tiny_lora_policy():
+    import torch
+
+    class TinyPolicy(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.lora_weight = torch.nn.Parameter(torch.tensor([1.0]))
+            self.base_weight = torch.nn.Parameter(
+                torch.tensor([2.0]), requires_grad=False
+            )
+
+    return TinyPolicy()
+
+
+def test_optimizer_lifecycle_rejects_wrong_roles_and_inherited_state():
+    from types import SimpleNamespace
+
+    import torch
+
+    from math_rlvr.training.grpo_v2_model_runtime import (
+        grpo_v2_optimizer_lifecycle_callback,
+        initial_grpo_v2_optimizer_roles,
+    )
+
+    state = SimpleNamespace(global_step=0)
+    control = SimpleNamespace()
+    guard = SimpleNamespace(optimizer_steps=0, global_steps=0, updates=0)
+
+    policy = _tiny_lora_policy()
+    wrong_optimizer = torch.optim.AdamW(
+        [policy.lora_weight, policy.base_weight], lr=0.01
+    )
+    wrong_scheduler = torch.optim.lr_scheduler.LambdaLR(
+        wrong_optimizer, lambda _: 1.0
+    )
+    callback = grpo_v2_optimizer_lifecycle_callback(
+        policy, initial_grpo_v2_optimizer_roles(policy), guard, fresh=True
+    )
+    with pytest.raises(FormalRuntimeError, match="exact policy-LoRA"):
+        callback.on_train_begin(
+            None,
+            state,
+            control,
+            optimizer=wrong_optimizer,
+            lr_scheduler=wrong_scheduler,
+        )
+
+    policy = _tiny_lora_policy()
+    first = torch.optim.AdamW([policy.lora_weight], lr=0.01)
+    first_scheduler = torch.optim.lr_scheduler.LambdaLR(first, lambda _: 1.0)
+    roles = initial_grpo_v2_optimizer_roles(policy)
+    callback = grpo_v2_optimizer_lifecycle_callback(
+        policy, roles, guard, fresh=True
+    )
+    callback.on_train_begin(
+        None, state, control, optimizer=first, lr_scheduler=first_scheduler
+    )
+    replacement = torch.optim.AdamW([policy.lora_weight], lr=0.01)
+    replacement_scheduler = torch.optim.lr_scheduler.LambdaLR(
+        replacement, lambda _: 1.0
+    )
+    (policy.lora_weight.square().sum()).backward()
+    replacement.step()
+    replacement_scheduler.step()
+    guard.optimizer_steps = guard.global_steps = guard.updates = 1
+    state.global_step = 1
+    with pytest.raises(GRPOV2ContractError, match="optimizer changed"):
+        callback.on_step_end(
+            None,
+            state,
+            control,
+            optimizer=replacement,
+            lr_scheduler=replacement_scheduler,
+        )
+
+    state.global_step = 0
+    guard.optimizer_steps = guard.global_steps = guard.updates = 0
+    policy = _tiny_lora_policy()
+    inherited = torch.optim.AdamW([policy.lora_weight], lr=0.01)
+    inherited_scheduler = torch.optim.lr_scheduler.LambdaLR(
+        inherited, lambda _: 1.0
+    )
+    (policy.lora_weight.square().sum()).backward()
+    inherited.step()
+    callback = grpo_v2_optimizer_lifecycle_callback(
+        policy, initial_grpo_v2_optimizer_roles(policy), guard, fresh=True
+    )
+    with pytest.raises(GRPOV2ContractError, match="inherited pre-update state"):
+        callback.on_train_begin(
+            None,
+            state,
+            control,
+            optimizer=inherited,
+            lr_scheduler=inherited_scheduler,
+        )
+
+
+def test_stage_r3_frozen_identity_and_failure_evidence_registration():
+    expected = {
+        "configs/grpo_v2/grpo_v2_seed42.json": (
+            "ce3883b0326492b9109963e8d95496936aa3b3b8670cb9d3b4e9346f65c8cc93"
+        ),
+        "configs/grpo_v2/dev_evaluation_seed42.json": (
+            "cafd9f4945a31a9befcf90ae1524107e086f0820178447e8b5767cf19c2ffa59"
+        ),
+        "configs/grpo_v2/curriculum.json": (
+            "7f7dcfa1218828e72dd6d42783bc2c790897c7e2a8f2f84d59ce2189710e3b41"
+        ),
+        "configs/grpo_v2/manifests/train_v2.jsonl": (
+            "ca3403ae7b0c1f2689e21aca3283348f89b2ffb65498329e74cc4fa7fde8b664"
+        ),
+        "configs/grpo_v2/manifests/dev_v2.jsonl": (
+            "bdf02e1202e564177fea59f80f0b0ac8a36649daf8636ed6dd5bf3e5f6356b80"
+        ),
+    }
+    for relative, digest in expected.items():
+        assert hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() == digest
+    summary = json.loads(
+        (
+            ROOT
+            / "reports/grpo_v2/grpo_v2_training/"
+            "grpo_v2_seed42_20260726T034649Z/summary.json"
+        ).read_text()
+    )
+    assert (
+        summary["primary_evidence_sha256"]["checksums.sha256"]
+        == "4bfdbbb439fec5a93e0a2687cc381b96c7010505fa0de541f7ad459b998ab36a"
+    )
+    assert summary["included_in_scientific_analysis"] is False
+
+
+def test_native_trainer_lazy_optimizer_hook_executes_once(tmp_path):
+    from types import SimpleNamespace
+
+    import torch
+    from transformers import Trainer, TrainerCallback, TrainingArguments
+
+    from math_rlvr.training.grpo_v2_model_runtime import (
+        grpo_v2_optimizer_lifecycle_callback,
+        initial_grpo_v2_optimizer_roles,
+    )
+
+    assert torch.cuda.is_initialized() is False
+
+    class TinyPolicy(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.lora_weight = torch.nn.Parameter(torch.tensor([1.0]))
+            self.base_weight = torch.nn.Parameter(
+                torch.tensor([2.0]), requires_grad=False
+            )
+
+        def forward(self, input_ids=None, labels=None):
+            prediction = input_ids.float() * self.lora_weight
+            loss = (prediction - labels.float()).square().mean()
+            return {"loss": loss, "logits": prediction}
+
+    class TinyDataset(torch.utils.data.Dataset):
+        def __len__(self):
+            return 1
+
+        def __getitem__(self, _index):
+            return {
+                "input_ids": torch.tensor([1.0]),
+                "labels": torch.tensor([0.0]),
+            }
+
+    class CounterCallback(TrainerCallback):
+        def on_pre_optimizer_step(self, args, state, control, **kwargs):
+            guard.optimizer_steps += 1
+            return control
+
+        def on_step_end(self, args, state, control, **kwargs):
+            guard.global_steps = int(state.global_step)
+            guard.updates += 1
+            return control
+
+    policy = TinyPolicy()
+    roles = initial_grpo_v2_optimizer_roles(policy)
+    guard = SimpleNamespace(optimizer_steps=0, global_steps=0, updates=0)
+    trainer = Trainer(
+        model=policy,
+        args=TrainingArguments(
+            output_dir=str(tmp_path),
+            use_cpu=True,
+            max_steps=1,
+            per_device_train_batch_size=1,
+            gradient_accumulation_steps=1,
+            learning_rate=0.01,
+            save_strategy="no",
+            logging_strategy="no",
+            report_to=[],
+            disable_tqdm=True,
+        ),
+        train_dataset=TinyDataset(),
+    )
+    assert trainer.optimizer is None
+    trainer.add_callback(CounterCallback())
+    trainer.add_callback(
+        grpo_v2_optimizer_lifecycle_callback(policy, roles, guard, fresh=True)
+    )
+    trainer.train()
+    assert roles["lifecycle"] == "native_first_update_verified"
+    assert roles["optimizer_state_entries_before_training"] == 0
+    assert roles["optimizer_state_entries_after_first_update"] == 1
+    assert roles["first_update_counters"] == {
+        "optimizer_steps": 1,
+        "global_steps": 1,
+        "updates": 1,
+    }
+    assert torch.cuda.is_initialized() is False

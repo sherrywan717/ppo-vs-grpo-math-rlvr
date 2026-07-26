@@ -773,3 +773,16 @@ GPU returned to 0 MiB/no process. Never resume, combine or scientifically aggreg
 either Stage R attempt. The only next task is a separately authorized CPU-only narrow
 diagnosis and repair of the Trainer/fresh-optimizer initialization boundary; no GPU
 retry or hidden-test work is authorized.
+
+### GRPO-v2 Stage R.3 lazy optimizer lifecycle repair
+
+The Stage R.2 failure was caused only by auditing `trainer.optimizer.state` before
+Transformers' native lazy optimizer creation. The GRPO-v2 runtime now records
+post-constructor `optimizer=None` as `lazy_not_initialized`, audits the exact
+policy-LoRA parameter set at native `on_train_begin`, accepts empty fresh AdamW state,
+and verifies state materialization plus scheduler/counter advancement at the first
+native `on_step_end`. It does not create a parallel optimizer, inherit SFT optimizer
+state, or use Accelerate wrapper object identity as evidence. A one-step tiny CPU
+Trainer and focused tests passed with CUDA uninitialized. Frozen science/config SHA
+and both failed runs are unchanged. 下一步直接重新授权真实GRPO-v2训练；no GPU work is
+authorized by this repair itself.

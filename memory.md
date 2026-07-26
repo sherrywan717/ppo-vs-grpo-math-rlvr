@@ -1162,3 +1162,21 @@ This file records operational history and pitfalls that should survive context c
 - Next decision: separately authorize a bounded CPU-only diagnosis and minimal repair
   of fresh optimizer creation/audit timing. No GPU retry or hidden-test work is
   authorized.
+
+## 2026-07-26 — Stage R.3 lazy optimizer lifecycle repair
+
+- Confirmed Transformers 4.57.6 creates/prepares optimizer and scheduler in the
+  native inner loop before `on_train_begin`; constructor-time `optimizer=None` is
+  expected. The Stage R.2 `.state` read was therefore premature.
+- GRPO-v2 now records `lazy_not_initialized` after construction, audits exact
+  policy-LoRA roles and empty fresh state at `on_train_begin`, and verifies materialized
+  AdamW state, scheduler advancement and counters 1/1/1 at first `on_step_end`.
+- No parallel optimizer was introduced. Fresh GRPO loads no SFT optimizer/scheduler;
+  same-run state restoration occurs only after native optimizer creation. Accelerate
+  wrapper object identity is not used as evidence.
+- A tiny CPU native Trainer completed exactly one synthetic backward/optimizer step;
+  final focused suite was 4 passed. Ruff, compileall, GRPO-v2 dry-run, manifest
+  validation, check_env and diff check passed with CUDA false and no real model,
+  generation, GRPO, dev or hidden-test execution.
+- Frozen config/data/curriculum/scientific SHA and immutable Stage R/R.2 failure
+  evidence remain unchanged. 下一步直接重新授权真实GRPO-v2训练。

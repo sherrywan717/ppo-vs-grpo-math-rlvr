@@ -398,3 +398,23 @@ run from update 0; no GPU work is authorized by this handoff.
   budgets remain unchanged. The unique next task is CPU-only diagnosis and minimal
   repair of this initialization boundary. No retry or hidden-test execution is
   authorized.
+
+## Stage R.3 lazy optimizer lifecycle repair
+
+- Repair base: `improve/grpo-v2` at
+  `5f40bd159c9015ecc76df61213df4d8d37e452da`; result commit is the commit
+  containing this handoff.
+- The old post-constructor `.state` read is removed. `optimizer=None` is valid and
+  recorded as `lazy_not_initialized`.
+- Exact policy-LoRA/fresh-state/scheduler auditing now runs at native
+  `on_train_begin`; first state materialization, scheduler advancement and
+  optimizer/global/update=1 are verified at native `on_step_end`.
+- TRL/Transformers remains the sole optimizer lifecycle. Fresh runs load no SFT
+  optimizer/scheduler; Accelerate wrapper identity is not a gate.
+- Four focused tests, affected Ruff/compileall, dry-run, manifest validation,
+  check_env and diff check passed. The only real optimizer step was one synthetic CPU
+  Trainer step; CUDA/model/generation/real GRPO/dev/hidden-test counts stayed zero.
+- Config, dev, registry, curriculum/data and all scientific SHA values are unchanged.
+  Both failed Stage R runs remain immutable/excluded.
+- 下一步直接重新授权真实GRPO-v2训练。No additional CPU preparation stage is
+  required; this handoff does not itself authorize GPU execution.

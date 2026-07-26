@@ -18,6 +18,172 @@ from math_rlvr.training.grpo_v2_runtime import (
 )
 
 
+def _underlying_optimizer(optimizer):
+    """Safely unwrap Accelerate without using wrapper identity as audit evidence."""
+    current = optimizer
+    for _ in range(4):
+        wrapped = getattr(current, "optimizer", None)
+        if wrapped is None or wrapped is current:
+            return current
+        current = wrapped
+    raise GRPOV2ContractError("GRPO-v2 optimizer wrapper nesting is unexpected")
+
+
+def _scheduler_position(scheduler) -> dict[str, int | None]:
+    return {
+        "last_epoch": getattr(scheduler, "last_epoch", None),
+        "step_count": getattr(scheduler, "_step_count", None),
+    }
+
+
+def _scheduler_advanced(before: dict[str, int | None], after: dict[str, int | None]) -> bool:
+    return any(
+        before[name] is not None
+        and after[name] is not None
+        and after[name] > before[name]
+        for name in before
+    )
+
+
+def initial_grpo_v2_optimizer_roles(policy) -> dict[str, Any]:
+    """Record the valid post-constructor lazy state without touching ``None.state``."""
+    from math_rlvr.training.formal_model_runtime import audit_grpo_parameter_roles
+
+    roles = audit_grpo_parameter_roles(policy, optimizer=None)
+    return {
+        **roles,
+        "lifecycle": "lazy_not_initialized",
+        "optimizer_present": False,
+        "scheduler_present": False,
+        "sft_optimizer_state_loaded": False,
+        "optimizer_state_entries_before_training": None,
+    }
+
+
+def grpo_v2_optimizer_lifecycle_callback(
+    policy,
+    roles: dict[str, Any],
+    guard,
+    *,
+    fresh: bool,
+    step_offset: int = 0,
+    restore_training_state=None,
+):
+    """Audit the native lazy optimizer before and after its first update."""
+    from transformers import TrainerCallback
+
+    from math_rlvr.training.formal_model_runtime import audit_grpo_parameter_roles
+
+    class OptimizerLifecycleCallback(TrainerCallback):
+        def __init__(self):
+            self.parameter_ids: set[int] | None = None
+            self.underlying_optimizer = None
+            self.scheduler_before: dict[str, int | None] | None = None
+            self.first_step_verified = False
+
+        def on_train_begin(self, args, state, control, **kwargs):
+            optimizer = kwargs.get("optimizer")
+            scheduler = kwargs.get("lr_scheduler")
+            if optimizer is None or scheduler is None:
+                raise GRPOV2ContractError(
+                    "native GRPO optimizer/scheduler missing at on_train_begin"
+                )
+            if int(state.global_step) != step_offset:
+                raise GRPOV2ContractError("GRPO-v2 optimizer audit step offset drift")
+            if restore_training_state is not None:
+                restore_training_state()
+            underlying = _underlying_optimizer(optimizer)
+            audit = audit_grpo_parameter_roles(policy, optimizer=underlying)
+            state_entries = len(underlying.state)
+            if fresh and state_entries:
+                raise GRPOV2ContractError(
+                    "fresh GRPO optimizer contains inherited pre-update state"
+                )
+            scheduler_before = _scheduler_position(scheduler)
+            if fresh and (
+                scheduler_before["last_epoch"] not in {-1, 0}
+                or scheduler_before["step_count"] not in {0, 1}
+            ):
+                raise GRPOV2ContractError("fresh GRPO scheduler is not at its initial step")
+            self.parameter_ids = {
+                id(parameter)
+                for group in underlying.param_groups
+                for parameter in group["params"]
+            }
+            self.underlying_optimizer = underlying
+            self.scheduler_before = scheduler_before
+            roles.update(
+                {
+                    **audit,
+                    "lifecycle": "native_created_pre_first_update",
+                    "optimizer_present": True,
+                    "scheduler_present": True,
+                    "sft_optimizer_state_loaded": False,
+                    "optimizer_state_entries_before_training": state_entries,
+                    "optimizer_state_fresh_before_training": fresh and state_entries == 0,
+                    "scheduler_position_before_training": scheduler_before,
+                }
+            )
+            return control
+
+        def on_step_end(self, args, state, control, **kwargs):
+            if int(state.global_step) != step_offset + 1 or self.first_step_verified:
+                return control
+            optimizer = kwargs.get("optimizer")
+            scheduler = kwargs.get("lr_scheduler")
+            if optimizer is None or scheduler is None:
+                raise GRPOV2ContractError("GRPO optimizer/scheduler disappeared after first step")
+            underlying = _underlying_optimizer(optimizer)
+            if underlying is not self.underlying_optimizer:
+                raise GRPOV2ContractError(
+                    "GRPO optimizer changed before first step completed"
+                )
+            audit = audit_grpo_parameter_roles(policy, optimizer=underlying)
+            parameter_ids = {
+                id(parameter)
+                for group in underlying.param_groups
+                for parameter in group["params"]
+            }
+            if parameter_ids != self.parameter_ids:
+                raise GRPOV2ContractError("GRPO optimizer parameter roles changed after first step")
+            state_entries = len(underlying.state)
+            if state_entries == 0:
+                raise GRPOV2ContractError(
+                    "GRPO optimizer state did not materialize after first step"
+                )
+            if any(id(parameter) not in parameter_ids for parameter in underlying.state):
+                raise GRPOV2ContractError("GRPO optimizer state contains an unexpected parameter")
+            scheduler_after = _scheduler_position(scheduler)
+            if self.scheduler_before is None or not _scheduler_advanced(
+                self.scheduler_before, scheduler_after
+            ):
+                raise GRPOV2ContractError("GRPO scheduler did not advance after first step")
+            if not (
+                guard.optimizer_steps == step_offset + 1
+                and guard.global_steps == step_offset + 1
+                and guard.updates == step_offset + 1
+            ):
+                raise GRPOV2ContractError("GRPO first-step counters are inconsistent")
+            roles.update(
+                {
+                    **audit,
+                    "lifecycle": "native_first_update_verified",
+                    "optimizer_state_entries_after_first_update": state_entries,
+                    "optimizer_state_materialized": True,
+                    "scheduler_position_after_first_update": scheduler_after,
+                    "first_update_counters": {
+                        "optimizer_steps": guard.optimizer_steps,
+                        "global_steps": guard.global_steps,
+                        "updates": guard.updates,
+                    },
+                }
+            )
+            self.first_step_verified = True
+            return control
+
+    return OptimizerLifecycleCallback()
+
+
 def _training_rows(design, normalized, contract, tokenizer, *, completed_updates=0):
     from math_rlvr.dataset import MathProblem
     from math_rlvr.prompt import ExperimentScope, format_training_problem, render_training_prompt
@@ -156,7 +322,6 @@ def execute_real_grpo_v2(
         _restore_trusted_rng,
         _restore_trusted_training_state,
         _write_checkpoint,
-        audit_grpo_parameter_roles,
     )
     from math_rlvr.training.formal_runtime import FormalOnlineGuard, create_formal_backup
     from math_rlvr.training.resource_evidence import CudaAllocatorEvidence
@@ -254,7 +419,18 @@ def execute_real_grpo_v2(
                 values.append(evaluation.scalar_reward)
             return values
 
-        roles: dict[str, Any] = {"pending_optimizer_audit": True}
+        roles = initial_grpo_v2_optimizer_roles(policy)
+        if roles["policy_trainable_parameters"] != 4_358_144:
+            raise GRPOV2ContractError("GRPO-v2 trainable parameter count drift")
+        roles.update(
+            {
+                "initial_policy_adapter_sha256": contract.warmstart_adapter_sha256,
+                "initial_policy_adapter_role": "policy",
+                "grpo_optimizer_initialization": (
+                    "fresh" if not validated_resume else "same_run_resume"
+                ),
+            }
+        )
 
         def update_callback(bound_trainer, step):
             partial = _normal_completion_rows(evidence.partial_records(), contract)
@@ -307,27 +483,26 @@ def execute_real_grpo_v2(
             model_source=model_source,
         )
         trainer.add_callback(optimizer_guard_callback(online_guard, step_offset=completed_updates))
-        roles.clear()
-        roles.update(audit_grpo_parameter_roles(policy, optimizer=trainer.optimizer))
-        if roles["policy_trainable_parameters"] != 4_358_144:
-            raise GRPOV2ContractError("GRPO-v2 trainable parameter count drift")
-        roles.update(
-            {
-                "initial_policy_adapter_sha256": contract.warmstart_adapter_sha256,
-                "initial_policy_adapter_role": "policy",
-                "sft_optimizer_state_loaded": False,
-                "grpo_optimizer_initialization": "fresh"
-                if not validated_resume
-                else "same_run_resume",
-                "optimizer_state_entries_before_training": len(trainer.optimizer.state),
-            }
+        restore_training_state = (
+            (lambda: _restore_trusted_training_state(validated_resume, trainer))
+            if validated_resume
+            else None
         )
-        if not validated_resume and trainer.optimizer.state:
-            raise GRPOV2ContractError("new GRPO optimizer unexpectedly contains SFT state")
+        trainer.add_callback(
+            grpo_v2_optimizer_lifecycle_callback(
+                policy,
+                roles,
+                online_guard,
+                fresh=validated_resume is None,
+                step_offset=completed_updates,
+                restore_training_state=restore_training_state,
+            )
+        )
         if validated_resume:
-            _restore_trusted_training_state(validated_resume, trainer)
             _restore_trusted_rng(validated_resume)
         trainer.train()
+        if roles.get("lifecycle") != "native_first_update_verified":
+            raise GRPOV2ContractError("GRPO-v2 native optimizer lifecycle was not verified")
         if int(trainer.state.global_step) != 128:
             raise GRPOV2ContractError("GRPO-v2 Trainer did not finish at step 128")
         online_counters = online_guard.assert_complete()

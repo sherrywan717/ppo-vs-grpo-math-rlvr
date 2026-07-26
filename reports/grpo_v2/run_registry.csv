@@ -9,3 +9,5 @@ grpo_v2_seed42_20260726T030733Z,grpo_v2_training,42,engineering_failure_before_t
 stage_r1_prompt_capacity_audit,grpo_v2_capacity_reconciliation,42,cpu_validated_not_run,640,640,0,0,0,0,,,0,0,False,,reports/grpo_v2/prompt_capacity_amendment.md,
 
 grpo_v2_seed42_20260726T034649Z,grpo_v2_training,42,engineering_failure_before_training_optimizer_state_uninitialized,0,512,0,0,0,0,,,0.001071900927151243,0.009518480233103038,False,trainer_optimizer_none_during_fresh_state_audit,reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T034649Z,7c4a7c367723c47c13d0b3d4f4810478196716f69a39f4c27761ef88a28d1f50
+
+stage_r3_optimizer_lifecycle_fix,grpo_v2_cpu_repair,42,cpu_validated_ready_for_reauthorization,0,0,0,0,0,0,,,0,0,False,,reports/grpo_v2/optimizer_lifecycle_fix.md,
