@@ -1,0 +1,209 @@
+{
+  "rows": [
+    {
+      "available": true,
+      "category": "scientific_success_training",
+      "cost_cny": 0.037799382607142135,
+      "entry": "warmstart_grpo_v2_seed42_20260722T051218Z",
+      "gpu_hours": 0.004256687230534024,
+      "included_in_full_instance_total": true,
+      "included_in_minimum_confirmed_total": true,
+      "measurement_scope": "full_command_or_run_telemetry",
+      "notes": "Warm-start full command.",
+      "overlap_note": "none",
+      "source": "reports/grpo_v2/run_registry.csv"
+    },
+    {
+      "available": true,
+      "category": "dev_evaluation",
+      "cost_cny": 0.6673071527990203,
+      "entry": "base_dev_grpo_v2_seed42_20260722T060500Z",
+      "gpu_hours": 0.07514720189178156,
+      "included_in_full_instance_total": true,
+      "included_in_minimum_confirmed_total": true,
+      "measurement_scope": "full_command_or_run_telemetry",
+      "notes": "Matched Base dev-v2 evaluation.",
+      "overlap_note": "none",
+      "source": "reports/grpo_v2/run_registry.csv"
+    },
+    {
+      "available": true,
+      "category": "dev_evaluation",
+      "cost_cny": 0.9687235681787134,
+      "entry": "warmstart_dev_grpo_v2_seed42_20260722T060500Z",
+      "gpu_hours": 0.10909049191201727,
+      "included_in_full_instance_total": true,
+      "included_in_minimum_confirmed_total": true,
+      "measurement_scope": "full_command_or_run_telemetry",
+      "notes": "Matched warm-start dev-v2 evaluation.",
+      "overlap_note": "none",
+      "source": "reports/grpo_v2/run_registry.csv"
+    },
+    {
+      "available": true,
+      "category": "engineering_failure",
+      "cost_cny": 0.005152812694013119,
+      "entry": "grpo_v2_seed42_20260726T030733Z",
+      "gpu_hours": 0.0005802716997762521,
+      "included_in_full_instance_total": true,
+      "included_in_minimum_confirmed_total": true,
+      "measurement_scope": "full_command_or_run_telemetry",
+      "notes": "Zero-update prompt-capacity failure.",
+      "overlap_note": "none",
+      "source": "reports/grpo_v2/run_registry.csv"
+    },
+    {
+      "available": true,
+      "category": "engineering_failure",
+      "cost_cny": 0.009518480233103038,
+      "entry": "grpo_v2_seed42_20260726T034649Z",
+      "gpu_hours": 0.001071900927151243,
+      "included_in_full_instance_total": true,
+      "included_in_minimum_confirmed_total": true,
+      "measurement_scope": "full_command_or_run_telemetry",
+      "notes": "Zero-update lazy-optimizer audit failure.",
+      "overlap_note": "none",
+      "source": "reports/grpo_v2/run_registry.csv"
+    },
+    {
+      "available": true,
+      "category": "scientific_success_training",
+      "cost_cny": 2.624028074435145,
+      "entry": "grpo_v2_seed42_20260726T044303Z_training_only",
+      "gpu_hours": 0.29549865703098477,
+      "included_in_full_instance_total": false,
+      "included_in_minimum_confirmed_total": true,
+      "measurement_scope": "training_telemetry_only",
+      "notes": "GRPO-v2 training only; dev and IPC wait excluded.",
+      "overlap_note": "overlaps_full_launcher_scope",
+      "source": "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/summary.json"
+    },
+    {
+      "available": true,
+      "category": "instance_occupancy",
+      "cost_cny": 12.395,
+      "entry": "grpo_v2_seed42_20260726T044303Z_full_launcher",
+      "gpu_hours": 1.3958333333333333,
+      "included_in_full_instance_total": true,
+      "included_in_minimum_confirmed_total": false,
+      "measurement_scope": "launch_to_manual_release",
+      "notes": "Includes training, checkpoint dev, finalization and IPC wait; components cannot be separated exactly.",
+      "overlap_note": "contains_training_checkpoint_dev_finalization_and_ipc_wait",
+      "source": "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/post_worker_gpu_release_manual.json"
+    },
+    {
+      "available": true,
+      "category": "hidden_test_evaluation",
+      "cost_cny": 3.178363583544642,
+      "entry": "base_hidden_grpo_v2_seed42_20260728T073339Z",
+      "gpu_hours": 0.3579238269757479,
+      "included_in_full_instance_total": true,
+      "included_in_minimum_confirmed_total": true,
+      "measurement_scope": "model_hidden_evaluation",
+      "notes": "Frozen hidden evaluation for Base.",
+      "overlap_note": "none",
+      "source": "reports/grpo_v2/hidden_test_final/four_model_summary.csv"
+    },
+    {
+      "available": true,
+      "category": "hidden_test_evaluation",
+      "cost_cny": 4.922584562794119,
+      "entry": "old_grpo_v1_hidden_grpo_v2_seed42_20260728T083153Z",
+      "gpu_hours": 0.5543451084227612,
+      "included_in_full_instance_total": true,
+      "included_in_minimum_confirmed_total": true,
+      "measurement_scope": "model_hidden_evaluation",
+      "notes": "Frozen hidden evaluation for Old GRPO-v1.",
+      "overlap_note": "none",
+      "source": "reports/grpo_v2/hidden_test_final/four_model_summary.csv"
+    },
+    {
+      "available": true,
+      "category": "hidden_test_evaluation",
+      "cost_cny": 4.729229988215367,
+      "entry": "warmstart_only_hidden_grpo_v2_seed42_20260728T083153Z",
+      "gpu_hours": 0.5325709446188477,
+      "included_in_full_instance_total": true,
+      "included_in_minimum_confirmed_total": true,
+      "measurement_scope": "model_hidden_evaluation",
+      "notes": "Frozen hidden evaluation for Warm-start-only.",
+      "overlap_note": "none",
+      "source": "reports/grpo_v2/hidden_test_final/four_model_summary.csv"
+    },
+    {
+      "available": true,
+      "category": "hidden_test_evaluation",
+      "cost_cny": 4.754758278449376,
+      "entry": "selected_grpo_v2_hidden_grpo_v2_seed42_20260728T083153Z",
+      "gpu_hours": 0.5354457520776325,
+      "included_in_full_instance_total": true,
+      "included_in_minimum_confirmed_total": true,
+      "measurement_scope": "model_hidden_evaluation",
+      "notes": "Frozen hidden evaluation for Selected GRPO-v2.",
+      "overlap_note": "none",
+      "source": "reports/grpo_v2/hidden_test_final/four_model_summary.csv"
+    },
+    {
+      "available": false,
+      "category": "dev_evaluation",
+      "cost_cny": null,
+      "entry": "grpo_v2_checkpoint_dev_only",
+      "gpu_hours": null,
+      "included_in_full_instance_total": false,
+      "included_in_minimum_confirmed_total": false,
+      "measurement_scope": "four_checkpoint_dev_runs",
+      "notes": "Unavailable: per-checkpoint dev GPU telemetry was not persisted.",
+      "overlap_note": "included_in_full_launcher_but_not_separately_measured",
+      "source": "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/summary.json"
+    },
+    {
+      "available": false,
+      "category": "ipc_idle_instance_cost",
+      "cost_cny": null,
+      "entry": "grpo_v2_ipc_idle_only",
+      "gpu_hours": null,
+      "included_in_full_instance_total": false,
+      "included_in_minimum_confirmed_total": false,
+      "measurement_scope": "post_finalization_ipc_wait",
+      "notes": "Unavailable: full launcher wall combines dev, finalization and IPC wait.",
+      "overlap_note": "included_in_full_launcher_but_not_separately_measured",
+      "source": "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/post_worker_gpu_release_manual.json"
+    }
+  ],
+  "summary": {
+    "currency_rate_cny_per_gpu_hour": 8.88,
+    "dev_evaluation_separately_measured": {
+      "cost_cny": 1.6360307209777338,
+      "gpu_hours": 0.18423769380379884
+    },
+    "engineering_failures": {
+      "cost_cny": 0.014671292927116157,
+      "gpu_hours": 0.001652172626927495
+    },
+    "full_observed_instance_scope": {
+      "cost_cny": 31.668437809515495,
+      "gpu_hours": 3.566265519089583,
+      "note": "Uses full GRPO-v2 launcher wall instead of overlapping training-only telemetry."
+    },
+    "hidden_test": {
+      "cost_cny": 17.584936413003504,
+      "gpu_hours": 1.9802856320949893
+    },
+    "minimum_confirmed_nonoverlapping": {
+      "cost_cny": 21.89746588395064,
+      "excludes": [
+        "grpo_v2_checkpoint_dev_only",
+        "grpo_v2_ipc_idle_only"
+      ],
+      "gpu_hours": 2.4659308427872344
+    },
+    "training_only": {
+      "cost_cny": 2.6618274570422873,
+      "gpu_hours": 0.2997553442615188
+    },
+    "unavailable": [
+      "grpo_v2_checkpoint_dev_only",
+      "grpo_v2_ipc_idle_only"
+    ]
+  }
+}

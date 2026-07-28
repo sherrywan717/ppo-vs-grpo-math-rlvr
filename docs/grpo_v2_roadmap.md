@@ -80,3 +80,10 @@ GRPO-v2 is 14.40%/31.14%/42.00%. Selected GRPO-v2 improves over Base by +9.25 pp
 (+5.25 to +11.25 pp), supporting incremental RLVR benefit only for this single
 frozen seed/protocol. Hidden-test results are terminal and cannot trigger tuning,
 checkpoint reselection, or another run.
+## Stage T portfolio release
+
+GRPO-v2 is scientifically closed. The final portfolio publishes the complete 5,200
+completion comparison, training/dev evidence, deterministic error analysis, resource
+ledger, figure sources, checksums, and remote archive index. No additional training or
+test access belongs to this roadmap. Any successor must begin with a new preregistered
+protocol and a new untouched hidden-test identity.

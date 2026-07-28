@@ -833,3 +833,14 @@ Selected GRPO-v2 gains +9.25 pp over Base and +8.25 pp over warm-start-only on t
 pre-registered protocol result. Do not rerun any hidden role, open another test,
 reselect a checkpoint, or tune from these results. The next stage may only package
 and publish the frozen result after separate authorization.
+### GRPO-v2 portfolio v2 release boundary
+
+The frozen v2 portfolio publishes the once-opened four-model hidden comparison: Base
+6/400, old GRPO-v1 17/400, warm-start-only 10/400, and selected GRPO-v2 checkpoint-96
+43/400 candidate-0. Shared-pool v2 unbiased pass@1/@4/@10 is
+14.40%/31.14%/42.00%. This remains a single-seed result; MATH Level 1 is n=3.
+
+Tag `v0.2.0-grpo-v2` is the intended immutable release. Never move
+`v0.1.0-formal-rlvr`, rerun any hidden role, tune from this test, or commit remote
+checkpoints/caches/credentials. Any future experiment needs a new preregistration and
+a new untouched test identity.

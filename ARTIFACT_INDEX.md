@@ -44,3 +44,15 @@ This index points to the smallest authoritative public artifact for each claim. 
 ## Figures
 
 The portfolio figures are in [reports/formal_1p5b/figures](reports/formal_1p5b/figures/README.md). Run `python scripts/build_portfolio_v1.py` to rebuild the ten `portfolio_*.png` files solely from committed CSV/JSON evidence.
+## GRPO-v2 portfolio v2
+
+- Final report: `reports/grpo_v2/hidden_test_final/final_comparison.md`
+- Machine-readable aggregate: `reports/grpo_v2/hidden_test_final/aggregate_summary.json`
+- Training report: `reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/report.md`
+- Cost ledger and figure map: `reports/grpo_v2/portfolio/`
+- Release manifest: `release/grpo_v2_release_manifest.json`
+- Release notes: `release/grpo_v2_release_notes.md`
+- Remote full-run/checkpoint index: `release/remote_artifacts.md`
+
+Full checkpoints, model weights, optimizer/RNG state, caches, credentials and run
+archives are deliberately excluded from Git.

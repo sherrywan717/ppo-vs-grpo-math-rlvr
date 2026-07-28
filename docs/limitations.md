@@ -11,3 +11,15 @@
 9. **Resource scope:** PPO42 validation recovery used separate processes, so timing includes extra load overhead.
 10. **Test reuse:** published test results are terminal evidence and must not tune GRPO-v2.
 11. **License:** no license has been selected; absence of a LICENSE file is intentional.
+## GRPO-v2 release limitations
+
+- The final improvement experiment has one training seed and one 1.5B model.
+- Candidate-0 accuracy uses 400 problems; unbiased pass@k uses a different shared
+  100-problem universe and cannot be substituted for the headline metric.
+- MATH Level 1 has only three hidden problems and is diagnostic only.
+- Warm-start, expanded data coverage, curriculum and longer training changed together;
+  this run does not causally isolate their individual effects.
+- Optional ratio/KL telemetry is unavailable under the frozen runtime where noted.
+- The hidden test was opened once and cannot support more tuning or retraining.
+- Portfolio-v1 and GRPO-v2 use different held-out identities; only within-protocol
+  paired comparisons are valid deltas.

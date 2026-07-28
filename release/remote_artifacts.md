@@ -14,3 +14,18 @@ GitHub contains the Git-safe evidence layer. The following large runtime artifac
 | `grpo_final_formal_1p5b_seed42_20260721T034104Z` | `/root/autodl-fs/math-rlvr-backups/grpo_final_formal_1p5b_seed42_20260721T034104Z.tar.gz` | `97be0c2f1931690fb631dec557eb17201df12b177810c0b270192c46e6920e48` | `c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a` | Full final-evaluation runtime archive |
 
 The canonical Hugging Face snapshot at `/root/autodl-tmp/cache/huggingface` is also excluded. It contains the pinned Qwen base weights and is reproducible from the public repository ID plus revision; individual multi-gigabyte weight hashes are intentionally not duplicated in Git. No archive or model weight is copied into the GitHub repository or portfolio tarball.
+## GRPO-v2 remote-only artifacts
+
+These artifacts contain adapters, optimizer/scheduler/RNG state, complete completion
+ledgers, or full runtime evidence and therefore remain outside GitHub.
+
+| Run or aggregate | Remote archive | SHA256 | Key checkpoint/artifact identity | Why excluded |
+|---|---|---|---|---|
+| Warm-start seed42 | `/root/autodl-fs/math-rlvr-backups/warmstart_grpo_v2_seed42_20260722T051218Z.postprocess.tar.gz` | `5f0287e4e30f94cb45645fb7f12eec728ea74be68195e3fa8d6904adca85b97e` | checkpoint artifact `507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0` | Full adapter plus optimizer/RNG state |
+| GRPO-v2 training | `/root/autodl-fs/math-rlvr-backups/grpo_v2_seed42_20260726T044303Z.postrelease.tar.gz` | `52ccacdccfd07259993ae3075301fdbb50ab00e628954871809ac8319e239fcb` | selected checkpoint-96 manifest `73bb15a32911f490216be2a80eb0d112be0f79236a6d461fd81fbd0579639246` | Four full trusted resume checkpoints and runtime evidence |
+| Base hidden original | `/root/autodl-fs/math-rlvr-backups/base_hidden_grpo_v2_seed42_20260728T073339Z.failure.tar.gz` | `532ac2854ade3374c3725410f509f6092e2508453fbd68522cf1b85c9660e215` | immutable 1,300-row primary evidence | Original launcher-failure archive |
+| Base hidden recovery | `/root/autodl-fs/math-rlvr-backups/base_hidden_grpo_v2_seed42_20260728T073339Z.metric_recovery.tar.gz` | `72dbb79ecf47549242a8c27229c01bebef5db3195e575ef489f148a7e641ae07` | recovered metric finalization only | Non-overwriting supplemental recovery |
+| Old GRPO-v1 hidden | `/root/autodl-fs/math-rlvr-backups/old_grpo_v1_hidden_grpo_v2_seed42_20260728T083153Z.tar.gz` | `7b29b77362c39f16a04bd960025024bb70b4f63831732066b49e8e833d7f2bc7` | old checkpoint manifest `c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a` | Full 1,300-completion runtime archive |
+| Warm-start-only hidden | `/root/autodl-fs/math-rlvr-backups/warmstart_only_hidden_grpo_v2_seed42_20260728T083153Z.tar.gz` | `914d5e941e1db8f707efcac72c6699a72feaea958ca372fea1fa01460d603d7d` | warm-start artifact `507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0` | Full 1,300-completion runtime archive |
+| Selected GRPO-v2 hidden | `/root/autodl-fs/math-rlvr-backups/selected_grpo_v2_hidden_grpo_v2_seed42_20260728T083153Z.tar.gz` | `b693178aa1a210a1f7dc555c8a4b0b5eea265a083cc655e863233cf9d3796ebc` | checkpoint-96 manifest `73bb15a32911f490216be2a80eb0d112be0f79236a6d461fd81fbd0579639246` | Full 1,300-completion runtime archive |
+| Four-model aggregate | `/root/autodl-fs/math-rlvr-backups/grpo_v2_hidden_four_model_20260728T083153Z.final.tar.gz` | `8a9e411fde3fdf79cc28a604359ca8a556ee7dc5db52ff03471dba5bbfcde47a` | aggregate checksum manifest `dca6bb253156986bdfbf057950da1756db5285fbf8d787280026094142bb2a6d` | Independent static aggregate backup |

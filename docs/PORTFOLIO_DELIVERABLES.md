@@ -323,3 +323,17 @@ Git 历史中禁止保存：
 
 其他问题只能记录为 warning。任何工程警告都不得被用来隐藏失败 seed、重写历史
 证据、补造指标或扩大科学结论。
+## GRPO-v2 portfolio v2 completion
+
+The v2 release is complete at the evidence layer: warm-start, 128-update GRPO-v2,
+dev-only checkpoint selection, and the once-opened four-model hidden comparison all
+have Git-safe reports, CSV/JSON, figures, inventories, and remote archive SHAs. The
+headline is selected GRPO-v2 43/400 candidate-0 versus Base 6/400 and old GRPO-v1
+17/400 on the new frozen hidden test. Shared-pool unbiased pass@1/@4/@10 is
+14.40%/31.14%/42.00%.
+
+The release remains single-seed. MATH Level 1 is diagnostic-only n=3. The v1 and v2
+test identities differ, and the current hidden test is terminal: it cannot authorize
+more tuning, checkpoint selection, or another run. See
+[`hidden_test_final/final_comparison.md`](../reports/grpo_v2/hidden_test_final/final_comparison.md)
+and [`release/grpo_v2_release_manifest.json`](../release/grpo_v2_release_manifest.json).

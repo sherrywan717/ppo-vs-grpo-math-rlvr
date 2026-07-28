@@ -470,3 +470,14 @@ regressed; paired bootstrap 95% CI +6.50 to +12.25 pp) and +8.25 pp over warm-st
 pass@1/pass@4/pass@10 is 14.40%/31.14%/42.00%. Full results are under
 `reports/grpo_v2/hidden_test_final/`. No further training, test generation, checkpoint
 selection, or test-driven tuning is permitted; the next step is CPU-only publication.
+## Stage T GRPO-v2 portfolio publication
+
+The v2 portfolio evidence layer is finalized for release `v0.2.0-grpo-v2`. README,
+reproducibility and interview material now center the frozen four-model comparison,
+while preserving portfolio-v1 history and the single-seed/test-use limitations. The
+release manifest, notes, cost ledger, figure-source map, remote artifact index, error
+analysis and deterministic case studies are Git-safe.
+
+No scientific work remains in this project version. The current hidden test is sealed
+and terminal. A future study requires a new protocol and untouched data; it must not
+continue tuning from the 43/400 result.

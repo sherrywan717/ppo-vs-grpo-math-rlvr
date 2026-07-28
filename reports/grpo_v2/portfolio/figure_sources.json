@@ -1,0 +1,85 @@
+{
+  "all_sources_exist": true,
+  "figures": {
+    "candidate0_accuracy": {
+      "path": "reports/grpo_v2/hidden_test_final/figures/candidate0_accuracy.png",
+      "sources": [
+        "reports/grpo_v2/hidden_test_final/four_model_summary.csv"
+      ]
+    },
+    "completion_length_truncation": {
+      "path": "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/figures/completion_length_truncation.png",
+      "sources": [
+        "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/update_metrics.csv"
+      ]
+    },
+    "cost_quality_tradeoff": {
+      "path": "reports/grpo_v2/hidden_test_final/figures/cost_quality_tradeoff.png",
+      "sources": [
+        "reports/grpo_v2/hidden_test_final/cost_quality_tradeoff.csv"
+      ]
+    },
+    "dataset_accuracy": {
+      "path": "reports/grpo_v2/hidden_test_final/figures/per_dataset_accuracy.png",
+      "sources": [
+        "reports/grpo_v2/hidden_test_final/per_dataset_results.csv"
+      ]
+    },
+    "dev_checkpoint_curve": {
+      "path": "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/figures/dev_checkpoint_curve.png",
+      "sources": [
+        "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/dev_checkpoint_metrics.csv"
+      ]
+    },
+    "math_level_accuracy": {
+      "path": "reports/grpo_v2/hidden_test_final/figures/math_level_accuracy.png",
+      "sources": [
+        "reports/grpo_v2/hidden_test_final/math_level_results.csv"
+      ]
+    },
+    "paired_transitions": {
+      "path": "reports/grpo_v2/hidden_test_final/figures/paired_transitions.png",
+      "sources": [
+        "reports/grpo_v2/hidden_test_final/paired_candidate0_comparisons.csv"
+      ]
+    },
+    "protocol_metrics": {
+      "path": "reports/grpo_v2/hidden_test_final/figures/protocol_metrics.png",
+      "sources": [
+        "reports/grpo_v2/hidden_test_final/four_model_summary.csv"
+      ]
+    },
+    "reward_group_signal": {
+      "path": "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/figures/reward_group_signal.png",
+      "sources": [
+        "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/reward_group_statistics.csv"
+      ]
+    },
+    "training_outcome_rates": {
+      "path": "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/figures/training_outcome_rates.png",
+      "sources": [
+        "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/update_metrics.csv"
+      ]
+    },
+    "training_reward": {
+      "path": "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/figures/training_reward.png",
+      "sources": [
+        "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/update_metrics.csv"
+      ]
+    },
+    "unbiased_pass_k": {
+      "path": "reports/grpo_v2/hidden_test_final/figures/unbiased_pass_k.png",
+      "sources": [
+        "reports/grpo_v2/hidden_test_final/four_model_summary.csv",
+        "reports/grpo_v2/hidden_test_final/paired_pass_k_comparisons.csv"
+      ]
+    },
+    "vram_training_cost": {
+      "path": "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/figures/resource_timeline.png",
+      "sources": [
+        "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/resource_metrics.csv",
+        "reports/grpo_v2/grpo_v2_training/grpo_v2_seed42_20260726T044303Z/summary.json"
+      ]
+    }
+  }
+}

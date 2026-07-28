@@ -1246,3 +1246,15 @@ This file records operational history and pitfalls that should survive context c
   ¥17.5849. Peak observed VRAM was 5,321 MiB.
 - Each new run backup/checksum passed and GPU returned to 0 MiB/no process. No
   further hidden test or training is authorized; next is CPU-only publication.
+## 2026-07-28 — Stage T GRPO-v2 portfolio v2
+
+- Prepared the final GitHub portfolio from frozen CSV/JSON only; no CUDA, model load,
+  generation, training, dev, or hidden-test access occurred.
+- README headline: Base 6/400, old GRPO-v1 17/400, warm-start 10/400, selected
+  GRPO-v2 43/400; selected v2 shared unbiased pass@10 is 42.00%.
+- Added a scoped cost ledger: 0.299755 training-only GPU-hours, 1.980286 hidden-test
+  GPU-hours, and 3.566266 full observed instance-scope GPU-hours. Checkpoint-dev-only
+  and IPC-idle-only components are unavailable rather than estimated.
+- Added the release manifest/notes, figure-source map, expanded interview guide,
+  reproducibility guide, remote archive index, and final error analysis.
+- Release target is `v0.2.0-grpo-v2`; old `v0.1.0-formal-rlvr` remains immutable.
