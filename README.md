@@ -164,11 +164,11 @@ No license has been selected for this repository; no `LICENSE` file is included.
 
 ## GRPO-v2 preregistered improvement branch
 
-The `improve/grpo-v2` branch freezes a seed-42 **format/solution warm-start + GRPO-v2 RLVR** protocol. Warm-start and matched dev have run; two GRPO-v2 attempts stopped before any training update, and hidden test has not run. It expands RL coverage to 512 unique prompts and 128 updates while retaining the v1 model, prompt, reward, parser/verifier, sampling, LoRA, and 256-token completion cap. The hidden test is strictly disjoint from all v1/core data and uses a genuine nested pass@4 pool. See the [design decision](reports/grpo_v2/design_decision.md), [data freeze](reports/grpo_v2/data_freeze_report.md), and [roadmap](docs/grpo_v2_roadmap.md). Portfolio-v1 results remain unchanged.
+The `improve/grpo-v2` branch contains a completed seed-42 **format/solution warm-start + GRPO-v2 RLVR** experiment. It expands RL coverage to 512 unique prompts and 128 updates while retaining the v1 model, prompt, reward, parser/verifier, sampling, LoRA, and 256-token completion cap. The hidden test is strictly disjoint from all v1/core data. See the [design decision](reports/grpo_v2/design_decision.md), [data freeze](reports/grpo_v2/data_freeze_report.md), [final comparison](reports/grpo_v2/hidden_test_final/final_comparison.md), and [roadmap](docs/grpo_v2_roadmap.md). Portfolio-v1 results remain unchanged.
 
 Stage O.2 completed the tokenizer/runtime gate. The original 256-token target audit failure is disclosed; the capacity-only amendment uses 928 prompt / 640 active-target gates while retaining the 1,088 actual-sequence ceiling. All 256 amended records pass without truncation, and the guarded warm-start later completed successfully. Secondary nested pass@10 is preregistered as exploratory only.
 
-Stage O.3 supersedes the unexecuted 50-problem pass@10 proposal with a shared 100-problem n=10 contract. Future hidden evaluation reports separate 400-problem candidate-0 accuracy from exact unbiased pass@1/pass@4/pass@10 over the unchanged shared subset; no hidden-test generation has run. See the [pass@k contract](reports/grpo_v2/pass_k_contract.md) and [amendment](reports/grpo_v2/evaluation_contract_amendment.md).
+Stage O.3 superseded the unexecuted 50-problem pass@10 proposal with a shared 100-problem n=10 contract. The completed hidden evaluation separates 400-problem candidate-0 accuracy from exact unbiased pass@1/pass@4/pass@10 over the unchanged shared subset. See the [pass@k contract](reports/grpo_v2/pass_k_contract.md) and [amendment](reports/grpo_v2/evaluation_contract_amendment.md).
 
 ### GRPO-v2 Stage P status
 
@@ -200,10 +200,10 @@ was not yet initialized when its state was audited. It also has zero updates,
 completions and tokens and is excluded from science. The next task is a bounded
 CPU-only optimizer-lifecycle repair; hidden test remains sealed.
 
-### GRPO-v2 hidden-test status
+### GRPO-v2 hidden-test result
 
-GRPO-v2 training and dev selection remain scientifically complete. The first hidden-test command (Base) persisted all 1,300 frozen completion rows but failed during derived metric finalization because a dev-only aggregator expected 128 rows. The Base run is preserved and excluded pending CPU-only report recovery; the other three models have not run. No hidden-test result is currently published as final.
+The frozen four-model comparison is complete with 5,200 total completions. Candidate-0 accuracy over all 400 hidden problems is Base 6/400 (1.50%), old GRPO-v1 17/400 (4.25%), warm-start-only 10/400 (2.50%), and selected GRPO-v2 checkpoint-96 43/400 (10.75%). On the same shared 100-problem n=10 pool, their unbiased pass@1/pass@4/pass@10 are respectively 1.70/6.03/12.00%, 5.60/15.87/25.00%, 3.30/11.03/19.00%, and 14.40/31.14/42.00%.
 
-### GRPO-v2 Base hidden recovery
+Against Base, selected GRPO-v2 gains 9.25 percentage points on candidate-0 accuracy (38 improvements, one regression; paired bootstrap 95% CI +6.50 to +12.25 pp; McNemar exact p=1.46e-10). Against warm-start-only it gains 8.25 pp (37/4; CI +5.25 to +11.25 pp), supporting an incremental RLVR contribution under this single frozen seed and protocol. This does not establish multi-seed or general algorithm superiority. MATH Level 1 contains only three problems and is diagnostic only.
 
-Base hidden evidence was recovered CPU-only without regeneration: candidate-0 is 6/400 and shared-pool unbiased pass@1/@4/@10 are 1.70%/6.0333%/12.0%. The original launcher failure remains disclosed; the supplemental composite is scientifically complete. Old GRPO-v1, warm-start-only and selected GRPO-v2 hidden runs remain unexecuted.
+Base generation retains its disclosed launcher history `engineering_failure_after_generation_during_metric_finalization`; immutable evidence was recovered without regeneration as `scientifically_complete_with_recovered_metric_finalization`. The other three roles completed normally once each. [Full report and machine-readable evidence](reports/grpo_v2/hidden_test_final/final_comparison.md).

@@ -1,0 +1,786 @@
+{
+  "status": "scientific_evaluation_success",
+  "role": "warmstart_only",
+  "counters": {
+    "all_problem_count": 400,
+    "shared_problem_count": 100,
+    "candidate0_rows": 400,
+    "shared_candidate_rows": 1000,
+    "completion_rows": 1300,
+    "generated_tokens": 150752,
+    "automatic_retries": 0
+  },
+  "candidate0_metrics": {
+    "completion_count": 400,
+    "unique_problem_count": 400,
+    "generated_tokens": 47754,
+    "candidate0_pass_at_1": {
+      "numerator": 10,
+      "denominator": 400,
+      "value": 0.025,
+      "available": true,
+      "reason": null
+    },
+    "format_rate": {
+      "numerator": 48,
+      "denominator": 400,
+      "value": 0.12,
+      "available": true,
+      "reason": null
+    },
+    "valid_answer_rate": {
+      "numerator": 41,
+      "denominator": 400,
+      "value": 0.1025,
+      "available": true,
+      "reason": null
+    },
+    "parseable_rate": {
+      "numerator": 41,
+      "denominator": 400,
+      "value": 0.1025,
+      "available": true,
+      "reason": null
+    },
+    "accuracy_given_parseable": {
+      "numerator": 10,
+      "denominator": 41,
+      "value": 0.24390243902439024,
+      "available": true,
+      "reason": null
+    },
+    "eos_rate": {
+      "numerator": 354,
+      "denominator": 400,
+      "value": 0.885,
+      "available": true,
+      "reason": null
+    },
+    "truncation_rate": {
+      "numerator": 46,
+      "denominator": 400,
+      "value": 0.115,
+      "available": true,
+      "reason": null
+    },
+    "completion_length": {
+      "mean": 119.385,
+      "median": 96.0,
+      "std": 68.5831677764715,
+      "p95": 256
+    },
+    "reward_status_counts": {
+      "FORMAT_ERROR": 352,
+      "PARSE_ERROR": 7,
+      "VERIFIED_PASS": 10,
+      "WRONG_ANSWER": 31
+    },
+    "slices": {
+      "all": {
+        "problems": 400,
+        "candidate0_pass_at_1": {
+          "numerator": 10,
+          "denominator": 400,
+          "value": 0.025,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 48,
+          "denominator": 400,
+          "value": 0.12,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 41,
+          "denominator": 400,
+          "value": 0.1025,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 41,
+          "denominator": 400,
+          "value": 0.1025,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 354,
+          "denominator": 400,
+          "value": 0.885,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 46,
+          "denominator": 400,
+          "value": 0.115,
+          "available": true,
+          "reason": null
+        }
+      },
+      "gsm8k": {
+        "problems": 200,
+        "candidate0_pass_at_1": {
+          "numerator": 6,
+          "denominator": 200,
+          "value": 0.03,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 23,
+          "denominator": 200,
+          "value": 0.115,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 16,
+          "denominator": 200,
+          "value": 0.08,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 16,
+          "denominator": 200,
+          "value": 0.08,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 198,
+          "denominator": 200,
+          "value": 0.99,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 2,
+          "denominator": 200,
+          "value": 0.01,
+          "available": true,
+          "reason": null
+        }
+      },
+      "math": {
+        "problems": 200,
+        "candidate0_pass_at_1": {
+          "numerator": 4,
+          "denominator": 200,
+          "value": 0.02,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 25,
+          "denominator": 200,
+          "value": 0.125,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 25,
+          "denominator": 200,
+          "value": 0.125,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 25,
+          "denominator": 200,
+          "value": 0.125,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 156,
+          "denominator": 200,
+          "value": 0.78,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 44,
+          "denominator": 200,
+          "value": 0.22,
+          "available": true,
+          "reason": null
+        }
+      },
+      "math_level_1": {
+        "problems": 3,
+        "candidate0_pass_at_1": {
+          "numerator": 1,
+          "denominator": 3,
+          "value": 0.3333333333333333,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 2,
+          "denominator": 3,
+          "value": 0.6666666666666666,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 2,
+          "denominator": 3,
+          "value": 0.6666666666666666,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 2,
+          "denominator": 3,
+          "value": 0.6666666666666666,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 3,
+          "denominator": 3,
+          "value": 1.0,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "value": 0.0,
+          "available": true,
+          "reason": null
+        }
+      },
+      "math_level_2": {
+        "problems": 33,
+        "candidate0_pass_at_1": {
+          "numerator": 0,
+          "denominator": 33,
+          "value": 0.0,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 4,
+          "denominator": 33,
+          "value": 0.12121212121212122,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 4,
+          "denominator": 33,
+          "value": 0.12121212121212122,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 4,
+          "denominator": 33,
+          "value": 0.12121212121212122,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 32,
+          "denominator": 33,
+          "value": 0.9696969696969697,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 1,
+          "denominator": 33,
+          "value": 0.030303030303030304,
+          "available": true,
+          "reason": null
+        }
+      },
+      "math_level_3": {
+        "problems": 43,
+        "candidate0_pass_at_1": {
+          "numerator": 1,
+          "denominator": 43,
+          "value": 0.023255813953488372,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 8,
+          "denominator": 43,
+          "value": 0.18604651162790697,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 8,
+          "denominator": 43,
+          "value": 0.18604651162790697,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 8,
+          "denominator": 43,
+          "value": 0.18604651162790697,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 37,
+          "denominator": 43,
+          "value": 0.8604651162790697,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 6,
+          "denominator": 43,
+          "value": 0.13953488372093023,
+          "available": true,
+          "reason": null
+        }
+      },
+      "math_level_4": {
+        "problems": 59,
+        "candidate0_pass_at_1": {
+          "numerator": 1,
+          "denominator": 59,
+          "value": 0.01694915254237288,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 8,
+          "denominator": 59,
+          "value": 0.13559322033898305,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 8,
+          "denominator": 59,
+          "value": 0.13559322033898305,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 8,
+          "denominator": 59,
+          "value": 0.13559322033898305,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 43,
+          "denominator": 59,
+          "value": 0.7288135593220338,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 16,
+          "denominator": 59,
+          "value": 0.2711864406779661,
+          "available": true,
+          "reason": null
+        }
+      },
+      "math_level_5": {
+        "problems": 62,
+        "candidate0_pass_at_1": {
+          "numerator": 1,
+          "denominator": 62,
+          "value": 0.016129032258064516,
+          "available": true,
+          "reason": null
+        },
+        "format_rate": {
+          "numerator": 3,
+          "denominator": 62,
+          "value": 0.04838709677419355,
+          "available": true,
+          "reason": null
+        },
+        "valid_answer_rate": {
+          "numerator": 3,
+          "denominator": 62,
+          "value": 0.04838709677419355,
+          "available": true,
+          "reason": null
+        },
+        "parseable_rate": {
+          "numerator": 3,
+          "denominator": 62,
+          "value": 0.04838709677419355,
+          "available": true,
+          "reason": null
+        },
+        "eos_rate": {
+          "numerator": 41,
+          "denominator": 62,
+          "value": 0.6612903225806451,
+          "available": true,
+          "reason": null
+        },
+        "truncation_rate": {
+          "numerator": 21,
+          "denominator": 62,
+          "value": 0.3387096774193548,
+          "available": true,
+          "reason": null
+        }
+      }
+    }
+  },
+  "pass_k_summary": {
+    "overall": {
+      "problem_denominator": 100,
+      "metrics": {
+        "1": {
+          "mean": 0.033,
+          "standard_error": 0.007528397417562896,
+          "bootstrap_95": {
+            "lower": 0.019000000000000003,
+            "upper": 0.049
+          },
+          "candidate_denominator": 1000
+        },
+        "4": {
+          "mean": 0.11033333333333334,
+          "standard_error": 0.023998199520941434,
+          "bootstrap_95": {
+            "lower": 0.065,
+            "upper": 0.16
+          },
+          "candidate_denominator": 1000
+        },
+        "10": {
+          "mean": 0.19,
+          "standard_error": 0.039427724440366255,
+          "bootstrap_95": {
+            "lower": 0.11,
+            "upper": 0.27
+          },
+          "candidate_denominator": 1000
+        }
+      }
+    },
+    "gsm8k": {
+      "problem_denominator": 50,
+      "metrics": {
+        "1": {
+          "mean": 0.024,
+          "standard_error": 0.009284615319583954,
+          "bootstrap_95": {
+            "lower": 0.008,
+            "upper": 0.044000000000000004
+          },
+          "candidate_denominator": 500
+        },
+        "4": {
+          "mean": 0.08066666666666666,
+          "standard_error": 0.029846014482655236,
+          "bootstrap_95": {
+            "lower": 0.029333333333333336,
+            "upper": 0.142
+          },
+          "candidate_denominator": 500
+        },
+        "10": {
+          "mean": 0.14,
+          "standard_error": 0.04956957592256421,
+          "bootstrap_95": {
+            "lower": 0.06,
+            "upper": 0.24
+          },
+          "candidate_denominator": 500
+        }
+      }
+    },
+    "math": {
+      "problem_denominator": 50,
+      "metrics": {
+        "1": {
+          "mean": 0.042,
+          "standard_error": 0.01181144377633965,
+          "bootstrap_95": {
+            "lower": 0.02,
+            "upper": 0.066
+          },
+          "candidate_denominator": 500
+        },
+        "4": {
+          "mean": 0.14,
+          "standard_error": 0.03742263372264476,
+          "bootstrap_95": {
+            "lower": 0.07200000000000001,
+            "upper": 0.21600000000000003
+          },
+          "candidate_denominator": 500
+        },
+        "10": {
+          "mean": 0.24,
+          "standard_error": 0.0610118757258932,
+          "bootstrap_95": {
+            "lower": 0.12,
+            "upper": 0.36
+          },
+          "candidate_denominator": 500
+        }
+      }
+    },
+    "math_level_1": {
+      "problem_denominator": 3,
+      "metrics": {
+        "1": {
+          "mean": 0.06666666666666667,
+          "standard_error": 0.06666666666666668,
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.20000000000000004
+          },
+          "candidate_denominator": 30
+        },
+        "4": {
+          "mean": 0.2222222222222222,
+          "standard_error": 0.2222222222222222,
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.6666666666666666
+          },
+          "candidate_denominator": 30
+        },
+        "10": {
+          "mean": 0.3333333333333333,
+          "standard_error": 0.3333333333333333,
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 1.0
+          },
+          "candidate_denominator": 30
+        }
+      }
+    },
+    "math_level_2": {
+      "problem_denominator": 8,
+      "metrics": {
+        "1": {
+          "mean": 0.07500000000000001,
+          "standard_error": 0.031339158526400436,
+          "bootstrap_95": {
+            "lower": 0.025,
+            "upper": 0.1375
+          },
+          "candidate_denominator": 80
+        },
+        "4": {
+          "mean": 0.26666666666666666,
+          "standard_error": 0.10690449676496974,
+          "bootstrap_95": {
+            "lower": 0.08333333333333333,
+            "upper": 0.4666666666666667
+          },
+          "candidate_denominator": 80
+        },
+        "10": {
+          "mean": 0.5,
+          "standard_error": 0.1889822365046136,
+          "bootstrap_95": {
+            "lower": 0.125,
+            "upper": 0.875
+          },
+          "candidate_denominator": 80
+        }
+      }
+    },
+    "math_level_3": {
+      "problem_denominator": 10,
+      "metrics": {
+        "1": {
+          "mean": 0.03,
+          "standard_error": 0.029999999999999995,
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.09
+          },
+          "candidate_denominator": 100
+        },
+        "4": {
+          "mean": 0.08333333333333334,
+          "standard_error": 0.08333333333333333,
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.25
+          },
+          "candidate_denominator": 100
+        },
+        "10": {
+          "mean": 0.1,
+          "standard_error": 0.09999999999999999,
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.3
+          },
+          "candidate_denominator": 100
+        }
+      }
+    },
+    "math_level_4": {
+      "problem_denominator": 14,
+      "metrics": {
+        "1": {
+          "mean": 0.0642857142857143,
+          "standard_error": 0.02694549414338292,
+          "bootstrap_95": {
+            "lower": 0.021428571428571432,
+            "upper": 0.12142857142857143
+          },
+          "candidate_denominator": 140
+        },
+        "4": {
+          "mean": 0.2119047619047619,
+          "standard_error": 0.08368841149189016,
+          "bootstrap_95": {
+            "lower": 0.07619047619047618,
+            "upper": 0.38095238095238093
+          },
+          "candidate_denominator": 140
+        },
+        "10": {
+          "mean": 0.35714285714285715,
+          "standard_error": 0.13289435848843764,
+          "bootstrap_95": {
+            "lower": 0.14285714285714285,
+            "upper": 0.6428571428571429
+          },
+          "candidate_denominator": 140
+        }
+      }
+    },
+    "math_level_5": {
+      "problem_denominator": 15,
+      "metrics": {
+        "1": {
+          "mean": 0.006666666666666667,
+          "standard_error": 0.006666666666666666,
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.020000000000000004
+          },
+          "candidate_denominator": 150
+        },
+        "4": {
+          "mean": 0.02666666666666667,
+          "standard_error": 0.026666666666666665,
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.08000000000000002
+          },
+          "candidate_denominator": 150
+        },
+        "10": {
+          "mean": 0.06666666666666667,
+          "standard_error": 0.06666666666666667,
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.2
+          },
+          "candidate_denominator": 150
+        }
+      }
+    }
+  },
+  "resource_summary": {
+    "available": true,
+    "peak_vram_mb": 5301.0,
+    "mean_gpu_utilization": 36.72299585999247,
+    "gpu_hours": 0.5325709446188477,
+    "estimated_cost_cny": 4.729229988215367
+  },
+  "pytorch_allocator": {
+    "available": true,
+    "state": "finalized",
+    "device_index": 0,
+    "device_label": "cuda:0",
+    "device_name": "NVIDIA H800 PCIe",
+    "requested_device": {
+      "type": "builtins.str",
+      "safe_repr": "'cuda:0'",
+      "callable": false,
+      "is_function": false,
+      "is_bool": false,
+      "is_int": false,
+      "is_string": true,
+      "is_torch_device": false
+    },
+    "max_memory_allocated": {
+      "bytes": 3793841664,
+      "mib": 3618.08935546875
+    },
+    "max_memory_reserved": {
+      "bytes": 4915724288,
+      "mib": 4688.0
+    },
+    "memory_allocated": {
+      "bytes": 3139377664,
+      "mib": 2993.94384765625
+    },
+    "memory_reserved": {
+      "bytes": 4915724288,
+      "mib": 4688.0
+    },
+    "failure_phase": null,
+    "exception_type": null,
+    "exception_message": null,
+    "unavailable_reason": null
+  },
+  "checkpoint": {
+    "role": "policy",
+    "source_run_id": "warmstart_grpo_v2_seed42_20260722T051218Z",
+    "checkpoint_step": 16,
+    "checkpoint_path": "/root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16",
+    "artifact_sha256": "507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0",
+    "adapter_sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
+    "adapter_path": "/root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16/adapter",
+    "base_weights_included": false,
+    "optimizer_loaded_for_evaluation": false,
+    "scheduler_loaded_for_evaluation": false,
+    "rng_loaded_for_evaluation": false
+  },
+  "artifact_schema": {
+    "per_model": [
+      "completions.jsonl",
+      "per_problem.csv",
+      "candidate0_metrics.json",
+      "candidate0_metrics.csv",
+      "pass_k_per_problem.csv",
+      "pass_k_summary.json",
+      "pass_k_summary.csv",
+      "status_distribution.csv",
+      "truncation_analysis.csv",
+      "resource_metrics.csv",
+      "resource_summary.json",
+      "summary.json",
+      "report.md",
+      "figures/",
+      "checksums.sha256"
+    ],
+    "aggregate": [
+      "four_model_summary.csv",
+      "paired_candidate0_comparisons.csv",
+      "paired_pass_k_comparisons.csv",
+      "per_level_results.csv",
+      "cost_quality_tradeoff.csv",
+      "error_analysis.md",
+      "case_studies.md",
+      "final_comparison.md",
+      "figures/"
+    ]
+  }
+}

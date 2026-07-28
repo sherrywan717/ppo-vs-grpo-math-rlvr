@@ -1,0 +1,6 @@
+before_role,after_role,problem_denominator,before_correct,after_correct,before_accuracy,after_accuracy,delta,delta_percentage_points,improved,regressed,both_correct,both_wrong,paired_bootstrap_95_lower,paired_bootstrap_95_upper,mcnemar_exact_available,mcnemar_exact_p,mcnemar_reason
+base,old_grpo_v1,400,6,17,0.015,0.0425,0.0275,2.75,11,0,6,383,0.0125,0.045,True,0.0009765625,
+base,warmstart_only,400,6,10,0.015,0.025,0.01,1.0,4,0,6,390,0.0025,0.02,True,0.125,
+base,selected_grpo_v2,400,6,43,0.015,0.1075,0.0925,9.25,38,1,5,356,0.065,0.1225,True,1.4551915228366852e-10,
+old_grpo_v1,selected_grpo_v2,400,17,43,0.0425,0.1075,0.065,6.5,31,5,12,352,0.0375,0.095,True,1.2913485988974571e-05,
+warmstart_only,selected_grpo_v2,400,10,43,0.025,0.1075,0.0825,8.25,37,4,6,353,0.0525,0.1125,True,1.0258372640237212e-07,

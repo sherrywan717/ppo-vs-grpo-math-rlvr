@@ -818,3 +818,18 @@ Base hidden run `base_hidden_grpo_v2_seed42_20260728T073339Z` generated and pers
 ### GRPO-v2 Stage S.3 recovered Base finalization
 
 The immutable Base hidden run remains an engineering failure after generation, but its complete 1,300-row evidence now has a non-overwriting supplemental composite `scientifically_complete_with_recovered_metric_finalization`. Candidate-0 is 6/400; shared-pool unbiased pass@1/@4/@10 are 1.70%/6.0333%/12.0%. Never regenerate Base or rewrite its failure summary/checksums. The hidden production finalizer uses the 400-row contract while the dev evaluator remains 128-only. Only the remaining three roles may receive separate GPU authorization.
+
+### GRPO-v2 Stage S.4 frozen hidden-test completion
+
+The remaining frozen roles completed exactly once under suite timestamp
+`20260728T083153Z`: old GRPO-v1, warm-start-only, and selected GRPO-v2
+checkpoint-96. Together with recovered Base, the matched ledger contains 5,200
+completions. Candidate-0 accuracy is 6/400, 17/400, 10/400, and 43/400 respectively;
+shared-pool unbiased pass@1/pass@4/pass@10 is 1.70/6.03/12.00%,
+5.60/15.87/25.00%, 3.30/11.03/19.00%, and 14.40/31.14/42.00%.
+
+Selected GRPO-v2 gains +9.25 pp over Base and +8.25 pp over warm-start-only on the
+400-problem paired candidate-0 metric. Interpret this only as a single-seed,
+pre-registered protocol result. Do not rerun any hidden role, open another test,
+reselect a checkpoint, or tune from these results. The next stage may only package
+and publish the frozen result after separate authorization.

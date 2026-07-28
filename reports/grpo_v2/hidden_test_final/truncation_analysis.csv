@@ -1,0 +1,9 @@
+role,scope,truncated,denominator,rate
+base,candidate0,43,400,0.1075
+base,all_candidates,130,1300,0.1
+old_grpo_v1,candidate0,44,400,0.11
+old_grpo_v1,all_candidates,120,1300,0.09230769230769231
+warmstart_only,candidate0,46,400,0.115
+warmstart_only,all_candidates,132,1300,0.10153846153846154
+selected_grpo_v2,candidate0,34,400,0.085
+selected_grpo_v2,all_candidates,110,1300,0.08461538461538462

@@ -65,3 +65,18 @@ GRPO-v2 run `grpo_v2_seed42_20260726T044303Z` completed 128 updates and 2,048 tr
 ## Stage S.2 Base finalization failure
 
 The frozen Base command produced the complete 1,300-row hidden ledger, but the evaluator reused a dev-only 128-row aggregate and stopped during metric finalization. Base evidence and its verified backup are immutable; Base must not run again. The other three model commands were not executed. The only next gate is CPU-only repair of this row-count assumption and report recovery from existing Base evidence, followed by separate authorization for the remaining roles.
+
+## Stage S.3 and S.4 final hidden comparison
+
+Stage S.3 recovered Base metrics from the immutable 1,300-row ledger without model
+loading or regeneration. Stage S.4 then evaluated old GRPO-v1, warm-start-only, and
+selected GRPO-v2 checkpoint-96 exactly once each. The final ledger is 5,200
+completions with matched problem/candidate/seed keys.
+
+Candidate-0 accuracy is Base 6/400, old GRPO-v1 17/400, warm-start-only 10/400, and
+selected GRPO-v2 43/400. Shared-pool unbiased pass@1/pass@4/pass@10 for selected
+GRPO-v2 is 14.40%/31.14%/42.00%. Selected GRPO-v2 improves over Base by +9.25 pp
+(paired bootstrap 95% CI +6.50 to +12.25 pp) and over warm-start-only by +8.25 pp
+(+5.25 to +11.25 pp), supporting incremental RLVR benefit only for this single
+frozen seed/protocol. Hidden-test results are terminal and cannot trigger tuning,
+checkpoint reselection, or another run.

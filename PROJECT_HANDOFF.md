@@ -455,3 +455,18 @@ Base run `base_hidden_grpo_v2_seed42_20260728T073339Z` completed all 1,300 froze
 ## Stage S.3 Base metric-finalization recovery
 
 The hidden finalizer no longer calls the dev-only 128-row aggregator. It validates the exact 1,300-row ledger, 400 candidate-0 universe and 100x10 shared pool. Immutable Base evidence SHA `bb14b3a8fa69e65311c48e5e610e7c08d56abcc09cb9e7765a61f86a51ec073a` replayed successfully without model/tokenizer/CUDA/generation. Candidate-0 is 6/400; unbiased shared pass@1/@4/@10 are 1.70%/6.0333%/12.0%. Original status remains failure; supplemental status is `scientifically_complete_with_recovered_metric_finalization`. Recovery backup SHA is `72dbb79ecf47549242a8c27229c01bebef5db3195e575ef489f148a7e641ae07`. Only the remaining three roles require separate GPU authorization; Base must not rerun.
+
+## Stage S.4 final hidden-test result
+
+Suite timestamp `20260728T083153Z` completed old GRPO-v1, warm-start-only, and selected
+GRPO-v2 checkpoint-96 once each, with no Base rerun. Each role has 1,300 completions,
+400 candidate-0 rows, and a complete 100x10 shared pool. All run checksums/backups and
+post-run GPU release checks passed.
+
+Candidate-0 accuracy is Base 6/400, old GRPO-v1 17/400, warm-start-only 10/400, and
+selected GRPO-v2 43/400. Selected GRPO-v2 gains +9.25 pp over Base (38 improved, one
+regressed; paired bootstrap 95% CI +6.50 to +12.25 pp) and +8.25 pp over warm-start
+(37/4; +5.25 to +11.25 pp). Shared-pool selected GRPO-v2 unbiased
+pass@1/pass@4/pass@10 is 14.40%/31.14%/42.00%. Full results are under
+`reports/grpo_v2/hidden_test_final/`. No further training, test generation, checkpoint
+selection, or test-driven tuning is permitted; the next step is CPU-only publication.

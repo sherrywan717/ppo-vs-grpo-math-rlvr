@@ -1225,3 +1225,24 @@ This file records operational history and pitfalls that should survive context c
 - Formal recovered Base candidate-0: 6/400 (1.5%); GSM8K 3/200, MATH 3/200. Format 31/400, parseable/valid-answer 28/400, EOS 357/400, truncated 43/400.
 - Shared 100-problem unbiased pass@1/@4/@10: 1.70% / 6.0333% / 12.0%, with bootstrap 95% intervals [0.8,2.8] / [2.8333,9.6667] / [6,19] percent.
 - Original run remains an engineering failure; supplemental composite is `scientifically_complete_with_recovered_metric_finalization`. Recovery backup SHA `72dbb79ecf47549242a8c27229c01bebef5db3195e575ef489f148a7e641ae07`. No model/tokenizer/CUDA/generation ran. Base must not rerun; only the remaining three roles await explicit GPU authorization.
+
+## 2026-07-28 — Stage S.4 frozen four-model hidden comparison
+
+- Base was not rerun. Old GRPO-v1, warm-start-only, and selected GRPO-v2
+  checkpoint-96 ran once each under suite timestamp `20260728T083153Z`, producing
+  1,300 completions apiece. The four-model total is 5,200.
+- Candidate-0 accuracy: Base 6/400 (1.50%), old GRPO-v1 17/400 (4.25%),
+  warm-start-only 10/400 (2.50%), selected GRPO-v2 43/400 (10.75%).
+- Shared 100-problem unbiased pass@1/pass@4/pass@10: Base
+  1.70/6.03/12.00%, old GRPO-v1 5.60/15.87/25.00%, warm-start-only
+  3.30/11.03/19.00%, selected GRPO-v2 14.40/31.14/42.00%.
+- Selected GRPO-v2 versus Base candidate-0 delta is +9.25 pp (38 improvements,
+  one regression; paired bootstrap 95% CI +6.50 to +12.25 pp; McNemar
+  p=1.46e-10). Versus warm-start-only it is +8.25 pp (37/4; CI +5.25 to
+  +11.25 pp; p=1.03e-7). This supports incremental RLVR benefit only for the
+  preregistered single seed/protocol.
+- The three new runs used 453,920 tokens, 1.622362 GPU-hours and ¥14.4066. The
+  complete four-model evaluation used 606,487 tokens, 1.980286 GPU-hours and
+  ¥17.5849. Peak observed VRAM was 5,321 MiB.
+- Each new run backup/checksum passed and GPU returned to 0 MiB/no process. No
+  further hidden test or training is authorized; next is CPU-only publication.
