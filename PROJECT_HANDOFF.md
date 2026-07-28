@@ -481,3 +481,11 @@ analysis and deterministic case studies are Git-safe.
 No scientific work remains in this project version. The current hidden test is sealed
 and terminal. A future study requires a new protocol and untouched data; it must not
 continue tuning from the 43/400 result.
+
+## Stage T.1 pre-destruction preservation
+
+Portfolio v2 is published, but destruction safety is governed by
+`release/SAFE_TO_DESTROY_SERVER.md`, not by GitHub source publication alone. Seven
+custom assets cover the three evaluated adapters, v2 training, four-model hidden
+evidence, portfolio-v1 evidence and reproducibility. Exact resume binaries are
+private-only; public inference recovery uses the pinned base revision plus adapters.

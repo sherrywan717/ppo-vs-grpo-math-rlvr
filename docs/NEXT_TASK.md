@@ -1,9 +1,7 @@
-# Project status: GRPO-v2 portfolio release
+# Next task
 
-Training, dev-only checkpoint selection, and the once-opened hidden test are complete.
-The portfolio v2 release packages the frozen result; no additional GPU work or test
-access is authorized.
+Complete Stage T.1 only: publish `v0.2.1-grpo-v2-archive` custom assets, independently
+re-download and verify them, then follow `release/SAFE_TO_DESTROY_SERVER.md`.
 
-Any successor study must start from a new preregistration, multiple seeds if resources
-permit, and a new untouched hidden-test identity. It must not tune from the current
-Base 6/400, old GRPO-v1 17/400, warm-start 10/400, or selected GRPO-v2 43/400 results.
+Do not run training, generation, evaluation, hidden tests or any additional scientific
+experiment. Do not move `v0.1.0-formal-rlvr` or `v0.2.0-grpo-v2`.

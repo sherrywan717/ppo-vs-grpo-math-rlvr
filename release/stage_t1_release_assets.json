@@ -1,0 +1,58 @@
+{
+  "assets": [
+    {
+      "asset": "old-grpo-v1-checkpoint-32-adapter-v0.2.1.tar.gz",
+      "file_count": 9,
+      "path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/old-grpo-v1-checkpoint-32-adapter-v0.2.1.tar.gz",
+      "sha256": "799adff43a98d991624f3719973d42337f502ea678304ade0ccc3470317047e1",
+      "size_bytes": 16061659
+    },
+    {
+      "asset": "warmstart-checkpoint-16-adapter-v0.2.1.tar.gz",
+      "file_count": 9,
+      "path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/warmstart-checkpoint-16-adapter-v0.2.1.tar.gz",
+      "sha256": "be45ffd2014b7e1acf8abc56277e0a7a57e1a03e3c5dcdc83205a6cc06256122",
+      "size_bytes": 15843701
+    },
+    {
+      "asset": "selected-grpo-v2-checkpoint-96-adapter-v0.2.1.tar.gz",
+      "file_count": 9,
+      "path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/selected-grpo-v2-checkpoint-96-adapter-v0.2.1.tar.gz",
+      "sha256": "c9690ab2f4190a12568ad63cc75881b4cdaf8cb12575301c5f29e5e0a93c3ce5",
+      "size_bytes": 16090414
+    },
+    {
+      "asset": "grpo-v2-training-evidence-v0.2.1.tar.gz",
+      "file_count": 46,
+      "path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/grpo-v2-training-evidence-v0.2.1.tar.gz",
+      "sha256": "5cc622ea90a63a386c27d30bc4378456be168c72aa2614af5f6c266d8076f74b",
+      "size_bytes": 2103748
+    },
+    {
+      "asset": "four-model-hidden-evidence-v0.2.1.tar.gz",
+      "file_count": 186,
+      "path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/four-model-hidden-evidence-v0.2.1.tar.gz",
+      "sha256": "dd4a89701ba037b8d4d130e72049a756138b7128385d28de255994a698d697e2",
+      "size_bytes": 3368730
+    },
+    {
+      "asset": "portfolio-v1-evidence-v0.2.1.tar.gz",
+      "file_count": 316,
+      "path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/portfolio-v1-evidence-v0.2.1.tar.gz",
+      "sha256": "78cb18670b1fa1345c6b78d63f7251aac854ba4ccaaca2de57f5f935447b9b69",
+      "size_bytes": 8229078
+    },
+    {
+      "asset": "reproducibility-v0.2.1.tar.gz",
+      "file_count": 219,
+      "path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/reproducibility-v0.2.1.tar.gz",
+      "sha256": "0888a070ee8206d387249485fb3af30709474d1cd1427f0f90f6a6782b9cf52b",
+      "size_bytes": 775367
+    }
+  ],
+  "release_tag": "v0.2.1-grpo-v2-archive",
+  "schema_version": 1,
+  "status": "built_not_uploaded",
+  "total_assets": 7,
+  "total_bytes": 62472697
+}

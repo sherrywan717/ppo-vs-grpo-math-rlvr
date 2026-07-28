@@ -1258,3 +1258,10 @@ This file records operational history and pitfalls that should survive context c
 - Added the release manifest/notes, figure-source map, expanded interview guide,
   reproducibility guide, remote archive index, and final error analysis.
 - Release target is `v0.2.0-grpo-v2`; old `v0.1.0-formal-rlvr` remains immutable.
+
+## Stage T.1 preservation work
+
+The pre-destruction audit found v0.2.0 had only GitHub automatic source archives, so
+initial disaster-recovery status was incomplete. A 200-question Chinese guide and
+seven audited custom bundles were prepared. Final server-destruction status must be
+based on independent GitHub download verification, never on `/root/autodl-fs` alone.

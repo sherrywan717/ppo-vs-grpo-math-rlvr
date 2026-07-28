@@ -29,3 +29,10 @@ This is one seed on one 1.5B model. MATH Level 1 has n=3 and is diagnostic only.
 ## Artifact policy
 
 GitHub contains source, configs/manifests, reports, CSV/JSON, figures, small samples, and checksum inventories. Base weights, full checkpoints, optimizer/scheduler/RNG state, credentials, caches, and full run archives remain outside GitHub.
+## Preservation patch
+
+The disaster-recovery patch adds the audited
+[200-question Chinese interview guide](../docs/INTERVIEW_200_QA_ZH.md),
+preservation inventory, public adapter/evidence bundles, and independent download
+verification. The original `v0.2.0-grpo-v2` tag remains immutable; archival assets
+are published under `v0.2.1-grpo-v2-archive`.

@@ -50,6 +50,17 @@
     "tokenizer_loads": 1,
     "trainer_calls": 0
   },
+  "stage_t1_preservation": {
+    "asset_count": 7,
+    "asset_manifest": "release/stage_t1_release_assets.json",
+    "cuda_model_generation_training_evaluation_calls": 0,
+    "qa_path": "docs/INTERVIEW_200_QA_ZH.md",
+    "qa_questions": 200,
+    "release_tag": "v0.2.1-grpo-v2-archive",
+    "safe_to_destroy_server": false,
+    "scientific_results_modified": false,
+    "status": "assets_built_upload_pending"
+  },
   "stages": {
     "checkpoint_selection": {
       "dev_correct": "33/128",

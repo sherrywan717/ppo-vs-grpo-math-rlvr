@@ -148,6 +148,7 @@ Real model commands in the reports are provenance templates, **not authorization
 - [Error analysis](reports/grpo_v2/hidden_test_final/error_analysis.md) and [mechanical case studies](reports/grpo_v2/hidden_test_final/case_studies.md)
 - [GRPO-v2 roadmap](docs/grpo_v2_roadmap.md)
 - [Interview guide](docs/interview_guide.md)
+- [200道中文面试问答](docs/INTERVIEW_200_QA_ZH.md)
 - [Portfolio deliverables](docs/PORTFOLIO_DELIVERABLES.md)
 - [Release manifest](release/grpo_v2_release_manifest.json)
 - [Remote-only checkpoints and run archives](release/remote_artifacts.md)

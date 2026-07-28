@@ -29,3 +29,11 @@ ledgers, or full runtime evidence and therefore remain outside GitHub.
 | Warm-start-only hidden | `/root/autodl-fs/math-rlvr-backups/warmstart_only_hidden_grpo_v2_seed42_20260728T083153Z.tar.gz` | `914d5e941e1db8f707efcac72c6699a72feaea958ca372fea1fa01460d603d7d` | warm-start artifact `507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0` | Full 1,300-completion runtime archive |
 | Selected GRPO-v2 hidden | `/root/autodl-fs/math-rlvr-backups/selected_grpo_v2_hidden_grpo_v2_seed42_20260728T083153Z.tar.gz` | `b693178aa1a210a1f7dc555c8a4b0b5eea265a083cc655e863233cf9d3796ebc` | checkpoint-96 manifest `73bb15a32911f490216be2a80eb0d112be0f79236a6d461fd81fbd0579639246` | Full 1,300-completion runtime archive |
 | Four-model aggregate | `/root/autodl-fs/math-rlvr-backups/grpo_v2_hidden_four_model_20260728T083153Z.final.tar.gz` | `8a9e411fde3fdf79cc28a604359ca8a556ee7dc5db52ff03471dba5bbfcde47a` | aggregate checksum manifest `dca6bb253156986bdfbf057950da1756db5285fbf8d787280026094142bb2a6d` | Independent static aggregate backup |
+
+## Stage T.1 pre-destruction preservation
+
+Seven audited public bundles are tracked in `release/stage_t1_release_assets.{json,csv}`.
+Until the `v0.2.1-grpo-v2-archive` custom assets are uploaded and independently
+re-downloaded, the project status is `disaster_recovery_incomplete`. AutoDL paths and
+SHA indexes alone are not off-server backups. Full optimizer/scheduler/RNG checkpoints
+remain private-only and are deliberately excluded from public Release assets.

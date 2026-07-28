@@ -844,3 +844,10 @@ Tag `v0.2.0-grpo-v2` is the intended immutable release. Never move
 `v0.1.0-formal-rlvr`, rerun any hidden role, tune from this test, or commit remote
 checkpoints/caches/credentials. Any future experiment needs a new preregistration and
 a new untouched test identity.
+
+### Stage T.1 preservation gate
+
+Server-local paths, including `/root/autodl-fs`, do not establish disaster recovery.
+The server may be destroyed only after the v0.2.1 custom Release assets are uploaded,
+independently downloaded, checksummed and classified in the preservation inventory.
+Base weights, caches, secrets and full resume state remain excluded from public assets.
