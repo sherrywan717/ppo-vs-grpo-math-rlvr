@@ -36,3 +36,5 @@ The disaster-recovery patch adds the audited
 preservation inventory, public adapter/evidence bundles, and independent download
 verification. The original `v0.2.0-grpo-v2` tag remains immutable; archival assets
 are published under `v0.2.1-grpo-v2-archive`.
+
+The preservation patch is published at [v0.2.1-grpo-v2-archive](https://github.com/sherrywan717/ppo-vs-grpo-math-rlvr/releases/tag/v0.2.1-grpo-v2-archive). Seven custom assets were independently downloaded, extracted and checksum-verified; see [SAFE_TO_DESTROY_SERVER.md](SAFE_TO_DESTROY_SERVER.md).

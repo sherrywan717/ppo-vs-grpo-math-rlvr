@@ -1265,3 +1265,5 @@ The pre-destruction audit found v0.2.0 had only GitHub automatic source archives
 initial disaster-recovery status was incomplete. A 200-question Chinese guide and
 seven audited custom bundles were prepared. Final server-destruction status must be
 based on independent GitHub download verification, never on `/root/autodl-fs` alone.
+
+Stage T.1 completed the off-server chain: seven GitHub Release assets were independently re-downloaded and verified, including all three evaluated adapters, v2 training evidence and four-model hidden evidence. Fresh-clone Q&A/link checks passed and the final status is `safe_to_destroy_server`.

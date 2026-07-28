@@ -851,3 +851,5 @@ Server-local paths, including `/root/autodl-fs`, do not establish disaster recov
 The server may be destroyed only after the v0.2.1 custom Release assets are uploaded,
 independently downloaded, checksummed and classified in the preservation inventory.
 Base weights, caches, secrets and full resume state remain excluded from public assets.
+
+Stage T.1 independently downloaded and verified all seven custom Release assets; `release/SAFE_TO_DESTROY_SERVER.md` is now the authoritative `safe_to_destroy_server` decision. The exclusion of full optimizer/scheduler/RNG state is explicit and does not affect inference recovery from the evaluated adapters.

@@ -37,3 +37,5 @@ Until the `v0.2.1-grpo-v2-archive` custom assets are uploaded and independently
 re-downloaded, the project status is `disaster_recovery_incomplete`. AutoDL paths and
 SHA indexes alone are not off-server backups. Full optimizer/scheduler/RNG checkpoints
 remain private-only and are deliberately excluded from public Release assets.
+
+The seven public Stage T.1 bundles are now off-server at [v0.2.1-grpo-v2-archive](https://github.com/sherrywan717/ppo-vs-grpo-math-rlvr/releases/tag/v0.2.1-grpo-v2-archive); their names, sizes, SHA256 values and independent-download status are recorded in `release/stage_t1_release_assets.{json,csv}`. Server-local full resume archives remain optional private-only artifacts, not public preservation claims.

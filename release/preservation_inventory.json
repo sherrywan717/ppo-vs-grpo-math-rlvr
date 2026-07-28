@@ -1,11 +1,12 @@
 {
+  "critical_release_assets_download_verified": true,
   "entries": [
     {
       "byte_size": 58954911,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": false,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "pending_fresh_clone",
+      "download_verification_status": "fresh_clone_tag_head_qa_links_verified",
       "exclusion_reason": "",
       "item_type": "git_repository",
       "notes": "",
@@ -14,14 +15,14 @@
       "sha256": "11fb7caf60ba409676af87524633c63a8532bdd4",
       "sha_kind": "git_commit",
       "source_path": "/root/autodl-tmp/code-rlvr",
-      "upload_status": "preserved_on_github"
+      "upload_status": "preserved_on_github_main_improve_and_patch_tag"
     },
     {
       "byte_size": 40069,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": false,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "pending",
+      "download_verification_status": "fresh_clone_200_questions_200_answers_verified",
       "exclusion_reason": "",
       "item_type": "documentation",
       "notes": "",
@@ -30,14 +31,14 @@
       "sha256": "e633ea0a682f8e02cd0de8a57927c01d33638f6f16c43b5348f2baba3afeb8a3",
       "sha_kind": "file_sha256",
       "source_path": "docs/INTERVIEW_200_QA_ZH.md",
-      "upload_status": "pending_commit_and_push"
+      "upload_status": "committed_pushed_and_patch_tagged"
     },
     {
       "byte_size": 54723649,
       "contains_adapter": true,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": true,
-      "download_verification_status": "pending",
+      "download_verification_status": "corresponding_release_bundle_independently_downloaded_and_verified",
       "exclusion_reason": "",
       "item_type": "checkpoint_directory",
       "notes": "current tree files=11; tree_inventory_sha256=344ae67ff3ce11c4a9e58e4f52a1fe84fe2e93f70f3745ba05768d0117b39f9a",
@@ -46,14 +47,14 @@
       "sha256": "c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a",
       "sha_kind": "checkpoint_artifact_manifest_sha256",
       "source_path": "/root/autodl-tmp/runs/math_rlvr/grpo_formal_1p5b_seed42_20260720T031006Z/checkpoint-32",
-      "upload_status": "public_subset_bundle_built_not_uploaded"
+      "upload_status": "public_inference_or_evidence_subset_uploaded; full_resume_state_explicitly_excluded"
     },
     {
       "byte_size": 52547960,
       "contains_adapter": true,
       "contains_completion_text_or_trusted_gold": false,
       "contains_optimizer_scheduler_rng": true,
-      "download_verification_status": "pending",
+      "download_verification_status": "corresponding_release_bundle_independently_downloaded_and_verified",
       "exclusion_reason": "",
       "item_type": "checkpoint_directory",
       "notes": "current tree files=10; tree_inventory_sha256=00cbdf4039420e7ea8f269c8c43a72c86199a5bdbe22080928d07924a521fc11",
@@ -62,14 +63,14 @@
       "sha256": "507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0",
       "sha_kind": "checkpoint_artifact_identity_sha256",
       "source_path": "/root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16",
-      "upload_status": "public_subset_bundle_built_not_uploaded"
+      "upload_status": "public_inference_or_evidence_subset_uploaded; full_resume_state_explicitly_excluded"
     },
     {
       "byte_size": 59112589,
       "contains_adapter": true,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": true,
-      "download_verification_status": "pending",
+      "download_verification_status": "corresponding_release_bundle_independently_downloaded_and_verified",
       "exclusion_reason": "",
       "item_type": "checkpoint_directory",
       "notes": "current tree files=11; tree_inventory_sha256=89e5839944198b58fb96157e7f6b69b07df0c8f391819ae626c5ec119e37d82e",
@@ -78,14 +79,14 @@
       "sha256": "73bb15a32911f490216be2a80eb0d112be0f79236a6d461fd81fbd0579639246",
       "sha_kind": "checkpoint_artifact_manifest_sha256",
       "source_path": "/root/autodl-tmp/runs/math_rlvr/grpo_v2_seed42_20260726T044303Z/checkpoint-96",
-      "upload_status": "public_subset_bundle_built_not_uploaded"
+      "upload_status": "public_inference_or_evidence_subset_uploaded; full_resume_state_explicitly_excluded"
     },
     {
       "byte_size": 243711822,
       "contains_adapter": true,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": true,
-      "download_verification_status": "pending",
+      "download_verification_status": "corresponding_release_bundle_independently_downloaded_and_verified",
       "exclusion_reason": "",
       "item_type": "run_directory",
       "notes": "current tree files=66; tree_inventory_sha256=cd4002362afe0bf3c8aa26ebb15c9c8fa55bdb97fb914f317a64e14c48607e30",
@@ -94,14 +95,14 @@
       "sha256": "52ccac92e175fb380f54fd8ec18a25b148290574ed3d81f1fe4790ae012ddfcb",
       "sha_kind": "verified_backup_sha256",
       "source_path": "/root/autodl-tmp/runs/math_rlvr/grpo_v2_seed42_20260726T044303Z",
-      "upload_status": "public_subset_bundle_built_not_uploaded"
+      "upload_status": "public_inference_or_evidence_subset_uploaded; full_resume_state_explicitly_excluded"
     },
     {
       "byte_size": 4622181,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "pending",
+      "download_verification_status": "corresponding_release_bundle_independently_downloaded_and_verified",
       "exclusion_reason": "",
       "item_type": "run_directory",
       "notes": "current tree files=17; tree_inventory_sha256=2c5684022f3a3e0ae7f0b047f0a13e395ffd187b1eb29188a77b8408cacfea58",
@@ -110,14 +111,14 @@
       "sha256": "532ac2854ade3374c3725410f509f6092e2508453fbd68522cf1b85c9660e215",
       "sha_kind": "failure_backup_sha256",
       "source_path": "/root/autodl-tmp/runs/math_rlvr/base_hidden_grpo_v2_seed42_20260728T073339Z",
-      "upload_status": "public_subset_bundle_built_not_uploaded"
+      "upload_status": "public_inference_or_evidence_subset_uploaded; full_resume_state_explicitly_excluded"
     },
     {
       "byte_size": 6951837,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "pending",
+      "download_verification_status": "corresponding_release_bundle_independently_downloaded_and_verified",
       "exclusion_reason": "",
       "item_type": "run_directory",
       "notes": "current tree files=28; tree_inventory_sha256=4f2acbc71bcf670e67368443bc95f0086d67c9cf6e5eba23313aa9124dd81d4d",
@@ -126,14 +127,14 @@
       "sha256": "7b29b77362c39f16a04bd960025024bb70b4f63831732066b49e8e833d7f2bc7",
       "sha_kind": "verified_backup_sha256",
       "source_path": "/root/autodl-tmp/runs/math_rlvr/old_grpo_v1_hidden_grpo_v2_seed42_20260728T083153Z",
-      "upload_status": "public_subset_bundle_built_not_uploaded"
+      "upload_status": "public_inference_or_evidence_subset_uploaded; full_resume_state_explicitly_excluded"
     },
     {
       "byte_size": 6950067,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "pending",
+      "download_verification_status": "corresponding_release_bundle_independently_downloaded_and_verified",
       "exclusion_reason": "",
       "item_type": "run_directory",
       "notes": "current tree files=28; tree_inventory_sha256=19caa4d344c05323abdae0f6cb4dd383aa8d75fe9051f8e9200c30d29b6802fe",
@@ -142,14 +143,14 @@
       "sha256": "914d5e941e1db8f707efcac72c6699a72feaea958ca372fea1fa01460d603d7d",
       "sha_kind": "verified_backup_sha256",
       "source_path": "/root/autodl-tmp/runs/math_rlvr/warmstart_only_hidden_grpo_v2_seed42_20260728T083153Z",
-      "upload_status": "public_subset_bundle_built_not_uploaded"
+      "upload_status": "public_inference_or_evidence_subset_uploaded; full_resume_state_explicitly_excluded"
     },
     {
       "byte_size": 6940598,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "pending",
+      "download_verification_status": "corresponding_release_bundle_independently_downloaded_and_verified",
       "exclusion_reason": "",
       "item_type": "run_directory",
       "notes": "current tree files=28; tree_inventory_sha256=b8748a9fd60c84d259aa468d1e650f9d1c0d12f442ee8eef4bc751d313deeca2",
@@ -158,14 +159,14 @@
       "sha256": "b693799df4a6af36c4c8f6c20b695052f553c42349905139796131555b7c6ebc",
       "sha_kind": "verified_backup_sha256",
       "source_path": "/root/autodl-tmp/runs/math_rlvr/selected_grpo_v2_hidden_grpo_v2_seed42_20260728T083153Z",
-      "upload_status": "public_subset_bundle_built_not_uploaded"
+      "upload_status": "public_inference_or_evidence_subset_uploaded; full_resume_state_explicitly_excluded"
     },
     {
       "byte_size": 728480,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "pending",
+      "download_verification_status": "fresh_clone_and_release_bundle_verified",
       "exclusion_reason": "",
       "item_type": "git_safe_directory",
       "notes": "files=56",
@@ -174,14 +175,14 @@
       "sha256": "b196165b0fbc2f8caad4fe26c37c74fc5155c5438c6de69aa92dc8fd0cec320a",
       "sha_kind": "canonical_tree_inventory_sha256",
       "source_path": "reports/grpo_v2/hidden_test_final",
-      "upload_status": "git_preserved_release_bundle_pending"
+      "upload_status": "git_and_corresponding_release_bundle_preserved"
     },
     {
       "byte_size": 13893042,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "pending",
+      "download_verification_status": "fresh_clone_and_release_bundle_verified",
       "exclusion_reason": "",
       "item_type": "git_safe_directory",
       "notes": "files=235",
@@ -190,14 +191,14 @@
       "sha256": "468afc99b813944d9d958a7f2af534b7ecb6720866327c040e9deadf413e5d46",
       "sha_kind": "canonical_tree_inventory_sha256",
       "source_path": "reports/formal_1p5b",
-      "upload_status": "git_preserved_release_bundle_pending"
+      "upload_status": "git_and_corresponding_release_bundle_preserved"
     },
     {
       "byte_size": 481061,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "pending",
+      "download_verification_status": "fresh_clone_and_release_bundle_verified",
       "exclusion_reason": "",
       "item_type": "git_safe_directory",
       "notes": "files=40",
@@ -206,14 +207,14 @@
       "sha256": "1aa47765390f1cab5488be72e7008da521c893f18b8ddb860a797618404d4679",
       "sha_kind": "canonical_tree_inventory_sha256",
       "source_path": "reports/pilot_0p5b",
-      "upload_status": "git_preserved_release_bundle_pending"
+      "upload_status": "git_and_corresponding_release_bundle_preserved"
     },
     {
       "byte_size": 1257285,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": false,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "pending",
+      "download_verification_status": "fresh_clone_and_release_bundle_verified",
       "exclusion_reason": "",
       "item_type": "git_safe_directory",
       "notes": "files=48",
@@ -222,14 +223,14 @@
       "sha256": "decfe4c3ac1185d5f7a837e7335abb8c3cc8657792a464d93b41b6341a7ad8eb",
       "sha_kind": "canonical_tree_inventory_sha256",
       "source_path": "configs",
-      "upload_status": "git_preserved_release_bundle_pending"
+      "upload_status": "git_and_corresponding_release_bundle_preserved"
     },
     {
       "byte_size": 16061659,
       "contains_adapter": true,
       "contains_completion_text_or_trusted_gold": false,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "local_extract_and_checksum_passed",
+      "download_verification_status": "independent_download_sha_extract_internal_checksums_verified",
       "exclusion_reason": "",
       "item_type": "release_asset_tar_gz",
       "notes": "",
@@ -238,14 +239,14 @@
       "sha256": "799adff43a98d991624f3719973d42337f502ea678304ade0ccc3470317047e1",
       "sha_kind": "file_sha256",
       "source_path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/old-grpo-v1-checkpoint-32-adapter-v0.2.1.tar.gz",
-      "upload_status": "built_locally_not_uploaded"
+      "upload_status": "uploaded_github_release_v0.2.1"
     },
     {
       "byte_size": 15843701,
       "contains_adapter": true,
       "contains_completion_text_or_trusted_gold": false,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "local_extract_and_checksum_passed",
+      "download_verification_status": "independent_download_sha_extract_internal_checksums_verified",
       "exclusion_reason": "",
       "item_type": "release_asset_tar_gz",
       "notes": "",
@@ -254,14 +255,14 @@
       "sha256": "be45ffd2014b7e1acf8abc56277e0a7a57e1a03e3c5dcdc83205a6cc06256122",
       "sha_kind": "file_sha256",
       "source_path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/warmstart-checkpoint-16-adapter-v0.2.1.tar.gz",
-      "upload_status": "built_locally_not_uploaded"
+      "upload_status": "uploaded_github_release_v0.2.1"
     },
     {
       "byte_size": 16090414,
       "contains_adapter": true,
       "contains_completion_text_or_trusted_gold": false,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "local_extract_and_checksum_passed",
+      "download_verification_status": "independent_download_sha_extract_internal_checksums_verified",
       "exclusion_reason": "",
       "item_type": "release_asset_tar_gz",
       "notes": "",
@@ -270,14 +271,14 @@
       "sha256": "c9690ab2f4190a12568ad63cc75881b4cdaf8cb12575301c5f29e5e0a93c3ce5",
       "sha_kind": "file_sha256",
       "source_path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/selected-grpo-v2-checkpoint-96-adapter-v0.2.1.tar.gz",
-      "upload_status": "built_locally_not_uploaded"
+      "upload_status": "uploaded_github_release_v0.2.1"
     },
     {
       "byte_size": 2103748,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "local_extract_and_checksum_passed",
+      "download_verification_status": "independent_download_sha_extract_internal_checksums_verified",
       "exclusion_reason": "",
       "item_type": "release_asset_tar_gz",
       "notes": "",
@@ -286,14 +287,14 @@
       "sha256": "5cc622ea90a63a386c27d30bc4378456be168c72aa2614af5f6c266d8076f74b",
       "sha_kind": "file_sha256",
       "source_path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/grpo-v2-training-evidence-v0.2.1.tar.gz",
-      "upload_status": "built_locally_not_uploaded"
+      "upload_status": "uploaded_github_release_v0.2.1"
     },
     {
       "byte_size": 3368730,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "local_extract_and_checksum_passed",
+      "download_verification_status": "independent_download_sha_extract_internal_checksums_verified",
       "exclusion_reason": "",
       "item_type": "release_asset_tar_gz",
       "notes": "",
@@ -302,14 +303,14 @@
       "sha256": "dd4a89701ba037b8d4d130e72049a756138b7128385d28de255994a698d697e2",
       "sha_kind": "file_sha256",
       "source_path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/four-model-hidden-evidence-v0.2.1.tar.gz",
-      "upload_status": "built_locally_not_uploaded"
+      "upload_status": "uploaded_github_release_v0.2.1"
     },
     {
       "byte_size": 8229078,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": true,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "local_extract_and_checksum_passed",
+      "download_verification_status": "independent_download_sha_extract_internal_checksums_verified",
       "exclusion_reason": "",
       "item_type": "release_asset_tar_gz",
       "notes": "",
@@ -318,14 +319,14 @@
       "sha256": "78cb18670b1fa1345c6b78d63f7251aac854ba4ccaaca2de57f5f935447b9b69",
       "sha_kind": "file_sha256",
       "source_path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/portfolio-v1-evidence-v0.2.1.tar.gz",
-      "upload_status": "built_locally_not_uploaded"
+      "upload_status": "uploaded_github_release_v0.2.1"
     },
     {
       "byte_size": 775367,
       "contains_adapter": false,
       "contains_completion_text_or_trusted_gold": false,
       "contains_optimizer_scheduler_rng": false,
-      "download_verification_status": "local_extract_and_checksum_passed",
+      "download_verification_status": "independent_download_sha_extract_internal_checksums_verified",
       "exclusion_reason": "",
       "item_type": "release_asset_tar_gz",
       "notes": "",
@@ -334,7 +335,7 @@
       "sha256": "0888a070ee8206d387249485fb3af30709474d1cd1427f0f90f6a6782b9cf52b",
       "sha_kind": "file_sha256",
       "source_path": "/root/autodl-fs/math-rlvr-backups/stage-t1-release-assets/reproducibility-v0.2.1.tar.gz",
-      "upload_status": "built_locally_not_uploaded"
+      "upload_status": "uploaded_github_release_v0.2.1"
     },
     {
       "byte_size": null,
@@ -402,6 +403,10 @@
     }
   ],
   "entry_count": 25,
+  "fresh_clone_verified": true,
+  "release_tag_commit": "924e65e90fb64dcb671207df05e2e30ac4262178",
+  "release_url": "https://github.com/sherrywan717/ppo-vs-grpo-math-rlvr/releases/tag/v0.2.1-grpo-v2-archive",
   "schema_version": 1,
-  "status": "disaster_recovery_incomplete"
+  "status": "safe_to_destroy_server",
+  "unclassified_critical_entries": 0
 }

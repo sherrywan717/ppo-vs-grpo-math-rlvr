@@ -54,12 +54,17 @@
     "asset_count": 7,
     "asset_manifest": "release/stage_t1_release_assets.json",
     "cuda_model_generation_training_evaluation_calls": 0,
+    "fresh_clone_verified": true,
+    "independent_download_verified": true,
     "qa_path": "docs/INTERVIEW_200_QA_ZH.md",
     "qa_questions": 200,
+    "release_asset_count": 7,
     "release_tag": "v0.2.1-grpo-v2-archive",
-    "safe_to_destroy_server": false,
+    "release_url": "https://github.com/sherrywan717/ppo-vs-grpo-math-rlvr/releases/tag/v0.2.1-grpo-v2-archive",
+    "safe_to_destroy_server": true,
     "scientific_results_modified": false,
-    "status": "assets_built_upload_pending"
+    "status": "github_release_uploaded_and_independently_verified",
+    "unclassified_critical_entries": 0
   },
   "stages": {
     "checkpoint_selection": {

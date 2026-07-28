@@ -152,6 +152,8 @@ Real model commands in the reports are provenance templates, **not authorization
 - [Portfolio deliverables](docs/PORTFOLIO_DELIVERABLES.md)
 - [Release manifest](release/grpo_v2_release_manifest.json)
 - [Remote-only checkpoints and run archives](release/remote_artifacts.md)
+- [Pre-destruction backup and Windows verification](release/PRE_DESTRUCTION_BACKUP.md)
+- [Server destruction decision](release/SAFE_TO_DESTROY_SERVER.md)
 - Portfolio v1 remains frozen at tag `v0.1.0-formal-rlvr`.
 
 No license has been selected; this repository intentionally contains no `LICENSE` file.

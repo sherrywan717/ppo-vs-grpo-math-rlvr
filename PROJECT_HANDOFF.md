@@ -489,3 +489,5 @@ Portfolio v2 is published, but destruction safety is governed by
 custom assets cover the three evaluated adapters, v2 training, four-model hidden
 evidence, portfolio-v1 evidence and reproducibility. Exact resume binaries are
 private-only; public inference recovery uses the pinned base revision plus adapters.
+
+Stage T.1 is complete: GitHub Release `v0.2.1-grpo-v2-archive` holds seven custom assets, and a fresh clone plus independent download/extraction/checksum audit passed. The final destruction decision is `safe_to_destroy_server`; see `release/PRE_DESTRUCTION_BACKUP.md`.
