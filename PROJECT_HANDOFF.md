@@ -443,3 +443,7 @@ retry; GPU release is 0 MiB/no compute process. The scientific status is
 
 The sole next task is CPU-only implementation/freeze of the four-model hidden-test
 evaluator. Hidden-test generation is still unauthorized and has never run.
+
+## Stage S.1 four-model hidden evaluator freeze
+
+The narrow evaluator is frozen at `configs/grpo_v2/hidden_test_evaluation.json` (raw SHA `ff588378a5a6bf1331d08ad95d7311648373eb6e28cae763447d9d67941b7d22`). Roles are Base, old GRPO-v1 checkpoint-32, warmstart checkpoint-16, and selected GRPO-v2 checkpoint-96; checkpoint-128 is rejected. Their adapter/checkpoint identities were verified metadata-only. The unchanged ledger is 1,300 completions/model and 5,200 total with matched problem/candidate seeds. Primary evidence is file-backed and IPC is primitive-only and capped at 4 KiB. Nine targeted tests and four role dry-runs passed with CUDA/model/tokenizer/generation counts zero and trusted hidden gold unopened. A separately authorized one-time GPU evaluation is the only next task.

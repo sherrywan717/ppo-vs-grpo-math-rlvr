@@ -1202,3 +1202,10 @@ This file records operational history and pitfalls that should survive context c
   disclosed separately as manual termination after scientific finalization.
 - Hidden-test accesses remain zero. The next task is CPU-only implementation/freeze
   of its narrow four-model evaluator, not hidden-test execution itself.
+
+## 2026-07-28 — Stage S.1 four-model hidden evaluator freeze (CPU-only)
+
+- Froze `math_rlvr.evaluation.grpo_v2_hidden` and config SHA `ff588378a5a6bf1331d08ad95d7311648373eb6e28cae763447d9d67941b7d22`.
+- Bound Base, old GRPO-v1 checkpoint-32, warmstart checkpoint-16, and selected GRPO-v2 checkpoint-96. Selected checkpoint artifact/adapter SHA are `73bb15a32911f490216be2a80eb0d112be0f79236a6d461fd81fbd0579639246` / `0ebfe5752fb066273692512bd8c3ef23bda4d58786bdfc017aa6aca75fa57080`.
+- The matched schedule has 400 candidate-0 keys and one shared n=10 batch on 100 problems: 1,300 completions/model and 5,200 total. Primary evidence is file-backed; IPC returns at most 4 KiB of primitive status/path/count data.
+- Nine targeted tests, four role dry-runs, Ruff, compileall, environment/manifest and diff checks passed. CUDA/model/tokenizer/generation/training/hidden-test accesses were all zero. The next step requires explicit GPU authorization for the one-time four-model evaluation.

@@ -806,3 +806,7 @@ normal launcher exit. Do not rerun training.
 
 The next task is a separately authorized CPU-only implementation/freeze of the narrow
 four-model hidden-test evaluator. The hidden test itself remains unauthorized.
+
+### GRPO-v2 four-model hidden-test evaluator gate
+
+The only frozen model-bound path is `math_rlvr.evaluation.grpo_v2_hidden` with exact config SHA `ff588378a5a6bf1331d08ad95d7311648373eb6e28cae763447d9d67941b7d22`. It permits only Base, old GRPO-v1 checkpoint-32, warmstart checkpoint-16, and the dev-selected GRPO-v2 checkpoint-96. Each role has 400 candidate-0 keys and one shared n=10 batch on the unchanged 100-problem subset: 1,300 completions/model and 5,200 overall. Candidate seeds and keys are identical across roles. Completion payloads are file-backed; IPC returns only small primitive status/path/count evidence. Stage S.1 was CPU-only and did not open trusted hidden gold or authorize evaluation.

@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "experiment": "grpo_v2_four_model_hidden_test_seed42",
+  "seed": 42,
+  "model": {
+    "repo": "Qwen/Qwen2.5-1.5B-Instruct",
+    "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "local_files_only": true,
+    "dtype": "bfloat16"
+  },
+  "prompt": {
+    "version": "prompt_v2_formal_math",
+    "sha256": "89e459da827474d9bcc66e4407b06b5f8a968ce10d0be92e830c59fd9830a994",
+    "renderer": "math_rlvr.prompt.chat_template.v1",
+    "max_prompt_length": 928,
+    "max_completion_length": 256,
+    "max_sequence_length": 1184
+  },
+  "reward": {
+    "policy": "shaped_v3_domain",
+    "sha256": "b9eda9520bb0271e28f6c209db85a408cdc0a65c2d403871b2b0fcc06e06a463"
+  },
+  "parser_sha256": "655c30f20c677ead5728b402a1b6d5a4d4cefe54e4c1b34abebdafe41f3ba0ad",
+  "verifier_sha256": "ac3603158e31c8603c21e5d33445745bb56f3ccf946b055db9544a3dbc5886fd",
+  "data": {
+    "registry_path": "configs/grpo_v2/data_registry.json",
+    "registry_raw_sha256": "9b01b294da8a7953ad482f575924eb53f26f3da714fa63bb5286acb121722933",
+    "registry_canonical_sha256": "cd849ef5eb34f1e88562bdbbb3b13184c3d82b54f57b24d3e18e47586ed7e8e3",
+    "public_manifest": "configs/grpo_v2/manifests/test_v2_hidden.jsonl",
+    "public_manifest_sha256": "1da04a0093382711d618f515261b417e7df085d8e4fe93ddb34d314868062285",
+    "trusted_manifest": "/root/autodl-tmp/datasets/math_rlvr/grpo_v2/trusted/test_v2_hidden_trusted.jsonl",
+    "trusted_manifest_sha256": "690f7dfce0c73b2bdf0541f3fe888da8bfa3696f1a918a029627ff002c7fd2e4",
+    "shared_subset": "configs/grpo_v2/manifests/pass4_nested_subset.json",
+    "shared_subset_sha256": "86864437418a1a112b6385991bdba83617b0cc66f85ec6c7032f0ee79763a553"
+  },
+  "pass_k": {
+    "evaluation_contract": "configs/grpo_v2/evaluation.json",
+    "evaluation_contract_sha256": "fb620ab251c305db7b99ff6d42312da5c19fca5b6efcad1c1e59fd8311371992",
+    "contract": "configs/grpo_v2/pass_k_contract.json",
+    "contract_sha256": "c6c7728de1273dbe87eb73f450ae49b09f03588999a7e9b96c1892e363901cc8",
+    "n": 10,
+    "k": [1, 4, 10]
+  },
+  "sampling": {
+    "automatic_retries": 0,
+    "do_sample": true,
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "top_k": null,
+    "max_completion_length": 256,
+    "shared_subset_num_return_sequences": 10,
+    "seed_namespace": "grpo_v2/pass_k_shared_n10"
+  },
+  "budget": {
+    "unique_problems": 400,
+    "candidate0_rows": 400,
+    "shared_problems": 100,
+    "shared_candidate_rows": 1000,
+    "total_completions": 1300,
+    "max_generated_tokens": 332800,
+    "max_wall_time_seconds": 7200,
+    "max_vram_gib": 24,
+    "automatic_retries": 0
+  },
+  "roles": {
+    "base": {
+      "checkpoint": null,
+      "artifact_sha256": null,
+      "adapter_sha256": null,
+      "adapter_subdir": null
+    },
+    "old_grpo_v1": {
+      "run_id": "grpo_formal_1p5b_seed42_20260720T031006Z",
+      "checkpoint_step": 32,
+      "checkpoint": "/root/autodl-tmp/runs/math_rlvr/grpo_formal_1p5b_seed42_20260720T031006Z/checkpoint-32",
+      "artifact_sha256": "c0c1a3dc04b28d8d42463009b728b3ffd144e677c35e5d3ace2749fc925fa65a",
+      "adapter_sha256": "7d70a5b149cbb8c8382d6c3c5ba1b57d6da77c817147ff79ba7df2d9d7d86316",
+      "adapter_subdir": "policy_adapter"
+    },
+    "warmstart_only": {
+      "run_id": "warmstart_grpo_v2_seed42_20260722T051218Z",
+      "checkpoint_step": 16,
+      "checkpoint": "/root/autodl-tmp/runs/math_rlvr/warmstart_grpo_v2_seed42_20260722T051218Z/checkpoint-16",
+      "artifact_sha256": "507749d393f38690915a76228b4c53a8b5c8927d40aada9f2768a90334d892f0",
+      "artifact_manifest_file_sha256": "2a336f3a8abe95fc045a3fc815600feed7af75dd87c65d5503ef11f0734ae4b2",
+      "adapter_sha256": "44066dd13d8cfa4f5c40f10cad705eea617c37ce2e2f85ff5407751fb5a972b9",
+      "adapter_subdir": "adapter"
+    },
+    "selected_grpo_v2": {
+      "run_id": "grpo_v2_seed42_20260726T044303Z",
+      "checkpoint_step": 96,
+      "checkpoint": "/root/autodl-tmp/runs/math_rlvr/grpo_v2_seed42_20260726T044303Z/checkpoint-96",
+      "artifact_sha256": "73bb15a32911f490216be2a80eb0d112be0f79236a6d461fd81fbd0579639246",
+      "adapter_sha256": "0ebfe5752fb066273692512bd8c3ef23bda4d58786bdfc017aa6aca75fa57080",
+      "adapter_subdir": "policy_adapter"
+    }
+  },
+  "ipc": {
+    "transport": "primitive_status_only",
+    "max_serialized_bytes": 4096,
+    "completion_payload_in_queue": false,
+    "parent_reads_summary_from_disk": true
+  }
+}
