@@ -814,3 +814,7 @@ The only frozen model-bound path is `math_rlvr.evaluation.grpo_v2_hidden` with e
 ### GRPO-v2 Stage S.2 Base finalization failure
 
 Base hidden run `base_hidden_grpo_v2_seed42_20260728T073339Z` generated and persisted the complete frozen 1,300-row ledger, then failed before scientific metric finalization because a dev-only aggregator required 128 rows instead of accepting 400 candidate-0 rows. Preserve the run and failure backup unchanged; do not regenerate Base or mix its evidence with another run. Old GRPO-v1, warmstart-only and selected GRPO-v2 were not executed. The next task is only a separately authorized CPU repair and report recovery from the immutable Base evidence.
+
+### GRPO-v2 Stage S.3 recovered Base finalization
+
+The immutable Base hidden run remains an engineering failure after generation, but its complete 1,300-row evidence now has a non-overwriting supplemental composite `scientifically_complete_with_recovered_metric_finalization`. Candidate-0 is 6/400; shared-pool unbiased pass@1/@4/@10 are 1.70%/6.0333%/12.0%. Never regenerate Base or rewrite its failure summary/checksums. The hidden production finalizer uses the 400-row contract while the dev evaluator remains 128-only. Only the remaining three roles may receive separate GPU authorization.

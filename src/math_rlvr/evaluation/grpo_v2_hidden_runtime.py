@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import math
+import statistics
 import time
 from collections import Counter
 from dataclasses import dataclass, field
@@ -77,8 +79,7 @@ def _validate_checkpoint_files(checkpoint: Path, expected: dict[str, Any]) -> di
         config.get("r") != 16
         or config.get("lora_alpha") != 32
         or float(config.get("lora_dropout", -1)) != 0
-        or set(config.get("target_modules", []))
-        != {"q_proj", "k_proj", "v_proj", "o_proj"}
+        or set(config.get("target_modules", [])) != {"q_proj", "k_proj", "v_proj", "o_proj"}
     ):
         raise HiddenEvaluationContractError("checkpoint policy LoRA identity mismatch")
     forbidden = {"model.safetensors", "pytorch_model.bin"}
@@ -147,10 +148,8 @@ def load_hidden_contract(
     contracts = formal_parser_verifier_metadata()
     if (
         config.get("parser_sha256") != contracts["parser_contract"]["contract_sha256"]
-        or config.get("verifier_sha256")
-        != contracts["verifier_contract"]["contract_sha256"]
-        or config.get("reward")
-        != {"policy": FORMAL_REWARD_VERSION, "sha256": FORMAL_REWARD_SHA256}
+        or config.get("verifier_sha256") != contracts["verifier_contract"]["contract_sha256"]
+        or config.get("reward") != {"policy": FORMAL_REWARD_VERSION, "sha256": FORMAL_REWARD_SHA256}
     ):
         raise HiddenEvaluationContractError("hidden parser/verifier/reward identity mismatch")
     data = config["data"]
@@ -220,9 +219,7 @@ def build_hidden_plan(
                     "problem_id": row["problem_id"],
                     "content_hash": row["content_hash"],
                     "dataset": row["source"],
-                    "math_level": (
-                        str(row["difficulty"]) if row["source"] == "math" else None
-                    ),
+                    "math_level": (str(row["difficulty"]) if row["source"] == "math" else None),
                     "shared_n10": row["problem_id"] in shared_problem_ids,
                     "batch_seed": batch_seed,
                     "sampling_seed": batch_seed,
@@ -232,6 +229,57 @@ def build_hidden_plan(
     if len(plan) != MODEL_COMPLETIONS:
         raise HiddenEvaluationContractError("hidden plan must contain exactly 1,300 keys")
     return plan
+
+
+def validate_hidden_rows(
+    plan: list[dict[str, Any]], rows: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    if len(rows) != 1_300 or len(plan) != 1_300:
+        raise HiddenEvaluationContractError("hidden completion count mismatch")
+    validated = []
+    for expected, row in zip(plan, rows, strict=True):
+        if any(row.get(key) != value for key, value in expected.items()):
+            raise HiddenEvaluationContractError("hidden problem/candidate/seed identity mismatch")
+        ids = row.get("completion_ids")
+        mask = row.get("completion_mask")
+        if (
+            not isinstance(ids, list)
+            or not isinstance(mask, list)
+            or len(ids) != len(mask)
+            or any(not isinstance(value, int) or isinstance(value, bool) for value in ids)
+            or any(value not in (0, 1) for value in mask)
+            or row.get("exact_token_count") != sum(mask)
+        ):
+            raise HiddenEvaluationContractError("hidden token/mask evidence mismatch")
+        for key in (
+            "eos",
+            "truncated",
+            "format_valid",
+            "valid_answer",
+            "parseable",
+            "canonical_correct",
+        ):
+            if type(row.get(key)) is not bool:
+                raise HiddenEvaluationContractError(f"hidden {key} evidence must be boolean")
+        scalar = row.get("scalar_reward")
+        if (
+            isinstance(scalar, bool)
+            or not isinstance(scalar, (int, float))
+            or not math.isfinite(scalar)
+        ):
+            raise HiddenEvaluationContractError("hidden reward is non-finite")
+        status = row.get("verifier_status")
+        if status == "INFRA_ERROR":
+            raise HiddenEvaluationContractError("hidden verifier infrastructure error")
+        if row["canonical_correct"] != (status == "VERIFIED_PASS"):
+            raise HiddenEvaluationContractError("hidden verifier/correctness contradiction")
+        if not isinstance(row.get("completion_text"), str) or not isinstance(
+            row.get("prompt_hash"), str
+        ):
+            raise HiddenEvaluationContractError("hidden text/prompt evidence missing")
+        json.dumps(row, allow_nan=False)
+        validated.append(dict(row))
+    return validated
 
 
 def validate_four_model_plans(plans: dict[str, list[dict[str, Any]]]) -> None:
@@ -251,6 +299,89 @@ def validate_four_model_plans(plans: dict[str, list[dict[str, Any]]]) -> None:
         ]
         if candidate_keys != keys:
             raise HiddenEvaluationContractError("four-model hidden candidate key drift")
+
+
+def _hidden_rate(rows: list[dict[str, Any]], key: str) -> dict[str, Any]:
+    numerator = sum(bool(row[key]) for row in rows)
+    return {
+        "numerator": numerator,
+        "denominator": len(rows),
+        "value": numerator / len(rows) if rows else None,
+        "available": bool(rows),
+        "reason": None if rows else "zero_denominator",
+    }
+
+
+def aggregate_hidden_candidate0(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Aggregate the frozen 400-problem hidden candidate-0 universe."""
+    if len(rows) != 400:
+        raise HiddenEvaluationContractError("hidden candidate-0 aggregate requires 400 rows")
+    if any(row.get("candidate_index") != 0 for row in rows):
+        raise HiddenEvaluationContractError("hidden candidate-0 aggregate received nonzero index")
+    problem_ids = [row.get("problem_id") for row in rows]
+    if len(set(problem_ids)) != 400:
+        raise HiddenEvaluationContractError("hidden candidate-0 problem IDs are not unique")
+    domains = Counter(row.get("dataset") for row in rows)
+    levels = Counter(str(row.get("math_level")) for row in rows if row.get("dataset") == "math")
+    if domains != Counter({"gsm8k": 200, "math": 200}) or levels != Counter(
+        {"1": 3, "2": 33, "3": 43, "4": 59, "5": 62}
+    ):
+        raise HiddenEvaluationContractError("hidden candidate-0 domain/level drift")
+    lengths = [int(row["exact_token_count"]) for row in rows]
+    parseable = sum(bool(row["parseable"]) for row in rows)
+    correct = sum(bool(row["canonical_correct"]) for row in rows)
+    selections = {
+        "all": rows,
+        "gsm8k": [row for row in rows if row["dataset"] == "gsm8k"],
+        "math": [row for row in rows if row["dataset"] == "math"],
+        **{
+            f"math_level_{level}": [
+                row
+                for row in rows
+                if row["dataset"] == "math" and str(row["math_level"]) == str(level)
+            ]
+            for level in range(1, 6)
+        },
+    }
+    slices = {}
+    for name, selected in selections.items():
+        slices[name] = {
+            "problems": len(selected),
+            "candidate0_pass_at_1": _hidden_rate(selected, "canonical_correct"),
+            "format_rate": _hidden_rate(selected, "format_valid"),
+            "valid_answer_rate": _hidden_rate(selected, "valid_answer"),
+            "parseable_rate": _hidden_rate(selected, "parseable"),
+            "eos_rate": _hidden_rate(selected, "eos"),
+            "truncation_rate": _hidden_rate(selected, "truncated"),
+        }
+    return {
+        "completion_count": 400,
+        "unique_problem_count": 400,
+        "generated_tokens": sum(lengths),
+        "candidate0_pass_at_1": _hidden_rate(rows, "canonical_correct"),
+        "format_rate": _hidden_rate(rows, "format_valid"),
+        "valid_answer_rate": _hidden_rate(rows, "valid_answer"),
+        "parseable_rate": _hidden_rate(rows, "parseable"),
+        "accuracy_given_parseable": {
+            "numerator": correct,
+            "denominator": parseable,
+            "value": correct / parseable if parseable else None,
+            "available": bool(parseable),
+            "reason": None if parseable else "zero_denominator",
+        },
+        "eos_rate": _hidden_rate(rows, "eos"),
+        "truncation_rate": _hidden_rate(rows, "truncated"),
+        "completion_length": {
+            "mean": statistics.fmean(lengths),
+            "median": statistics.median(lengths),
+            "std": statistics.stdev(lengths),
+            "p95": sorted(lengths)[math.ceil(0.95 * len(lengths)) - 1],
+        },
+        "reward_status_counts": dict(
+            sorted(Counter(row["verifier_status"] for row in rows).items())
+        ),
+        "slices": slices,
+    }
 
 
 @dataclass

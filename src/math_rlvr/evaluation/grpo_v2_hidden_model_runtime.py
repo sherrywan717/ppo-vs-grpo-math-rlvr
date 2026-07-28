@@ -12,7 +12,6 @@ from typing import Any
 
 from math_rlvr.evaluation.grpo_v2_dev_model_runtime import _flat_metric_rows
 from math_rlvr.evaluation.grpo_v2_dev_runtime import (
-    aggregate_dev_rows,
     completion_record,
     require_finite_logits,
     validate_inference_contract,
@@ -22,8 +21,10 @@ from math_rlvr.evaluation.grpo_v2_hidden_runtime import (
     CONFIG_PATH,
     HiddenBudgetGuard,
     HiddenEvaluationContractError,
+    aggregate_hidden_candidate0,
     artifact_schema,
     build_hidden_plan,
+    validate_hidden_rows,
 )
 from math_rlvr.grpo_v2_contract import (
     aggregate_unbiased_pass_k,
@@ -90,6 +91,25 @@ def _pass_k_rows(rows: list[dict[str, Any]], shared_problem_ids: set[str]):
                 "candidate_correctness": json.dumps(evidence["candidate_correctness"]),
                 "candidate_evidence_references": json.dumps(
                     evidence["candidate_evidence_references"]
+                ),
+                "candidate_indices": [
+                    row["candidate_index"]
+                    for row in sorted(grouped[problem_id], key=lambda item: item["candidate_index"])
+                ],
+                "candidate_seeds": [
+                    row["sampling_seed"]
+                    for row in sorted(grouped[problem_id], key=lambda item: item["candidate_index"])
+                ],
+                "duplicate_rate": 1
+                - len(
+                    {
+                        (row["completion_text"], tuple(row["completion_ids"]))
+                        for row in grouped[problem_id]
+                    }
+                )
+                / 10,
+                "generated_tokens": sum(
+                    int(row["exact_token_count"]) for row in grouped[problem_id]
                 ),
                 "estimates": evidence["estimates"],
             }
@@ -325,15 +345,14 @@ def execute_hidden_worker(
                         ),
                     }
                 )
-                guard.record(
-                    row, peak_vram_gib=torch.cuda.max_memory_reserved(0) / (1024**3)
-                )
+                guard.record(row, peak_vram_gib=torch.cuda.max_memory_reserved(0) / (1024**3))
                 manager.append_jsonl("completions.jsonl", row)
                 rows.append(row)
+        rows = validate_hidden_rows(plan, rows)
         all_ids = {row["problem_id"] for row in public_rows}
         counters = guard.finalize(all_ids, shared_problem_ids, rows)
         candidate0 = [row for row in rows if row["candidate_index"] == 0]
-        candidate_metrics = aggregate_dev_rows(candidate0)
+        candidate_metrics = aggregate_hidden_candidate0(candidate0)
         pass_problem_rows = _pass_k_rows(rows, shared_problem_ids)
         pass_summary, pass_summary_rows = _pass_k_summary(pass_problem_rows)
         write_csv(run_dir / "per_problem.csv", candidate0)
@@ -343,11 +362,21 @@ def execute_hidden_worker(
             run_dir / "pass_k_per_problem.csv",
             [
                 {
-                    **{key: row[key] for key in ("problem_id", "dataset", "math_level", "n", "c")},
                     **{
-                        f"pass_at_{k}": row["estimates"][str(k)]["float_value"]
-                        for k in (1, 4, 10)
+                        key: row[key]
+                        for key in (
+                            "problem_id",
+                            "dataset",
+                            "math_level",
+                            "n",
+                            "c",
+                            "candidate_indices",
+                            "candidate_seeds",
+                            "duplicate_rate",
+                            "generated_tokens",
+                        )
                     },
+                    **{f"pass_at_{k}": row["estimates"][str(k)]["float_value"] for k in (1, 4, 10)},
                 }
                 for row in pass_problem_rows
             ],

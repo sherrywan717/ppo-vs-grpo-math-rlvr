@@ -203,3 +203,7 @@ CPU-only optimizer-lifecycle repair; hidden test remains sealed.
 ### GRPO-v2 hidden-test status
 
 GRPO-v2 training and dev selection remain scientifically complete. The first hidden-test command (Base) persisted all 1,300 frozen completion rows but failed during derived metric finalization because a dev-only aggregator expected 128 rows. The Base run is preserved and excluded pending CPU-only report recovery; the other three models have not run. No hidden-test result is currently published as final.
+
+### GRPO-v2 Base hidden recovery
+
+Base hidden evidence was recovered CPU-only without regeneration: candidate-0 is 6/400 and shared-pool unbiased pass@1/@4/@10 are 1.70%/6.0333%/12.0%. The original launcher failure remains disclosed; the supplemental composite is scientifically complete. Old GRPO-v1, warm-start-only and selected GRPO-v2 hidden runs remain unexecuted.

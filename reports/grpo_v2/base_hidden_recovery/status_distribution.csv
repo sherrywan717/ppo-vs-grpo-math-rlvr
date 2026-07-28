@@ -1,0 +1,9 @@
+scope,status,count,denominator
+candidate0,FORMAT_ERROR,369,400
+candidate0,PARSE_ERROR,3,400
+candidate0,VERIFIED_PASS,6,400
+candidate0,WRONG_ANSWER,22,400
+all_candidates,FORMAT_ERROR,1205,1300
+all_candidates,PARSE_ERROR,16,1300
+all_candidates,VERIFIED_PASS,19,1300
+all_candidates,WRONG_ANSWER,60,1300

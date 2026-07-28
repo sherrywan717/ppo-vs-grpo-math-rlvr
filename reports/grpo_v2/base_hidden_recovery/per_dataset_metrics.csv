@@ -1,0 +1,4 @@
+slice,problems,candidate0_pass_at_1_numerator,candidate0_pass_at_1_denominator,candidate0_pass_at_1,format_rate_numerator,format_rate_denominator,format_rate,valid_answer_rate_numerator,valid_answer_rate_denominator,valid_answer_rate,parseable_rate_numerator,parseable_rate_denominator,parseable_rate,eos_rate_numerator,eos_rate_denominator,eos_rate,truncation_rate_numerator,truncation_rate_denominator,truncation_rate
+all,400,6,400,0.015,31,400,0.0775,28,400,0.07,28,400,0.07,357,400,0.8925,43,400,0.1075
+gsm8k,200,3,200,0.015,9,200,0.045,7,200,0.035,7,200,0.035,200,200,1.0,0,200,0.0
+math,200,3,200,0.015,22,200,0.11,21,200,0.105,21,200,0.105,157,200,0.785,43,200,0.215

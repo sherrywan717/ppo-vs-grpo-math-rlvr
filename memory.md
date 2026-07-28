@@ -1217,3 +1217,11 @@ This file records operational history and pitfalls that should survive context c
 - Immutable evidence has provisional counts 6 canonical pass, 31 format-valid, 28 parseable/valid-answer, 357 EOS and 43 truncated. These are not a finalized scientific result.
 - Wall time 1,288.526s, peak VRAM 5,297 MiB, 0.357924 GPU-hours, CNY3.1784. Failure backup SHA `532ac2854ade3374c3725410f509f6092e2508453fbd68522cf1b85c9660e215` verified; GPU ended at 0 MiB/no process.
 - Old GRPO-v1, warmstart-only and selected GRPO-v2 were not executed. Next is a separately authorized CPU-only minimal aggregate repair and Base artifact recovery; Base must not be regenerated.
+
+## 2026-07-28 — Stage S.3 CPU-only Base metric recovery
+
+- Verified the immutable Base completion JSONL SHA `bb14b3a8fa69e65311c48e5e610e7c08d56abcc09cb9e7765a61f86a51ec073a`, checksum manifest SHA `6f8cfa6c7d0d4b752ccd851d543286cdde1773677fea497d7443b8ac321da07a`, and failure archive SHA `532ac2854ade3374c3725410f509f6092e2508453fbd68522cf1b85c9660e215`.
+- Replaced only hidden finalization use of the dev 128-row aggregate. Dev remains unchanged. The production and recovery paths now validate 1,300 rows, 400 candidate-0 and 100x10 shared candidates.
+- Formal recovered Base candidate-0: 6/400 (1.5%); GSM8K 3/200, MATH 3/200. Format 31/400, parseable/valid-answer 28/400, EOS 357/400, truncated 43/400.
+- Shared 100-problem unbiased pass@1/@4/@10: 1.70% / 6.0333% / 12.0%, with bootstrap 95% intervals [0.8,2.8] / [2.8333,9.6667] / [6,19] percent.
+- Original run remains an engineering failure; supplemental composite is `scientifically_complete_with_recovered_metric_finalization`. Recovery backup SHA `72dbb79ecf47549242a8c27229c01bebef5db3195e575ef489f148a7e641ae07`. No model/tokenizer/CUDA/generation ran. Base must not rerun; only the remaining three roles await explicit GPU authorization.

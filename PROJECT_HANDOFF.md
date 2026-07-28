@@ -451,3 +451,7 @@ The narrow evaluator is frozen at `configs/grpo_v2/hidden_test_evaluation.json` 
 ## Stage S.2 suite stop after Base finalization failure
 
 Base run `base_hidden_grpo_v2_seed42_20260728T073339Z` completed all 1,300 frozen generations and 152,567 tokens, with exact 400 candidate-0 plus 100x10 shared-key coverage. Metric finalization then failed at `dev aggregate requires 128 rows`; no scientific Base summary was produced. The verified failure archive SHA is `532ac2854ade3374c3725410f509f6092e2508453fbd68522cf1b85c9660e215`; GPU returned to 0 MiB/no process. No retry occurred and the remaining three roles were not executed. The unique blocker is a CPU-only aggregate row-count repair and Base report recovery from immutable evidence.
+
+## Stage S.3 Base metric-finalization recovery
+
+The hidden finalizer no longer calls the dev-only 128-row aggregator. It validates the exact 1,300-row ledger, 400 candidate-0 universe and 100x10 shared pool. Immutable Base evidence SHA `bb14b3a8fa69e65311c48e5e610e7c08d56abcc09cb9e7765a61f86a51ec073a` replayed successfully without model/tokenizer/CUDA/generation. Candidate-0 is 6/400; unbiased shared pass@1/@4/@10 are 1.70%/6.0333%/12.0%. Original status remains failure; supplemental status is `scientifically_complete_with_recovered_metric_finalization`. Recovery backup SHA is `72dbb79ecf47549242a8c27229c01bebef5db3195e575ef489f148a7e641ae07`. Only the remaining three roles require separate GPU authorization; Base must not rerun.

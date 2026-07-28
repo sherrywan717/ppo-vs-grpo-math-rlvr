@@ -1,0 +1,753 @@
+{
+  "candidate0_metrics": {
+    "accuracy_given_parseable": {
+      "available": true,
+      "denominator": 28,
+      "numerator": 6,
+      "reason": null,
+      "value": 0.21428571428571427
+    },
+    "candidate0_pass_at_1": {
+      "available": true,
+      "denominator": 400,
+      "numerator": 6,
+      "reason": null,
+      "value": 0.015
+    },
+    "completion_count": 400,
+    "completion_length": {
+      "mean": 120.8525,
+      "median": 96.5,
+      "p95": 256,
+      "std": 69.34788075466263
+    },
+    "eos_rate": {
+      "available": true,
+      "denominator": 400,
+      "numerator": 357,
+      "reason": null,
+      "value": 0.8925
+    },
+    "format_rate": {
+      "available": true,
+      "denominator": 400,
+      "numerator": 31,
+      "reason": null,
+      "value": 0.0775
+    },
+    "generated_tokens": 48341,
+    "parseable_rate": {
+      "available": true,
+      "denominator": 400,
+      "numerator": 28,
+      "reason": null,
+      "value": 0.07
+    },
+    "reward_status_counts": {
+      "FORMAT_ERROR": 369,
+      "PARSE_ERROR": 3,
+      "VERIFIED_PASS": 6,
+      "WRONG_ANSWER": 22
+    },
+    "slices": {
+      "all": {
+        "candidate0_pass_at_1": {
+          "available": true,
+          "denominator": 400,
+          "numerator": 6,
+          "reason": null,
+          "value": 0.015
+        },
+        "eos_rate": {
+          "available": true,
+          "denominator": 400,
+          "numerator": 357,
+          "reason": null,
+          "value": 0.8925
+        },
+        "format_rate": {
+          "available": true,
+          "denominator": 400,
+          "numerator": 31,
+          "reason": null,
+          "value": 0.0775
+        },
+        "parseable_rate": {
+          "available": true,
+          "denominator": 400,
+          "numerator": 28,
+          "reason": null,
+          "value": 0.07
+        },
+        "problems": 400,
+        "truncation_rate": {
+          "available": true,
+          "denominator": 400,
+          "numerator": 43,
+          "reason": null,
+          "value": 0.1075
+        },
+        "valid_answer_rate": {
+          "available": true,
+          "denominator": 400,
+          "numerator": 28,
+          "reason": null,
+          "value": 0.07
+        }
+      },
+      "gsm8k": {
+        "candidate0_pass_at_1": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 3,
+          "reason": null,
+          "value": 0.015
+        },
+        "eos_rate": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 200,
+          "reason": null,
+          "value": 1.0
+        },
+        "format_rate": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 9,
+          "reason": null,
+          "value": 0.045
+        },
+        "parseable_rate": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 7,
+          "reason": null,
+          "value": 0.035
+        },
+        "problems": 200,
+        "truncation_rate": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 0,
+          "reason": null,
+          "value": 0.0
+        },
+        "valid_answer_rate": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 7,
+          "reason": null,
+          "value": 0.035
+        }
+      },
+      "math": {
+        "candidate0_pass_at_1": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 3,
+          "reason": null,
+          "value": 0.015
+        },
+        "eos_rate": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 157,
+          "reason": null,
+          "value": 0.785
+        },
+        "format_rate": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 22,
+          "reason": null,
+          "value": 0.11
+        },
+        "parseable_rate": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 21,
+          "reason": null,
+          "value": 0.105
+        },
+        "problems": 200,
+        "truncation_rate": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 43,
+          "reason": null,
+          "value": 0.215
+        },
+        "valid_answer_rate": {
+          "available": true,
+          "denominator": 200,
+          "numerator": 21,
+          "reason": null,
+          "value": 0.105
+        }
+      },
+      "math_level_1": {
+        "candidate0_pass_at_1": {
+          "available": true,
+          "denominator": 3,
+          "numerator": 1,
+          "reason": null,
+          "value": 0.3333333333333333
+        },
+        "eos_rate": {
+          "available": true,
+          "denominator": 3,
+          "numerator": 3,
+          "reason": null,
+          "value": 1.0
+        },
+        "format_rate": {
+          "available": true,
+          "denominator": 3,
+          "numerator": 1,
+          "reason": null,
+          "value": 0.3333333333333333
+        },
+        "parseable_rate": {
+          "available": true,
+          "denominator": 3,
+          "numerator": 1,
+          "reason": null,
+          "value": 0.3333333333333333
+        },
+        "problems": 3,
+        "truncation_rate": {
+          "available": true,
+          "denominator": 3,
+          "numerator": 0,
+          "reason": null,
+          "value": 0.0
+        },
+        "valid_answer_rate": {
+          "available": true,
+          "denominator": 3,
+          "numerator": 1,
+          "reason": null,
+          "value": 0.3333333333333333
+        }
+      },
+      "math_level_2": {
+        "candidate0_pass_at_1": {
+          "available": true,
+          "denominator": 33,
+          "numerator": 0,
+          "reason": null,
+          "value": 0.0
+        },
+        "eos_rate": {
+          "available": true,
+          "denominator": 33,
+          "numerator": 32,
+          "reason": null,
+          "value": 0.9696969696969697
+        },
+        "format_rate": {
+          "available": true,
+          "denominator": 33,
+          "numerator": 4,
+          "reason": null,
+          "value": 0.12121212121212122
+        },
+        "parseable_rate": {
+          "available": true,
+          "denominator": 33,
+          "numerator": 3,
+          "reason": null,
+          "value": 0.09090909090909091
+        },
+        "problems": 33,
+        "truncation_rate": {
+          "available": true,
+          "denominator": 33,
+          "numerator": 1,
+          "reason": null,
+          "value": 0.030303030303030304
+        },
+        "valid_answer_rate": {
+          "available": true,
+          "denominator": 33,
+          "numerator": 3,
+          "reason": null,
+          "value": 0.09090909090909091
+        }
+      },
+      "math_level_3": {
+        "candidate0_pass_at_1": {
+          "available": true,
+          "denominator": 43,
+          "numerator": 1,
+          "reason": null,
+          "value": 0.023255813953488372
+        },
+        "eos_rate": {
+          "available": true,
+          "denominator": 43,
+          "numerator": 36,
+          "reason": null,
+          "value": 0.8372093023255814
+        },
+        "format_rate": {
+          "available": true,
+          "denominator": 43,
+          "numerator": 7,
+          "reason": null,
+          "value": 0.16279069767441862
+        },
+        "parseable_rate": {
+          "available": true,
+          "denominator": 43,
+          "numerator": 7,
+          "reason": null,
+          "value": 0.16279069767441862
+        },
+        "problems": 43,
+        "truncation_rate": {
+          "available": true,
+          "denominator": 43,
+          "numerator": 7,
+          "reason": null,
+          "value": 0.16279069767441862
+        },
+        "valid_answer_rate": {
+          "available": true,
+          "denominator": 43,
+          "numerator": 7,
+          "reason": null,
+          "value": 0.16279069767441862
+        }
+      },
+      "math_level_4": {
+        "candidate0_pass_at_1": {
+          "available": true,
+          "denominator": 59,
+          "numerator": 1,
+          "reason": null,
+          "value": 0.01694915254237288
+        },
+        "eos_rate": {
+          "available": true,
+          "denominator": 59,
+          "numerator": 42,
+          "reason": null,
+          "value": 0.711864406779661
+        },
+        "format_rate": {
+          "available": true,
+          "denominator": 59,
+          "numerator": 4,
+          "reason": null,
+          "value": 0.06779661016949153
+        },
+        "parseable_rate": {
+          "available": true,
+          "denominator": 59,
+          "numerator": 4,
+          "reason": null,
+          "value": 0.06779661016949153
+        },
+        "problems": 59,
+        "truncation_rate": {
+          "available": true,
+          "denominator": 59,
+          "numerator": 17,
+          "reason": null,
+          "value": 0.288135593220339
+        },
+        "valid_answer_rate": {
+          "available": true,
+          "denominator": 59,
+          "numerator": 4,
+          "reason": null,
+          "value": 0.06779661016949153
+        }
+      },
+      "math_level_5": {
+        "candidate0_pass_at_1": {
+          "available": true,
+          "denominator": 62,
+          "numerator": 0,
+          "reason": null,
+          "value": 0.0
+        },
+        "eos_rate": {
+          "available": true,
+          "denominator": 62,
+          "numerator": 44,
+          "reason": null,
+          "value": 0.7096774193548387
+        },
+        "format_rate": {
+          "available": true,
+          "denominator": 62,
+          "numerator": 6,
+          "reason": null,
+          "value": 0.0967741935483871
+        },
+        "parseable_rate": {
+          "available": true,
+          "denominator": 62,
+          "numerator": 6,
+          "reason": null,
+          "value": 0.0967741935483871
+        },
+        "problems": 62,
+        "truncation_rate": {
+          "available": true,
+          "denominator": 62,
+          "numerator": 18,
+          "reason": null,
+          "value": 0.2903225806451613
+        },
+        "valid_answer_rate": {
+          "available": true,
+          "denominator": 62,
+          "numerator": 6,
+          "reason": null,
+          "value": 0.0967741935483871
+        }
+      }
+    },
+    "truncation_rate": {
+      "available": true,
+      "denominator": 400,
+      "numerator": 43,
+      "reason": null,
+      "value": 0.1075
+    },
+    "unique_problem_count": 400,
+    "valid_answer_rate": {
+      "available": true,
+      "denominator": 400,
+      "numerator": 28,
+      "reason": null,
+      "value": 0.07
+    }
+  },
+  "comparisons": {
+    "base_vs_grpo_v2": {
+      "available": false,
+      "reason": "remaining_models_not_executed",
+      "value": null
+    },
+    "base_vs_old_grpo_v1": {
+      "available": false,
+      "reason": "remaining_models_not_executed",
+      "value": null
+    },
+    "base_vs_warmstart": {
+      "available": false,
+      "reason": "remaining_models_not_executed",
+      "value": null
+    },
+    "comparative_case_studies": {
+      "available": false,
+      "reason": "remaining_models_not_executed",
+      "value": null
+    },
+    "four_model_aggregate": {
+      "available": false,
+      "reason": "remaining_models_not_executed",
+      "value": null
+    },
+    "four_model_error_analysis": {
+      "available": false,
+      "reason": "remaining_models_not_executed",
+      "value": null
+    },
+    "mcnemar": {
+      "available": false,
+      "reason": "remaining_models_not_executed",
+      "value": null
+    }
+  },
+  "contract_identity": {
+    "config_sha256": "ff588378a5a6bf1331d08ad95d7311648373eb6e28cae763447d9d67941b7d22",
+    "public_manifest_sha256": "1da04a0093382711d618f515261b417e7df085d8e4fe93ddb34d314868062285"
+  },
+  "ledger": {
+    "all_problem_count": 400,
+    "candidate0_rows": 400,
+    "completion_rows": 1300,
+    "generated_tokens": 152567,
+    "shared_candidate_rows": 1000,
+    "shared_problem_count": 100
+  },
+  "original_run_id": "base_hidden_grpo_v2_seed42_20260728T073339Z",
+  "original_run_status": "engineering_failure_after_generation_during_metric_finalization",
+  "pass_k_summary": {
+    "gsm8k": {
+      "metrics": {
+        "1": {
+          "bootstrap_95": {
+            "lower": 0.002,
+            "upper": 0.016
+          },
+          "candidate_denominator": 500,
+          "mean": 0.008,
+          "standard_error": 0.0038756171332144386
+        },
+        "10": {
+          "bootstrap_95": {
+            "lower": 0.02,
+            "upper": 0.16
+          },
+          "candidate_denominator": 500,
+          "mean": 0.08,
+          "standard_error": 0.03875617133214439
+        },
+        "4": {
+          "bootstrap_95": {
+            "lower": 0.008,
+            "upper": 0.064
+          },
+          "candidate_denominator": 500,
+          "mean": 0.032,
+          "standard_error": 0.015502468532857755
+        }
+      },
+      "problem_denominator": 50
+    },
+    "math": {
+      "metrics": {
+        "1": {
+          "bootstrap_95": {
+            "lower": 0.01,
+            "upper": 0.046
+          },
+          "candidate_denominator": 500,
+          "mean": 0.026000000000000002,
+          "standard_error": 0.009393875555870627
+        },
+        "10": {
+          "bootstrap_95": {
+            "lower": 0.06,
+            "upper": 0.26
+          },
+          "candidate_denominator": 500,
+          "mean": 0.16,
+          "standard_error": 0.05237229365663817
+        },
+        "4": {
+          "bootstrap_95": {
+            "lower": 0.034666666666666665,
+            "upper": 0.152
+          },
+          "candidate_denominator": 500,
+          "mean": 0.08866666666666667,
+          "standard_error": 0.030470386352070503
+        }
+      },
+      "problem_denominator": 50
+    },
+    "math_level_1": {
+      "metrics": {
+        "1": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.10000000000000002
+          },
+          "candidate_denominator": 30,
+          "mean": 0.03333333333333333,
+          "standard_error": 0.03333333333333334
+        },
+        "10": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 1.0
+          },
+          "candidate_denominator": 30,
+          "mean": 0.3333333333333333,
+          "standard_error": 0.3333333333333333
+        },
+        "4": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.4000000000000001
+          },
+          "candidate_denominator": 30,
+          "mean": 0.13333333333333333,
+          "standard_error": 0.13333333333333336
+        }
+      },
+      "problem_denominator": 3
+    },
+    "math_level_2": {
+      "metrics": {
+        "1": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.08750000000000001
+          },
+          "candidate_denominator": 80,
+          "mean": 0.037500000000000006,
+          "standard_error": 0.02630521404045756
+        },
+        "10": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.625
+          },
+          "candidate_denominator": 80,
+          "mean": 0.25,
+          "standard_error": 0.16366341767699427
+        },
+        "4": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.31666666666666665
+          },
+          "candidate_denominator": 80,
+          "mean": 0.13333333333333333,
+          "standard_error": 0.09085135251589957
+        }
+      },
+      "problem_denominator": 8
+    },
+    "math_level_3": {
+      "metrics": {
+        "1": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.1
+          },
+          "candidate_denominator": 100,
+          "mean": 0.04,
+          "standard_error": 0.03055050463303893
+        },
+        "10": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.5
+          },
+          "candidate_denominator": 100,
+          "mean": 0.2,
+          "standard_error": 0.13333333333333333
+        },
+        "4": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.29000000000000004
+          },
+          "candidate_denominator": 100,
+          "mean": 0.12333333333333334,
+          "standard_error": 0.08833857426800426
+        }
+      },
+      "problem_denominator": 10
+    },
+    "math_level_4": {
+      "metrics": {
+        "1": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.07857142857142858
+          },
+          "candidate_denominator": 140,
+          "mean": 0.03571428571428571,
+          "standard_error": 0.01990952849669609
+        },
+        "10": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.42857142857142855
+          },
+          "candidate_denominator": 140,
+          "mean": 0.21428571428571427,
+          "standard_error": 0.1138039295450988
+        },
+        "4": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.26666666666666666
+          },
+          "candidate_denominator": 140,
+          "mean": 0.12380952380952381,
+          "standard_error": 0.06770515077252467
+        }
+      },
+      "problem_denominator": 14
+    },
+    "math_level_5": {
+      "metrics": {
+        "1": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "candidate_denominator": 150,
+          "mean": 0.0,
+          "standard_error": 0.0
+        },
+        "10": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "candidate_denominator": 150,
+          "mean": 0.0,
+          "standard_error": 0.0
+        },
+        "4": {
+          "bootstrap_95": {
+            "lower": 0.0,
+            "upper": 0.0
+          },
+          "candidate_denominator": 150,
+          "mean": 0.0,
+          "standard_error": 0.0
+        }
+      },
+      "problem_denominator": 15
+    },
+    "overall": {
+      "metrics": {
+        "1": {
+          "bootstrap_95": {
+            "lower": 0.008,
+            "upper": 0.028000000000000004
+          },
+          "candidate_denominator": 1000,
+          "mean": 0.017,
+          "standard_error": 0.005135536717202728
+        },
+        "10": {
+          "bootstrap_95": {
+            "lower": 0.06,
+            "upper": 0.19
+          },
+          "candidate_denominator": 1000,
+          "mean": 0.12,
+          "standard_error": 0.032659863237109045
+        },
+        "4": {
+          "bootstrap_95": {
+            "lower": 0.028333333333333335,
+            "upper": 0.09666666666666666
+          },
+          "candidate_denominator": 1000,
+          "mean": 0.06033333333333333,
+          "standard_error": 0.017243844361109515
+        }
+      },
+      "problem_denominator": 100
+    }
+  },
+  "recovery_status": "scientifically_complete_with_recovered_metric_finalization",
+  "resource_summary": {
+    "cost_cny": 3.178363583544642,
+    "gpu_hours": 0.3579238269757479,
+    "mean_gpu_utilization_pct": 38.57690187431091,
+    "peak_vram_mib": 5297.0,
+    "wall_seconds": 1288.5257771126926
+  },
+  "schema_version": 1,
+  "source_identity": {
+    "checksum_manifest_sha256": "6f8cfa6c7d0d4b752ccd851d543286cdde1773677fea497d7443b8ac321da07a",
+    "completions_sha256": "bb14b3a8fa69e65311c48e5e610e7c08d56abcc09cb9e7765a61f86a51ec073a",
+    "failure_archive_sha256": "532ac2854ade3374c3725410f509f6092e2508453fbd68522cf1b85c9660e215"
+  }
+}
