@@ -61,3 +61,7 @@ retry or hidden evaluation is authorized.
 ## Stage R.4 result and Stage S.1 evaluator freeze
 
 GRPO-v2 run `grpo_v2_seed42_20260726T044303Z` completed 128 updates and 2,048 training completions; frozen dev selection chose checkpoint-96 at 33/128. Training is immutable and hidden-test access remains zero. Stage S.1 froze one shared evaluator for Base, old GRPO-v1 checkpoint-32, warmstart checkpoint-16, and selected GRPO-v2 checkpoint-96. Each model uses 400 candidate-0 keys plus the unchanged shared 100-problem n=10 batch, or 1,300 completions. File-backed primary evidence replaces large IPC payloads. A separately authorized one-time four-model hidden evaluation is next; its results may not change training or checkpoint selection.
+
+## Stage S.2 Base finalization failure
+
+The frozen Base command produced the complete 1,300-row hidden ledger, but the evaluator reused a dev-only 128-row aggregate and stopped during metric finalization. Base evidence and its verified backup are immutable; Base must not run again. The other three model commands were not executed. The only next gate is CPU-only repair of this row-count assumption and report recovery from existing Base evidence, followed by separate authorization for the remaining roles.

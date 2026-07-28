@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "stage": "S.2",
+  "suite_timestamp": "20260728T073339Z",
+  "status": "suite_stopped_after_base_metric_finalization_failure",
+  "base": {
+    "run_id": "base_hidden_grpo_v2_seed42_20260728T073339Z",
+    "status": "engineering_failure_after_generation_during_metric_finalization",
+    "failure_reason": "dev aggregate requires 128 rows",
+    "completion_rows": 1300,
+    "candidate0_rows": 400,
+    "shared_problem_count": 100,
+    "shared_candidate_rows": 1000,
+    "generated_tokens": 152567,
+    "candidate0_provisional_counts": {
+      "canonical_pass": 6,
+      "format_valid": 31,
+      "valid_answer": 28,
+      "parseable": 28,
+      "eos": 357,
+      "truncated": 43
+    },
+    "scientific_metric_finalization_complete": false,
+    "included_in_scientific_aggregate": false,
+    "wall_seconds": 1288.5257771126926,
+    "peak_vram_mib": 5297,
+    "mean_gpu_utilization_pct": 38.57690187431091,
+    "gpu_hours": 0.3579238269757479,
+    "cost_cny": 3.178363583544642,
+    "artifact_path": "/root/autodl-tmp/runs/math_rlvr/base_hidden_grpo_v2_seed42_20260728T073339Z",
+    "backup_path": "/root/autodl-fs/math-rlvr-backups/base_hidden_grpo_v2_seed42_20260728T073339Z.failure.tar.gz",
+    "backup_sha256": "532ac2854ade3374c3725410f509f6092e2508453fbd68522cf1b85c9660e215",
+    "gpu_released": true
+  },
+  "old_grpo_v1": {"status": "not_executed_suite_stopped"},
+  "warmstart_only": {"status": "not_executed_suite_stopped"},
+  "selected_grpo_v2": {"status": "not_executed_suite_stopped"},
+  "automatic_retries": 0,
+  "source_or_config_modified": false
+}

@@ -1209,3 +1209,11 @@ This file records operational history and pitfalls that should survive context c
 - Bound Base, old GRPO-v1 checkpoint-32, warmstart checkpoint-16, and selected GRPO-v2 checkpoint-96. Selected checkpoint artifact/adapter SHA are `73bb15a32911f490216be2a80eb0d112be0f79236a6d461fd81fbd0579639246` / `0ebfe5752fb066273692512bd8c3ef23bda4d58786bdfc017aa6aca75fa57080`.
 - The matched schedule has 400 candidate-0 keys and one shared n=10 batch on 100 problems: 1,300 completions/model and 5,200 total. Primary evidence is file-backed; IPC returns at most 4 KiB of primitive status/path/count data.
 - Nine targeted tests, four role dry-runs, Ruff, compileall, environment/manifest and diff checks passed. CUDA/model/tokenizer/generation/training/hidden-test accesses were all zero. The next step requires explicit GPU authorization for the one-time four-model evaluation.
+
+## 2026-07-28 — Stage S.2 Base hidden generation complete, suite stopped
+
+- Executed only Base run `base_hidden_grpo_v2_seed42_20260728T073339Z`; no retry. It persisted 1,300/1,300 completions and 152,567 tokens with exact 400 candidate-0 and 100x10 shared ledgers.
+- Finalization failed because `aggregate_dev_rows` rejected the 400 candidate-0 rows with `dev aggregate requires 128 rows`. Status is engineering failure after generation, before scientific metric/report completion; it is excluded from scientific aggregate.
+- Immutable evidence has provisional counts 6 canonical pass, 31 format-valid, 28 parseable/valid-answer, 357 EOS and 43 truncated. These are not a finalized scientific result.
+- Wall time 1,288.526s, peak VRAM 5,297 MiB, 0.357924 GPU-hours, CNY3.1784. Failure backup SHA `532ac2854ade3374c3725410f509f6092e2508453fbd68522cf1b85c9660e215` verified; GPU ended at 0 MiB/no process.
+- Old GRPO-v1, warmstart-only and selected GRPO-v2 were not executed. Next is a separately authorized CPU-only minimal aggregate repair and Base artifact recovery; Base must not be regenerated.

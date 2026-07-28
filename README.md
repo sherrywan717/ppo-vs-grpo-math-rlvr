@@ -199,3 +199,7 @@ passed that full preflight, then stopped before training because the Trainer opt
 was not yet initialized when its state was audited. It also has zero updates,
 completions and tokens and is excluded from science. The next task is a bounded
 CPU-only optimizer-lifecycle repair; hidden test remains sealed.
+
+### GRPO-v2 hidden-test status
+
+GRPO-v2 training and dev selection remain scientifically complete. The first hidden-test command (Base) persisted all 1,300 frozen completion rows but failed during derived metric finalization because a dev-only aggregator expected 128 rows. The Base run is preserved and excluded pending CPU-only report recovery; the other three models have not run. No hidden-test result is currently published as final.

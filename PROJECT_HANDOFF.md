@@ -447,3 +447,7 @@ evaluator. Hidden-test generation is still unauthorized and has never run.
 ## Stage S.1 four-model hidden evaluator freeze
 
 The narrow evaluator is frozen at `configs/grpo_v2/hidden_test_evaluation.json` (raw SHA `ff588378a5a6bf1331d08ad95d7311648373eb6e28cae763447d9d67941b7d22`). Roles are Base, old GRPO-v1 checkpoint-32, warmstart checkpoint-16, and selected GRPO-v2 checkpoint-96; checkpoint-128 is rejected. Their adapter/checkpoint identities were verified metadata-only. The unchanged ledger is 1,300 completions/model and 5,200 total with matched problem/candidate seeds. Primary evidence is file-backed and IPC is primitive-only and capped at 4 KiB. Nine targeted tests and four role dry-runs passed with CUDA/model/tokenizer/generation counts zero and trusted hidden gold unopened. A separately authorized one-time GPU evaluation is the only next task.
+
+## Stage S.2 suite stop after Base finalization failure
+
+Base run `base_hidden_grpo_v2_seed42_20260728T073339Z` completed all 1,300 frozen generations and 152,567 tokens, with exact 400 candidate-0 plus 100x10 shared-key coverage. Metric finalization then failed at `dev aggregate requires 128 rows`; no scientific Base summary was produced. The verified failure archive SHA is `532ac2854ade3374c3725410f509f6092e2508453fbd68522cf1b85c9660e215`; GPU returned to 0 MiB/no process. No retry occurred and the remaining three roles were not executed. The unique blocker is a CPU-only aggregate row-count repair and Base report recovery from immutable evidence.
